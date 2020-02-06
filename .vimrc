@@ -1,23 +1,23 @@
 "General
 set number relativenumber
 set linebreak
-set showbreak=+++ 
-set textwidth=100	
+set showbreak=+++
+set textwidth=100
 set showmatch
  
-set hlsearch	
+set hlsearch
 set smartcase
 set ignorecase
-set incsearch	
+set incsearch
  
 set autoindent
-set shiftwidth=4	
-set smartindent	
+set shiftwidth=4
+set smartindent
 set smarttab
 set softtabstop=4
 
 "Advanced
-set ruler	
+set ruler
  
-set undolevels=1000	
+set undolevels=1000
 set backspace=indent,eol,start
