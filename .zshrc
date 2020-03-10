@@ -95,10 +95,6 @@ source $ZSH/oh-my-zsh.sh
 eval "$(dircolors)"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-compinit
-
-LS_COLORS=''
-
 alias sl='sl;ls'
 alias countryroads='cd ~'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
