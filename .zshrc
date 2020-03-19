@@ -92,16 +92,23 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+# colors
 eval "$(dircolors)"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-alias sl='sl;ls'
-alias countryroads='cd ~'
-alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-alias cmus='update-cmus-playlist;update-cmus-lib&;cmus'
 
 # bash insulter
 
 if [ -f $HOME/.etc/bash.command-not-found ]; then
     . $HOME/.etc/bash.command-not-found
 fi
+
+# thefuck
+eval $(thefuck --alias)
+
+# aliases
+alias sl='sl;ls'
+alias countryroads='cd ~'
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias cmus='update-cmus-playlist;update-cmus-lib&;cmus'
+
+
