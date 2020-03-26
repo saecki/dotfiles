@@ -97,7 +97,6 @@ eval "$(dircolors)"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # bash insulter
-
 if [ -f $HOME/.etc/bash.command-not-found ]; then
     . $HOME/.etc/bash.command-not-found
 fi
@@ -109,6 +108,6 @@ eval $(thefuck --alias)
 alias sl='sl;ls'
 alias countryroads='cd ~'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-alias cmus='update-cmus-playlist;update-cmus-lib&;cmus'
+alias cmus='update-cmus-playlist;cmus'
 
 
