@@ -22,3 +22,9 @@ set ruler
  
 set undolevels=1000
 set backspace=indent,eol,start
+
+"vim-plug
+call plug#begin()
+Plug 'Valloric/YouCompleteMe'
+Plug 'rust-lang/rust.vim'
+call plug#end()
