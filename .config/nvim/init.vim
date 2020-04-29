@@ -25,6 +25,8 @@ set backspace=indent,eol,start
 
 "vim-plug
 call plug#begin()
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'Valloric/YouCompleteMe'
 Plug 'rust-lang/rust.vim'
 call plug#end()
