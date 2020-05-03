@@ -116,6 +116,8 @@ alias sl='sl;ls'
 alias countryroads='cd ~'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 alias cmus='update-cmus-playlist;cmus'
+alias v='nvim'
+alias vf='vifm'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

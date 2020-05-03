@@ -16,17 +16,19 @@ set shiftwidth=4
 set smartindent
 set smarttab
 set softtabstop=4
-
-"Advanced
-set ruler
+set backspace=indent,eol,start
  
 set undolevels=1000
-set backspace=indent,eol,start
 
-"vim-plug
+"Spell checking
+set spelllang=en_us,de_de,es_es
+
+"Plugins
 call plug#begin()
+"Theme
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+"Tools
 Plug 'Valloric/YouCompleteMe'
 Plug 'rust-lang/rust.vim'
 call plug#end()
