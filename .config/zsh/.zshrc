@@ -11,6 +11,9 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="/home/tobi/.oh-my-zsh"
 
+# Setting history file
+HISTFILE=$HOME/.cache/zsh/.zsh_history
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -99,6 +102,10 @@ fi
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+# vi-mode
+# bindkey -v
+# export KEYTIMEOUT=1
+
 # colors
 eval "$(dircolors)"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -118,6 +125,8 @@ alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 alias cmus='update-cmus-playlist;cmus'
 alias v='nvim'
 alias vf='vifm'
+alias cfz='nvim ~/.config/zsh/.zshrc'
+alias cfnv='nvim ~/.config/nvim/init.vim'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
