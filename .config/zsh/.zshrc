@@ -103,8 +103,8 @@ fi
 # For a full list of active aliases, run `alias`.
 
 # vi-mode
-# bindkey -v
-# export KEYTIMEOUT=1
+bindkey -v
+export KEYTIMEOUT=1
 
 # colors
 eval "$(dircolors)"
@@ -123,10 +123,11 @@ alias sl='sl;ls'
 alias countryroads='cd ~'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 alias cmus='update-cmus-playlist;cmus'
-alias v='nvim'
+alias v='$EDITOR'
 alias vf='vifm'
-alias cfz='nvim ~/.config/zsh/.zshrc'
-alias cfnv='nvim ~/.config/nvim/init.vim'
+alias cfz='$EDITOR ~/.config/zsh/.zshrc'
+alias cfnv='$EDITOR ~/.config/nvim/init.vim'
+alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh

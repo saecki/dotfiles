@@ -5,7 +5,7 @@ st.alpha: 1
 st.font: Monospace-11;
 
 !! background, foreground and cursor
-*.background: #31313A
+*.background: #31313a
 *.foreground: #ffedcd
 *.cursorColor: #add8e6
 
