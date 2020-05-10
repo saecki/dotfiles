@@ -190,7 +190,7 @@ colors:
   # Colors which should be used to draw the terminal cursor. If these are unset,
   # the cursor color will be the inverse of the cell color.
   cursor:
-  #  text: '#000000'
+    text: '#000000'
     cursor: '#add8e6'
 
   # Selection colors

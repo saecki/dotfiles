@@ -103,8 +103,8 @@ fi
 # For a full list of active aliases, run `alias`.
 
 # vi-mode
-bindkey -v
-export KEYTIMEOUT=1
+#bindkey -v
+#export KEYTIMEOUT=1
 
 # colors
 eval "$(dircolors)"
