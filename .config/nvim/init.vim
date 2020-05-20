@@ -6,11 +6,6 @@ set textwidth=0
 set wrapmargin=0
 set showmatch
  
-set hlsearch
-set smartcase
-set ignorecase
-set incsearch
- 
 set autoindent
 set shiftwidth=4
 set smartindent
@@ -19,6 +14,12 @@ set softtabstop=4
 set backspace=indent,eol,start
  
 set undolevels=1000
+
+"Search
+set hlsearch
+set smartcase
+set ignorecase
+set incsearch
 
 "Spell checking
 set spelllang=en_us,de_de,es_es
