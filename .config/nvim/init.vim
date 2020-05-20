@@ -30,5 +30,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Tools
 Plug 'Valloric/YouCompleteMe'
+Plug 'preservim/nerdtree'
+"Languages
 Plug 'rust-lang/rust.vim'
+Plug 'udalov/kotlin-vim'
 call plug#end()
+
+"NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
