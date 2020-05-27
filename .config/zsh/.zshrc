@@ -111,8 +111,8 @@ eval "$(dircolors)"
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # bash insulter
-if [ -f $HOME/.etc/bash.command-not-found ]; then
-    . $HOME/.etc/bash.command-not-found
+if [ -f $HOME/.local/etc/bash.command-not-found ]; then
+    . $HOME/.local/etc/bash.command-not-found
 fi
 
 # thefuck
