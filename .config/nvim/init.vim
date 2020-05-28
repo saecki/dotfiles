@@ -32,6 +32,8 @@ Plug 'vim-airline/vim-airline-themes'
 "Tools
 Plug 'Valloric/YouCompleteMe'
 Plug 'preservim/nerdtree'
+"Build Tools
+Plug 'igankevich/mesonic'
 "Languages
 Plug 'rust-lang/rust.vim'
 Plug 'udalov/kotlin-vim'
