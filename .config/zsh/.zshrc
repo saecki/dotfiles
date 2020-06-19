@@ -122,6 +122,7 @@ eval $(thefuck --alias)
 alias sl='sl;ls'
 alias countryroads='cd ~'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
 alias cmus='update-cmus-playlist;cmus'
 alias v='$EDITOR'
 alias vf='vifm'
