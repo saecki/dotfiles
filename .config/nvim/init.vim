@@ -32,11 +32,13 @@ Plug 'vim-airline/vim-airline-themes'
 "Tools
 Plug 'Valloric/YouCompleteMe'
 Plug 'preservim/nerdtree'
+Plug '907th/vim-auto-save'
 "Build Tools
 Plug 'igankevich/mesonic'
 "Languages
 Plug 'rust-lang/rust.vim'
 Plug 'udalov/kotlin-vim'
+Plug 'dhruvasagar/vim-table-mode'
 call plug#end()
 
 "NERDTree

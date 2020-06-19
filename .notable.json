@@ -1,0 +1,24 @@
+{
+	"monaco": {
+		"editorOptions": {
+			"minimap": {
+				"enabled": false
+			},
+			"lineNumbers": "on",
+			"scrollBeyondLastLine": true,
+			"wordWrap": "bounded"
+		}
+	},
+	"sorting": {
+		"by": "title",
+		"type": "descending"
+	},
+	"theme": "dark",
+	"tutorial": false,
+	"cwd": "/home/tobi/data/Documents/notable",
+	"Options": {
+		"editor": {
+			"scrollBeyondLastLine": false
+		}
+	}
+}

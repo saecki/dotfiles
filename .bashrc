@@ -71,3 +71,7 @@ LS_COLORS=''
 alias la='ls -al'
 alias sl='sl;ls'
 alias countryroad='cd ~'
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/tobi/.sdkman"
+[[ -s "/home/tobi/.sdkman/bin/sdkman-init.sh" ]] && source "/home/tobi/.sdkman/bin/sdkman-init.sh"
