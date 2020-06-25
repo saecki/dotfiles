@@ -24,6 +24,9 @@ set incsearch
 "Spell checking
 set spelllang=en_us,de_de,es_es
 
+"Copy pasta
+vnoremap <C-c> "*y
+
 "Plugins
 call plug#begin()
 "Theme
