@@ -25,7 +25,11 @@ set incsearch
 set spelllang=en_us,de_de,es_es
 
 "Copy pasta
-vnoremap <C-c> "*y
+if "$XDG_SESSION_TYPE" == "wayland"
+    vnoremap <C-c> "+y
+else
+    vnoremap <C-c> "*y
+endif
 
 "Plugins
 call plug#begin()
