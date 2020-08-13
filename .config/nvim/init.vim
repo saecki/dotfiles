@@ -9,7 +9,7 @@ set showmatch
 set autoindent
 set shiftwidth=4
 set smartindent
-set smarttab
+set expandtab
 set softtabstop=4
 set backspace=indent,eol,start
  
