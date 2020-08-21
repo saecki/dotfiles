@@ -130,6 +130,10 @@ alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='$EDITOR ~/.config/nvim/init.vim'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
+alias pull-notes='git -C $HOME/data/Documents/notable pull origin master'
+alias push-notes='git -C $HOME/data/Documents/notable add .;\
+                  git -C $HOME/data/Documents/notable commit -m "update";\
+                  git -C $HOME/data/Documents/notable push origin master'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
