@@ -130,6 +130,7 @@ alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='$EDITOR ~/.config/nvim/init.vim'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
+alias cdp='cd ~/Documents/projects'
 alias cdn='cd ~/data/Documents/notable/notes'
 alias pull-notes='git -C $HOME/data/Documents/notable pull origin master'
 alias push-notes='git -C $HOME/data/Documents/notable add .;\
