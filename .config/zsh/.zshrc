@@ -133,6 +133,7 @@ alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
 
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
+alias ggc='git gc --prune=now --aggressive'
 alias gdu="git rev-list --objects --all \
          | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
          | sed -n 's/^blob //p' \

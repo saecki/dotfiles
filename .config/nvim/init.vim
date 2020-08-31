@@ -1,7 +1,7 @@
 "General
 set number relativenumber
 set linebreak
-set showbreak=+++
+set showbreak=..
 set textwidth=0
 set wrapmargin=0
 set showmatch
