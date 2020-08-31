@@ -119,17 +119,27 @@ fi
 eval $(thefuck --alias)
 
 # aliases
-alias sl='sl;ls'
-alias countryroads='cd ~'
-alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
-alias music='update-cmus-playlist;cmus'
-alias v='$EDITOR'
-alias vf='vifm'
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='$EDITOR ~/.config/nvim/init.vim'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
+alias v='$EDITOR'
+alias vf='vifm'
+
+alias sl='sl;ls'
+alias countryroads='cd ~'
+
+alias music='update-cmus-playlist;cmus'
 alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
+
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
+alias gdu="git rev-list --objects --all \
+         | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
+         | sed -n 's/^blob //p' \
+         | sort --numeric-sort --key=2 \
+         | cut -c 1-12,41- \
+         | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
+
 alias cdp='cd ~/Documents/projects'
 alias cdn='cd ~/data/Documents/notable/notes'
 alias pull-notes='git -C $HOME/data/Documents/notable pull origin master'
