@@ -125,7 +125,6 @@ alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias v='$EDITOR'
 alias vf='vifm'
 
-alias sl='sl;ls'
 alias countryroads='cd ~'
 
 alias music='update-cmus-playlist;cmus'
