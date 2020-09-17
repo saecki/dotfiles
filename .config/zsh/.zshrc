@@ -142,12 +142,12 @@ alias gdu="git rev-list --objects --all \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
 alias cdp='cd ~/Documents/projects'
-alias cdn='cd ~/data/Documents/notable/notes'
-alias pull-notes='git -C $HOME/data/Documents/notable pull origin master'
-alias push-notes='git -C $HOME/data/Documents/notable add .;\
-                  git -C $HOME/data/Documents/notable commit -m "update";\
-                  git -C $HOME/data/Documents/notable push origin master'
-alias diff-notes='git -C $HOME/data/Documents/notable diff HEAD'
+alias cdn='cd ~/Documents/notable/notes'
+alias pull-notes='git -C $HOME/Documents/notable pull origin master'
+alias push-notes='git -C $HOME/Documents/notable add .;\
+                  git -C $HOME/Documents/notable commit -m "update";\
+                  git -C $HOME/Documents/notable push origin master'
+alias diff-notes='git -C $HOME/Documents/notable diff HEAD'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
