@@ -543,6 +543,7 @@ key_bindings:
   - { key: J,        mods: Alt,           action: ScrollLineDown   }
   - { key: U,        mods: Alt,           action: ScrollPageUp     }
   - { key: D,        mods: Alt,           action: ScrollPageDown   }
+  - { key: N,        mods: Control,       action: SpawnNewInstance }
 
 #debug:
   # Display the time it takes to redraw each frame.
