@@ -10,12 +10,12 @@
 		}
 	},
 	"sorting": {
-		"by": "title",
+		"by": "date_modified",
 		"type": "descending"
 	},
 	"theme": "dark",
 	"tutorial": false,
-	"cwd": "/home/tobi/data/Documents/notable",
+	"cwd": "/home/tobi/Documents/notable",
 	"Options": {
 		"editor": {
 			"scrollBeyondLastLine": true
