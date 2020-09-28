@@ -148,5 +148,12 @@ alias push-notes='git -C $HOME/Documents/notable add .;\
                   git -C $HOME/Documents/notable push origin master'
 alias diff-notes='git -C $HOME/Documents/notable diff HEAD'
 
+# ls
+alias l='lsd -lAh'
+alias l.='lsd -d .*'
+alias la='lsd -lah'
+alias ll='lsd -lh'
+alias ls='lsd'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
