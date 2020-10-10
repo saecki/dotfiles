@@ -155,5 +155,6 @@ alias la='lsd -lah'
 alias ll='lsd -lh'
 alias ls='lsd'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# p10k theme
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
+
