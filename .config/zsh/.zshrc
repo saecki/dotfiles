@@ -137,7 +137,7 @@ eval $(thefuck --alias)
 
 # Programs
 alias v='$EDITOR'
-alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o; fi'
+alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o $file; fi'
 alias vs='nvim -c Rg'
 alias vp='nvim -c Files'
 alias vf='vifm'
