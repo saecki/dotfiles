@@ -102,6 +102,10 @@ fi
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+# ===================================================
+# Miscellaneous
+# ===================================================
+
 # vi-mode
 # bindkey -v
 # export KEYTIMEOUT=1
@@ -118,13 +122,24 @@ fi
 # thefuck
 eval $(thefuck --alias)
 
+# p10k theme
+[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
+
+# ===================================================
+# Environment variables
+# ===================================================
+
+# export FZF_DEFAULT_COMMAND="$(which rg) ."
+
 # ===================================================
 # Aliases
 # ===================================================
 
 # Programs
 alias v='$EDITOR'
+alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o; fi'
 alias vs='nvim -c Rg'
+alias vp='nvim -c Files'
 alias vf='vifm'
 alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
@@ -166,7 +181,4 @@ alias l.='lsd -d .*'
 alias la='lsd -lah'
 alias ll='lsd -lh'
 alias ls='lsd'
-
-# p10k theme
-[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 

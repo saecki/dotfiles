@@ -126,6 +126,7 @@ noremap <Leader>f :Rg<CR>
 
 " Open hotkeys
 map <C-p> :Files<CR>
+map <C-l> :GFiles<CR>
 nmap <Leader>; :Buffers<CR>
 
 " Quick save
