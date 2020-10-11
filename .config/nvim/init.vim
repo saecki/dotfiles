@@ -115,7 +115,7 @@ endfunction
 
 " Text navigation
 nnoremap j gj
-nnoremap j gj
+nnoremap k gk
 
 " Completion
 inoremap <silent><expr> <C-Space> coc#refresh()

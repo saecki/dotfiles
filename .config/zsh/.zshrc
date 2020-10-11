@@ -129,7 +129,7 @@ eval $(thefuck --alias)
 # Environment variables
 # ===================================================
 
-# export FZF_DEFAULT_COMMAND="$(which rg) ."
+export launchterm="/usr/local/bin/launch-alacritty"
 
 # ===================================================
 # Aliases
