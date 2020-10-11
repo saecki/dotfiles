@@ -118,18 +118,32 @@ fi
 # thefuck
 eval $(thefuck --alias)
 
-# aliases
+# ===================================================
+# Aliases
+# ===================================================
+
+# Programs
+alias v='$EDITOR'
+alias vs='nvim -c Rg'
+alias vf='vifm'
+alias fz='fzf-tmux'
+alias fs='rg --column --heading --line-number . | fzf-tmux'
+alias music='update-cmus-playlist;cmus'
+
+alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
+
+# Config
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='$EDITOR ~/.config/nvim/init.vim'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
-alias v='$EDITOR'
-alias vf='vifm'
+alias cftm='$EDITOR ~/.tmux.conf'
 
+# Cd
+alias cdp='cd ~/Documents/projects'
+alias cdn='cd ~/Documents/notable/notes'
 alias countryroads='cd ~'
 
-alias music='update-cmus-playlist;cmus'
-alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
-
+# Git
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
 alias ggc='git gc --prune=now --aggressive'
@@ -140,8 +154,6 @@ alias gdu="git rev-list --objects --all \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
-alias cdp='cd ~/Documents/projects'
-alias cdn='cd ~/Documents/notable/notes'
 alias pull-notes='git -C $HOME/Documents/notable pull origin master'
 alias push-notes='git -C $HOME/Documents/notable add .;\
                   git -C $HOME/Documents/notable commit -m "update";\
