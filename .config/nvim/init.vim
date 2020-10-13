@@ -15,9 +15,10 @@ Plug 'preservim/nerdtree'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
 
-" Language support
+" Semantic Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
 
+" Syntactic Language support
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
@@ -30,8 +31,13 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
 call plug#end()
 
-" Set coc.nvim floating window background color to something sane
+" Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
+
+" Rust
+let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
+let g:rustfmt_fail_silently = 0
 
 " ===================================================
 " # Editor settings
@@ -43,7 +49,6 @@ set linebreak
 set showbreak=..
 set textwidth=0
 set wrapmargin=0
-set undolevels=1000
 
 " Indentation
 set autoindent
@@ -64,7 +69,8 @@ set gdefault
 " Spell checking
 set spelllang=en_us,de_de,es_es
 
-" Permanent undo
+" Undo
+set undolevels=1000
 set undodir=~/.vimdid
 set undofile
 
@@ -82,6 +88,20 @@ set signcolumn=yes
 " # Keyboard shortcuts
 " ===================================================
 
+" # coc.nvim
+" ---------------------------------------------------
+
+" GoTo Code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> g: <Plug>(coc-diagnostic-prev)
+nmap <silent> g. <Plug>(coc-diagnostic-next)
+
+" Documentation
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -96,15 +116,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" GoTo Code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Documentation
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -113,12 +124,11 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Text navigation
-nnoremap j gj
-nnoremap k gk
-
 " Completion
 inoremap <silent><expr> <C-Space> coc#refresh()
+
+" # FZF
+" ---------------------------------------------------
 
 " Search
 noremap <Leader>s :Rg 
@@ -129,15 +139,22 @@ map <C-p> :Files<CR>
 map <C-l> :GFiles<CR>
 nmap <Leader>; :Buffers<CR>
 
+" # General
+" ---------------------------------------------------
+
 " Quick save
 nmap <Leader>w :w<CR>
 
-" Ctrl+c copies to system clipboard
-vnoremap <C-c> "+y
+" Text navigation
+nnoremap j gj
+nnoremap k gk
 
 " Ctrl+h to stop searching
 vnoremap <C-h> :nohlsearch<CR>
 nnoremap <C-h> :nohlsearch<CR>
+
+" Ctrl+c copies to system clipboard
+vnoremap <C-c> "+y
 
 " Toggle between buffers
 nnoremap <Leader><Leader> <C-^>

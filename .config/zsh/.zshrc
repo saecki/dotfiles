@@ -159,8 +159,6 @@ alias cdn='cd ~/Documents/notable/notes'
 alias countryroads='cd ~'
 
 # Git
-alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
 alias ggc='git gc --prune=now --aggressive'
 alias gdu="git rev-list --objects --all \
          | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
@@ -169,11 +167,37 @@ alias gdu="git rev-list --objects --all \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
-alias pull-notes='git -C $HOME/Documents/notable pull origin master'
-alias push-notes='git -C $HOME/Documents/notable add .;\
+# Dotfiles
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias dotfiles-pull='git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull origin master'
+alias dotfiles-forcepull='git --git-dir=$HOME/.dotfiles --work-tree=$HOME stash save;\
+                          git --git-dir=$HOME/.dotfiles --work-tree=$HOME stash drop;\
+                          git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull origin master'
+alias dotfiles-push='git --git-dir=$HOME/.dotfiles --work-tree=$HOME add -u;\
+                     git --git-dir=$HOME/.dotfiles --work-tree=$HOME commit -m update;\
+                     git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin master'
+alias dotfiles-forcepush='git --git-dir=$HOME/.dotfiles --work-tree=$HOME add -u;\
+                          git --git-dir=$HOME/.dotfiles --work-tree=$HOME commit --amend;\
+                          git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin master -f'
+# Stuff
+alias stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
+alias stuff-pull='git --git-dir=$HOME/.stuff --work-tree=$HOME pull origin master'
+alias stuff-forcepull='git --git-dir=$HOME/.stuff --work-tree=$HOME stash save;\
+                       git --git-dir=$HOME/.stuff --work-tree=$HOME stash drop;\
+                       git --git-dir=$HOME/.stuff --work-tree=$HOME pull origin master'
+alias stuff-push='git --git-dir=$HOME/.stuff --work-tree=$HOME add -u;\
+                  git --git-dir=$HOME/.stuff --work-tree=$HOME commit -m update;\
+                  git --git-dir=$HOME/.stuff --work-tree=$HOME push origin master'
+alias stuff-forcepush='git --git-dir=$HOME/.stuff --work-tree=$HOME add -u;\
+                       git --git-dir=$HOME/.stuff --work-tree=$HOME commit --amend;\
+                       git --git-dir=$HOME/.stuff --work-tree=$HOME push origin master -f'
+
+# Notes
+alias notes-pull='git -C $HOME/Documents/notable pull origin master'
+alias notes-push='git -C $HOME/Documents/notable add .;\
                   git -C $HOME/Documents/notable commit -m "update";\
                   git -C $HOME/Documents/notable push origin master'
-alias diff-notes='git -C $HOME/Documents/notable diff HEAD'
+alias notes-diff='git -C $HOME/Documents/notable diff HEAD'
 
 # ls
 alias l='lsd -lAh'
