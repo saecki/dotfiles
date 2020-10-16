@@ -539,10 +539,10 @@ key_bindings:
   #- { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
 
   # (Custom)
-  - { key: K,        mods: Alt,           action: ScrollLineUp     }
-  - { key: J,        mods: Alt,           action: ScrollLineDown   }
-  - { key: U,        mods: Alt,           action: ScrollPageUp     }
-  - { key: D,        mods: Alt,           action: ScrollPageDown   }
+  #- { key: K,        mods: Alt,           action: ScrollLineUp     }
+  #- { key: J,        mods: Alt,           action: ScrollLineDown   }
+  #- { key: U,        mods: Alt,           action: ScrollPageUp     }
+  #- { key: D,        mods: Alt,           action: ScrollPageDown   }
   - { key: N,        mods: Control,       action: SpawnNewInstance }
 
 #debug:

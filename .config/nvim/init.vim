@@ -10,20 +10,25 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdtree'
+Plug 'mbbill/undotree'
 
 " Fuzzy finding
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf.vim'
 
+" Multicursor
+Plug 'terryma/vim-multiple-cursors'
+
 " Semantic Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+"Plug 'ycm-core/YouCompleteMe'
 
 " Syntactic Language support
-Plug 'cespare/vim-toml'
-Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
 Plug 'udalov/kotlin-vim'
 Plug 'igankevich/mesonic'
+Plug 'cespare/vim-toml'
+Plug 'stephpy/vim-yaml'
 Plug 'plasticboy/vim-markdown'
 
 " Miscellaneous
@@ -99,6 +104,9 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> g: <Plug>(coc-diagnostic-prev)
 nmap <silent> g. <Plug>(coc-diagnostic-next)
 
+" RefactorRename
+nmap <silent> <Leader>r <Plug>(coc-rename)
+
 " Documentation
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -127,6 +135,23 @@ endfunction
 " Completion
 inoremap <silent><expr> <C-Space> coc#refresh()
 
+" # YouCompleteMe
+" ---------------------------------------------------
+
+" Documentation
+"nnoremap <silent> K :YcmCompleter GetDoc<CR>
+
+" GoTo Code navigation
+"nmap <silent> gd :YcmCompleter GoTo
+"nmap <silent> gy :YcmCompleter GoToType
+"nmap <silent> gi :YcmCompleter GoToImplementation
+"nmap <silent> gr :YcmCompleter GoToReference
+"nmap <silent> g: <Plug>(coc-diagnostic-prev)
+"nmap <silent> g. <Plug>(coc-diagnostic-next)
+
+" RefactorRename
+"nmap <silent> <Leader>r :YcmCompleter RefactorRename
+
 " # FZF
 " ---------------------------------------------------
 
@@ -138,6 +163,20 @@ noremap <Leader>f :Rg<CR>
 map <C-p> :Files<CR>
 map <C-l> :GFiles<CR>
 nmap <Leader>; :Buffers<CR>
+
+" # Multicursor
+" ---------------------------------------------------
+
+let g:multi_cursor_start_word_key      = '<A-j>'
+let g:multi_cursor_start_key           = 'g<A-j>'
+let g:multi_cursor_next_key            = '<A-j>'
+let g:multi_cursor_prev_key            = '<A-J>'
+
+" # Undotree
+" ---------------------------------------------------
+
+" Toggle
+nnoremap <F5> :UndotreeToggle<CR>:UndotreeFocus<CR>
 
 " # General
 " ---------------------------------------------------
