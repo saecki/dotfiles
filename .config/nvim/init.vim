@@ -99,6 +99,9 @@ set signcolumn=yes
 " # coc.nvim
 " ---------------------------------------------------
 
+" Completion
+inoremap <silent><expr> <C-Space> coc#refresh()
+
 " GoTo Code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -112,6 +115,13 @@ nmap <silent> <Leader>r <Plug>(coc-rename)
 
 " Documentation
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -126,17 +136,6 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Completion
-inoremap <silent><expr> <C-Space> coc#refresh()
 
 " # YouCompleteMe
 " ---------------------------------------------------
