@@ -102,6 +102,12 @@ set signcolumn=yes
 " Completion
 inoremap <silent><expr> <C-Space> coc#refresh()
 
+" Code action
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Quick fix
+nmap <leader>f  <Plug>(coc-fix-current)
+
 " GoTo Code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -137,6 +143,9 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 " # YouCompleteMe
 " ---------------------------------------------------
 
@@ -158,8 +167,7 @@ endfunction
 " ---------------------------------------------------
 
 " Search
-noremap <Leader>s :Rg 
-noremap <Leader>f :Rg<CR>
+noremap <Leader>s :Rg<CR>
 
 " Open hotkeys
 map <C-p> :Files<CR>
