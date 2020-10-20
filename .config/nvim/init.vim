@@ -1,9 +1,9 @@
 set shell=/bin/bash
 let mapleader = "\<Space>"
 
-" ===================================================
+" ============================================================
 " # Plugins
-" ===================================================
+" ============================================================
 
 call plug#begin()
 " Gui enhancements
@@ -47,9 +47,9 @@ let g:rustfmt_fail_silently = 0
 " Markdown
 let g:vim_markdown_folding_disabled = 1
 
-" ===================================================
+" ============================================================
 " # Editor settings
-" ===================================================
+" ============================================================
 
 " General
 set number relativenumber
@@ -92,21 +92,21 @@ set cmdheight=2
 set background=dark
 set signcolumn=yes
 
-" ===================================================
+" ============================================================
 " # Keyboard shortcuts
-" ===================================================
+" ============================================================
 
 " # coc.nvim
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 " Completion
 inoremap <silent><expr> <C-Space> coc#refresh()
 
 " Code action
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Quick fix
-nmap <leader>f  <Plug>(coc-fix-current)
+nmap <leader>f <Plug>(coc-fix-current)
 
 " GoTo Code navigation
 nmap <silent> gd <Plug>(coc-definition)
@@ -120,7 +120,7 @@ nmap <silent> g. <Plug>(coc-diagnostic-next)
 nmap <silent> <Leader>r <Plug>(coc-rename)
 
 " Documentation
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -147,10 +147,10 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " # YouCompleteMe
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 " Documentation
-"nnoremap <silent> K :YcmCompleter GetDoc<CR>
+"nnoremap <silent> K :YcmCompleter GetDoc<cr>
 
 " GoTo Code navigation
 "nmap <silent> gd :YcmCompleter GoTo
@@ -164,18 +164,18 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 "nmap <silent> <Leader>r :YcmCompleter RefactorRename
 
 " # FZF
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 " Search
-noremap <Leader>s :Rg<CR>
+noremap <Leader>s :Rg<cr>
 
 " Open hotkeys
-map <C-p> :Files<CR>
-map <C-l> :GFiles<CR>
-nmap <Leader>; :Buffers<CR>
+map <c-p> :Files<cr>
+map <c-l> :GFiles<cr>
+nmap <Leader>; :Buffers<cr>
 
 " # Multicursor
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 let g:multi_cursor_start_word_key      = '<A-j>'
 let g:multi_cursor_start_key           = 'g<A-j>'
@@ -183,32 +183,32 @@ let g:multi_cursor_next_key            = '<A-j>'
 let g:multi_cursor_prev_key            = '<A-J>'
 
 " # Undotree
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 " Toggle
-nnoremap <F5> :UndotreeToggle<CR>:UndotreeFocus<CR>
+nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
 " # General
-" ---------------------------------------------------
+" ------------------------------------------------------------
 
 " Quick save
-nmap <Leader>w :w<CR>
+nmap <leader>w :w<cr>
 
 " Text navigation
 nnoremap j gj
 nnoremap k gk
 
 " Ctrl+h to stop searching
-vnoremap <C-h> :nohlsearch<CR>
-nnoremap <C-h> :nohlsearch<CR>
+vnoremap <c-h> :nohlsearch<cr>
+nnoremap <c-h> :nohlsearch<cr>
 
 " Ctrl+c copies to system clipboard
-vnoremap <C-c> "+y
+vnoremap <c-c> "+y
 
 " Toggle between buffers
-nnoremap <Leader><Leader> <C-^>
+nnoremap <leader><leader> <c-^>
 
 " I don't need your help
-map <F1> <Esc>
-imap <F1> <Esc>
+map <F1> <esc>
+imap <F1> <esc>
 
