@@ -5,7 +5,7 @@
 # Completion
 fpath=("$ZDOTDIR/functions" $fpath)
 autoload -Uz compinit; compinit
-autoload -U bashcompinit; bashcompinit
+autoload -Uz manydots-magic; manydots-magic
 _comp_options+=(globdots)
 
 # Completion style
