@@ -200,9 +200,9 @@ alias notes-push='git -C $HOME/Documents/notable add .;\
 alias notes-diff='git -C $HOME/Documents/notable diff HEAD'
 
 # ls
-alias l='lsd -lAh'
-alias l.='lsd -d .*'
-alias la='lsd -lah'
-alias ll='lsd -lh'
-alias ls='lsd'
+alias l='exa -lAh'
+alias l.='exa -d .*'
+alias la='exa -lah'
+alias ll='exa -lh'
+alias ls='exa'
 
