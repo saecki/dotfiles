@@ -8,6 +8,7 @@ let mapleader = "\<Space>"
 call plug#begin()
 " Gui enhancements
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
@@ -38,6 +39,9 @@ Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
 call plug#end()
+
+" Airline theme
+let g:airline_theme = 'onedark'
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
@@ -95,6 +99,9 @@ set cmdheight=2
 set background=dark
 set signcolumn=yes
 
+set colorcolumn=100
+highlight colorcolumn ctermbg=black
+
 " ============================================================
 " # Keyboard shortcuts
 " ============================================================
@@ -116,8 +123,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> g: <Plug>(coc-diagnostic-prev)
-nmap <silent> g. <Plug>(coc-diagnostic-next)
+nmap <silent> [  <Plug>(coc-diagnostic-prev)
+nmap <silent> ]  <Plug>(coc-diagnostic-next)
 
 " RefactorRename
 nmap <silent> <Leader>r <Plug>(coc-rename)
