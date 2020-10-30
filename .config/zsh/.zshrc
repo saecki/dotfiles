@@ -111,7 +111,7 @@ alias countryroads='cd ~'
 # Git
 alias ga='git add'
 alias gbl='git branch --list'
-alias gc='git commit'
+alias gc='git commit --verbose'
 alias gcb='git checkout -b'
 alias gch='git checkout'
 alias gd='gid diff'
