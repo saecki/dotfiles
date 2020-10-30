@@ -2,6 +2,10 @@
 # Settings
 # ===================================================
 
+# Syntax highlighting
+# !! has to be souced before manydots-magic
+source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 
+
 # Completion
 fpath=("$ZDOTDIR/functions" $fpath)
 autoload -Uz compinit; compinit

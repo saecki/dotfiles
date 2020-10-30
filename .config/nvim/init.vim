@@ -19,6 +19,9 @@ Plug 'junegunn/fzf.vim'
 " Multicursor
 Plug 'terryma/vim-multiple-cursors'
 
+" Git
+Plug 'airblade/vim-gitgutter'
+
 " Semantic Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
 "Plug 'ycm-core/YouCompleteMe'
