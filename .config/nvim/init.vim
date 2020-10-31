@@ -24,7 +24,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 
 " Semantic Language support
-Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'ycm-core/YouCompleteMe'
 
 " Syntactic Language support
@@ -42,6 +42,7 @@ call plug#end()
 
 " Airline theme
 let g:airline_theme = 'onedark'
+let g:airline_theme = 'behelit'
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
@@ -98,9 +99,6 @@ set updatetime=300
 set cmdheight=2
 set background=dark
 set signcolumn=yes
-
-set colorcolumn=100
-highlight colorcolumn ctermbg=black
 
 " ============================================================
 " # Keyboard shortcuts
@@ -221,4 +219,3 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
-
