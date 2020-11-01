@@ -8,9 +8,10 @@ let mapleader = "\<Space>"
 
 call plug#begin()
 " Gui enhancements
+Plug 'vim-airline/vim-airline'
 Plug '~/.config/nvim/mine'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
 
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdtree'
@@ -42,6 +43,17 @@ Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
 call plug#end()
+
+" Tmux theme
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'b'    : '',
+      \'c'    : '',
+      \'win'  : '#I #W',
+      \'cwin' : '#I #W',
+      \'x'    : '',
+      \'y'    : '',
+      \'z'    : '#W'}
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
@@ -112,10 +124,10 @@ highlight colorcolumn ctermbg=0
 inoremap <silent><expr> <C-Space> coc#refresh()
 
 " Code action
-nmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)<cr>
 
 " Quick fix
-nmap <leader>f <Plug>(coc-fix-current)
+nmap <leader>f <Plug>(coc-fix-current)<cr>
 
 " GoTo Code navigation
 nmap <silent> gd <Plug>(coc-definition)
