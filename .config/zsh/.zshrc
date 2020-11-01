@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # ===================================================
 # Settings
 # ===================================================
@@ -118,6 +125,7 @@ alias gc='git commit --verbose'
 alias gca='git commit --verbose --amend'
 alias gcb='git checkout -b'
 alias gch='git checkout'
+alias gcl='git clone'
 alias gd='git diff'
 alias gdh='git diff HEAD'
 alias ggpull='git pull origin "$(git branch --show-current)"'
@@ -179,4 +187,3 @@ alias l.='exa -d .*'
 alias lg='ls -lah --git-ignore'
 alias ll='exa -lh'
 alias ls='exa'
-

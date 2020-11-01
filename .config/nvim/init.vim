@@ -41,8 +41,7 @@ Plug '907th/vim-auto-save'
 call plug#end()
 
 " Airline theme
-let g:airline_theme = 'onedark'
-let g:airline_theme = 'behelit'
+let g:airline_theme = 'saecki'
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
@@ -96,7 +95,7 @@ set splitbelow
 
 " Miscellaneous
 set updatetime=300
-set cmdheight=2
+set cmdheight=1
 set background=dark
 set signcolumn=yes
 
