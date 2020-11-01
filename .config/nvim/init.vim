@@ -1,3 +1,4 @@
+
 set shell=/bin/bash
 let mapleader = "\<Space>"
 
@@ -7,8 +8,10 @@ let mapleader = "\<Space>"
 
 call plug#begin()
 " Gui enhancements
-Plug 'vim-airline/vim-airline'
+Plug '~/.config/nvim/mine'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
@@ -39,9 +42,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
 call plug#end()
-
-" Airline theme
-let g:airline_theme = 'saecki'
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
@@ -98,6 +98,8 @@ set updatetime=300
 set cmdheight=1
 set background=dark
 set signcolumn=yes
+
+highlight colorcolumn ctermbg=0
 
 " ============================================================
 " # Keyboard shortcuts
@@ -218,3 +220,4 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
+
