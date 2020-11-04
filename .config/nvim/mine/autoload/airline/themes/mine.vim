@@ -38,7 +38,7 @@ let s:IA1 = s:N3
 let s:IA2 = s:N3
 let s:IA3 = s:N3
 let g:airline#themes#mine#palette.inactive = airline#themes#generate_color_map(s:IA1, s:IA2, s:IA3)
-let g:airline#themes#mine#palette.inactive_modified = g:airline#themes#mine#palette.normal_modified
+let g:airline#themes#mine#palette.inactive_modified = { 'airline_c': [ '#000000', '#000000', 15 , 234 ] }
 
 " Accents
 "let g:airline#themes#behelit#palette.accents = {

@@ -134,8 +134,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> [  <Plug>(coc-diagnostic-prev)
-nmap <silent> ]  <Plug>(coc-diagnostic-next)
+nmap <silent> g[  <Plug>(coc-diagnostic-prev)
+nmap <silent> g]  <Plug>(coc-diagnostic-next)
 
 " RefactorRename
 nmap <silent> <Leader>r <Plug>(coc-rename)
@@ -232,4 +232,6 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
+
+"autocmd BuffNewFile *.md :set textwidth = 70<cr>
 
