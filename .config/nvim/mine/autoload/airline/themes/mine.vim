@@ -39,18 +39,3 @@ let s:IA2 = s:N3
 let s:IA3 = s:N3
 let g:airline#themes#mine#palette.inactive = airline#themes#generate_color_map(s:IA1, s:IA2, s:IA3)
 let g:airline#themes#mine#palette.inactive_modified = { 'airline_c': [ '#000000', '#000000', 15 , 234 ] }
-
-" Accents
-"let g:airline#themes#behelit#palette.accents = {
-"      \ 'red': [ '#000000', '', 1, '' ]
-"      \ }
-"    
-"let s:WI = [ '#000000', '#000000', 233, 1 ]
-"let g:airline#themes#mine#palette.normal.airline_warning = s:WI
-"let g:airline#themes#mine#palette.normal_modified.airline_warning = s:WI
-"let g:airline#themes#mine#palette.insert.airline_warning = s:WI
-"let g:airline#themes#mine#palette.insert_modified.airline_warning = s:WI
-"let g:airline#themes#mine#palette.visual.airline_warning = s:WI
-"let g:airline#themes#mine#palette.visual_modified.airline_warning = s:WI
-"let g:airline#themes#mine#palette.replace.airline_warning = s:WI
-"let g:airline#themes#mine#palette.replace_modified.airline_warning = s:WI
