@@ -190,3 +190,6 @@ alias l.='exa -d .*'
 alias lg='ls -lah --git-ignore'
 alias ll='exa -lh'
 alias ls='exa'
+
+# Delete swap files
+alias delete-swap='rm ~/.local/share/nvim/swap/*'
