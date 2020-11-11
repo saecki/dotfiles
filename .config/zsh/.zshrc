@@ -137,7 +137,10 @@ alias glg='git log --graph --stat'
 alias glo='git log --oneline'
 alias gs='git status'
 alias gsd='git stash drop'
-alias gsp='git stash push'
+alias gsl='git stash list'
+alias gsp='git stash pop'
+alias gss='git stash push'
+
 
 alias ggc='git gc --prune=now --aggressive'
 alias gdu="git rev-list --objects --all \
