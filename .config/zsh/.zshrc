@@ -108,7 +108,7 @@ alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
 alias music='update-cmus-playlist;cmus'
 
-alias music-dl='youtube-dl -f 140 --output "%(title)s.%(ext)s"'
+alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
 
 # Config
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
