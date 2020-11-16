@@ -123,6 +123,8 @@ alias countryroads='cd ~'
 
 # Git
 alias ga='git add'
+alias gbd='git branch -d'
+alias gbD='git branch -D'
 alias gbl='git branch --list'
 alias gc='git commit --verbose'
 alias gca='git commit --verbose --amend'
