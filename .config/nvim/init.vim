@@ -24,9 +24,6 @@ Plug 'junegunn/fzf.vim'
 " Multicursor
 Plug 'terryma/vim-multiple-cursors'
 
-" Git
-Plug 'airblade/vim-gitgutter'
-
 " Semantic Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'ycm-core/YouCompleteMe'
@@ -54,6 +51,9 @@ let g:tmuxline_preset = {
       \'x'    : '',
       \'y'    : '',
       \'z'    : '#W'}
+
+" Coc-extensions
+let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-python', 'coc-json', 'coc-git']
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
