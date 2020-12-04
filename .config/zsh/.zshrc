@@ -14,7 +14,7 @@ fi
 
 # Syntax highlighting
 # !! has to be souced before manydots-magic
-source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 
+source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Completion
 fpath=("$ZDOTDIR/functions" $fpath)
@@ -123,8 +123,8 @@ alias countryroads='cd ~'
 
 # Git
 alias ga='git add'
-alias gbd='git branch -d'
 alias gbD='git branch -D'
+alias gbd='git branch -d'
 alias gbl='git branch --list'
 alias gc='git commit --verbose'
 alias gca='git commit --verbose --amend'
@@ -134,10 +134,13 @@ alias gco='git checkout'
 alias gd='git diff'
 alias gdh='git diff HEAD'
 alias gdi='git diff-index --stat'
+alias gf='git fetch'
 alias ggpull='git pull origin "$(git branch --show-current)"'
 alias ggpush='git push origin "$(git branch --show-current)"'
 alias glg='git log --graph --stat'
 alias glo='git log --oneline'
+alias gpl='git pull'
+alias gps='git push'
 alias gs='git status'
 alias gsd='git stash drop'
 alias gsl='git stash list'
