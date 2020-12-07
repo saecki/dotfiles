@@ -25,7 +25,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'terryma/vim-multiple-cursors'
 
 " Git
-Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 " Semantic Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -55,6 +55,9 @@ let g:tmuxline_preset = {
       \'y'    : '',
       \'z'    : '#W'}
 
+" Coc-extensions
+let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-python', 'coc-json', 'coc-git']
+
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
 
@@ -62,6 +65,8 @@ highlight CocFloating ctermbg=0
 let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
+
+let g:rust_recommended_style = 0
 
 " Markdown
 let g:vim_markdown_folding_disabled = 1
@@ -73,7 +78,7 @@ let g:vim_markdown_folding_disabled = 1
 " General
 set number relativenumber
 set linebreak
-set showbreak=..
+set showbreak=
 set textwidth=0
 set wrapmargin=0
 
@@ -167,6 +172,12 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" coc-git
+nmap g{ <Plug>(coc-git-prevchunk)
+nmap g} <Plug>(coc-git-nextchunk)
+nmap gs <plug>(coc-git-chunkinfo)
+nmap gu :CocCommand git.chunkUndo
+
 " # YouCompleteMe
 " ------------------------------------------------------------
 
@@ -189,6 +200,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Search
 noremap <Leader>s :Rg<cr>
+
+" Buffers 
+noremap <Leader>b :Buffers<cr>
 
 " Open hotkeys
 map <c-p> :Files<cr>
