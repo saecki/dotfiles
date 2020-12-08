@@ -83,9 +83,6 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 source $ZDOTDIR/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 
-# thefuck
-eval $(thefuck --alias)
-
 # bash insulter
 if [ -f $HOME/.local/etc/bash.command-not-found ]; then
     . $HOME/.local/etc/bash.command-not-found
