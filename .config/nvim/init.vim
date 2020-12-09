@@ -1,6 +1,6 @@
 
 set shell=/bin/bash
-let mapleader = "\<Space>"
+let mapleader = "\<space>"
 
 " ============================================================
 " # Plugins
@@ -126,7 +126,7 @@ highlight colorcolumn ctermbg=0
 " ------------------------------------------------------------
 
 " Completion
-inoremap <silent><expr> <C-Space> coc#refresh()
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Code action
 nmap <leader>a <Plug>(coc-codeaction-selected)<cr>
@@ -159,10 +159,10 @@ endfunction
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? "\<c-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> pumvisible() ? "\<c-p>" : "\<c-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -201,12 +201,9 @@ nmap gu :CocCommand git.chunkUndo
 " Search
 noremap <Leader>s :Rg<cr>
 
-" Buffers 
-noremap <Leader>b :Buffers<cr>
-
 " Open hotkeys
-map <c-p> :Files<cr>
-map <c-l> :GFiles<cr>
+map <a-p> :Files<cr>
+map <c-p> :GFiles<cr>
 nmap <Leader>; :Buffers<cr>
 
 " # Multicursor
@@ -226,6 +223,12 @@ nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 " # General
 " ------------------------------------------------------------
 
+" Resize
+nmap <c-h> :vertical resize -5<cr>
+nmap <c-j> :resize +5<cr>
+nmap <c-k> :resize -5<cr>
+nmap <c-l> :vertical resize +5<cr>
+
 " Quick save
 nmap <leader>w :w<cr>
 
@@ -234,8 +237,8 @@ nnoremap j gj
 nnoremap k gk
 
 " Ctrl+h to stop searching
-vnoremap <c-h> :nohlsearch<cr>
-nnoremap <c-h> :nohlsearch<cr>
+vnoremap <s-h> :nohlsearch<cr>
+nnoremap <s-h> :nohlsearch<cr>
 
 " Ctrl+c copies to system clipboard
 vnoremap <c-c> "+y
@@ -246,6 +249,4 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
-
-"autocmd BuffNewFile *.md :set textwidth = 70<cr>
 
