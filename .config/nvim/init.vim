@@ -12,6 +12,8 @@ Plug 'vim-airline/vim-airline'
 Plug '~/.config/nvim/mine'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
+" Wait for 0.5.0
+"Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
 
 Plug 'machakann/vim-highlightedyank'
 Plug 'preservim/nerdtree'
