@@ -244,6 +244,7 @@ nnoremap <s-h> :nohlsearch<cr>
 
 " Ctrl+c copies to system clipboard
 vnoremap <c-c> "+y
+inoremap <c-v> <c-r>+
 
 " Toggle between buffers
 nnoremap <leader><leader> <c-^>
