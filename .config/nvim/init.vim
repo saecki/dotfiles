@@ -178,7 +178,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap g{ <Plug>(coc-git-prevchunk)
 nmap g} <Plug>(coc-git-nextchunk)
 nmap gs <plug>(coc-git-chunkinfo)
-nmap gu :CocCommand git.chunkUndo
+nmap gu :CocCommand git.chunkUndo<cr>
 
 " # YouCompleteMe
 " ------------------------------------------------------------
