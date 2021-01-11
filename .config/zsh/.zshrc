@@ -222,3 +222,7 @@ alias tree='exa --tree'
 
 # Delete swap files
 alias delete-swap='rm ~/.local/share/nvim/swap/*'
+
+# Systemd reboot
+alias sysreboot='systemctl reboot -i'
+
