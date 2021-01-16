@@ -211,10 +211,9 @@ nmap <Leader>; :Buffers<cr>
 " # Multicursor
 " ------------------------------------------------------------
 
-let g:multi_cursor_start_word_key      = '<A-j>'
-let g:multi_cursor_start_key           = 'g<A-j>'
-let g:multi_cursor_next_key            = '<A-j>'
-let g:multi_cursor_prev_key            = '<A-J>'
+let g:multi_cursor_start_word_key      = '<a-j>'
+let g:multi_cursor_next_key            = '<a-j>'
+let g:multi_cursor_prev_key            = '<a-k>'
 
 " # Undotree
 " ------------------------------------------------------------
@@ -244,6 +243,7 @@ nnoremap <s-h> :nohlsearch<cr>
 
 " Ctrl+c copies to system clipboard
 vnoremap <c-c> "+y
+" Ctrl+v pastes system clipboard
 inoremap <c-v> <c-r>+
 
 " Toggle between buffers
