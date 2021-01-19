@@ -1,4 +1,3 @@
-
 set shell=/bin/bash
 let mapleader = "\<space>"
 
@@ -224,6 +223,10 @@ nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 " # General
 " ------------------------------------------------------------
 
+" Exit insert mode
+set timeoutlen=100
+imap jk <esc>
+
 " Resize
 nmap <c-h> :vertical resize -5<cr>
 nmap <c-j> :resize +5<cr>
@@ -252,4 +255,3 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
-
