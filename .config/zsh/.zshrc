@@ -50,7 +50,7 @@ setopt autocd
 
 # Vi-mode
 bindkey -v
-export KEYTIMEOUT=100
+export KEYTIMEOUT=1
 zmodload zsh/complist
 
 bindkey -v '^?' backward-delete-char
