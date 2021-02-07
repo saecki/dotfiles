@@ -31,7 +31,7 @@ export EDITOR='nvim'
 source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Completion
-fpath=("$ZDOTDIR/functions" $fpath)
+fpath=("$ZDOTDIR/functions" "/usr/share/zsh/vendor-completions" $fpath)
 autoload -Uz compinit; compinit
 autoload -Uz manydots-magic; manydots-magic
 _comp_options+=(globdots)
