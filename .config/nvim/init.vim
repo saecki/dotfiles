@@ -144,7 +144,7 @@ nmap <silent> g[  <Plug>(coc-diagnostic-prev)
 nmap <silent> g]  <Plug>(coc-diagnostic-next)
 
 " RefactorRename
-nmap <silent> <Leader>r <Plug>(coc-rename)
+nmap <silent> <leader>r <Plug>(coc-rename)
 
 " Documentation
 nnoremap <silent> K :call <SID>show_documentation()<cr>
@@ -194,18 +194,18 @@ nmap gu :CocCommand git.chunkUndo<cr>
 "nmap <silent> g. <Plug>(coc-diagnostic-next)
 
 " RefactorRename
-"nmap <silent> <Leader>r :YcmCompleter RefactorRename
+"nmap <silent> <leader>r :YcmCompleter RefactorRename
 
 " # FZF
 " ------------------------------------------------------------
 
 " Search
-noremap <Leader>s :Rg<cr>
+noremap <leader>s :Rg<cr>
 
 " Open hotkeys
 map <a-p> :Files<cr>
 map <c-p> :GFiles<cr>
-nmap <Leader>; :Buffers<cr>
+nmap <leader>; :Buffers<cr>
 
 " # Multicursor
 " ------------------------------------------------------------
