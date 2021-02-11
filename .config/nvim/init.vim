@@ -43,6 +43,9 @@ Plug 'plasticboy/vim-markdown'
 " Miscellaneous
 Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
+
+" Browser Integration
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
 
 " Tmux theme
@@ -115,7 +118,10 @@ set splitbelow
 set updatetime=300
 set cmdheight=1
 set background=dark
+" Wait for 0.5.0
+"set signcolumn=number
 set signcolumn=yes
+
 
 highlight colorcolumn ctermbg=0
 
