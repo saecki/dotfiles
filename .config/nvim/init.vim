@@ -257,3 +257,9 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
+
+
+" Firenvim config
+if exists('g:started_by_firenvim')
+  set guifont=Monospace:h8
+endif
