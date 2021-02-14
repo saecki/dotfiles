@@ -1,13 +1,13 @@
 source ~/.config/nvim/init.vim
 
-nmap gd :action GotoDeclaration<cr>
-nmap gi :action GotoImplementation<cr>
-nmap gr :action FindUsages<cr>
-nmap gy :action GotoTypeDeclaration<cr>
+nmap gd <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gr <Action>(FindUsages)
+nmap gy <Action>(GotoTypeDeclaration)
 
-nmap <leader>r :action RenameElement<cr>
-nmap <leader>a :action ShowIntentionActions<cr>
+nmap <leader>r <Action>(RenameElement)
+nmap <leader>a <Action>(ShowIntentionActions)
 
-nmap <c-p> :action SearchEverywhere<cr>
+nmap <c-p> <Action>(SearchEverywhere)
 
-nmap <leader>s :action FindInPath<cr>
+nmap <leader>s <Action>(FindInPath)
