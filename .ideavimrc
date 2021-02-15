@@ -11,3 +11,4 @@ nmap <leader>a <Action>(ShowIntentionActions)
 nmap <c-p> <Action>(SearchEverywhere)
 
 nmap <leader>s <Action>(FindInPath)
+nnoremap <leader><leader> <c-s-6>
