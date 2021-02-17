@@ -210,8 +210,9 @@ alias notes-diff="$_notes diff HEAD"
 unset _notes
 
 # ls
-alias l='exa -lah'
 alias l.='exa -d .*'
+alias l='exa -lah'
+alias la='ls -ah --git-ignore'
 alias lg='ls -lah --git-ignore'
 alias ll='exa -lh'
 alias ls='exa'
