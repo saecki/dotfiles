@@ -17,8 +17,6 @@ export HISTFILE=$HOME/.cache/zsh/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# Terminal launch script
-export launchterm="/usr/local/bin/launch-alacritty"
 # EDITOR
 export EDITOR='nvim'
 
@@ -128,7 +126,7 @@ alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias cftm='$EDITOR ~/.tmux.conf'
 
 # Cd
-alias cdp='cd ~/Documents/projects'
+alias cdp='cd ~/Projects'
 alias cdn='cd ~/Documents/notable/notes'
 alias countryroads='cd ~'
 
