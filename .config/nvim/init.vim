@@ -60,7 +60,7 @@ let g:tmuxline_preset = {
       \'z'    : '#W'}
 
 " Coc-extensions
-let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-python', 'coc-json', 'coc-git']
+let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-json', 'coc-git']
 
 " Set coc.nvim floating window background color to something reasonable
 highlight CocFloating ctermbg=0
