@@ -19,6 +19,8 @@ export SAVEHIST=10000
 
 # EDITOR
 export EDITOR='nvim'
+# MANPAGER
+export MANPAGER='nvim +Man!'
 
 # ===================================================
 # Settings
