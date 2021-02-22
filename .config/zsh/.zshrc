@@ -17,9 +17,10 @@ export HISTFILE=$HOME/.cache/zsh/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# EDITOR
+# Editor
 export EDITOR='nvim'
-# MANPAGER
+
+# Manpager
 export MANPAGER='nvim +Man!'
 
 # ===================================================
