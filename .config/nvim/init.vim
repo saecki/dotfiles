@@ -43,6 +43,7 @@ Plug 'plasticboy/vim-markdown'
 " Miscellaneous
 Plug 'dhruvasagar/vim-table-mode'
 Plug '907th/vim-auto-save'
+Plug 'farmergreg/vim-lastplace'
 
 " Browser Integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
