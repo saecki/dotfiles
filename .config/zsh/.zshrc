@@ -230,3 +230,20 @@ alias delete-swap='rm ~/.local/share/nvim/swap/*'
 # Systemd reboot
 alias sysreboot='systemctl reboot -i'
 
+theme-dark() {
+    alacritty-colorscheme -c ~/.config/alacritty/alacritty.yml -C ~/.config/alacritty/ apply "minedark.yml"
+    export DARKMODE=true
+}
+
+theme-light() {
+    alacritty-colorscheme -c ~/.config/alacritty/alacritty.yml -C ~/.config/alacritty/ apply "minelight.yml"
+    export DARKMODE=false
+}
+
+theme-toggle() {
+    if [[ "$DARKMODE" == "true" ]]; then
+        theme-light
+    else 
+        theme-dark
+    fi
+}

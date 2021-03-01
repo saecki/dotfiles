@@ -127,7 +127,6 @@ if $DARKMODE == "true"
 else
     colorscheme minelight
 endif
-highlight colorcolumn ctermbg=0
 
 " ============================================================
 " # Keyboard shortcuts
