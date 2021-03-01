@@ -230,6 +230,8 @@ alias delete-swap='rm ~/.local/share/nvim/swap/*'
 # Systemd reboot
 alias sysreboot='systemctl reboot -i'
 
+alias csgo-config="git --git-dir $HOME/Documents/csgo-config --work-tree '$HOME/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg'"
+
 theme-dark() {
     alacritty-colorscheme -c ~/.config/alacritty/alacritty.yml -C ~/.config/alacritty/ apply "minedark.yml"
     export DARKMODE=true
