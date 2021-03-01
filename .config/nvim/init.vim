@@ -8,9 +8,8 @@ let mapleader = "\<space>"
 call plug#begin()
 " Gui enhancements
 Plug 'vim-airline/vim-airline'
-Plug '~/.config/nvim/mine'
+Plug '~/.config/nvim/mine-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
 " Wait for 0.5.0
 "Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
 
@@ -123,7 +122,11 @@ set background=dark
 "set signcolumn=number
 set signcolumn=yes
 
-
+if $DARKMODE == "true"
+    colorscheme minedark
+else
+    colorscheme minelight
+endif
 highlight colorcolumn ctermbg=0
 
 " ============================================================
@@ -152,12 +155,8 @@ nmap <silent> g]  <Plug>(coc-diagnostic-next)
 
 " Floating window scrolling
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1, 8) : "\<C-d>"
+  nnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0, 8) : "\<C-u>"
 endif
 
 

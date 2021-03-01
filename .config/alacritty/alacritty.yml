@@ -170,45 +170,39 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Tomorrow Night Bright)
+# Colors
 colors:
-  # Default colors
-  primary:
-    # Dark mode
-    background: '#31313a'
-    foreground: '#ffedcd'
-
-    # Light mode
-    #background: '#ffffff'
-    #foreground: '#31313a'
-
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
-    #dim_foreground: '#9a9a9a'
-    #bright_foreground: '#ffffff'
-
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
   cursor:
     text: '#21212a'
     cursor: '#add8e6'
 
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '#eaeaea'
-  #  background: '#404040'
-
   # Dark mode
-  # Normal colors
+  #primary:
+  #  background: '#31313a'
+  #  foreground: '#ffedcd'
+  #normal:
+  #  black:   '#282828'
+  #  red:     '#cc241d'
+  #  green:   '#98971a'
+  #  yellow:  '#d79921'
+  #  blue:    '#458588'
+  #  magenta: '#b16286'
+  #  cyan:    '#689d6a'
+  #  white:   '#a89984'
+  #bright:
+  #  black:   '#928374'
+  #  red:     '#fb4934'
+  #  green:   '#b8bb26'
+  #  yellow:  '#fabd2f'
+  #  blue:    '#83a598'
+  #  magenta: '#d3869b'
+  #  cyan:    '#8ec07c'
+  #  white:   '#ebdbb2'
+
+  # Light mode
+  primary:
+    background: '#ffffff'
+    foreground: '#31313a'
   normal:
     black:   '#282828'
     red:     '#cc241d'
@@ -218,36 +212,15 @@ colors:
     magenta: '#b16286'
     cyan:    '#689d6a'
     white:   '#a89984'
-  # Bright colors
   bright:
-    black:   '#928374'
+    black:   '#928c87'
     red:     '#fb4934'
-    green:   '#b8bb26'
+    green:   '#c8db26'
     yellow:  '#fabd2f'
     blue:    '#83a598'
     magenta: '#d3869b'
     cyan:    '#8ec07c'
     white:   '#ebdbb2'
-
-  # Light mode
-  # Normal colors
-  #normal:
-  #  black:   '#c2c3b4'
-  #  red:     '#fb4934'
-  #  green:   '#c8db26'
-  #  yellow:  '#fabd2f'
-  #  blue:    '#83a598'
-  #  magenta: '#d3869b'
-  #  cyan:    '#8ec07c'
-  #  white:   '#ebdbb2'
-  # Bright colors
-  #bright:
-  #  black:   '#282828' red:     '#cc241d' green:   '#98971a'
-  #  yellow:  '#d79921'
-  #  blue:    '#458588'
-  #  magenta: '#b16286'
-  #  cyan:    '#689d6a'
-  #  white:   '#a89984'
 
   # Dim colors
   #
@@ -535,7 +508,7 @@ key_bindings:
   #- { key: Add,      mods: Control,       action: IncreaseFontSize }
   #- { key: Subtract, mods: Control,       action: DecreaseFontSize }
   #- { key: Minus,    mods: Control,       action: DecreaseFontSize }
-  
+
     # (Windows only)
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
@@ -568,7 +541,7 @@ key_bindings:
   #- { key: J,        mods: Alt,           action: ScrollLineDown   }
   #- { key: U,        mods: Alt,           action: ScrollPageUp     }
   #- { key: D,        mods: Alt,           action: ScrollPageDown   }
-  - { key: N,        mods: Control,       action: SpawnNewInstance }
+  #- { key: N,        mods: Control,       action: SpawnNewInstance }
 
 #debug:
   # Display the time it takes to redraw each frame.
