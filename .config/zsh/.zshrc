@@ -23,6 +23,9 @@ export EDITOR='nvim'
 # Manpager
 export MANPAGER='nvim +Man!'
 
+# Darkmode
+export DARKMODE=true
+
 # ===================================================
 # Settings
 # ===================================================
@@ -219,7 +222,6 @@ alias la='ls -ah --git-ignore'
 alias lg='ls -lah --git-ignore'
 alias ll='exa -lh'
 alias ls='exa'
-
 alias tree='exa --tree'
 
 # Delete swap files
