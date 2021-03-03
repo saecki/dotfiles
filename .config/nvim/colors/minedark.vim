@@ -27,7 +27,7 @@ highlight Identifier    ctermfg=14                  cterm=bold
 highlight Statement     ctermfg=11
 highlight PreProc       ctermfg=45
 highlight Type          ctermfg=79
-highlight Special       ctermfg=7
+highlight Special       ctermfg=141
 highlight Error                       ctermbg=9
 highlight Todo          ctermfg=154   ctermbg=none  cterm=bold
 highlight Directory     ctermfg=2

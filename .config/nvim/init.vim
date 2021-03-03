@@ -48,22 +48,8 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
 
-" Tmux theme
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'b'    : '',
-      \'c'    : '',
-      \'win'  : '#I #W',
-      \'cwin' : '#I #W',
-      \'x'    : '',
-      \'y'    : '',
-      \'z'    : '#W'}
-
 " Coc-extensions
 let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-json', 'coc-git']
-
-" Set coc.nvim floating window background color to something reasonable
-highlight CocFloating ctermbg=0
 
 " Rust
 let g:rustfmt_autosave = 1
@@ -122,11 +108,21 @@ set background=dark
 "set signcolumn=number
 set signcolumn=yes
 
+" ============================================================
+" # Colorscheme
+" ============================================================
+
 if $DARKMODE == "true"
     colorscheme minedark
 else
     colorscheme minelight
 endif
+
+" Coc-git gutter icons
+highlight DiffAdd     ctermbg=2  ctermfg=15
+highlight DiffChange  ctermbg=5  ctermfg=15
+highlight DiffRemove  ctermbg=1  ctermfg=15
+highlight DiffDelete  ctermbg=1  ctermfg=15
 
 " ============================================================
 " # Keyboard shortcuts
