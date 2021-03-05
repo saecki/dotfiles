@@ -112,10 +112,10 @@ set signcolumn=yes
 " # Colorscheme
 " ============================================================
 
-if $DARKMODE == "true"
-    colorscheme minedark
-else
+if $DARKMODE == "false"
     colorscheme minelight
+else
+    colorscheme minedark
 endif
 
 " Coc-git gutter icons
