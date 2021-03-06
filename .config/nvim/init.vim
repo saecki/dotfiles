@@ -102,11 +102,13 @@ set splitbelow
 
 " Miscellaneous
 set updatetime=300
-set cmdheight=1
+set cmdheight=2
 set background=dark
-" Wait for 0.5.0
-"set signcolumn=number
-set signcolumn=yes
+if has("patch-8.1.1564")
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 " ============================================================
 " # Colorscheme

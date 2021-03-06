@@ -120,22 +120,3 @@ command_not_found_handler () {
     orig_command_not_found_handler "$@"
 }
 
-
-#
-# Bash
-#
-if function_exists command_not_found_handle; then
-    if ! function_exists orig_command_not_found_handle; then
-        eval "orig_$(declare -f command_not_found_handle)"
-    fi
-else
-    orig_command_not_found_handle () {
-        printf "%s: %s: command not found\n" "$0" "$1" >&2
-        return 127
-    }
-fi
-
-command_not_found_handle () {
-    print_message
-    orig_command_not_found_handle "$@"
-}

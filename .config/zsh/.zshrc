@@ -102,8 +102,8 @@ source $ZDOTDIR/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 
 # bash insulter
-if [ -f $HOME/.local/etc/bash.command-not-found ]; then
-    . $HOME/.local/etc/bash.command-not-found
+if [ -f "$HOME/.local/share/bash.command-not-found" ]; then
+    . "$HOME/.local/share/bash.command-not-found"
 fi
 
 # ===================================================
