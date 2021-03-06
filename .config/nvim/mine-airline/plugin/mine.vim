@@ -1,9 +1,7 @@
-if $DARKMODE == "true"
-    echo "minedark"
-    let g:airline_theme = 'minedark'
-else
-    echo "minelight"
+if $THEME == "light"
     let g:airline_theme = 'minelight'
+else
+    let g:airline_theme = 'minedark'
 endif
 
 let g:airline_left_sep = ''

@@ -23,9 +23,6 @@ export EDITOR='nvim'
 # Manpager
 export MANPAGER='nvim +Man!'
 
-# Darkmode
-export DARKMODE=true
-
 # ===================================================
 # Settings
 # ===================================================
@@ -43,7 +40,8 @@ _comp_options+=(globdots)
 # Completion style
 eval "$(dircolors)"
 zstyle ':completion:*' menu select
-zstyle ':completion:*' completer _complete _approximate
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:approximate"*' max-errors 3 numeric
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
@@ -232,20 +230,3 @@ alias sysreboot='systemctl reboot -i'
 
 alias csgo-config="git --git-dir $HOME/Documents/csgo-config --work-tree '$HOME/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg'"
 
-theme-dark() {
-    alacritty-colorscheme -c ~/.config/alacritty/alacritty.yml -C ~/.config/alacritty/ apply "minedark.yml"
-    export DARKMODE=true
-}
-
-theme-light() {
-    alacritty-colorscheme -c ~/.config/alacritty/alacritty.yml -C ~/.config/alacritty/ apply "minelight.yml"
-    export DARKMODE=false
-}
-
-theme-toggle() {
-    if [[ "$DARKMODE" == "true" ]]; then
-        theme-light
-    else 
-        theme-dark
-    fi
-}

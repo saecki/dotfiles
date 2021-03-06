@@ -114,7 +114,7 @@ endif
 " # Colorscheme
 " ============================================================
 
-if $DARKMODE == "false"
+if $THEME == "light"
     colorscheme minelight
 else
     colorscheme minedark
