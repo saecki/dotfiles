@@ -8,7 +8,7 @@ let mapleader = "\<space>"
 call plug#begin()
 " Gui enhancements
 Plug 'vim-airline/vim-airline'
-Plug '~/.config/nvim/mine-airline'
+Plug '~/.config/nvim/mine-airline' " Load custom airline themes
 Plug 'vim-airline/vim-airline-themes'
 " Wait for 0.5.0
 "Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
@@ -225,10 +225,13 @@ nmap <leader>; :Buffers<cr>
 
 " # Multicursor
 " ------------------------------------------------------------
+let g:multi_cursor_use_default_mapping = 0
 
-let g:multi_cursor_start_word_key      = '<a-j>'
-let g:multi_cursor_next_key            = '<a-j>'
-let g:multi_cursor_prev_key            = '<a-k>'
+let g:multi_cursor_start_word_key   = '<a-j>'
+let g:multi_cursor_next_key         = '<a-j>'
+let g:multi_cursor_skip_key         = '<c-a-j>'
+let g:multi_cursor_prev_key         = '<a-k>'
+let g:multi_cursor_quit_key         = '<esc>'
 
 " # Undotree
 " ------------------------------------------------------------
