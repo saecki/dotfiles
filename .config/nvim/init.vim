@@ -114,9 +114,9 @@ endif
 " # Colorscheme
 " ============================================================
 
-if $THEME == "light"
+if filereadable(".config/alacritty/colors/current/minelight.yml")
     colorscheme minelight
-else
+elseif filereadable(".config/alacritty/colors/current/minedark.yml")
     colorscheme minedark
 endif
 

@@ -1,6 +1,6 @@
-if $THEME == "light"
+if filereadable(".config/alacritty/colors/current/minelight.yml")
     let g:airline_theme = 'minelight'
-else
+elseif filereadable(".config/alacritty/colors/current/minedark.yml")
     let g:airline_theme = 'minedark'
 endif
 
