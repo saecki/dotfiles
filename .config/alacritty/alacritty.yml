@@ -517,6 +517,7 @@ key_bindings:
   #- { key: U,        mods: Alt,           action: ScrollPageUp     }
   #- { key: D,        mods: Alt,           action: ScrollPageDown   }
   #- { key: N,        mods: Control,       action: SpawnNewInstance }
+  - { key: T, mods: Super, command: { program: /usr/local/bin/alco, args: [-v, toggle] } }
 
 #debug:
   # Display the time it takes to redraw each frame.

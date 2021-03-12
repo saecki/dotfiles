@@ -102,7 +102,7 @@ set splitbelow
 
 " Miscellaneous
 set updatetime=300
-set cmdheight=2
+set cmdheight=1
 set background=dark
 if has("patch-8.1.1564")
   set signcolumn=number
@@ -114,9 +114,9 @@ endif
 " # Colorscheme
 " ============================================================
 
-if filereadable(".config/alacritty/colors/current/minelight.yml")
+if filereadable(expand("~/.config/alacritty/colors/current/minelight.yml"))
     colorscheme minelight
-elseif filereadable(".config/alacritty/colors/current/minedark.yml")
+elseif filereadable(expand("~/.config/alacritty/colors/current/minedark.yml"))
     colorscheme minedark
 endif
 

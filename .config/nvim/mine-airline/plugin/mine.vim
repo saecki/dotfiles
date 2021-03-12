@@ -1,6 +1,6 @@
-if filereadable(".config/alacritty/colors/current/minelight.yml")
+if filereadable(expand("~/.config/alacritty/colors/current/minelight.yml"))
     let g:airline_theme = 'minelight'
-elseif filereadable(".config/alacritty/colors/current/minedark.yml")
+elseif filereadable(expand("~/.config/alacritty/colors/current/minedark.yml"))
     let g:airline_theme = 'minedark'
 endif
 
