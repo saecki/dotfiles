@@ -175,7 +175,7 @@ alias gdu="git rev-list --objects --all \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
 # Dotfiles
-_dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+_dotfiles='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
 alias dotfiles="$_dotfiles"
 alias dotfiles-pull="$_dotfiles pull origin master"
 alias dotfiles-forcepull="$_dotfiles stash save;\
@@ -190,7 +190,7 @@ alias dotfiles-forcepush="$_dotfiles add -u;\
 unset _dotfiles
 
 # Stuff
-_stuff='git --git-dir=$HOME/.stuff --work-tree=$HOME'
+_stuff='git --git-dir=$HOME/.config/stuff --work-tree=$HOME'
 alias stuff="$_stuff"
 alias stuff-pull="$_stuff pull origin master"
 alias stuff-forcepull="$_stuff stash save;\
