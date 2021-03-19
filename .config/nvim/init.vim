@@ -114,17 +114,7 @@ endif
 " # Colorscheme
 " ============================================================
 
-if filereadable(expand("~/.config/alacritty/colors/current/minelight.yml"))
-    colorscheme minelight
-elseif filereadable(expand("~/.config/alacritty/colors/current/minedark.yml"))
-    colorscheme minedark
-endif
-
-" Coc-git gutter icons
-highlight DiffAdd     ctermbg=2  ctermfg=15
-highlight DiffChange  ctermbg=5  ctermfg=15
-highlight DiffRemove  ctermbg=1  ctermfg=15
-highlight DiffDelete  ctermbg=1  ctermfg=15
+runtime! colors.vim
 
 " ============================================================
 " # Keyboard shortcuts
