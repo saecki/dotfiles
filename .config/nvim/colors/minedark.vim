@@ -22,12 +22,12 @@ highlight PmenuThumb                  ctermbg=242
 highlight Visual                      ctermbg=240
 
 highlight Comment       ctermfg=7
-highlight Constant      ctermfg=13                  cterm=none 
+highlight Constant      ctermfg=13                  cterm=none
 highlight Identifier    ctermfg=14                  cterm=bold
 highlight Statement     ctermfg=11
-highlight PreProc       ctermfg=45
+highlight PreProc       ctermfg=39
 highlight Type          ctermfg=79
-highlight Special       ctermfg=141
+highlight Special       ctermfg=147
 highlight Error                       ctermbg=9
 highlight Todo          ctermfg=154   ctermbg=none  cterm=bold
 highlight Directory     ctermfg=2

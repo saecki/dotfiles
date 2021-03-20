@@ -22,8 +22,8 @@ highlight PmenuThumb                  ctermbg=248
 highlight Visual                      ctermbg=253
 
 highlight Comment       ctermfg=8
-highlight Constant      ctermfg=162                 cterm=none
-highlight Identifier    ctermfg=72                  cterm=bold
+highlight Constant      ctermfg=168                 cterm=none
+highlight Identifier    ctermfg=114                 cterm=bold
 highlight Statement     ctermfg=214
 highlight PreProc       ctermfg=33
 highlight Type          ctermfg=43
