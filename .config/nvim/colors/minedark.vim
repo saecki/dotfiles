@@ -1,8 +1,4 @@
-" local syntax file - set colors on a per-machine basis:
-" vim: tw=0 ts=4 sw=4
 " Vim color file
-" Maintainer:    Ron Aaron <ron@ronware.org>
-" Last Change:    2003 May 02
 
 hi clear
 set background=dark
@@ -33,5 +29,10 @@ highlight Todo          ctermfg=154   ctermbg=none  cterm=bold
 highlight Directory     ctermfg=2
 highlight StatusLine    ctermfg=11    ctermbg=12    cterm=none
 highlight Normal                                    cterm=none
-highlight Search                      ctermbg=3
+highlight Search        ctermfg=0     ctermbg=11
+
+highlight DiffAdd       ctermbg=107   ctermfg=15
+highlight DiffChange    ctermbg=97    ctermfg=15
+highlight DiffRemove    ctermbg=167   ctermfg=15
+highlight DiffDelete    ctermbg=167   ctermfg=15
 

@@ -32,7 +32,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'ycm-core/YouCompleteMe'
 
 " Syntactic Language support
-Plug 'rust-lang/rust.vim'
 Plug 'udalov/kotlin-vim'
 Plug 'igankevich/mesonic'
 Plug 'cespare/vim-toml'
