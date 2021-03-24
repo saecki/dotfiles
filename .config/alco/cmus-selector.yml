@@ -1,0 +1,3 @@
+minedark.yml: "gruvburn-dark"
+minelight.yml: "gruvburn-light"
+else: "gruvburn-dark"
