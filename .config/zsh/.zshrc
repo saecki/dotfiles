@@ -119,7 +119,19 @@ alias vp='nvim -c Files'
 alias vf='vifm'
 alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
-alias music='update-cmus-playlist;cmus'
+
+_update-cmus-lib() {
+    (sleep 0.1 && update-cmus-lib)&!
+}
+update-cmus-lib() {
+    cmus-remote -l -c ~/Music
+}
+update-cmus-playlist() {
+    /usr/local/bin/playlist_localizer \
+        -m ~/Music \
+        -o ~/.config/cmus/playlists
+}
+alias music='update-cmus-playlist; _update-cmus-lib; cmus'
 
 alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
 
