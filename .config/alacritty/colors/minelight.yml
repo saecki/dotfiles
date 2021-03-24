@@ -6,8 +6,8 @@ colors:
   normal:
     black:   '#282828'
     red:     '#dd241d'
-    green:   '#a8be1c'
-    yellow:  '#f0a841'
+    green:   '#98ae0f'
+    yellow:  '#f09300'
     blue:    '#46a5a9'
     magenta: '#c15296'
     cyan:    '#689d6a'
@@ -15,8 +15,8 @@ colors:
   bright:
     black:   '#928c87'
     red:     '#fb4934'
-    green:   '#c8db26'
-    yellow:  '#fabd2f'
+    green:   '#b8cb1c'
+    yellow:  '#fca829'
     blue:    '#83b5a8'
     magenta: '#e386bb'
     cyan:    '#9ed08c'

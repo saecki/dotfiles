@@ -25,11 +25,11 @@ set color_win_title_bg=7
 set color_win_title_fg=0
 
 # Status line color.
-set color_statusline_bg=255
+set color_statusline_bg=252
 set color_statusline_fg=11
 
 # Color of the line displaying currently playing track.
-set color_titleline_bg=253
+set color_titleline_bg=255
 set color_titleline_fg=15
 
 # Color of currently playing track.

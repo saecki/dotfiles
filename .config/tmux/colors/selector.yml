@@ -1,3 +1,0 @@
-minedark.yml: "~/.config/tmux/colors/minedark.conf"
-minelight.yml: "~/.config/tmux/colors/minelight.conf"
-else: "~/.config/tmux/colors/minedark.conf"
