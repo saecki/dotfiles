@@ -121,7 +121,7 @@ alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
 
 _update-cmus-lib() {
-    (sleep 0.1 && update-cmus-lib)&!
+    (sleep 0.5 && update-cmus-lib)&!
 }
 update-cmus-lib() {
     cmus-remote -l -c ~/Music

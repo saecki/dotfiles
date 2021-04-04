@@ -31,8 +31,8 @@ highlight StatusLine    ctermfg=11    ctermbg=12    cterm=none
 highlight Normal                                    cterm=none
 highlight Search        ctermfg=255   ctermbg=208
 
-highlight DiffAdd       ctermbg=156   ctermfg=0
-highlight DiffChange    ctermbg=183   ctermfg=0
-highlight DiffRemove    ctermbg=203   ctermfg=0
-highlight DiffDelete    ctermbg=203   ctermfg=0
+highlight DiffAdd       ctermbg=193   ctermfg=0
+highlight DiffChange    ctermbg=146   ctermfg=0
+highlight DiffRemove    ctermbg=209   ctermfg=0
+highlight DiffDelete    ctermbg=209   ctermfg=0
 
