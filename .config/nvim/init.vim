@@ -127,10 +127,10 @@ runtime! colors.vim
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Code action
-nmap <leader>a <Plug>(coc-codeaction-selected)<cr>
+nmap <leader>a <Plug>(coc-codeaction-selected)l
 
 " Quick fix
-nmap <leader>f <Plug>(coc-fix-current)<cr>
+nmap <leader>f <Plug>(coc-fix-current)
 
 " GoTo Code navigation
 nmap <silent> gd <Plug>(coc-definition)
@@ -176,6 +176,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Make enter select the first completion item
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -209,8 +214,8 @@ nmap gu :CocCommand git.chunkUndo<cr>
 noremap <leader>s :Rg<cr>
 
 " Open hotkeys
-map <a-p> :Files<cr>
-map <c-p> :GFiles<cr>
+map <a-p>      :Files<cr>
+map <c-p>      :GFiles<cr>
 nmap <leader>; :Buffers<cr>
 
 " # Multicursor
@@ -233,10 +238,10 @@ nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 " ------------------------------------------------------------
 
 " Resize
-nmap <c-h> :vertical resize -5<cr>
-nmap <c-j> :resize +5<cr>
-nmap <c-k> :resize -5<cr>
-nmap <c-l> :vertical resize +5<cr>
+nmap <c-left> :vertical resize -5<cr>
+nmap <c-down> :resize +5<cr>
+nmap <c-up> :resize -5<cr>
+nmap <c-right> :vertical resize +5<cr>
 
 " Quick save
 nmap <leader>w :w<cr>
