@@ -1,14 +1,21 @@
 source ~/.config/nvim/init.vim
 
+" Goto
 nmap gd <Action>(GotoDeclaration)
 nmap gi <Action>(GotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap gy <Action>(GotoTypeDeclaration)
 
+" Code actions
 nmap <leader>r <Action>(RenameElement)
 nmap <leader>a <Action>(ShowIntentionActions)
 
+" Search
 nmap <c-p> <Action>(SearchEverywhere)
 
+" Open files
 nmap <leader>s <Action>(FindInPath)
 nnoremap <leader><leader> <c-s-6>
+
+" Select occurences
+vmap <a-k> <Action>(UnselectPreviousOccurrence)

@@ -120,9 +120,6 @@ alias vf='vifm'
 alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
 
-_update-cmus-lib() {
-    (sleep 0.5 && update-cmus-lib)&!
-}
 update-cmus-lib() {
     cmus-remote -l -c ~/Music
 }
@@ -131,7 +128,7 @@ update-cmus-playlist() {
         -m ~/Music \
         -o ~/.config/cmus/playlists
 }
-alias music='update-cmus-playlist; _update-cmus-lib; cmus'
+alias music='update-cmus-playlist; cmus'
 
 alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
 
