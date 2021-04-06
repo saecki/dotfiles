@@ -1,0 +1,4 @@
+#!/bin/sh
+
+~/Android/Sdk/platform-tools/adb "$@"
+
