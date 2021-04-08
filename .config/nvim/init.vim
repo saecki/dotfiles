@@ -127,7 +127,7 @@ runtime! colors.vim
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Code action
-nmap <leader>a <Plug>(coc-codeaction-selected)l
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Quick fix
 nmap <leader>f <Plug>(coc-fix-current)
