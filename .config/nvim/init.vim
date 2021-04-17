@@ -127,6 +127,7 @@ runtime! colors.vim
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Code action
+xmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Quick fix
