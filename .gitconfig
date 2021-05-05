@@ -8,6 +8,9 @@
 [pull]
     ff = only
 
+[merge]
+	ff = only
+
 [delta]
     features = mine
     side-by-side = true
