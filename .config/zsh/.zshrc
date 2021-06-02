@@ -39,14 +39,21 @@ _comp_options+=(globdots)
 
 # Completion style
 eval "$(dircolors)"
-zstyle ':completion:*' menu select
+zstyle ':completion:*:*:*:default' menu yes select
 zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:approximate"*' max-errors 3 numeric
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*:approximate"*' max-errors 5 numeric
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # History
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
+setopt INC_APPEND_HISTORY_TIME
+setopt EXTENDED_HISTORY
+setopt HIST_VERIFY
+
+# Miscellaneous
 setopt menucomplete
 setopt autocd
 
@@ -62,13 +69,13 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
-bindkey -M vicmd      'k' history-beginning-search-backward
-bindkey -M vicmd      'j' history-beginning-search-forward
+bindkey -M vicmd      '^U' history-beginning-search-backward
+bindkey -M vicmd      '^D' history-beginning-search-forward
 
 # Edit command in editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey -M vicmd f edit-command-line
+bindkey -M vicmd e edit-command-line
 
 # ===================================================
 # Miscellaneous
@@ -119,6 +126,7 @@ alias vp='nvim -c Files'
 alias vf='vifm'
 alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
+#alias hist="!+\$(fc -l 1  | fzf-tmux | awk '{print \$1;}')" TODO make this work
 
 update-cmus-lib() {
     cmus-remote -l -c ~/Music
