@@ -75,7 +75,7 @@ bindkey -M vicmd      '^D' history-beginning-search-forward
 # Edit command in editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey -M vicmd e edit-command-line
+bindkey -M vicmd f edit-command-line
 
 # ===================================================
 # Miscellaneous
