@@ -49,7 +49,8 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # History
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
-setopt INC_APPEND_HISTORY_TIME
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
 setopt HIST_VERIFY
 
