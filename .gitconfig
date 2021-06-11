@@ -17,7 +17,6 @@
     line-numbers = true
     line-numbers-left-format = "{nm:>4}│ "
     line-numbers-right-format = "{np:>4}│ "
-    syntax-theme = none
 
 [include]
     path = "~/.config/delta/colors/current.gitconfig"

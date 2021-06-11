@@ -1,2 +1,3 @@
 [delta "mine"]
     light = true
+    syntax-theme = OneHalfLight
