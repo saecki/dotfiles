@@ -1,4 +1,10 @@
 " Vim color file
+"  _     _       _     _
+" | |   (_) __ _| |__ | |_
+" | |   | |/ _` | '_ \| __|
+" | |___| | (_| | | | | |_
+" |_____|_|\__, |_| |_|\__|
+"          |___/
 
 hi clear
 set background=light
@@ -16,6 +22,7 @@ highlight PmenuSel      ctermfg=15    ctermbg=240   cterm=bold
 highlight PmenuSBar                   ctermbg=253
 highlight PmenuThumb                  ctermbg=248
 highlight Visual                      ctermbg=253
+highlight VertSplit     none
 
 highlight Comment       ctermfg=8
 highlight Constant      ctermfg=168                 cterm=none

@@ -71,6 +71,7 @@ set linebreak
 set showbreak=
 set textwidth=0
 set wrapmargin=0
+set fillchars=vert:│
 
 " Indentation
 set autoindent
