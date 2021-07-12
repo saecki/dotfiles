@@ -41,8 +41,7 @@ highlight Search        ctermfg=255   ctermbg=208
 highlight diffAdded                   ctermfg=2
 highlight diffRemoved                 ctermfg=1
 
-highlight DiffAdd       ctermbg=193   ctermfg=0
-highlight DiffChange    ctermbg=146   ctermfg=0
-highlight DiffRemove    ctermbg=209   ctermfg=0
-highlight DiffDelete    ctermbg=209   ctermfg=0
+highlight GitGutterAdd       ctermbg=193   ctermfg=0
+highlight GitGutterChange    ctermbg=146   ctermfg=0
+highlight GitGutterDelete    ctermbg=209   ctermfg=0
 

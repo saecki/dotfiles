@@ -112,6 +112,9 @@ if [ -f "$HOME/.local/share/bash.command-not-found" ]; then
     . "$HOME/.local/share/bash.command-not-found"
 fi
 
+# the fuck
+eval "$(thefuck --alias)"
+
 # ===================================================
 # Aliases
 # ===================================================
