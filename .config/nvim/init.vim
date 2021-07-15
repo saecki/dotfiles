@@ -319,6 +319,8 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 
 " # FZF
 " ------------------------------------------------------------
+let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'Normal' } }
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
 " Search
 noremap <leader>s :Rg<cr>
