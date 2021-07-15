@@ -11,6 +11,7 @@ set showbreak=
 set textwidth=0
 set wrapmargin=0
 set fillchars=vert:│
+set mouse=a
 
 " Indentation
 set autoindent
@@ -133,8 +134,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'ycm-core/YouCompleteMe'
 
 " Syntactic Language support
 Plug 'rust-lang/rust.vim'
@@ -173,7 +172,8 @@ let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
 
-" Markdown
+" # vim-markdown
+" ------------------------------------------------------------
 let g:vim_markdown_folding_disabled = 1
 
 " # nvim-compe
@@ -211,14 +211,14 @@ inoremap <silent><expr> <c-u>     compe#scroll({ 'delta': +4 }) " TODO fix
 inoremap <silent><expr> <c-d>     compe#scroll({ 'delta': -4 }) " TODO fix
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Tab>   pumvisible() ? "\<c-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
 
 " # lspconfig
 " ------------------------------------------------------------
 
 lua <<EOF
-local lsp = require'lspconfig'
+local lsp = require('lspconfig')
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -259,120 +259,38 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 EOF
 
 " Show info popup
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<cr>
+"nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> K :call <SID>show_documentation()<cr>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    lua vim.lsp.buf.hover()
+  endif
+endfunction
 
 " Show diagnostic popup
-nnoremap <C-k>      <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 
 " Goto previous/next diagnostic warning/error
-nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<cr>
-nnoremap <silent> gy   <cmd>lua vim.lsp.buf.type_definition()<cr>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<cr>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<cr>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
+nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<cr>
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
-
 
 " # lsp_extensions
 " ------------------------------------------------------------
 
 " Show inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
-
-" # coc.nvim
-" ------------------------------------------------------------
-
-"let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-json', 'coc-git']
-
-" Completion
-"inoremap <silent><expr> <c-space> coc#refresh()
-
-" Code action
-"xmap <leader>a <Plug>(coc-codeaction-selected)
-"nmap <leader>a <Plug>(coc-codeaction-selected)
-
-" Quick fix
-"nmap <leader>f <Plug>(coc-fix-current)
-
-" GoTo Code navigation
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
-"nmap <silent> g[  <Plug>(coc-diagnostic-prev)
-"nmap <silent> g]  <Plug>(coc-diagnostic-next)
-
-" Floating window scrolling
-"if has('nvim-0.4.0') || has('patch-8.2.0750')
-"  nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1, 8) : "\<C-d>"
-"  nnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0, 8) : "\<C-u>"
-"  inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1, 8)\<cr>" : "\<Right>"
-"  inoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0, 8)\<cr>" : "\<Left>"
-"endif
-
-
-" RefactorRename
-"nmap <silent> <leader>r <Plug>(coc-rename)
-
-" Documentation
-"nnoremap <silent> K :call <SID>show_documentation()<cr>
-"function! s:show_documentation()
-"  if (index(['vim','help'], &filetype) >= 0)
-"    execute 'h '.expand('<cword>')
-"  else
-"    call CocAction('doHover')
-"  endif
-"endfunction
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-"inoremap <silent><expr> <TAB>
-"      \ pumvisible() ? "\<c-n>" :
-"      \ <SID>check_back_space() ? "\<TAB>" :
-"      \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<c-p>" : "\<c-h>"
-
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-
-" Make enter select the first completion item
-"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
-" Highlight the symbol and its references when holding the cursor.
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" coc-git
-"nmap g{ <Plug>(coc-git-prevchunk)
-"nmap g} <Plug>(coc-git-nextchunk)
-"nmap gs <plug>(coc-git-chunkinfo)
-"nmap gu :CocCommand git.chunkUndo<cr>
-
-" # YouCompleteMe
-" ------------------------------------------------------------
-
-" Documentation
-"nnoremap <silent> K :YcmCompleter GetDoc<cr>
-
-" GoTo Code navigation
-"nmap <silent> gd :YcmCompleter GoTo
-"nmap <silent> gy :YcmCompleter GoToType
-"nmap <silent> gi :YcmCompleter GoToImplementation
-"nmap <silent> gr :YcmCompleter GoToReference
-"nmap <silent> g: <Plug>(coc-diagnostic-prev)
-"nmap <silent> g. <Plug>(coc-diagnostic-next)
-
-" RefactorRename
-"nmap <silent> <leader>r :YcmCompleter RefactorRename
+\ lua require('lsp_extensions').inlay_hints{ prefix = '‣', highlight = "Comment", enabled = {"TypeHint", "ChainingHint"} }
 
 " # FZF
 " ------------------------------------------------------------
