@@ -5,6 +5,12 @@ elseif filereadable(expand("~/.config/alacritty/colors/current/minedark.yml"))
     colorscheme minedark
 endif
 
+" Lsp Diagnostics
+sign define LspDiagnosticsSignError       text=E texthl=LspDiagnosticsSignError       linehl= numhl=
+sign define LspDiagnosticsSignWarning     text=W texthl=LspDiagnosticsSignWarning     linehl= numhl=
+sign define LspDiagnosticsSignHint        text=H texthl=LspDiagnosticsSignHint        linehl= numhl=
+sign define LspDiagnosticsSignInformation text=I texthl=LspDiagnosticsSignInformation linehl= numhl=
+
 " Airline
 if filereadable(expand("~/.config/alacritty/colors/current/minelight.yml"))
     let g:airline_theme = 'minelight'

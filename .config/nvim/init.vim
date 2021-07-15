@@ -23,6 +23,7 @@ set tabstop=4
 
 " Search
 set incsearch
+set inccommand=nosplit
 set ignorecase
 set smartcase
 set hlsearch
@@ -111,10 +112,9 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug '~/.config/nvim/mine-airline' " Load custom airline themes
 Plug 'vim-airline/vim-airline-themes'
-" Wait for 0.5.0
-"Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
-
 Plug 'machakann/vim-highlightedyank'
+
+" Utilities
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
 
@@ -132,6 +132,7 @@ Plug 'airblade/vim-gitgutter'
 " Semantic Language support
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 
@@ -217,8 +218,18 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
 " # lspconfig
 " ------------------------------------------------------------
 
-lua <<EOF
-local lsp = require('lspconfig')
+lua << EOF
+local lsp_config = require('lspconfig')
+
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+lsp_status.config {
+    status_symbol = "LSP ",
+    indicator_errors = 'E',
+    indicator_warnings = 'W',
+    indicator_info = 'I',
+    indicator_hint = 'H',
+}
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -229,9 +240,12 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
         'additionalTextEdits',
     }
 }
+capabilities.window = capabilities.window or {
+    workDoneProgress = true
+}
 
-lsp.rust_analyzer.setup({
-    on_attach = on_attach,
+lsp_config.rust_analyzer.setup {
+    on_attach = lsp_status.on_attach,
     capabilities = capabilities,
     settings = {
         ["rust-analyzer"] = {
@@ -247,19 +261,19 @@ lsp.rust_analyzer.setup({
             },
         }
     }
-})
+}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = true,
         signs = true,
         update_in_insert = true,
+        severity_sort = true,
     }
 )
 EOF
 
 " Show info popup
-"nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<cr>
 nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -274,9 +288,10 @@ nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
+vnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 
-" Goto previous/next diagnostic warning/error
+" Goto actions
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
 nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<cr>
@@ -284,6 +299,16 @@ nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
+
+" # lsp-status
+" -----------------------------------------------------------function!
+function! LspStatus() abort
+    if luaeval('#vim.lsp.buf_get_clients() > 0')
+        return luaeval("require('lsp-status').status()")
+    endif
+
+    return ''
+endfunction
 
 " # lsp_extensions
 " ------------------------------------------------------------
@@ -299,8 +324,8 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 noremap <leader>s :Rg<cr>
 
 " Open hotkeys
-map <a-p>      :Files<cr>
-map <c-p>      :GFiles<cr>
+map  <a-p>     :Files<cr>
+map  <c-p>     :GFiles<cr>
 nmap <leader>; :Buffers<cr>
 
 " # Multicursor
@@ -313,11 +338,15 @@ let g:multi_cursor_skip_key         = '<c-a-j>'
 let g:multi_cursor_prev_key         = '<a-k>'
 let g:multi_cursor_quit_key         = '<esc>'
 
-" # Undotree
+" # undotree
 " ------------------------------------------------------------
 
 " Toggle
 nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
+
+" # vim-airline
+" ------------------------------------------------------------
+let g:airline_section_b = '%{LspStatus()}'
 
 " # firenvim
 " ------------------------------------------------------------
