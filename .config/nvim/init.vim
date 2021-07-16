@@ -340,6 +340,12 @@ let g:multi_cursor_skip_key         = '<c-a-j>'
 let g:multi_cursor_prev_key         = '<a-k>'
 let g:multi_cursor_quit_key         = '<esc>'
 
+" # nerdtree
+" ------------------------------------------------------------
+
+" Toggle
+nnoremap <c-n> :NERDTreeToggle<cr>
+
 " # undotree
 " ------------------------------------------------------------
 
