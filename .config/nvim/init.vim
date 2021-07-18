@@ -259,8 +259,17 @@ lsp_config.rust_analyzer.setup {
             procMacro = {
                 enable = true
             },
-        }
-    }
+        },
+    },
+}
+
+lsp_config.ccls.setup {
+   compilationDatabaseDirectory = "build",
+   init_options = {
+        cache = {
+            directory = ".ccls-cache",
+        },
+    },
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
