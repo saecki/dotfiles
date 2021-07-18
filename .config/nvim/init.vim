@@ -224,7 +224,7 @@ local lsp_config = require('lspconfig')
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
 lsp_status.config {
-    status_symbol = "LSP ",
+    status_symbol = "LSP",
     indicator_errors = 'E',
     indicator_warnings = 'W',
     indicator_info = 'I',
@@ -353,7 +353,7 @@ let g:multi_cursor_quit_key         = '<esc>'
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <c-n> :NERDTreeToggle<cr>
+nnoremap <f6> :NERDTreeToggle<cr>
 
 " # undotree
 " ------------------------------------------------------------
