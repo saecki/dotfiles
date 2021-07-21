@@ -306,8 +306,13 @@ nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<cr>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
+nnoremap <silent> gw <cmd>lua vim.lsp.buf.document_symbol()<cr>
+nnoremap <silent> gW <cmd>lua vim.lsp.buf.workspace_symbol()<cr>
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
+
+" signature help
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
 
 " # lsp-status
 " -----------------------------------------------------------function!
