@@ -136,7 +136,7 @@ update-cmus-lib() {
     cmus-remote -l -c ~/Music
 }
 update-cmus-playlist() {
-    /usr/local/bin/playlist_localizer \
+    /usr/local/bin/playlist-localizer \
         -m ~/Music \
         -o ~/.config/cmus/playlists
 }
