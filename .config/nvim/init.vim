@@ -281,6 +281,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 EOF
 
+" Highlight references
+autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
+autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+
 " Show info popup
 nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()

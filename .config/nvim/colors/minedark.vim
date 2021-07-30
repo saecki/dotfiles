@@ -45,6 +45,10 @@ highlight GitGutterChange  ctermfg=15    ctermbg=60
 highlight GitGutterDelete  ctermfg=15    ctermbg=131
 
 
+highlight LspReferenceText               ctermbg=60
+highlight LspReferenceRead               ctermbg=60
+highlight LspReferenceWrite              ctermbg=60
+
 highlight LspDiagnosticsVirtualTextError     ctermfg=1
 highlight LspDiagnosticsVirtualTextWarning   ctermfg=3
 highlight LspDiagnosticsVirtualTextHint      ctermfg=12
