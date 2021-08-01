@@ -307,7 +307,7 @@ nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
 nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<cr>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> gw <cmd>lua vim.lsp.buf.document_symbol()<cr>
 nnoremap <silent> gW <cmd>lua vim.lsp.buf.workspace_symbol()<cr>
@@ -332,7 +332,7 @@ endfunction
 
 " Show inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require('lsp_extensions').inlay_hints{ prefix = '‣', highlight = "Comment", enabled = {"TypeHint", "ChainingHint"} }
+\ lua require('lsp_extensions').inlay_hints{ prefix = '‣', highlight = "NonText", enabled = {"TypeHint", "ChainingHint"} }
 
 " # FZF
 " ------------------------------------------------------------
