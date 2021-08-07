@@ -34,8 +34,7 @@ set gdefault
 set spelllang=en_us,de_de,es_es
 
 " File type detection
-syntax enable
-filetype plugin indent on
+filetype indent on
 
 " Completion
 " menuone: popup even when there's only one match
@@ -136,17 +135,16 @@ Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 
 " Syntactic Language support
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+
+" Language tools
 Plug 'rust-lang/rust.vim'
-Plug 'udalov/kotlin-vim'
-Plug 'igankevich/mesonic'
-Plug 'cespare/vim-toml'
-Plug 'stephpy/vim-yaml'
 Plug 'plasticboy/vim-markdown'
+Plug 'dhruvasagar/vim-table-mode'
 
 " Miscellaneous
-Plug 'dhruvasagar/vim-table-mode'
-Plug '907th/vim-auto-save'
 Plug 'farmergreg/vim-lastplace'
+Plug '907th/vim-auto-save'
 
 " Browser Integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
@@ -334,6 +332,36 @@ endfunction
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 \ lua require('lsp_extensions').inlay_hints{ prefix = '‣', highlight = "NonText", enabled = {"TypeHint", "ChainingHint"} }
 
+" # nvim-treesitter
+" ------------------------------------------------------------
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = { 
+        "bash",
+        "c",
+        "cpp",
+        "css",
+        "dart", 
+        "dockerfile", 
+        "go", 
+        "java", 
+        "json", 
+        "kotlin", 
+        "latex", 
+        "lua", 
+        "python", 
+        "rust", 
+        "toml", 
+        "yaml", 
+        "zig", 
+    },
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+}
+EOF
+
 " # FZF
 " ------------------------------------------------------------
 let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'Normal' } }
@@ -375,6 +403,22 @@ let g:airline_section_b = '%{LspStatus()}'
 
 " # firenvim
 " ------------------------------------------------------------
+
+let g:firenvim_config = { 
+    \ 'globalSettings': {
+        \ 'alt': 'all',
+    \  },
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'cmdline': 'neovim',
+            \ 'content': 'text',
+            \ 'priority': 0,
+            \ 'selector': 'textarea',
+            \ 'takeover': 'never',
+        \ },
+    \ }
+\ }
+
 if exists('g:started_by_firenvim')
   set guifont=Monospace:h8
 endif
