@@ -139,7 +139,6 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
 " Language tools
 Plug 'rust-lang/rust.vim'
-Plug 'plasticboy/vim-markdown'
 Plug 'dhruvasagar/vim-table-mode'
 
 " Miscellaneous
@@ -169,10 +168,6 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
-
-" # vim-markdown
-" ------------------------------------------------------------
-let g:vim_markdown_folding_disabled = 1
 
 " # nvim-compe
 " ------------------------------------------------------------
