@@ -33,9 +33,6 @@ set gdefault
 " Spell checking
 set spelllang=en_us,de_de,es_es
 
-" File type detection
-filetype indent on
-
 " Completion
 " menuone: popup even when there's only one match
 " noinsert: Do not insert text until a selection is made
@@ -211,8 +208,6 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
 " ------------------------------------------------------------
 
 lua << EOF
-local lsp_config = require('lspconfig')
-
 local lsp_status = require('lsp-status')
 lsp_status.register_progress()
 lsp_status.config {
@@ -236,6 +231,7 @@ capabilities.window = capabilities.window or {
     workDoneProgress = true
 }
 
+local lsp_config = require('lspconfig')
 lsp_config.rust_analyzer.setup {
     on_attach = lsp_status.on_attach,
     capabilities = capabilities,
