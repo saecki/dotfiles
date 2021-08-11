@@ -206,7 +206,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
 " # lspconfig
 " ------------------------------------------------------------
 
-lua require('config.lsp')
+lua require('config.lsp').setup()
 
 " Diagnostics
 sign define LspDiagnosticsSignError       text=  texthl=LspDiagnosticsSignError       linehl= numhl=
@@ -259,7 +259,7 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 
 " # nvim-treesitter
 " ------------------------------------------------------------
-lua require('config.treesitter')
+lua require('config.treesitter').setup()
 
 " # FZF
 " ------------------------------------------------------------
