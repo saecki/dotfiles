@@ -45,28 +45,14 @@ local function get_pos()
     return string.format(template, cursor[1], cursor[2])
 end
 
--- theme
-local function file_exists(path)
-    return io.open(path, "r") ~= nil
-end
-
-local function reload_theme()
-    local dir = vim.env.HOME.."/.config/alacritty/colors/current"
-    if file_exists(dir.."/minedark.yml") then
-        return require('colors.minedark').lualine
-    elseif file_exists(dir.."/minelight.yml") then
-        return require('colors.minelight').lualine
-    else
-        return require('lualine.themes.gruvbox')
-    end
-end
-
 -- setup
 local function setup()
+    local theme = require('colors.mineauto').lualine
+
     require('lualine').setup {
         options = {
             icons_enabled = true,
-            theme = reload_theme(),
+            theme = theme,
             section_separators = { '', '' },
             component_separators = { '', '' },
         },
