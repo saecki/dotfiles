@@ -152,7 +152,7 @@ alias cftm='$EDITOR ~/.tmux.conf'
 
 # Cd
 alias cdp='cd ~/Projects'
-alias cdn='cd ~/Documents/notable/notes'
+alias cdn='cd ~/.config/nvim'
 alias countryroads='cd ~'
 
 # Git

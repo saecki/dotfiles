@@ -7,7 +7,8 @@ let mapleader = "\<space>"
 " General
 set number relativenumber
 set linebreak
-set showbreak=
+let &showbreak = '⮡   '
+set wrap
 set textwidth=0
 set wrapmargin=0
 set fillchars=vert:│
@@ -42,7 +43,7 @@ set shortmess+=c
 
 " Undo
 set undolevels=1000
-set undodir=~/.config/nvim/vimdid
+set undodir=~/.local/share/nvim/undo
 set undofile
 
 " Splits
@@ -90,11 +91,6 @@ nnoremap <leader><leader> <c-^>
 " I don't need your help
 map <F1> <esc>
 imap <F1> <esc>
-
-
-" # Colorscheme
-" ------------------------------------------------------------
-runtime! colors.vim
 
 " ============================================================
 " # Plugins
@@ -144,6 +140,12 @@ Plug 'andweeb/presence.nvim'
 " Browser Integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
+
+
+" # Colorscheme
+" ------------------------------------------------------------
+lua require('style').apply()
+
 
 " ============================================================
 " # Plugin config
@@ -200,8 +202,8 @@ inoremap <silent><expr> <c-u>     compe#scroll({ 'delta': +4 }) " TODO fix
 inoremap <silent><expr> <c-d>     compe#scroll({ 'delta': -4 }) " TODO fix
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<c-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
+inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " # lspconfig
 " ------------------------------------------------------------
@@ -296,13 +298,8 @@ nnoremap <f6> :NERDTreeToggle<cr>
 " Toggle
 nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
-" # lualine.nvim
-" ------------------------------------------------------------
-lua require('config.lualine').setup()
-
 " # firenvim
 " ------------------------------------------------------------
-
 let g:firenvim_config = {
     \ 'globalSettings': {
         \ 'alt': 'all',

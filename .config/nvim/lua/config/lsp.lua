@@ -50,8 +50,8 @@ local function setup()
     }
 
     lsp_config.ccls.setup {
-       compilationDatabaseDirectory = "build",
-       init_options = {
+        compilationDatabaseDirectory = "build",
+        init_options = {
             cache = {
                 directory = ".ccls-cache",
             },

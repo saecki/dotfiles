@@ -16,7 +16,7 @@ local palette = {
     texthl1      = '#585858',
     texthl2      = '#5f5f87',
     
-    invtext      = '#282828',
+    invtext      = '#000000',
     text2        = '#ebdbb2',
     text3        = '#a89d8e',
 
@@ -32,7 +32,7 @@ local highlights = {
     -- editor
     SignColumn      = {                      bg='none',                         },
     LineNr          = { fg=palette.lyellow,                                     },
-    CursorLineNr    = { fg=palette.lyellow,                                     },
+    CursorLineNr    = { fg=palette.lyellow,                       style='bold', },
     CursorColumn    = {                      bg=palette.texthl2,                },
     Pmenu           = { fg=palette.text2,    bg=palette.surface3,               },
     PmenuSel        = { fg=palette.surface3, bg=palette.text3,    style='bold', },
@@ -55,7 +55,8 @@ local highlights = {
     Directory       = { fg=palette.lgreen,                                      },
     Normal          = {                                           style='none', },
     Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
-    NonText         = { fg=palette.dblue,                         style='none', },
+    MatchParen      = {                      bg=palette.texthl2,                },
+    NonText         = { fg='#719185',                             style='none', },
 
     -- git
     diffAdded       = { fg=palette.dgreen,                                      },
