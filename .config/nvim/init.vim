@@ -94,9 +94,7 @@ imap <F1> <esc>
 
 " # Colorscheme
 " ------------------------------------------------------------
-
 runtime! colors.vim
-
 
 " ============================================================
 " # Plugins
@@ -104,9 +102,7 @@ runtime! colors.vim
 
 call plug#begin()
 " Gui enhancements
-Plug 'vim-airline/vim-airline'
-Plug '~/.config/nvim/mine-airline' " Load custom airline themes
-Plug 'vim-airline/vim-airline-themes'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'machakann/vim-highlightedyank'
 
 " Utilities
@@ -141,6 +137,9 @@ Plug 'dhruvasagar/vim-table-mode'
 " Miscellaneous
 Plug 'farmergreg/vim-lastplace'
 Plug '907th/vim-auto-save'
+
+" Discord rich presence
+Plug 'andweeb/presence.nvim'
 
 " Browser Integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
@@ -207,68 +206,13 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<c-p>" : "\<s-Tab>"
 " # lspconfig
 " ------------------------------------------------------------
 
-lua << EOF
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
-lsp_status.config {
-    status_symbol = "LSP",
-    indicator_errors = 'E',
-    indicator_warnings = 'W',
-    indicator_info = 'I',
-    indicator_hint = 'H',
-}
+lua require('config.lsp')
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        'documentation',
-        'detail',
-        'additionalTextEdits',
-    }
-}
-capabilities.window = capabilities.window or {
-    workDoneProgress = true
-}
-
-local lsp_config = require('lspconfig')
-lsp_config.rust_analyzer.setup {
-    on_attach = lsp_status.on_attach,
-    capabilities = capabilities,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "plain",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true
-            },
-            procMacro = {
-                enable = true
-            },
-        },
-    },
-}
-
-lsp_config.ccls.setup {
-   compilationDatabaseDirectory = "build",
-   init_options = {
-        cache = {
-            directory = ".ccls-cache",
-        },
-    },
-}
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
-        signs = true,
-        update_in_insert = true,
-        severity_sort = true,
-    }
-)
-EOF
+" Diagnostics
+sign define LspDiagnosticsSignError       text=  texthl=LspDiagnosticsSignError       linehl= numhl=
+sign define LspDiagnosticsSignWarning     text=  texthl=LspDiagnosticsSignWarning     linehl= numhl=
+sign define LspDiagnosticsSignHint        text=H  texthl=LspDiagnosticsSignHint        linehl= numhl=
+sign define LspDiagnosticsSignInformation text=I  texthl=LspDiagnosticsSignInformation linehl= numhl=
 
 " Highlight references
 autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
@@ -306,52 +250,16 @@ nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
 " signature help
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
 
-" # lsp-status
-" -----------------------------------------------------------function!
-function! LspStatus() abort
-    if luaeval('#vim.lsp.buf_get_clients() > 0')
-        return luaeval("require('lsp-status').status()")
-    endif
-
-    return ''
-endfunction
-
 " # lsp_extensions
 " ------------------------------------------------------------
 
 " Show inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require('lsp_extensions').inlay_hints{ prefix = '‣', highlight = "NonText", enabled = {"TypeHint", "ChainingHint"} }
+\ lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "NonText", enabled = {"TypeHint", "ChainingHint"} }
 
 " # nvim-treesitter
 " ------------------------------------------------------------
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 
-        "bash",
-        "c",
-        "cpp",
-        "css",
-        "dart", 
-        "dockerfile", 
-        "go", 
-        "java", 
-        "json", 
-        "kotlin", 
-        "latex", 
-        "lua", 
-        "python", 
-        "rust", 
-        "toml", 
-        "yaml", 
-        "zig", 
-    },
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-}
-EOF
+lua require('config.treesitter')
 
 " # FZF
 " ------------------------------------------------------------
@@ -388,14 +296,14 @@ nnoremap <f6> :NERDTreeToggle<cr>
 " Toggle
 nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
-" # vim-airline
+" # lualine.nvim
 " ------------------------------------------------------------
-let g:airline_section_b = '%{LspStatus()}'
+lua require('config.lualine').setup()
 
 " # firenvim
 " ------------------------------------------------------------
 
-let g:firenvim_config = { 
+let g:firenvim_config = {
     \ 'globalSettings': {
         \ 'alt': 'all',
     \  },
