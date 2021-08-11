@@ -74,18 +74,21 @@ local function setup()
             lualine_a = { get_mode },
             lualine_b = { require('lsp-status').status },
             lualine_c = { { 'filename', path = 1 } },
-            lualine_x = { 'encoding', 'filetype', 'branch' },
-            lualine_y = { get_pos },
-            lualine_z = { { 
-                'diagnostics',
-                sources = { 'nvim_lsp' },
-                      sections = { 'error', 'warn', 'info', 'hint' },
-                      --color_error = nil, TODO
-                      --color_warn  = nil, TODO
-                      --color_info  = nil, TODO
-                      --color_hint  = nil, TODO
-                symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' }
-            } },
+            lualine_x = { 'encoding', 'filetype' },
+            lualine_y = { 'branch', 'diff' },
+            lualine_z = {
+                get_pos,
+                { 
+                    'diagnostics',
+                    sources = { 'nvim_lsp' },
+                          sections = { 'error', 'warn', 'info', 'hint' },
+                          --color_error = nil, TODO
+                          --color_warn  = nil, TODO
+                          --color_info  = nil, TODO
+                          --color_hint  = nil, TODO
+                    symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' }
+                } 
+            },
         },
         inactive_sections = {
             lualine_a = {},
