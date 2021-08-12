@@ -10,7 +10,7 @@ local palette = {
     lgreen       = '#b8cb1c',
     lyellow      = '#fca829',
     lblue        = '#83b5aa',
-    lpurple      = '#e386bb',
+    lpurple      = '#d75f87',
     lcyan        = '#7aba63',
     
     texthl1      = '#e8e8e8',
@@ -48,7 +48,7 @@ local highlights = {
     Identifier      = { fg=palette.lcyan,                         style='bold', },
     Statement       = { fg=palette.lyellow,                                     },
     PreProc         = { fg='#0087ff',                                           },
-    Type            = { fg='#00d7af',                                           },
+    Type            = { fg='#00b997',                                           },
     Special         = { fg='#875fd7',                                           },
     Error           = {                      bg=palette.lred,                   },
     Todo            = { fg='#875fd7',        bg='none',           style='bold', },
@@ -56,7 +56,7 @@ local highlights = {
     Normal          = {                                           style='none', },
     Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
     MatchParen      = {                      bg=palette.texthl2,                },
-    NonText         = { fg='#95b6ae',                             style='none', },
+    NonText         = { fg='#a9bdb8',                             style='none', },
 
     -- git
     diffAdded       = { fg=palette.dgreen,                                      },

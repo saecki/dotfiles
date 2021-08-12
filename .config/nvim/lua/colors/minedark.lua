@@ -56,7 +56,7 @@ local highlights = {
     Normal          = {                                           style='none', },
     Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
     MatchParen      = {                      bg=palette.texthl2,                },
-    NonText         = { fg='#719185',                             style='none', },
+    NonText         = { fg='#5b676a',                             style='none', },
 
     -- git
     diffAdded       = { fg=palette.dgreen,                                      },
