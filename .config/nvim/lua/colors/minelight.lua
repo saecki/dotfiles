@@ -26,6 +26,11 @@ local palette = {
     
     scrollbg     = '#dadada',
     scrollfg     = '#a8a8a8',
+
+    diff_a_bg    = '#b7fb9d',
+    diff_c_bg    = '#b8d3ff',
+    diff_r_bg    = '#ff8a8a',
+    diff_cr_bg   = '#c09cff',
 }
 
 local highlights = {
@@ -64,6 +69,13 @@ local highlights = {
     GitGutterAdd    = { fg=palette.text2,    bg='#b7fb9d',                      },
     GitGutterChange = { fg=palette.text2,    bg='#b8d3ff',                      },
     GitGutterDelete = { fg=palette.text2,    bg='#ff8a8a',                      },
+    diffAdded                   = { fg=palette.text2, bg=palette.diff_a_bg,  },
+    difdRemoved                 = { fg=palette.text2, bg=palette.diff_r_bg,  },
+
+    GitGutterAdd                = { fg=palette.text2, bg=palette.diff_a_bg,  },
+    GitGutterChange             = { fg=palette.text2, bg=palette.diff_c_bg,  },
+    GitGutterDelete             = { fg=palette.text2, bg=palette.diff_r_bg,  },
+    GitGutterChangeDelete       = { fg=palette.text2, bg=palette.diff_cr_bg, },
 
     -- lsp ocurrences
     LspReferenceText  = { bg=palette.texthl2 },
