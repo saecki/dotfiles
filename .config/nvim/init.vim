@@ -60,13 +60,17 @@ else
   set signcolumn=yes
 endif
 
-" # Shortcuts
+" # Key mappings
 " ------------------------------------------------------------
 
+" Esc
+set timeoutlen=500
+inoremap jj <esc>
+
 " Resize
-nmap <c-left> :vertical resize -5<cr>
-nmap <c-down> :resize +5<cr>
-nmap <c-up> :resize -5<cr>
+nmap <c-left>  :vertical resize -5<cr>
+nmap <c-down>  :resize          +5<cr>
+nmap <c-up>    :resize          -5<cr>
 nmap <c-right> :vertical resize +5<cr>
 
 " Quick save
