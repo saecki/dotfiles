@@ -78,8 +78,8 @@ local function setup()
                     sources = { 'nvim_lsp' },
                     sections = { 'error', 'warn', 'info', 'hint' },
                     symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' },
-                    color_error = palette.dred,
-                    color_warn  = palette.dyellow,
+                    color_error = palette.lred,
+                    color_warn  = palette.lyellow,
                     color_info  = palette.lcyan,
                     color_hint  = palette.lcyan,
                 } 

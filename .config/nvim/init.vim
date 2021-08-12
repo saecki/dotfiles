@@ -158,6 +158,7 @@ lua require('style').apply()
 " # vim-gitgutter
 " ------------------------------------------------------------
 let g:gitgutter_diff_base = 'HEAD'
+let g:gitgutter_sign_priority = 1
 
 nmap g{ <Plug>(GitGutterPrevHunk)
 nmap g} <Plug>(GitGutterNextHunk)

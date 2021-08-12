@@ -32,7 +32,7 @@ local highlights = {
     -- editor
     SignColumn      = {                      bg='none',                         },
     LineNr          = { fg=palette.text3,                                       },
-    CursorLineNr    = { fg=palette.text3,                         style='bold', },
+    CursorLineNr    = { fg=palette.text2,                         style='bold', },
     CursorColumn    = {                      bg=palette.texthl2,                },
     Pmenu           = { fg=palette.text2,    bg=palette.surface3,               },
     PmenuSel        = { fg=palette.surface3, bg=palette.text3,    style='bold', },
@@ -76,8 +76,8 @@ local highlights = {
     LspDiagnosticsVirtualTextHint    = { fg=palette.lblue,                      },
     LspDiagnosticsVirtualTextInfo    = { fg=palette.lblue,                      },
 
-    LspDiagnosticsSignError          = { fg=palette.dred,    style='bold',      },
-    LspDiagnosticsSignWarning        = { fg=palette.dyellow, style='bold',      },
+    LspDiagnosticsSignError          = { fg=palette.lred,    style='bold',      },
+    LspDiagnosticsSignWarning        = { fg=palette.lyellow, style='bold',      },
     LspDiagnosticsSignHint           = { fg=palette.lblue,   style='bold',      },
     LspDiagnosticsSignInfo           = { fg=palette.lblue,   style='bold',      },
 
