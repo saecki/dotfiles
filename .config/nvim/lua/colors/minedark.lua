@@ -31,8 +31,8 @@ local palette = {
 local highlights = {
     -- editor
     SignColumn      = {                      bg='none',                         },
-    LineNr          = { fg=palette.lyellow,                                     },
-    CursorLineNr    = { fg=palette.lyellow,                       style='bold', },
+    LineNr          = { fg=palette.text3,                                       },
+    CursorLineNr    = { fg=palette.text3,                         style='bold', },
     CursorColumn    = {                      bg=palette.texthl2,                },
     Pmenu           = { fg=palette.text2,    bg=palette.surface3,               },
     PmenuSel        = { fg=palette.surface3, bg=palette.text3,    style='bold', },

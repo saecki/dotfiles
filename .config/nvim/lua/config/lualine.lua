@@ -54,7 +54,9 @@ end
 
 -- setup
 local function setup()
-    local theme = require('colors.mineauto').lualine
+    local colors = require('colors.mineauto')
+    local theme = colors.lualine
+    local palette = colors.palette
 
     require('lualine').setup {
         options = {
@@ -68,18 +70,18 @@ local function setup()
             lualine_b = { require('lsp-status').status },
             lualine_c = { { 'filename', path = 1 }, ts_status },
             lualine_x = { 'encoding', 'filetype' },
-            lualine_y = { 'branch', 'diff' },
+            lualine_y = { 'branch' },
             lualine_z = {
                 'location',
                 { 
                     'diagnostics',
                     sources = { 'nvim_lsp' },
-                          sections = { 'error', 'warn', 'info', 'hint' },
-                          --color_error = nil, TODO
-                          --color_warn  = nil, TODO
-                          --color_info  = nil, TODO
-                          --color_hint  = nil, TODO
-                    symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' }
+                    sections = { 'error', 'warn', 'info', 'hint' },
+                    symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' },
+                    color_error = palette.dred,
+                    color_warn  = palette.dyellow,
+                    color_info  = palette.lcyan,
+                    color_hint  = palette.lcyan,
                 } 
             },
         },
