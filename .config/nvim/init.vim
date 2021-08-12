@@ -120,15 +120,16 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Semantic Language support
+" Lsp
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 
-" Syntactic Language support
+" Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'romgrk/nvim-treesitter-context'
 
 " Language tools
 Plug 'rust-lang/rust.vim'

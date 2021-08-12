@@ -24,6 +24,11 @@ local function setup()
             additional_vim_regex_highlighting = false,
         },
     }
+
+    require('treesitter-context').setup {
+        enable = true,
+        throttle = true,
+    }
 end
 
 return {
