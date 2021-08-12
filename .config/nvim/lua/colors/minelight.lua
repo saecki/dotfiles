@@ -61,9 +61,9 @@ local highlights = {
     -- git
     diffAdded       = { fg=palette.dgreen,                                      },
     diffRemoved     = { fg=palette.dred,                                        },
-    GitGutterAdd    = { fg=palette.text2,    bg='#d7ffaf',                      },
-    GitGutterChange = { fg=palette.text2,    bg='#afafd7',                      },
-    GitGutterDelete = { fg=palette.text2,    bg='#ff875f',                      },
+    GitGutterAdd    = { fg=palette.text2,    bg='#b7fb9d',                      },
+    GitGutterChange = { fg=palette.text2,    bg='#b8d3ff',                      },
+    GitGutterDelete = { fg=palette.text2,    bg='#ff8a8a',                      },
 
     -- lsp ocurrences
     LspReferenceText  = { bg=palette.texthl2 },

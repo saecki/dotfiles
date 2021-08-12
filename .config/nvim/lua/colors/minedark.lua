@@ -62,7 +62,7 @@ local highlights = {
     diffAdded       = { fg=palette.dgreen,                                      },
     diffRemoved     = { fg=palette.dred,                                        },
     GitGutterAdd    = { fg=palette.text2,    bg='#5f875f',                      },
-    GitGutterChange = { fg=palette.text2,    bg='#5f5f87',                      },
+    GitGutterChange = { fg=palette.text2,    bg='#3c5480',                      },
     GitGutterDelete = { fg=palette.text2,    bg='#af5f5f',                      },
 
     -- lsp ocurrences
