@@ -1,3 +1,5 @@
+local common = require('colors.common')
+
 local palette = {
     dred         = '#cc241d',
     dgreen       = '#98971a',
@@ -15,7 +17,7 @@ local palette = {
 
     texthl1      = '#585858',
     texthl2      = '#5f5f87',
-    
+
     invtext      = '#000000',
     text2        = '#ebdbb2',
     text3        = '#a89d8e',
@@ -27,121 +29,27 @@ local palette = {
     scrollbg     = '#444444',
     scrollfg     = '#a8a8a8',
 
+    title        = '#ffd7ff',
+    preproc      = '#00afff',
+    type         = '#5fd7af',
+    special      = '#afafff',
+    todo         = '#afff00',
+    nontext      = '#5b676a',
+
     diff_a_bg    = '#395039',
     diff_c_bg    = '#33415b',
     diff_d_bg    = '#7a4242',
     diff_cd_bg   = '#553b6c',
 }
 
-local highlights = {
-    -- editor
-    SignColumn      = {                      bg='none',                         },
-    LineNr          = { fg=palette.text3,                                       },
-    CursorLineNr    = { fg=palette.text2,                         style='bold', },
-    CursorColumn    = {                      bg=palette.texthl2,                },
-    Pmenu           = { fg=palette.text2,    bg=palette.surface3,               },
-    PmenuSel        = { fg=palette.surface3, bg=palette.text3,    style='bold', },
-    PmenuSBar       = {                      bg=palette.scrollbg,               },
-    PmenuThumb      = {                      bg=palette.scrollfg,               },
-    Visual          = {                      bg=palette.texthl1,                },
-    VertSplit       = {                      bg='none',                         },
-
-    -- syntax
-    Title           = { fg='#ffd7ff',                                           },
-    Comment         = { fg=palette.text3,                                       },
-    Constant        = { fg=palette.lpurple,                       style='none', },
-    Identifier      = { fg=palette.lcyan,                         style='bold', },
-    Statement       = { fg=palette.lyellow,                                     },
-    PreProc         = { fg='#00afff',                                           },
-    Type            = { fg='#5fd7af',                                           },
-    Special         = { fg='#afafff',                                           },
-    Error           = {                      bg=palette.lred,                   },
-    Todo            = { fg='#afff00',        bg='none',           style='bold', },
-    Directory       = { fg=palette.lgreen,                                      },
-    Normal          = {                                           style='none', },
-    Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
-    MatchParen      = {                      bg=palette.texthl2,                },
-    NonText         = { fg='#5b676a',                             style='none', },
-
-    -- git
-    diffAdded       = { bg=palette.diff_a_bg  },
-    diffRemoved     = { bg=palette.diff_d_bg  },
-
-    DiffAdd         = { bg=palette.diff_a_bg  },
-    DiffChange      = { bg=palette.diff_c_bg  },
-    DiffDelete      = { bg=palette.diff_d_bg  },
-
-    GitSignsAdd     = { bg=palette.diff_a_bg  },
-    GitSignsChange  = { bg=palette.diff_c_bg  },
-    GitSignsDelete  = { bg=palette.diff_d_bg  },
-    GitSignsChgDel  = { bg=palette.diff_cd_bg },
-
-    -- lsp ocurrences
-    LspReferenceText  = { bg=palette.texthl2 },
-    LspReferenceRead  = { bg=palette.texthl2 },
-    LspReferenceWrite = { bg=palette.texthl2 },
-
-    -- lsp diagnostics
-    LspDiagnosticsVirtualTextError   = { fg=palette.dred,                       },
-    LspDiagnosticsVirtualTextWarning = { fg=palette.dyellow,                    },
-    LspDiagnosticsVirtualTextHint    = { fg=palette.lblue,                      },
-    LspDiagnosticsVirtualTextInfo    = { fg=palette.lblue,                      },
-
-    LspDiagnosticsSignError          = { fg=palette.lred,    style='bold',      },
-    LspDiagnosticsSignWarning        = { fg=palette.lyellow, style='bold',      },
-    LspDiagnosticsSignHint           = { fg=palette.lblue,   style='bold',      },
-    LspDiagnosticsSignInfo           = { fg=palette.lblue,   style='bold',      },
-
-    LspDiagnosticsFloatingError      = { fg=palette.dred,                       },
-    LspDiagnosticsFloatingWarning    = { fg=palette.dyellow,                    },
-    LspDiagnosticsFloatingHint       = { fg=palette.lblue,                      },
-    LspDiagnosticsFloatingInfo       = { fg=palette.lblue,                      },
-
-    LspDiagnosticsUnderlineError     = { sp=palette.dred,    style='undercurl', },
-    LspDiagnosticsUnderlineWarning   = { sp=palette.dyellow, style='undercurl', },
-    LspDiagnosticsUnderlineHint      = { sp=palette.lblue,   style='undercurl', },
-    LspDiagnosticsUnderlineInfo      = { sp=palette.lblue,   style='undercurl', },
-}
-
-local lualine = {
-  normal = {
-    a = { bg = palette.surface1, fg = palette.lyellow, gui = 'bold' },
-    b = { bg = palette.surface2, fg = palette.text2                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  },
-  insert = {
-    a = { bg = palette.surface1, fg = palette.lgreen,  gui = 'bold' },
-    b = { bg = palette.surface2, fg = palette.text2                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  },
-  visual = {
-    a = { bg = palette.surface1, fg = palette.lpurple, gui = 'bold' },
-    b = { bg = palette.surface2, fg = palette.text2                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  },
-  replace = {
-    a = { bg = palette.surface1, fg = palette.lred,    gui = 'bold' },
-    b = { bg = palette.surface2, fg = palette.text2                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  },
-  command = {
-    a = { bg = palette.surface1, fg = palette.lblue,   gui = 'bold' },
-    b = { bg = palette.surface2, fg = palette.text2                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  },
-  inactive = {
-    a = { bg = palette.surface3, fg = palette.text3                 },
-    b = { bg = palette.surface3, fg = palette.text3                 },
-    c = { bg = palette.surface3, fg = palette.text3                 },
-  }
-}
+local highlights = common.get_highlights(palette)
+local lualine    = common.get_lualine(palette)
 
 local function apply()
     vim.g.colors_name = 'minedark'
 
-    local common = require('colors.common')
-    common.terminal_colors(palette)
-    common.highlights(highlights)
+    common.apply_term_colors(palette)
+    common.apply_highlights(highlights)
 end
 
 return {
