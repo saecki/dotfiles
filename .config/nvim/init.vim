@@ -97,7 +97,7 @@ map <F1> <esc>
 imap <F1> <esc>
 
 " Highlight yanked text
-au TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
+autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
 
 " ============================================================
 " # Plugins
@@ -184,7 +184,7 @@ sign define LspDiagnosticsSignWarning     text=  texthl=LspDiagnosticsSignWar
 sign define LspDiagnosticsSignHint        text=H  texthl=LspDiagnosticsSignHint        linehl= numhl=
 sign define LspDiagnosticsSignInformation text=I  texthl=LspDiagnosticsSignInformation linehl= numhl=
 
-" Highlight references
+" Highlight occurences
 autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
 autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
 
@@ -230,6 +230,9 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " # nvim-treesitter
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
+
+nnoremap <leader>c :TSContextToggle<cr>
+autocmd CursorMoved * silent :TSContextDisable
 
 " # FZF
 " ------------------------------------------------------------

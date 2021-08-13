@@ -26,7 +26,7 @@ local function setup()
     }
 
     require('treesitter-context').setup {
-        enable = true,
+        enable = false,
         throttle = true,
     }
 end
