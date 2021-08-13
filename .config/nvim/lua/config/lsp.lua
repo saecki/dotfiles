@@ -1,14 +1,3 @@
-local function setup_lsp_status()
-    local lsp_status = require('lsp-status')
-    lsp_status.register_progress()
-    lsp_status.config {
-        status_symbol = "LSP",
-        current_function = false,
-        diagnostics = false,
-    }
-    return lsp_status
-end
-
 local function get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -23,6 +12,17 @@ local function get_capabilities()
         workDoneProgress = true
     }
     return capabilities
+end
+
+local function setup_lsp_status()
+    local lsp_status = require('lsp-status')
+    lsp_status.register_progress()
+    lsp_status.config {
+        status_symbol = "LSP",
+        current_function = false,
+        diagnostics = false,
+    }
+    return lsp_status
 end
 
 local function setup()

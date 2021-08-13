@@ -135,6 +135,7 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'romgrk/nvim-treesitter-context'
 
 " Language tools
+Plug 'teal-language/vim-teal'
 Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'
 
@@ -203,7 +204,6 @@ nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
-vnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 
 " Goto actions
