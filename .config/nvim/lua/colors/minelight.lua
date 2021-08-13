@@ -12,10 +12,10 @@ local palette = {
     lblue        = '#83b5aa',
     lpurple      = '#d75f87',
     lcyan        = '#7aba63',
-    
+
     texthl1      = '#e8e8e8',
     texthl2      = '#d7d7ff',
-    
+
     invtext      = '#dedede',
     text2        = '#585858',
     text3        = '#808080',
@@ -23,14 +23,14 @@ local palette = {
     surface1     = '#d0d0d0',
     surface2     = '#dadada',
     surface3     = '#eeeeee',
-    
+
     scrollbg     = '#dadada',
     scrollfg     = '#a8a8a8',
 
-    diff_a_bg    = '#b7fb9d',
-    diff_c_bg    = '#b8d3ff',
-    diff_r_bg    = '#ff8a8a',
-    diff_cr_bg   = '#c09cff',
+    diff_a_bg    = '#ccfbba',
+    diff_c_bg    = '#c7dcff',
+    diff_d_bg    = '#ffbdbd',
+    diff_cd_bg   = '#d0b6ff',
 }
 
 local highlights = {
@@ -64,18 +64,17 @@ local highlights = {
     NonText         = { fg='#a9bdb8',                             style='none', },
 
     -- git
-    diffAdded       = { fg=palette.dgreen,                                      },
-    diffRemoved     = { fg=palette.dred,                                        },
-    GitGutterAdd    = { fg=palette.text2,    bg='#b7fb9d',                      },
-    GitGutterChange = { fg=palette.text2,    bg='#b8d3ff',                      },
-    GitGutterDelete = { fg=palette.text2,    bg='#ff8a8a',                      },
-    diffAdded                   = { fg=palette.text2, bg=palette.diff_a_bg,  },
-    difdRemoved                 = { fg=palette.text2, bg=palette.diff_r_bg,  },
+    diffAdded       = { bg=palette.diff_a_bg  },
+    diffRemoved     = { bg=palette.diff_d_bg  },
 
-    GitGutterAdd                = { fg=palette.text2, bg=palette.diff_a_bg,  },
-    GitGutterChange             = { fg=palette.text2, bg=palette.diff_c_bg,  },
-    GitGutterDelete             = { fg=palette.text2, bg=palette.diff_r_bg,  },
-    GitGutterChangeDelete       = { fg=palette.text2, bg=palette.diff_cr_bg, },
+    DiffAdd         = { bg=palette.diff_a_bg  },
+    DiffChange      = { bg=palette.diff_c_bg  },
+    DiffDelete      = { bg=palette.diff_d_bg  },
+
+    GitSignsAdd     = { bg=palette.diff_a_bg  },
+    GitSignsChange  = { bg=palette.diff_c_bg  },
+    GitSignsDelete  = { bg=palette.diff_d_bg  },
+    GitSignsChgDel  = { bg=palette.diff_cd_bg },
 
     -- lsp ocurrences
     LspReferenceText  = { bg=palette.texthl2 },

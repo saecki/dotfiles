@@ -12,7 +12,7 @@ local palette = {
     lblue        = '#83a598',
     lpurple      = '#d3869b',
     lcyan        = '#8ec07c',
-    
+
     texthl1      = '#585858',
     texthl2      = '#5f5f87',
     
@@ -23,14 +23,14 @@ local palette = {
     surface1     = '#4e4e4e',
     surface2     = '#3a3a3a',
     surface3     = '#282828',
-    
+
     scrollbg     = '#444444',
     scrollfg     = '#a8a8a8',
 
-    diff_a_bg    = '#5f875f',
-    diff_c_bg    = '#3c5480',
-    diff_r_bg    = '#af5f5f',
-    diff_cr_bg   = '#895faf',
+    diff_a_bg    = '#395039',
+    diff_c_bg    = '#33415b',
+    diff_d_bg    = '#7a4242',
+    diff_cd_bg   = '#553b6c',
 }
 
 local highlights = {
@@ -64,13 +64,17 @@ local highlights = {
     NonText         = { fg='#5b676a',                             style='none', },
 
     -- git
-    diffAdded                   = { fg=palette.text2, bg=palette.diff_a_bg,  },
-    difdRemoved                 = { fg=palette.text2, bg=palette.diff_r_bg,  },
+    diffAdded       = { bg=palette.diff_a_bg  },
+    diffRemoved     = { bg=palette.diff_d_bg  },
 
-    GitGutterAdd                = { fg=palette.text2, bg=palette.diff_a_bg,  },
-    GitGutterChange             = { fg=palette.text2, bg=palette.diff_c_bg,  },
-    GitGutterDelete             = { fg=palette.text2, bg=palette.diff_r_bg,  },
-    GitGutterChangeDelete       = { fg=palette.text2, bg=palette.diff_cr_bg, },
+    DiffAdd         = { bg=palette.diff_a_bg  },
+    DiffChange      = { bg=palette.diff_c_bg  },
+    DiffDelete      = { bg=palette.diff_d_bg  },
+
+    GitSignsAdd     = { bg=palette.diff_a_bg  },
+    GitSignsChange  = { bg=palette.diff_c_bg  },
+    GitSignsDelete  = { bg=palette.diff_d_bg  },
+    GitSignsChgDel  = { bg=palette.diff_cd_bg },
 
     -- lsp ocurrences
     LspReferenceText  = { bg=palette.texthl2 },

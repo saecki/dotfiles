@@ -96,6 +96,9 @@ nnoremap <leader><leader> <c-^>
 map <F1> <esc>
 imap <F1> <esc>
 
+" Highlight yanked text
+au TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
+
 " ============================================================
 " # Plugins
 " ============================================================
@@ -103,7 +106,6 @@ imap <F1> <esc>
 call plug#begin()
 " Gui enhancements
 Plug 'hoob3rt/lualine.nvim'
-Plug 'machakann/vim-highlightedyank'
 
 " Utilities
 Plug 'preservim/nerdtree'
@@ -118,7 +120,8 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'nvim-lua/plenary.nvim' " Dependency for gitsigns
+Plug 'lewis6991/gitsigns.nvim'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
@@ -156,16 +159,6 @@ lua require('colors').apply()
 " # Plugin config
 " ============================================================
 
-" # vim-gitgutter
-" ------------------------------------------------------------
-let g:gitgutter_diff_base = 'HEAD'
-let g:gitgutter_sign_priority = 1
-
-nmap g{ <Plug>(GitGutterPrevHunk)
-nmap g} <Plug>(GitGutterNextHunk)
-nmap gu <Plug>(GitGutterUndoHunk)
-nmap gs <Plug>(GitGutterPreviewHunk)
-
 " # rust.vim
 " ------------------------------------------------------------
 let g:rustfmt_autosave = 1
@@ -173,47 +166,16 @@ let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
 
+" # gitsigns.nvim
+" ------------------------------------------------------------
+lua require('config.gitsigns').setup()
+
 " # nvim-compe
 " ------------------------------------------------------------
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.resolve_timeout = 800
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-let g:compe.source.ultisnips = v:false
-let g:compe.source.luasnip = v:false
-let g:compe.source.emoji = v:false
-
-inoremap <silent><expr> <c-space> compe#complete()
-inoremap <silent><expr> <cr>      compe#confirm('<cr>')
-inoremap <silent><expr> <c-e>     compe#close('<c-e>')
-inoremap <silent><expr> <c-u>     compe#scroll({ 'delta': +4 }) " TODO fix
-inoremap <silent><expr> <c-d>     compe#scroll({ 'delta': -4 }) " TODO fix
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+lua require('config.compe').setup()
 
 " # lspconfig
 " ------------------------------------------------------------
-
 lua require('config.lsp').setup()
 
 " Diagnostics
