@@ -132,6 +132,7 @@ Plug 'hrsh7th/vim-vsnip'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/playground'
 Plug 'romgrk/nvim-treesitter-context'
 
 " Language tools

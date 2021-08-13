@@ -14,6 +14,7 @@ local function setup()
             "latex",
             "lua",
             "python",
+            "query",
             "rust",
             "toml",
             "yaml",

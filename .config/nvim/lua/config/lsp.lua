@@ -8,7 +8,7 @@ local function get_capabilities()
             'additionalTextEdits',
         }
     }
-    capabilities.window = capabilities.window or {
+    capabilities.window = {
         workDoneProgress = true
     }
     return capabilities
