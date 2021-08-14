@@ -63,10 +63,6 @@ endif
 " # Key mappings
 " ------------------------------------------------------------
 
-" Esc
-set timeoutlen=500
-inoremap jj <esc>
-
 " Resize
 nmap <c-left>  :vertical resize -5<cr>
 nmap <c-down>  :resize          +5<cr>
