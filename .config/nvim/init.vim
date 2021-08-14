@@ -92,6 +92,20 @@ nnoremap <leader><leader> <c-^>
 map <F1> <esc>
 imap <F1> <esc>
 
+" Highlight trailing whitespace
+let g:matchtrailingwhitespace = 0
+function ToggleTrailingWhitespace()
+    if g:matchtrailingwhitespace == 0
+        let g:matchtrailingwhitespace = 1
+        call matchadd('Error', '\s\+$', 10, 992387)
+    else
+        let g:matchtrailingwhitespace = 0
+        call matchdelete(992387)
+    endif
+endfunction
+
+nnoremap <silent> <leader>h :call ToggleTrailingWhitespace()<cr>
+
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
 
