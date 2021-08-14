@@ -33,7 +33,7 @@ local palette = {
     preproc      = '#0087ff',
     type         = '#00b997',
     special      = '#875fd7',
-    todo         = '#875fd7',
+    todo         = '#00d700',
     nontext      = '#a9bdb8',
 
     diff_a_bg    = '#ccfbba',

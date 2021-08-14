@@ -29,6 +29,10 @@ local function get_highlights(palette)
         MatchParen      = {                      bg=palette.texthl2,                },
         NonText         = { fg=palette.nontext,                       style='none', },
 
+        -- treesitter
+        TSInclude       = { fg=palette.lyellow,                                     },
+        TSNamespace     = { fg=palette.preproc,                                     },
+
         -- git
         diffAdded       = { bg=palette.diff_a_bg  },
         diffRemoved     = { bg=palette.diff_d_bg  },
