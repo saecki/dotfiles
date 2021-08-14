@@ -40,6 +40,7 @@ local function get_highlights(palette)
         DiffAdd         = { bg=palette.diff_a_bg  },
         DiffChange      = { bg=palette.diff_c_bg  },
         DiffDelete      = { bg=palette.diff_d_bg  },
+        DiffText        = { fg=palette.text2, bg=palette.diff_cd_bg, style='bold' },
 
         GitSignsAdd     = { bg=palette.diff_a_bg  },
         GitSignsChange  = { bg=palette.diff_c_bg  },
