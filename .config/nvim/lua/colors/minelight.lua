@@ -34,7 +34,7 @@ local palette = {
     type         = '#00b997',
     special      = '#875fd7',
     todo         = '#00d700',
-    nontext      = '#a9bdb8',
+    nontext      = '#b1c9c8',
 
     diff_a_bg    = '#ccfbba',
     diff_c_bg    = '#c7dcff',
