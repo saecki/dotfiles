@@ -64,25 +64,25 @@ endif
 " ------------------------------------------------------------
 
 " Resize
-nmap <c-left>  :vertical resize -5<cr>
-nmap <c-down>  :resize          +5<cr>
-nmap <c-up>    :resize          -5<cr>
-nmap <c-right> :vertical resize +5<cr>
+nmap <silent> <c-left>  :vertical resize -5<cr>
+nmap <silent> <c-down>  :resize          +5<cr>
+nmap <silent> <c-up>    :resize          -5<cr>
+nmap <silent> <c-right> :vertical resize +5<cr>
 
 " Quick save
-nmap <leader>w :w<cr>
+nmap <silent> <leader>w :w<cr>
 
 " Text navigation
 nnoremap j gj
 nnoremap k gk
 
-" Ctrl+h to stop searching
-vnoremap <s-h> :nohlsearch<cr>
-nnoremap <s-h> :nohlsearch<cr>
+" stop searching
+vnoremap <silent> <s-h> :nohlsearch<cr>
+nnoremap <silent> <s-h> :nohlsearch<cr>
 
-" Ctrl+c copies to system clipboard
+" Copy to system clipboard
 vnoremap <c-c> "+y
-" Ctrl+v pastes system clipboard
+" Paste system clipboard
 inoremap <c-v> <c-r>+
 
 " Toggle between buffers
@@ -193,7 +193,7 @@ lua << EOF
 EOF
 
 " Toggle
-nnoremap <f7> :TroubleToggle<cr>
+nnoremap <silent> <f7> :TroubleToggle<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
@@ -268,12 +268,12 @@ let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'No
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
 " Search
-noremap <leader>s :Rg<cr>
+noremap <silent> <leader>s :Rg<cr>
 
 " Open hotkeys
-map  <a-p>     :Files<cr>
-map  <c-p>     :GFiles<cr>
-nmap <leader>; :Buffers<cr>
+map  <silent> <a-p>     :Files<cr>
+map  <silent> <c-p>     :GFiles<cr>
+nmap <silent> <leader>; :Buffers<cr>
 
 " # Multicursor
 " ------------------------------------------------------------
@@ -289,13 +289,13 @@ let g:multi_cursor_quit_key         = '<esc>'
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <f6> :NERDTreeToggle<cr>
+nnoremap <silent> <f6> :NERDTreeToggle<cr>
 
 " # undotree
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
+nnoremap <silent> <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
 " # firenvim
 " ------------------------------------------------------------
