@@ -13,7 +13,7 @@
 
 [delta]
     features = mine
-    side-by-side = true
+    side-by-side = false
     line-numbers = true
     line-numbers-left-format = "{nm:>4}│ "
     line-numbers-right-format = "{np:>4}│ "
