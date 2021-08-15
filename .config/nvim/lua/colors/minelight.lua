@@ -29,7 +29,7 @@ local palette = {
     scrollbg     = '#dadada',
     scrollfg     = '#a8a8a8',
 
-    title        = '#dd70dd',
+    title        = '#b059b0',
     preproc      = '#0087ff',
     type         = '#00b997',
     special      = '#875fd7',

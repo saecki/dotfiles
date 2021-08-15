@@ -13,7 +13,7 @@ local function get_highlights(palette)
         VertSplit       = {                      bg='none',                         },
 
         -- syntax
-        Title           = { fg=palette.title,                                       },
+        Title           = { fg=palette.title,                         style='bold', },
         Comment         = { fg=palette.text3,                                       },
         Constant        = { fg=palette.lpurple,                       style='none', },
         Identifier      = { fg=palette.lcyan,                         style='bold', },

@@ -1,10 +1,12 @@
 " ============================================================
 " # Editor settings
 " ============================================================
+
 set shell=/bin/bash
 let mapleader = "\<space>"
 
-" General
+" Visuals
+set signcolumn=yes
 set number relativenumber
 set linebreak
 let &showbreak = '⮡   '
@@ -12,7 +14,8 @@ set wrap
 set textwidth=0
 set wrapmargin=0
 set fillchars=vert:│
-set mouse=a
+set cmdheight=1
+set background=dark
 
 " Indentation
 set autoindent
@@ -31,37 +34,34 @@ set hlsearch
 set showmatch
 set gdefault
 
-" Spell checking
-set spelllang=en_us,de_de,es_es
-
 " Completion
-" menuone: popup even when there's only one match
-" noinsert: Do not insert text until a selection is made
 set completeopt=menuone,noinsert
-" Avoid showing extra messages when using completion
 set shortmess+=c
+
+" Splits
+set splitright
+set splitbelow
 
 " Undo
 set undolevels=1000
 set undodir=~/.local/share/nvim/undo
 set undofile
 
-" Splits
-set splitright
-set splitbelow
+" Spell checking
+set spelllang=en,de,es,nl
 
 " Miscellaneous
 set updatetime=300
-set cmdheight=1
-set background=dark
-if has("patch-8.1.1564")
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set mouse=a
 
+
+" ============================================================
 " # Key mappings
-" ------------------------------------------------------------
+" ============================================================
+
+" Text navigation
+nnoremap j gj
+nnoremap k gk
 
 " Resize
 nmap <silent> <c-left>  :vertical resize -5<cr>
@@ -72,17 +72,12 @@ nmap <silent> <c-right> :vertical resize +5<cr>
 " Quick save
 nmap <silent> <leader>w :w<cr>
 
-" Text navigation
-nnoremap j gj
-nnoremap k gk
-
 " stop searching
 vnoremap <silent> <s-h> :nohlsearch<cr>
 nnoremap <silent> <s-h> :nohlsearch<cr>
 
-" Copy to system clipboard
+" Copy paste
 vnoremap <c-c> "+y
-" Paste system clipboard
 inoremap <c-v> <c-r>+
 
 " Toggle between buffers
@@ -97,17 +92,26 @@ let g:matchtrailingwhitespace = 0
 function ToggleTrailingWhitespace()
     if g:matchtrailingwhitespace == 0
         let g:matchtrailingwhitespace = 1
-        call matchadd('Error', '\s\+$', 10, 992387)
     else
         let g:matchtrailingwhitespace = 0
-        call matchdelete(992387)
+    endif
+    call HighlightTrailingWhitespace()
+endfunction
+
+function HighlightTrailingWhitespace()
+    if g:matchtrailingwhitespace == 1
+        let w:trailingwhitespaceid = matchadd('Error', '\s\+$')
+    else
+        call matchdelete(w:trailingwhitespaceid)
     endif
 endfunction
+autocmd WinEnter * silent! call HighlightTrailingWhitespace()
 
 nnoremap <silent> <leader>h :call ToggleTrailingWhitespace()<cr>
 
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
+
 
 " ============================================================
 " # Plugins
@@ -139,7 +143,6 @@ Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
-
 Plug 'folke/trouble.nvim'
 
 " Treesitter
@@ -164,8 +167,10 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
 
 
-" # Colorscheme
-" ------------------------------------------------------------
+" ============================================================
+" # Colors
+" ============================================================
+
 lua require('colors').apply()
 
 
@@ -262,7 +267,7 @@ lua require('config.treesitter').setup()
 nnoremap <leader>c :TSContextToggle<cr>
 autocmd CursorMoved * silent :TSContextDisable
 
-" # FZF
+" # fzf.vim
 " ------------------------------------------------------------
 let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'Normal' } }
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
@@ -275,7 +280,7 @@ map  <silent> <a-p>     :Files<cr>
 map  <silent> <c-p>     :GFiles<cr>
 nmap <silent> <leader>; :Buffers<cr>
 
-" # Multicursor
+" # vim-multiple-cursors
 " ------------------------------------------------------------
 let g:multi_cursor_use_default_mapping = 0
 
