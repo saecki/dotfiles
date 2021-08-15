@@ -34,18 +34,18 @@ local function get_highlights(palette)
         TSNamespace     = { fg=palette.preproc,                                     },
 
         -- git
-        diffAdded       = { bg=palette.diff_a_bg  },
-        diffRemoved     = { bg=palette.diff_d_bg  },
+        diffAdded       = {                   bg=palette.diff_a_bg,                },
+        diffRemoved     = {                   bg=palette.diff_d_bg,                },
 
-        DiffAdd         = { bg=palette.diff_a_bg  },
-        DiffChange      = { bg=palette.diff_c_bg  },
-        DiffDelete      = { bg=palette.diff_d_bg  },
-        DiffText        = { fg=palette.text2, bg=palette.diff_cd_bg, style='bold' },
+        DiffAdd         = {                   bg=palette.diff_a_bg,                },
+        DiffChange      = {                   bg=palette.diff_c_bg,                },
+        DiffDelete      = {                   bg=palette.diff_d_bg,                },
+        DiffText        = { fg=palette.text2, bg=palette.diff_cd_bg, style='bold', },
 
-        GitSignsAdd     = { bg=palette.diff_a_bg  },
-        GitSignsChange  = { bg=palette.diff_c_bg  },
-        GitSignsDelete  = { bg=palette.diff_d_bg  },
-        GitSignsChgDel  = { bg=palette.diff_cd_bg },
+        GitSignsAdd     = {                   bg=palette.diff_a_bg,                },
+        GitSignsChange  = {                   bg=palette.diff_c_bg,                },
+        GitSignsDelete  = { fg=palette.lred,                         style='bold', },
+        GitSignsChgDel  = { fg=palette.lred,  bg=palette.diff_c_bg,  style='bold', },
 
         -- lsp ocurrences
         LspReferenceText  = { bg=palette.texthl2 },

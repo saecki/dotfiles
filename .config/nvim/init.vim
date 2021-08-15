@@ -140,6 +140,9 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 
+Plug 'folke/trouble.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/playground'
