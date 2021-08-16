@@ -188,18 +188,6 @@ let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
 
-" # trouble.nvim
-" ------------------------------------------------------------
-lua << EOF
-    require('trouble').setup {
-        position = "right",
-        icons = false,
-        fold_open = "▼",
-        fold_closed = "▶",
-        use_lsp_diagnostic_signs = true,
-    }
-EOF
-
 " Toggle
 nnoremap <silent> <f7> <cmd>TroubleToggle<cr>
 
@@ -245,7 +233,6 @@ nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 " Goto actions
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
 nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<cr>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> gw <cmd>lua vim.lsp.buf.document_symbol()<cr>
@@ -255,6 +242,14 @@ nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
 
 " signature help
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
+
+" # trouble.nvim
+" ------------------------------------------------------------
+lua require('config.trouble').setup()
+
+" Lists
+nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
+nnoremap <silent> <leader>d <cmd>Trouble lsp_workspace_diagnostics<cr>
 
 " # lsp_extensions
 " ------------------------------------------------------------
@@ -289,7 +284,7 @@ let g:multi_cursor_use_default_mapping = 0
 
 let g:multi_cursor_start_word_key   = '<a-j>'
 let g:multi_cursor_next_key         = '<a-j>'
-let g:multi_cursor_skip_key         = '<c-a-j>'
+let g:multi_cursor_skip_key         = '<a-s-j>'
 let g:multi_cursor_prev_key         = '<a-k>'
 let g:multi_cursor_quit_key         = '<esc>'
 

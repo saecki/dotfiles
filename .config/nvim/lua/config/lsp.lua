@@ -25,13 +25,17 @@ local function setup_lsp_status()
     return lsp_status
 end
 
+local function on_attach(client)
+    require('lsp-status').on_attach(client)
+end
+
 local function setup()
     local capabilities = get_capabilities()
     local lsp_status = setup_lsp_status()
 
     local lsp_config = require('lspconfig')
     lsp_config.rust_analyzer.setup {
-        on_attach = lsp_status.on_attach,
+        on_attach = on_attach,
         capabilities = capabilities,
         settings = {
             ["rust-analyzer"] = {
