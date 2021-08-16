@@ -64,17 +64,17 @@ nnoremap j gj
 nnoremap k gk
 
 " Resize
-nmap <silent> <c-left>  :vertical resize -5<cr>
-nmap <silent> <c-down>  :resize          +5<cr>
-nmap <silent> <c-up>    :resize          -5<cr>
-nmap <silent> <c-right> :vertical resize +5<cr>
+nmap <silent> <c-left>  <cmd>vertical resize -5<cr>
+nmap <silent> <c-down>  <cmd>resize          +5<cr>
+nmap <silent> <c-up>    <cmd>resize          -5<cr>
+nmap <silent> <c-right> <cmd>vertical resize +5<cr>
 
 " Quick save
-nmap <silent> <leader>w :w<cr>
+nmap <silent> <leader>w <cmd>w<cr>
 
 " stop searching
-vnoremap <silent> <s-h> :nohlsearch<cr>
-nnoremap <silent> <s-h> :nohlsearch<cr>
+vnoremap <silent> <s-h> <cmd>nohlsearch<cr>
+nnoremap <silent> <s-h> <cmd>nohlsearch<cr>
 
 " Copy paste
 vnoremap <c-c> "+y
@@ -107,7 +107,7 @@ function HighlightTrailingWhitespace()
 endfunction
 autocmd WinEnter * silent! call HighlightTrailingWhitespace()
 
-nnoremap <silent> <leader>h :call ToggleTrailingWhitespace()<cr>
+nnoremap <silent> <leader>h <cmd>call ToggleTrailingWhitespace()<cr>
 
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
@@ -198,7 +198,7 @@ lua << EOF
 EOF
 
 " Toggle
-nnoremap <silent> <f7> :TroubleToggle<cr>
+nnoremap <silent> <f7> <cmd>TroubleToggle<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
@@ -223,7 +223,7 @@ autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
 autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
 
 " Show info popup
-nnoremap <silent> K :call <SID>show_documentation()<cr>
+nnoremap <silent> K <cmd>call <SID>show_documentation()<cr>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -264,8 +264,8 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
 
-nnoremap <leader>c :TSContextToggle<cr>
-autocmd CursorMoved * silent :TSContextDisable
+nnoremap <leader>c <cmd>TSContextToggle<cr>
+autocmd CursorMoved * silent TSContextDisable
 
 " # fzf.vim
 " ------------------------------------------------------------
@@ -273,12 +273,12 @@ let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'No
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
 " Search
-noremap <silent> <leader>s :Rg<cr>
+noremap <silent> <leader>s <cmd>Rg<cr>
 
 " Open hotkeys
-map  <silent> <a-p>     :Files<cr>
-map  <silent> <c-p>     :GFiles<cr>
-nmap <silent> <leader>; :Buffers<cr>
+map  <silent> <a-p>     <cmd>Files<cr>
+map  <silent> <c-p>     <cmd>GFiles<cr>
+nmap <silent> <leader>; <cmd>Buffers<cr>
 
 " # vim-multiple-cursors
 " ------------------------------------------------------------
@@ -294,13 +294,13 @@ let g:multi_cursor_quit_key         = '<esc>'
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <silent> <f6> :NERDTreeToggle<cr>
+nnoremap <silent> <f6> <cmd>NERDTreeToggle<cr>
 
 " # undotree
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <silent> <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
+nnoremap <silent> <f5> <cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>
 
 " # firenvim
 " ------------------------------------------------------------
