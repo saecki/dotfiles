@@ -63,10 +63,13 @@ set mouse=a
 nnoremap j gj
 nnoremap k gk
 
+" Copy to the end of the line
+nnoremap Y y$
+
 " Resize
 nmap <silent> <c-left>  <cmd>vertical resize -5<cr>
-nmap <silent> <c-down>  <cmd>resize          +5<cr>
-nmap <silent> <c-up>    <cmd>resize          -5<cr>
+nmap <silent> <c-down>  <cmd>         resize +5<cr>
+nmap <silent> <c-up>    <cmd>         resize -5<cr>
 nmap <silent> <c-right> <cmd>vertical resize +5<cr>
 
 " Quick save
