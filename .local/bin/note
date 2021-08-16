@@ -1,0 +1,55 @@
+#!/bin/sh
+
+rename=true
+
+rename_file() {
+    line=$(head -n 1 "$1")
+    if [ "${line:0:2}" == "# " ]; then
+        new_name="${line:2}.md"
+        old_name=$(basename "$1")
+
+        if [ "$new_name" != "$old_name" ]; then
+            echo "renaming $old_name to $new_name"
+            dir=$(dirname "$1")
+            mv "$1" "$dir/$new_name"
+        fi
+    fi
+}
+if [ -z "$1" ]; then
+    filename="."
+elif [ -f "$1" ]; then
+    filename="$1"
+elif [ -d "$1" ]; then
+    filename="$1"
+    rename=false
+else
+    dirname=$(dirname $1)
+    basename=$(basename $1)
+
+    if [ "$basename" == "_" ]; then
+        for f in $dirname/*; do
+            filename="$f"
+        done
+    else
+        date=$(date)
+        date=${date:0:10}
+        name="$date $basename"
+        
+        for a in "${@:2}"; do
+            name="$name $a"
+        done
+        
+        filename="$dirname/$name.md"
+
+        if [ -f "$filename" ]; then
+            echo "already exists"
+        else
+            echo "# $name" >> "$filename"
+        fi
+    fi
+fi
+
+$EDITOR "$filename" -c "set spell"
+if [ $rename == true ]; then
+    rename_file "$filename"
+fi
