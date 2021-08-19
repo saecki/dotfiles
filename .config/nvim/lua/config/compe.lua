@@ -33,7 +33,7 @@ local function setup()
         },
     }
 
-    vim.api.nvim_set_keymap('i', '<c-space>', 'compe#complete()',        { noremap = true, silent = true, expr = true })
+    vim.api.nvim_set_keymap('i', '<c-space>', "compe#complete()",        { noremap = true, silent = true, expr = true })
     vim.api.nvim_set_keymap('i', '<cr>',      "compe#confirm('<cr>')", { noremap = true, silent = true, expr = true })
     vim.api.nvim_set_keymap('i', '<c-e>',     "compe#close('<c-e>')",  { noremap = true, silent = true, expr = true })
     vim.api.nvim_set_keymap('i', '<c-u>',     "compe#scroll({ 'delta': -4 })",  { noremap = true, silent = true, expr = true })

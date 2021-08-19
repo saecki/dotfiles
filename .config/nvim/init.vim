@@ -51,6 +51,7 @@ set undofile
 set spelllang=en,de,es,nl
 
 " Miscellaneous
+set scrolloff=3
 set updatetime=300
 set mouse=a
 
@@ -110,7 +111,7 @@ function HighlightTrailingWhitespace()
 endfunction
 autocmd WinEnter * silent! call HighlightTrailingWhitespace()
 
-nnoremap <silent> <leader>h <cmd>call ToggleTrailingWhitespace()<cr>
+nnoremap <silent> <leader>th <cmd>call ToggleTrailingWhitespace()<cr>
 
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
@@ -130,7 +131,8 @@ Plug 'mbbill/undotree'
 
 " Fuzzy finding
 Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Multicursor
 Plug 'terryma/vim-multiple-cursors'
@@ -224,16 +226,17 @@ function! s:show_documentation()
 endfunction
 
 " Show diagnostic popup
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
+"nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
 
 " Goto actions
+" TODO wait for fix
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
+" TODO wait for pr
 nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> gw <cmd>lua vim.lsp.buf.document_symbol()<cr>
 nnoremap <silent> gW <cmd>lua vim.lsp.buf.workspace_symbol()<cr>
@@ -247,9 +250,10 @@ nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
 " ------------------------------------------------------------
 lua require('config.trouble').setup()
 
-" Lists
-nnoremap <silent> gr        <cmd>Trouble lsp_references<cr>
-nnoremap <silent> <leader>d <cmd>Trouble lsp_workspace_diagnostics<cr>
+nnoremap <silent> gd         <cmd>Trouble lsp_definitions<cr>
+nnoremap <silent> gr         <cmd>Trouble lsp_references<cr>
+nnoremap <silent> <leader>td <cmd>Trouble lsp_document_diagnostics<cr>
+nnoremap <silent> <leader>tw <cmd>Trouble lsp_workspace_diagnostics<cr>
 
 " # lsp_extensions
 " ------------------------------------------------------------
@@ -262,21 +266,21 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
 
-nnoremap <leader>c <cmd>TSContextToggle<cr>
+nnoremap <leader>tc <cmd>TSContextToggle<cr>
 autocmd CursorMoved * silent TSContextDisable
 
-" # fzf.vim
+" # telescope.nvim
 " ------------------------------------------------------------
-let g:fzf_layout = { 'window' : { 'width': 0.98, 'height': 0.8, 'highlight': 'Normal' } }
-let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+lua require('config.telescope').setup()
 
-" Search
-noremap <silent> <leader>s <cmd>Rg<cr>
-
-" Open hotkeys
-map  <silent> <a-p>     <cmd>Files<cr>
-map  <silent> <c-p>     <cmd>GFiles<cr>
-nmap <silent> <leader>; <cmd>Buffers<cr>
+nmap <silent> <leader>s  <cmd>lua require('telescope.builtin').live_grep()<cr>
+nmap <silent> <a-p>      <cmd>lua require('telescope.builtin').find_files { no_ignore = true }<cr>
+nmap <silent> <c-p>      <cmd>lua require('telescope.builtin').find_files()<cr>
+nmap <silent> <leader>;  <cmd>lua require('telescope.builtin').buffers()<cr>
+nmap <silent> <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nmap <silent> <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
+nmap <silent> <leader>fm <cmd>lua require('telescope.builtin').keymaps()<cr>
+nmap <silent> <leader>fi <cmd>lua require('telescope.builtin').highlights()<cr>
 
 " # vim-multiple-cursors
 " ------------------------------------------------------------

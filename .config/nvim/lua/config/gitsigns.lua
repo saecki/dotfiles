@@ -38,7 +38,7 @@ local function setup()
             col      = 1
         }
     }
-    
+
     gitsigns.change_base('HEAD')
 end
 
