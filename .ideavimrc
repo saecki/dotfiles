@@ -1,10 +1,16 @@
 source ~/.config/nvim/init.vim
 
+" Jumps
+nmap <c-o> <Action>(Back)
+nmap <c-i> <Action>(Forward)
+
 " Goto
 nmap gd <Action>(GotoDeclaration)
 nmap gi <Action>(GotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap gy <Action>(GotoTypeDeclaration)
+nmap g{ <Action>(VcsShowPrevChangeMarker)
+nmap g} <Action>(VcsShowNextChangeMarker)
 
 " Code actions
 nmap <leader>r <Action>(RenameElement)
