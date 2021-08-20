@@ -266,7 +266,7 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
 
-nnoremap <leader>tc :TSContextToggle<cr>
+nnoremap <silent> <leader>c :TSContextToggle<cr>
 autocmd CursorMoved * silent TSContextDisable
 
 " # telescope.nvim

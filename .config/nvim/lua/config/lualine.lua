@@ -1,4 +1,3 @@
--- modes
 local modemap = {
     ['n']    = 'N ',
     ['no']   = 'O ',
@@ -30,29 +29,25 @@ local modemap = {
     ['!']    = 'SHELL',
     ['t']    = 'TERMINAL',
 }
-local function mode_status()
+local function mode()
     local mode_code = vim.api.nvim_get_mode().mode
     if modemap[mode_code] == nil then return mode_code end
     return modemap[mode_code]
 end
 
--- position
-local function position_status()
+local function file_format()
+    return vim.bo.fileformat
+end
+
+local function position()
     local cursor = vim.api.nvim_win_get_cursor(0)
     local linecount = vim.api.nvim_buf_line_count(0)
     local linedigits = math.floor(math.log10(linecount)) + 1
     
-    local template = "%" .. linedigits .. "d:%-3d"
+    local template = "%" .. linedigits .. "d:%-2d"
     return string.format(template, cursor[1], cursor[2])
 end
 
-local function ts_status()
-    require('nvim-treesitter').statusline {
-        indicator_size = 100,
-    }
-end
-
--- setup
 local function setup()
     local colors = require('colors.mineauto')
     local theme = colors.lualine
@@ -66,13 +61,13 @@ local function setup()
             component_separators = { '', '' },
         },
         sections = {
-            lualine_a = { mode_status },
+            lualine_a = { mode },
             lualine_b = { require('lsp-status').status },
-            lualine_c = { { 'filename', path = 1 }, ts_status },
-            lualine_x = { 'encoding', 'filetype' },
+            lualine_c = { { 'filename', path = 1 } },
+            lualine_x = { file_format, 'encoding', 'filetype' },
             lualine_y = { 'branch' },
             lualine_z = {
-                'location',
+                position,
                 { 
                     'diagnostics',
                     sources = { 'nvim_lsp' },
