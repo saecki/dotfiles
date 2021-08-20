@@ -68,17 +68,17 @@ nnoremap k gk
 nnoremap Y y$
 
 " Resize
-nmap <silent> <c-left>  <cmd>vertical resize -5<cr>
-nmap <silent> <c-down>  <cmd>         resize +5<cr>
-nmap <silent> <c-up>    <cmd>         resize -5<cr>
-nmap <silent> <c-right> <cmd>vertical resize +5<cr>
+nmap <silent> <c-left>  :vertical resize -5<cr>
+nmap <silent> <c-down>  :resize +5<cr>
+nmap <silent> <c-up>    :resize -5<cr>
+nmap <silent> <c-right> :vertical resize +5<cr>
 
 " Quick save
-nmap <silent> <leader>w <cmd>w<cr>
+nmap <silent> <leader>w :w<cr>
 
 " stop searching
-vnoremap <silent> <s-h> <cmd>nohlsearch<cr>
-nnoremap <silent> <s-h> <cmd>nohlsearch<cr>
+vnoremap <silent> <s-h> :nohlsearch<cr>
+nnoremap <silent> <s-h> :nohlsearch<cr>
 
 " Copy paste
 vnoremap <c-c> "+y
@@ -111,7 +111,7 @@ function HighlightTrailingWhitespace()
 endfunction
 autocmd WinEnter * silent! call HighlightTrailingWhitespace()
 
-nnoremap <silent> <leader>th <cmd>call ToggleTrailingWhitespace()<cr>
+nnoremap <silent> <leader>th :call ToggleTrailingWhitespace()<cr>
 
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
@@ -191,7 +191,7 @@ let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
 
 " Toggle
-nnoremap <silent> <f7> <cmd>TroubleToggle<cr>
+nnoremap <silent> <f7> :TroubleToggle<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
@@ -216,7 +216,7 @@ autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
 autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
 
 " Show info popup
-nnoremap <silent> K <cmd>call <SID>show_documentation()<cr>
+nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -226,34 +226,34 @@ function! s:show_documentation()
 endfunction
 
 " Show diagnostic popup
-"nnoremap <silent> <c-k> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
+"nnoremap <silent> <c-k> :lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
-nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<cr>
-nnoremap <silent> <leader>r <cmd>lua vim.lsp.buf.rename()<cr>
+nnoremap <silent> <leader>a :lua vim.lsp.buf.code_action()<cr>
+nnoremap <silent> <leader>r :lua vim.lsp.buf.rename()<cr>
 
 " Goto actions
 " TODO wait for fix
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<cr>
+nnoremap <silent> gi :lua vim.lsp.buf.implementation()<cr>
 " TODO wait for pr
-nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<cr>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<cr>
-nnoremap <silent> gw <cmd>lua vim.lsp.buf.document_symbol()<cr>
-nnoremap <silent> gW <cmd>lua vim.lsp.buf.workspace_symbol()<cr>
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
+nnoremap <silent> gy :lua vim.lsp.buf.type_definition()<cr>
+nnoremap <silent> gD :lua vim.lsp.buf.declaration()<cr>
+nnoremap <silent> gw :lua vim.lsp.buf.document_symbol()<cr>
+nnoremap <silent> gW :lua vim.lsp.buf.workspace_symbol()<cr>
+nnoremap <silent> g[ :lua vim.lsp.diagnostic.goto_prev()<cr>
+nnoremap <silent> g] :lua vim.lsp.diagnostic.goto_next()<cr>
 
 " signature help
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
+nnoremap <silent> <c-k> :lua vim.lsp.buf.signature_help()<cr>
 
 " # trouble.nvim
 " ------------------------------------------------------------
 lua require('config.trouble').setup()
 
-nnoremap <silent> gd         <cmd>Trouble lsp_definitions<cr>
-nnoremap <silent> gr         <cmd>Trouble lsp_references<cr>
-nnoremap <silent> <leader>td <cmd>Trouble lsp_document_diagnostics<cr>
-nnoremap <silent> <leader>tw <cmd>Trouble lsp_workspace_diagnostics<cr>
+nnoremap <silent> gd         :Trouble lsp_definitions<cr>
+nnoremap <silent> gr         :Trouble lsp_references<cr>
+nnoremap <silent> <leader>td :Trouble lsp_document_diagnostics<cr>
+nnoremap <silent> <leader>tw :Trouble lsp_workspace_diagnostics<cr>
 
 " # lsp_extensions
 " ------------------------------------------------------------
@@ -266,21 +266,21 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
 
-nnoremap <leader>tc <cmd>TSContextToggle<cr>
+nnoremap <leader>tc :TSContextToggle<cr>
 autocmd CursorMoved * silent TSContextDisable
 
 " # telescope.nvim
 " ------------------------------------------------------------
 lua require('config.telescope').setup()
 
-nmap <silent> <leader>s  <cmd>lua require('telescope.builtin').live_grep()<cr>
-nmap <silent> <a-p>      <cmd>lua require('telescope.builtin').find_files { no_ignore = true }<cr>
-nmap <silent> <c-p>      <cmd>lua require('telescope.builtin').find_files()<cr>
-nmap <silent> <leader>;  <cmd>lua require('telescope.builtin').buffers()<cr>
-nmap <silent> <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-nmap <silent> <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
-nmap <silent> <leader>fm <cmd>lua require('telescope.builtin').keymaps()<cr>
-nmap <silent> <leader>fi <cmd>lua require('telescope.builtin').highlights()<cr>
+nmap <silent> <leader>s  :lua require('telescope.builtin').live_grep()<cr>
+nmap <silent> <a-p>      :lua require('telescope.builtin').find_files { no_ignore = true }<cr>
+nmap <silent> <c-p>      :lua require('telescope.builtin').find_files()<cr>
+nmap <silent> <leader>;  :lua require('telescope.builtin').buffers()<cr>
+nmap <silent> <leader>fh :lua require('telescope.builtin').help_tags()<cr>
+nmap <silent> <leader>fc :lua require('telescope.builtin').commands()<cr>
+nmap <silent> <leader>fm :lua require('telescope.builtin').keymaps()<cr>
+nmap <silent> <leader>fi :lua require('telescope.builtin').highlights()<cr>
 
 " # vim-multiple-cursors
 " ------------------------------------------------------------
@@ -296,13 +296,13 @@ let g:multi_cursor_quit_key         = '<esc>'
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <silent> <f6> <cmd>NERDTreeToggle<cr>
+nnoremap <silent> <f6> :NERDTreeToggle<cr>
 
 " # undotree
 " ------------------------------------------------------------
 
 " Toggle
-nnoremap <silent> <f5> <cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>
+nnoremap <silent> <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
 " # firenvim
 " ------------------------------------------------------------
