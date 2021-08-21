@@ -1,11 +1,8 @@
-# Set beam cursor on instant prompt
-echo -ne '\e[5 q'
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# Starship prompt
+if [ -x "$(which starship)" ]; then
+    eval "$(starship init zsh)"
+else
+    echo "starship prompt is not installed"
 fi
 
 # ===================================================
@@ -103,10 +100,6 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-# p10k theme
-source $ZDOTDIR/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
-
 # the fuck
 eval "$(thefuck --alias)"
 
@@ -125,7 +118,6 @@ alias vp='nvim -c Files'
 alias vf='vifm'
 alias fz='fzf-tmux'
 alias fs='rg --column --heading --line-number . | fzf-tmux'
-#alias hist="!+\$(fc -l 1  | fzf-tmux | awk '{print \$1;}')" TODO make this work
 
 update-cmus-lib() {
     cmus-remote -l -c ~/Music
