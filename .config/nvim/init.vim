@@ -6,7 +6,7 @@ set shell=/bin/bash
 let mapleader = "\<space>"
 
 " Visuals
-set signcolumn=yes
+set signcolumn=yes:2
 set number relativenumber
 set linebreak
 let &showbreak = '⮡   '
@@ -35,7 +35,7 @@ set showmatch
 set gdefault
 
 " Completion
-set completeopt=menuone,noinsert
+set completeopt=menuone,noselect,noinsert
 set shortmess+=c
 
 " Splits
@@ -111,7 +111,7 @@ function HighlightTrailingWhitespace()
 endfunction
 autocmd WinEnter * silent! call HighlightTrailingWhitespace()
 
-nnoremap <silent> <leader>th :call ToggleTrailingWhitespace()<cr>
+nnoremap <silent> <leader>hw :call ToggleTrailingWhitespace()<cr>
 
 " Highlight yanked text
 autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
@@ -122,6 +122,9 @@ autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
 " ============================================================
 
 call plug#begin()
+" Dependencies
+Plug 'nvim-lua/plenary.nvim'
+
 " Gui enhancements
 Plug 'hoob3rt/lualine.nvim'
 
@@ -131,7 +134,6 @@ Plug 'mbbill/undotree'
 
 " Fuzzy finding
 Plug 'airblade/vim-rooter'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 " Multicursor
@@ -139,7 +141,6 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'nvim-lua/plenary.nvim' " Dependency for gitsigns
 Plug 'lewis6991/gitsigns.nvim'
 
 " Lsp
@@ -149,6 +150,7 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'folke/trouble.nvim'
+Plug 'folke/todo-comments.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
@@ -252,8 +254,14 @@ lua require('config.trouble').setup()
 
 nnoremap <silent> gd         :Trouble lsp_definitions<cr>
 nnoremap <silent> gr         :Trouble lsp_references<cr>
-nnoremap <silent> <leader>td :Trouble lsp_document_diagnostics<cr>
-nnoremap <silent> <leader>tw :Trouble lsp_workspace_diagnostics<cr>
+nnoremap <silent> <leader>ld :Trouble lsp_document_diagnostics<cr>
+nnoremap <silent> <leader>lw :Trouble lsp_workspace_diagnostics<cr>
+
+" # todo-comments.nvim
+" ------------------------------------------------------------
+lua require('config.todo-comments').setup()
+
+nnoremap <silent> <leader>lt :TodoTrouble<cr>
 
 " # lsp_extensions
 " ------------------------------------------------------------
