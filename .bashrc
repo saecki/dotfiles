@@ -14,6 +14,7 @@ LS_COLORS=''
 
 # Editor
 export EDITOR='nvim'
+alias v='$EDITOR'
 
 # Ls
 alias l.='exa -d .*'
