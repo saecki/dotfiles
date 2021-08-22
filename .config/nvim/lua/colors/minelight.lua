@@ -1,6 +1,9 @@
 local common = require('colors.common')
 
 local palette = {
+    bg           = '#ffffff',
+    fg           = '#31313a',
+
     dred         = '#dd241d',
     dgreen       = '#98ae0f',
     dyellow      = '#f09300',

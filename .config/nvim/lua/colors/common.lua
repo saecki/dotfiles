@@ -1,6 +1,7 @@
 local function get_highlights(palette)
     return {
         -- editor
+        Normal          = { fg=palette.fg,       bg=palette.bg,                     },
         SignColumn      = {                      bg='none',                         },
         LineNr          = { fg=palette.text3,                                       },
         CursorLineNr    = { fg=palette.text2,                         style='bold', },
@@ -24,7 +25,6 @@ local function get_highlights(palette)
         Error           = {                      bg=palette.lred,                   },
         Todo            = { fg=palette.todo,     bg='none',           style='bold', },
         Directory       = { fg=palette.lgreen,                                      },
-        Normal          = {                                           style='none', },
         Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
         MatchParen      = {                      bg=palette.texthl2,                },
         NonText         = { fg=palette.nontext,                       style='none', },
