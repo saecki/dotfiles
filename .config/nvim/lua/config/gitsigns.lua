@@ -56,7 +56,7 @@ local function setup()
             virt_text_pos = 'eol',
             delay = 0,
         },
-        sign_priority = 10,
+        sign_priority = 6,
         update_debounce = 100,
         status_formatter = nil, -- Use default
         word_diff = false,
@@ -69,8 +69,6 @@ local function setup()
             col      = 1
         }
     }
-
-    gitsigns.change_base('HEAD')
 end
 
 return {

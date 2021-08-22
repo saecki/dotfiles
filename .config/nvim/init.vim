@@ -132,12 +132,16 @@ Plug 'hoob3rt/lualine.nvim'
 Plug 'preservim/nerdtree'
 Plug 'mbbill/undotree'
 
+" Multicursor
+Plug 'terryma/vim-multiple-cursors'
+
 " Fuzzy finding
 Plug 'airblade/vim-rooter'
 Plug 'nvim-telescope/telescope.nvim'
 
-" Multicursor
-Plug 'terryma/vim-multiple-cursors'
+" Lists
+Plug 'folke/trouble.nvim'
+Plug 'folke/todo-comments.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -149,8 +153,6 @@ Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'folke/trouble.nvim'
-Plug 'folke/todo-comments.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
@@ -191,9 +193,6 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
-
-" Toggle
-nnoremap <silent> <f7> :TroubleToggle<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
@@ -252,6 +251,7 @@ nnoremap <silent> <c-k> :lua vim.lsp.buf.signature_help()<cr>
 " ------------------------------------------------------------
 lua require('config.trouble').setup()
 
+nnoremap <silent> <f7> :TroubleToggle<cr>
 nnoremap <silent> gd         :Trouble lsp_definitions<cr>
 nnoremap <silent> gr         :Trouble lsp_references<cr>
 nnoremap <silent> <leader>ld :Trouble lsp_document_diagnostics<cr>
