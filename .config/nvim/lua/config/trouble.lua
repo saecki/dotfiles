@@ -13,8 +13,6 @@ local function setup()
             hint  = "H",
         }
     }
-
-    vim.api.nvim_command('highlight! TroublePreview guibg=none')
 end
 
 return {

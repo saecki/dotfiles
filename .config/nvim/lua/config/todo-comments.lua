@@ -13,6 +13,9 @@ local function setup()
         },
         merge_keywords = true,
         highlight = {
+            before = "",
+            keyword = "",
+            after = "",
             pattern = [[.*<(KEYWORDS)\s*]], -- pattern or table of patterns, used for highlightng (vim regex)
             comments_only = true, -- uses treesitter to match keywords in comments only
         },
