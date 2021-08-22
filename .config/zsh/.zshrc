@@ -136,6 +136,7 @@ alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='$EDITOR ~/.config/nvim/init.vim'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias cftm='$EDITOR ~/.tmux.conf'
+alias cfst='$EDITOR ~/.config/starship.toml'
 
 # Cd
 alias cdp='cd ~/Projects'

@@ -4,15 +4,19 @@ truncate_to_repo = false
 truncation_symbol = "…/"
 
 [git_status]
-format = '($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )'
-ahead      = "[⇡${count}](green)"
-diverged   = "[⇡${ahead_count}⇣${behind_count}](yellow)"
-behind     = "[⇣${count}](green)"
-conflicted = "[=${count}](blue)"
-stashed    = "[*${count}](blue)"
-deleted    = "[✘${count}](red)"
-renamed    = "[»${count}](yellow)"
-staged     = "[+${count}](green)"
-modified   = "[!${count}](yellow)"
-untracked  = "[?${count}](yellow)"
+format = '[(\( ($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )\) )]($style)'
+style = "bold"
+ahead      = "[↑${count}](bold green)"
+diverged   = "[↑${ahead_count}↓${behind_count}](bold yellow)"
+behind     = "[↓${count}](bold green)"
+conflicted = "[=${count}](bold blue)"
+stashed    = "[*${count}](bold blue)"
+deleted    = "[✘${count}](bold red)"
+renamed    = "[»${count}](bold yellow)"
+staged     = "[+${count}](bold green)"
+modified   = "[!${count}](bold yellow)"
+untracked  = "[?${count}](bold yellow)"
 
+[java]
+style = "red"
+symbol = "🅙 "
