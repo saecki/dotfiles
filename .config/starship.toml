@@ -1,7 +1,68 @@
+add_newline = false
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$git_metrics\
+$hg_branch\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$nix_shell\
+$conda\
+$aws\
+$gcloud\
+$openstack\
+$crystal\
+$cmd_duration\
+$line_break\
+$jobs\
+$status\
+$character"""
+
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style) "
 truncate_to_repo = false
 truncation_symbol = "…/"
+
+[jobs]
+threshold = 1
+symbol = " "
+
+[status]
+disabled = false
 
 [git_status]
 format = '[(\( ($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )\) )]($style)'
