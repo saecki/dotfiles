@@ -151,7 +151,13 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
-Plug 'hrsh7th/nvim-compe'
+
+" Completion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/vim-vsnip'
 
 " Treesitter
@@ -163,6 +169,7 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'teal-language/vim-teal'
 Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'saecki/crates.nvim'
 
 " Miscellaneous
 Plug 'farmergreg/vim-lastplace'
@@ -194,13 +201,18 @@ let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
 
+" # crates.nvim
+" ------------------------------------------------------------
+nmap <leader>vt :lua require('crates').toggle()<cr>
+nmap <leader>vr :lua require('crates').reload()<cr>
+
 " # gitsigns.nvim
 " ------------------------------------------------------------
 lua require('config.gitsigns').setup()
 
-" # nvim-compe
+" # nvim-cmp
 " ------------------------------------------------------------
-lua require('config.compe').setup()
+lua require('config.cmp').setup()
 
 " # lspconfig
 " ------------------------------------------------------------
@@ -219,11 +231,13 @@ autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
 " Show info popup
 nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    lua vim.lsp.buf.hover()
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif ('Cargo.toml' == expand('%:t'))
+        lua require('crates').show_versions_popup()
+    else
+        lua vim.lsp.buf.hover()
+    endif
 endfunction
 
 " Show diagnostic popup
