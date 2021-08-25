@@ -169,7 +169,7 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'teal-language/vim-teal'
 Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'saecki/crates.nvim'
+Plug '~/Projects/crates.nvim'
 
 " Miscellaneous
 Plug 'farmergreg/vim-lastplace'
@@ -234,14 +234,11 @@ function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
     elseif ('Cargo.toml' == expand('%:t'))
-        lua require('crates').show_versions_popup()
+        lua require('crates.popup').show_versions()
     else
         lua vim.lsp.buf.hover()
     endif
 endfunction
-
-" Show diagnostic popup
-"nnoremap <silent> <c-k> :lua vim.lsp.diagnostic.show_line_diagnostics()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a :lua vim.lsp.buf.code_action()<cr>
