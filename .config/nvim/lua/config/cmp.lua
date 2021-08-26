@@ -14,7 +14,7 @@ local function setup()
             ['<c-space>'] = cmp.mapping.complete(),
             ['<c-e>'] = cmp.mapping.close(),
             ['<cr>'] = cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Insert,
+                behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
             }
         },
@@ -22,6 +22,7 @@ local function setup()
             { name = "path" },
             { name = "buffer" },
             { name = "nvim_lsp" },
+            { name = "crates" },
         },
     }
 
