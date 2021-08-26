@@ -53,7 +53,7 @@ $status\
 $character"""
 
 [directory]
-format = "[$path]($style)[$read_only]($read_only_style) "
+format = "[$read_only]($read_only_style)[$path]($style) "
 truncate_to_repo = false
 truncation_symbol = "…/"
 

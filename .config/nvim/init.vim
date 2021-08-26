@@ -205,6 +205,7 @@ let g:rust_recommended_style = 0
 " ------------------------------------------------------------
 nmap <leader>vt :lua require('crates').toggle()<cr>
 nmap <leader>vr :lua require('crates').reload()<cr>
+nmap <leader>vu :lua require('crates.util').upgrade()<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
