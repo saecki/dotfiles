@@ -30,11 +30,6 @@ local function setup()
             additional_vim_regex_highlighting = false,
         },
     }
-
-    require('treesitter-context').setup {
-        enable = false,
-        throttle = true,
-    }
 end
 
 return {

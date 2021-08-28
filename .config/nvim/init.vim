@@ -163,9 +163,9 @@ Plug 'hrsh7th/vim-vsnip'
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/playground'
-Plug 'romgrk/nvim-treesitter-context'
 
 " Language tools
+Plug 'plasticboy/vim-markdown'
 Plug 'teal-language/vim-teal'
 Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -193,6 +193,10 @@ lua require('colors').apply()
 " ============================================================
 " # Plugin config
 " ============================================================
+
+" # vim-markdown
+" ------------------------------------------------------------
+let g:vim_markdown_folding_level = 6
 
 " # rust.vim
 " ------------------------------------------------------------
@@ -285,9 +289,6 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 " # nvim-treesitter
 " ------------------------------------------------------------
 lua require('config.treesitter').setup()
-
-nnoremap <silent> <leader>c :TSContextToggle<cr>
-autocmd CursorMoved * silent TSContextDisable
 
 " # telescope.nvim
 " ------------------------------------------------------------

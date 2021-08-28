@@ -22,7 +22,6 @@ local function setup()
             { name = "path" },
             { name = "buffer" },
             { name = "nvim_lsp" },
-            { name = "crates" },
         },
     }
 
@@ -30,7 +29,8 @@ local function setup()
     vim.api.nvim_set_keymap('i', '<tab>',   'pumvisible() ? "\\<c-n>" : "\\<tab>"',   { noremap = true, expr = true })
     vim.api.nvim_set_keymap('i', '<s-tab>', 'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', { noremap = true, expr = true })
 
-    vim.cmd("autocmd FileType lua lua require'cmp'.setup.buffer { sources = { { name = 'nvim_lua' } } }")
+    vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
+    vim.cmd("autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }")
 end
 
 return {
