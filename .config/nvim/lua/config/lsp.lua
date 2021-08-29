@@ -78,6 +78,6 @@ local function setup()
     )
 end
 
-return { 
+return {
     setup = setup
 }

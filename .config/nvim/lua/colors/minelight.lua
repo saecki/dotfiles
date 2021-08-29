@@ -38,6 +38,7 @@ local palette = {
     special      = '#875fd7',
     todo         = '#00d700',
     nontext      = '#b1c9c8',
+    folded       = '#3e70bc',
 
     diff_a_bg    = '#ccfbba',
     diff_c_bg    = '#c7dcff',

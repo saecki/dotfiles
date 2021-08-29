@@ -43,7 +43,7 @@ local function position()
     local cursor = vim.api.nvim_win_get_cursor(0)
     local linecount = vim.api.nvim_buf_line_count(0)
     local linedigits = math.floor(math.log10(linecount)) + 1
-    
+
     local template = "%" .. linedigits .. "d:%-2d"
     return string.format(template, cursor[1], cursor[2])
 end
@@ -68,16 +68,16 @@ local function setup()
             lualine_y = { 'branch' },
             lualine_z = {
                 position,
-                { 
+                {
                     'diagnostics',
                     sources = { 'nvim_lsp' },
                     sections = { 'error', 'warn', 'info', 'hint' },
-                    symbols = { error = ' ', warn = ' ', info = 'I', hint = 'H' },
+                    symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
                     color_error = palette.lred,
                     color_warn  = palette.lyellow,
                     color_info  = palette.lcyan,
                     color_hint  = palette.lcyan,
-                } 
+                }
             },
         },
         inactive_sections = {

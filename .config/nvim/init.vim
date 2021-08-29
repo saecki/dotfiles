@@ -196,7 +196,8 @@ lua require('colors').apply()
 
 " # vim-markdown
 " ------------------------------------------------------------
-let g:vim_markdown_folding_level = 6
+let g:vim_markdown_folding_level = 1
+let g:vim_markdown_folding_style_pythonic = 6
 
 " # rust.vim
 " ------------------------------------------------------------
@@ -209,6 +210,7 @@ let g:rust_recommended_style = 0
 " ------------------------------------------------------------
 nmap <leader>vt :lua require('crates').toggle()<cr>
 nmap <leader>vr :lua require('crates').reload()<cr>
+nmap <leader>vU :lua require('crates').update_crate()<cr>
 nmap <leader>vu :lua require('crates').upgrade_crate()<cr>
 
 " # gitsigns.nvim
@@ -224,10 +226,10 @@ lua require('config.cmp').setup()
 lua require('config.lsp').setup()
 
 " Diagnostics
-sign define LspDiagnosticsSignError       text=  texthl=LspDiagnosticsSignError       linehl= numhl=
+sign define LspDiagnosticsSignError       text=  texthl=LspDiagnosticsSignError       linehl= numhl=
 sign define LspDiagnosticsSignWarning     text=  texthl=LspDiagnosticsSignWarning     linehl= numhl=
-sign define LspDiagnosticsSignHint        text=H  texthl=LspDiagnosticsSignHint        linehl= numhl=
-sign define LspDiagnosticsSignInformation text=I  texthl=LspDiagnosticsSignInformation linehl= numhl=
+sign define LspDiagnosticsSignHint        text=  texthl=LspDiagnosticsSignHint        linehl= numhl=
+sign define LspDiagnosticsSignInformation text=  texthl=LspDiagnosticsSignInformation linehl= numhl=
 
 " Highlight occurences
 autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()

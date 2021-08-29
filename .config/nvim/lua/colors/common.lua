@@ -28,6 +28,7 @@ local function get_highlights(palette)
         Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
         MatchParen      = {                      bg=palette.texthl2,                },
         NonText         = { fg=palette.nontext,                       style='none', },
+        Folded          = { fg=palette.folded,   bg=palette.texthl2,  style='none', },
 
         -- treesitter
         TSInclude       = { fg=palette.lyellow,                                     },
