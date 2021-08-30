@@ -212,8 +212,10 @@ nnoremap <silent> <leader>vt :lua require('crates').toggle()<cr>
 nnoremap <silent> <leader>vr :lua require('crates').reload()<cr>
 nnoremap <silent> <leader>vu :lua require('crates').update_crate()<cr>
 vnoremap <silent> <leader>vu :lua require('crates').update_crates()<cr>
+nnoremap <silent> <leader>va :lua require('crates').update_all_crates()<cr>
 nnoremap <silent> <leader>vU :lua require('crates').upgrade_crate()<cr>
 vnoremap <silent> <leader>vU :lua require('crates').upgrade_crates()<cr>
+nnoremap <silent> <leader>vA :lua require('crates').upgrade_all_crates()<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------

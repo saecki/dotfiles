@@ -1,5 +1,8 @@
 source ~/.config/nvim/init.vim
 
+"Settings
+set ideajoin
+
 " Jumps
 nmap <c-o> <Action>(Back)
 nmap <c-i> <Action>(Forward)
