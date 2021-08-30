@@ -196,7 +196,7 @@ lua require('colors').apply()
 
 " # vim-markdown
 " ------------------------------------------------------------
-let g:vim_markdown_folding_level = 1
+let g:vim_markdown_folding_level = 6
 let g:vim_markdown_folding_style_pythonic = 6
 
 " # rust.vim
@@ -210,8 +210,8 @@ let g:rust_recommended_style = 0
 " ------------------------------------------------------------
 nmap <leader>vt :lua require('crates').toggle()<cr>
 nmap <leader>vr :lua require('crates').reload()<cr>
-nmap <leader>vU :lua require('crates').update_crate()<cr>
-nmap <leader>vu :lua require('crates').upgrade_crate()<cr>
+nmap <leader>vu :lua require('crates').update_crate()<cr>
+nmap <leader>vU :lua require('crates').upgrade_crate()<cr>
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
