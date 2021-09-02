@@ -3,8 +3,8 @@ local function setup()
         defaults = {
             layout_config = {
                 horizontal = {
-                    width = 0.98,
-                    height = 0.96,
+                    width = 0.9,
+                    height = 0.9,
                     preview_cutoff = 120,
                 },
             },
