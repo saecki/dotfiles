@@ -166,6 +166,7 @@ Plug 'nvim-treesitter/playground'
 
 " Language tools
 Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'teal-language/vim-teal'
 Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'

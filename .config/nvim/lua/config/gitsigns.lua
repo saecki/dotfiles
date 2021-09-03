@@ -56,7 +56,7 @@ local function setup()
             virt_text_pos = 'eol',
             delay = 0,
         },
-        sign_priority = 6,
+        sign_priority = 10,
         update_debounce = 100,
         status_formatter = nil, -- Use default
         word_diff = false,
