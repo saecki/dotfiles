@@ -145,7 +145,7 @@ Plug 'folke/todo-comments.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'lewis6991/gitsigns.nvim'
+Plug '~/Projects/gitsigns.nvim'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
@@ -182,6 +182,12 @@ Plug 'andweeb/presence.nvim'
 " Browser Integration
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
+
+" ============================================================
+" # Globals
+" ============================================================
+
+lua require('globals')
 
 
 " ============================================================
@@ -245,6 +251,8 @@ nnoremap <silent> K :call <SID>show_documentation()<cr>
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
+    elseif (index(['man'], &filetype) >= 0)
+        execute 'Man '.expand('<cword>')
     elseif (expand('%:t') == 'Cargo.toml')
         lua require('crates.popup').show_versions()
     else
