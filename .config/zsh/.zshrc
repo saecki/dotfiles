@@ -54,6 +54,7 @@ setopt HIST_VERIFY
 # Miscellaneous
 setopt menucomplete
 setopt autocd
+setopt ignore_eof
 
 # Vi-mode
 bindkey -v
@@ -140,7 +141,8 @@ alias cfst='$EDITOR ~/.config/starship.toml'
 
 # Cd
 alias cdp='cd ~/Projects'
-alias cdn='cd ~/.config/nvim'
+alias cdn='cd ~/Documents/notes'
+alias cdv='cd ~/.config/nvim'
 alias countryroads='cd ~'
 
 # Git
