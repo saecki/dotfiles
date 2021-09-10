@@ -145,7 +145,7 @@ Plug 'folke/todo-comments.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug '~/Projects/gitsigns.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Lsp
 Plug 'neovim/nvim-lspconfig'
