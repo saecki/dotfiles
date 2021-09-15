@@ -63,6 +63,7 @@ local function setup()
         diff_opts = {
             internal = true,
         },
+        base = "HEAD",
         preview_config = {
             border   = 'none',
             style    = 'minimal',

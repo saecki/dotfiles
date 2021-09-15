@@ -11,6 +11,7 @@ set number relativenumber
 set linebreak
 let &showbreak = '⮡   '
 set wrap
+set scrolloff=3
 set textwidth=0
 set wrapmargin=0
 set fillchars=vert:│
@@ -51,9 +52,9 @@ set undofile
 set spelllang=en,de,es,nl
 
 " Miscellaneous
-set scrolloff=3
 set updatetime=300
 set mouse=a
+set hidden
 
 
 " ============================================================
