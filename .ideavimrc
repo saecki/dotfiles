@@ -1,5 +1,7 @@
 source ~/.config/nvim/init.vim
 
+let mapleader = "\<space>"
+
 "Settings
 set ideajoin
 
@@ -15,10 +17,13 @@ nmap gy <Action>(GotoTypeDeclaration)
 nmap g{ <Action>(VcsShowPrevChangeMarker)
 nmap g} <Action>(VcsShowNextChangeMarker)
 
+" Vcs
+nmap <leader>gu <Action>(Vcs.RollbackChangedLines)
+nmap <leader>gs <Action>(VcsShowCurrentChangeMarker)
+
 " Code actions
 nmap <leader>r <Action>(RenameElement)
 nmap <leader>a <Action>(ShowIntentionActions)
-
 " Search
 nmap <leader>s <Action>(FindInPath)
 

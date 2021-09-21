@@ -255,7 +255,7 @@ function! s:show_documentation()
     elseif (index(['man'], &filetype) >= 0)
         execute 'Man '.expand('<cword>')
     elseif (expand('%:t') == 'Cargo.toml')
-        lua require('crates.popup').show_versions()
+        lua require('crates').show_popup()
     else
         lua vim.lsp.buf.hover()
     endif
