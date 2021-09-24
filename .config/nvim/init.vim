@@ -141,7 +141,7 @@ Plug 'airblade/vim-rooter'
 Plug 'nvim-telescope/telescope.nvim'
 
 " Lists
-Plug 'folke/trouble.nvim'
+Plug '~/Projects/trouble.nvim'
 Plug 'folke/todo-comments.nvim'
 
 " Git
@@ -266,10 +266,7 @@ nnoremap <silent> <leader>a :lua vim.lsp.buf.code_action()<cr>
 nnoremap <silent> <leader>r :lua vim.lsp.buf.rename()<cr>
 
 " Goto actions
-" TODO wait for fix
-nnoremap <silent> gi :lua vim.lsp.buf.implementation()<cr>
-" TODO wait for pr
-nnoremap <silent> gy :lua vim.lsp.buf.type_definition()<cr>
+nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
 nnoremap <silent> gD :lua vim.lsp.buf.declaration()<cr>
 nnoremap <silent> gw :lua vim.lsp.buf.document_symbol()<cr>
 nnoremap <silent> gW :lua vim.lsp.buf.workspace_symbol()<cr>
@@ -283,9 +280,10 @@ nnoremap <silent> <c-k> :lua vim.lsp.buf.signature_help()<cr>
 " ------------------------------------------------------------
 lua require('config.trouble').setup()
 
-nnoremap <silent> <f7> :TroubleToggle<cr>
-nnoremap <silent> gd         :Trouble lsp_definitions<cr>
+nnoremap <silent> <f7>       :TroubleToggle<cr>
+nnoremap <silent> gy         :Trouble lsp_type_definitions<cr>
 nnoremap <silent> gr         :Trouble lsp_references<cr>
+nnoremap <silent> gi         :Trouble lsp_implementations<cr>
 nnoremap <silent> <leader>ld :Trouble lsp_document_diagnostics<cr>
 nnoremap <silent> <leader>lw :Trouble lsp_workspace_diagnostics<cr>
 
