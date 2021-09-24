@@ -244,22 +244,14 @@ sign define LspDiagnosticsSignHint        text=  texthl=LspDiagnosticsSignHin
 sign define LspDiagnosticsSignInformation text=  texthl=LspDiagnosticsSignInformation linehl= numhl=
 
 " Highlight occurences
-autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
-autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+augroup LspOccurences
+    autocmd!
+    autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
+    autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+augroup END
 
-" Show info popup
-nnoremap <silent> K :call <SID>show_documentation()<cr>
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    elseif (index(['man'], &filetype) >= 0)
-        execute 'Man '.expand('<cword>')
-    elseif (expand('%:t') == 'Cargo.toml')
-        lua require('crates').show_popup()
-    else
-        lua vim.lsp.buf.hover()
-    endif
-endfunction
+" Show documentation
+nnoremap <silent> K :lua require('config.lsp').show_documentation()<cr>
 
 " Code actions
 nnoremap <silent> <leader>a :lua vim.lsp.buf.code_action()<cr>

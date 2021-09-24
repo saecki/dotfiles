@@ -1,17 +1,26 @@
-local function get_capabilities()
+local M = {}
+
+local lsp_status = require('lsp-status')
+local lsp_config = require('lspconfig')
+
+function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    capabilities.textDocument.completion.completionItem.preselectSupport = true
-    capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-    capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-    capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-    capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-    capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-            'documentation',
-            'detail',
-            'additionalTextEdits',
+    capabilities.textDocument.completion.completionItem = {
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharactersSupport = true,
+        tagSupport = {
+            valueSet = { 1 }
+        },
+        resolveSupport = {
+            properties = {
+                'documentation',
+                'detail',
+                'additionalTextEdits',
+            }
         }
     }
     capabilities.window = {
@@ -20,18 +29,33 @@ local function get_capabilities()
     return capabilities
 end
 
-local function setup_lsp_status()
-    local lsp_status = require('lsp-status')
+function M.show_documentation()
+    local filetype = vim.opt.filetype._value
+    if vim.tbl_contains({ 'vim','help' }, filetype) then
+        vim.fn.execute('h '..vim.fn.expand('<cword>'))
+    elseif vim.tbl_contains({ 'man' }, filetype) then
+        vim.fn.execute('Man '..vim.fn.expand('<cword>'))
+    elseif vim.fn.expand('%:t') == 'Cargo.toml' then
+        require('crates').show_popup()
+    else
+        vim.lsp.buf.hover()
+    end
+end
+
+local function on_attach(client)
+    lsp_status.on_attach(client)
+end
+
+function M.setup()
+    -- status
     lsp_status.register_progress()
     lsp_status.config {
         status_symbol = "LSP",
         current_function = false,
         diagnostics = false,
     }
-    return lsp_status
-end
 
-local function setup_lsp_diagnostics()
+    -- diagnostics
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
             virtual_text = true,
@@ -40,18 +64,10 @@ local function setup_lsp_diagnostics()
             severity_sort = true,
         }
     )
-end
 
-local function on_attach(client)
-    require('lsp-status').on_attach(client)
-end
+    -- server configurations
+    local capabilities = M.get_capabilities()
 
-local function setup()
-    local capabilities = get_capabilities()
-    local lsp_status = setup_lsp_status()
-    setup_lsp_diagnostics()
-
-    local lsp_config = require('lspconfig')
     lsp_config.rust_analyzer.setup {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -82,7 +98,6 @@ local function setup()
 
     local sumneko_root_path = vim.fn.expand('~/Projects/lua-language-server')
     local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
-
     local runtime_path = vim.split(package.path, ';')
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
@@ -91,20 +106,12 @@ local function setup()
         settings = {
             Lua = {
                 runtime = {
-                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                     version = 'LuaJIT',
-                    -- Setup your lua path
                     path = runtime_path,
                 },
                 diagnostics = {
-                    -- Get the language server to recognize the `vim` global
-                    globals = {'vim'},
+                    globals = { 'vim', 'P' },
                 },
-                workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = vim.api.nvim_get_runtime_file("", true),
-                },
-                -- Do not send telemetry data containing a randomized but unique identifier
                 telemetry = {
                     enable = false,
                 },
@@ -113,6 +120,4 @@ local function setup()
     }
 end
 
-return {
-    setup = setup
-}
+return M
