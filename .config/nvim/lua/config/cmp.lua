@@ -1,3 +1,5 @@
+local maps = require('mappings')
+
 local function setup()
     local cmp = require('cmp')
     cmp.setup {
@@ -26,8 +28,8 @@ local function setup()
     }
 
     -- Use <Tab> and <S-Tab> to navigate through popup menu
-    vim.api.nvim_set_keymap('i', '<tab>',   'pumvisible() ? "\\<c-n>" : "\\<tab>"',   { noremap = true, expr = true })
-    vim.api.nvim_set_keymap('i', '<s-tab>', 'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', { noremap = true, expr = true })
+    maps.inoremap("<tab>",  'pumvisible() ? "\\<c-n>" : "\\<tab>"',   { expr = true })
+    maps.inoremap("<s-tab>",'pumvisible() ? "\\<c-n>" : "\\<s-tab>"', { expr = true })
 
     vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
     vim.cmd("autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }")

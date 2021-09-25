@@ -1,1 +1,1 @@
-lua require('colors.minelight').apply()
+lua require('colors.minelight').setup()

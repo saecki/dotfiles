@@ -1,6 +1,8 @@
+local M = {}
+
 local common = require('colors.common')
 
-local palette = {
+M.palette = {
     bg           = '#ffffff',
     fg           = '#31313a',
 
@@ -46,19 +48,14 @@ local palette = {
     diff_cd_bg   = '#d0b6ff',
 }
 
-local highlights = common.get_highlights(palette)
-local lualine    = common.get_lualine(palette)
+M.highlights = common.get_highlights(M.palette)
+M.lualine    = common.get_lualine(M.palette)
 
-local function apply()
+function M.setup()
     vim.g.colors_name = 'minelight'
 
-    common.apply_term_colors(palette)
-    common.apply_highlights(highlights)
+    common.apply_term_colors(M.palette)
+    common.apply_highlights(M.highlights)
 end
 
-return {
-    palette = palette,
-    highlights = highlights,
-    lualine = lualine,
-    apply = apply,
-}
+return M

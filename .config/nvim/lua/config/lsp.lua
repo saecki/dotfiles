@@ -2,6 +2,7 @@ local M = {}
 
 local lsp_status = require('lsp-status')
 local lsp_config = require('lspconfig')
+local maps = require('mappings')
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -118,6 +119,25 @@ function M.setup()
             },
         },
     }
+
+
+    -- Show documentation
+    maps.nnoremap("K", M.show_documentation, { silent = true })
+
+    -- Signature help
+    maps.nnoremap("<c-k>", vim.lsp.buf.signature_help, { silent = true })
+
+    -- Code actions
+    maps.nnoremap("<leader>a", vim.lsp.buf.code_action, { silent = true })
+    maps.nnoremap("<leader>r", vim.lsp.buf.rename, { silent = true })
+
+    -- Goto actions
+    maps.nnoremap("gd", vim.lsp.buf.definition, { silent = true })
+    maps.nnoremap("gD", vim.lsp.buf.declaration, { silent = true })
+    maps.nnoremap("gw", vim.lsp.buf.document_symbol, { silent = true })
+    maps.nnoremap("gW", vim.lsp.buf.workspace_symbol, { silent = true })
+    maps.nnoremap("g[", vim.lsp.diagnostic.goto_prev, { silent = true })
+    maps.nnoremap("g]", vim.lsp.diagnostic.goto_next, { silent = true })
 end
 
 return M

@@ -1,3 +1,4 @@
+-- Slightly modified version of default functino
 local function current_line_blame_formatter(name, blame_info, opts)
     if blame_info.author == name then
         blame_info.author = 'You'

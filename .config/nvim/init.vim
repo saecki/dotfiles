@@ -47,6 +47,7 @@ set splitbelow
 set undolevels=1000
 set undodir=~/.local/share/nvim/undo
 set undofile
+set noswapfile
 
 " Spell checking
 set spelllang=en,de,es,nl
@@ -185,17 +186,12 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
 
 " ============================================================
-" # Globals
+" # Config
 " ============================================================
 
 lua require('globals')
-
-
-" ============================================================
-" # Colors
-" ============================================================
-
-lua require('colors').apply()
+lua require('mappings').setup()
+lua require('colors').setup()
 
 
 " ============================================================
@@ -250,40 +246,13 @@ augroup LspOccurences
     autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
 augroup END
 
-" Show documentation
-nnoremap <silent> K :lua require('config.lsp').show_documentation()<cr>
-
-" Code actions
-nnoremap <silent> <leader>a :lua vim.lsp.buf.code_action()<cr>
-nnoremap <silent> <leader>r :lua vim.lsp.buf.rename()<cr>
-
-" Goto actions
-nnoremap <silent> gd :lua vim.lsp.buf.definition()<cr>
-nnoremap <silent> gD :lua vim.lsp.buf.declaration()<cr>
-nnoremap <silent> gw :lua vim.lsp.buf.document_symbol()<cr>
-nnoremap <silent> gW :lua vim.lsp.buf.workspace_symbol()<cr>
-nnoremap <silent> g[ :lua vim.lsp.diagnostic.goto_prev()<cr>
-nnoremap <silent> g] :lua vim.lsp.diagnostic.goto_next()<cr>
-
-" signature help
-nnoremap <silent> <c-k> :lua vim.lsp.buf.signature_help()<cr>
-
 " # trouble.nvim
 " ------------------------------------------------------------
 lua require('config.trouble').setup()
 
-nnoremap <silent> <f7>       :TroubleToggle<cr>
-nnoremap <silent> gy         :Trouble lsp_type_definitions<cr>
-nnoremap <silent> gr         :Trouble lsp_references<cr>
-nnoremap <silent> gi         :Trouble lsp_implementations<cr>
-nnoremap <silent> <leader>ld :Trouble lsp_document_diagnostics<cr>
-nnoremap <silent> <leader>lw :Trouble lsp_workspace_diagnostics<cr>
-
 " # todo-comments.nvim
 " ------------------------------------------------------------
 lua require('config.todo-comments').setup()
-
-nnoremap <silent> <leader>lt :TodoTrouble<cr>
 
 " # lsp_extensions
 " ------------------------------------------------------------

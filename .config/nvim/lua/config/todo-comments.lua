@@ -1,4 +1,8 @@
-local function setup()
+local M = {}
+
+local maps = require('mappings')
+
+function M.setup()
     require('todo-comments').setup {
         signs = false,
         keywords = {
@@ -8,7 +12,7 @@ local function setup()
                 alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
             },
             TODO = { icon = " ", color = "info" },
-            HACK = { icon = "🔨", color = "warning" },
+            HACK = { icon = " ", color = "warning" },
             WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
         },
         merge_keywords = true,
@@ -23,8 +27,8 @@ local function setup()
             pattern = [[\b(KEYWORDS)]], -- ripgrep regex
         },
     }
+
+    maps.nnoremap("<leader>lt", ":TodoTrouble<cr>", { silent = true })
 end
 
-return {
-    setup = setup,
-}
+return M

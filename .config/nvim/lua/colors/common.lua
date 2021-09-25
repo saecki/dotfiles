@@ -1,143 +1,145 @@
-local function get_highlights(palette)
+local M = {}
+
+function M.get_highlights(pal)
     return {
         -- editor
-        Normal          = { fg=palette.fg,       bg=palette.bg,                     },
-        SignColumn      = {                      bg='none',                         },
-        LineNr          = { fg=palette.text3,                                       },
-        CursorLineNr    = { fg=palette.text2,                         style='bold', },
-        CursorColumn    = {                      bg=palette.texthl2,                },
-        Pmenu           = { fg=palette.text2,    bg=palette.surface3,               },
-        PmenuSel        = { fg=palette.surface3, bg=palette.text3,    style='bold', },
-        PmenuSBar       = {                      bg=palette.scrollbg,               },
-        PmenuThumb      = {                      bg=palette.scrollfg,               },
-        Visual          = {                      bg=palette.texthl1,                },
-        VertSplit       = {                      bg='none',                         },
+        Normal          = { fg=pal.fg,       bg=pal.bg,                       },
+        SignColumn      = {                  bg='none',                       },
+        LineNr          = { fg=pal.text3,                                     },
+        CursorLineNr    = { fg=pal.text2,                       style='bold', },
+        CursorColumn    = {                  bg=pal.texthl2,                  },
+        Pmenu           = { fg=pal.text2,    bg=pal.surface3,                 },
+        PmenuSel        = { fg=pal.surface3, bg=pal.text3,      style='bold', },
+        PmenuSBar       = {                  bg=pal.scrollbg,                 },
+        PmenuThumb      = {                  bg=pal.scrollfg,                 },
+        Visual          = {                  bg=pal.texthl1,                  },
+        VertSplit       = {                  bg='none',                       },
 
         -- syntax
-        Title           = { fg=palette.title,                         style='bold', },
-        Comment         = { fg=palette.text3,                                       },
-        Constant        = { fg=palette.lpurple,                       style='none', },
-        Identifier      = { fg=palette.lcyan,                         style='bold', },
-        Statement       = { fg=palette.lyellow,                                     },
-        PreProc         = { fg=palette.preproc,                                     },
-        Type            = { fg=palette.type,                                        },
-        Special         = { fg=palette.special,                                     },
-        Error           = {                      bg=palette.lred,                   },
-        Todo            = { fg=palette.todo,     bg='none',           style='bold', },
-        Directory       = { fg=palette.lgreen,                                      },
-        Search          = { fg=palette.invtext,  bg=palette.lyellow,                },
-        MatchParen      = {                      bg=palette.texthl2,                },
-        NonText         = { fg=palette.nontext,                       style='none', },
-        Folded          = { fg=palette.folded,   bg=palette.texthl2,  style='none', },
+        Title           = { fg=pal.title,                       style='bold', },
+        Comment         = { fg=pal.text3,                                     },
+        Constant        = { fg=pal.lpurple,                     style='none', },
+        Identifier      = { fg=pal.lcyan,                       style='bold', },
+        Statement       = { fg=pal.lyellow,                                   },
+        PreProc         = { fg=pal.preproc,                                   },
+        Type            = { fg=pal.type,                                      },
+        Special         = { fg=pal.special,                                   },
+        Error           = {                  bg=pal.lred,                     },
+        Todo            = { fg=pal.todo,     bg='none',         style='bold', },
+        Directory       = { fg=pal.lgreen,                                    },
+        Search          = { fg=pal.invtext,  bg=pal.lyellow,                  },
+        MatchParen      = {                  bg=pal.texthl2,                  },
+        NonText         = { fg=pal.nontext,                     style='none', },
+        Folded          = { fg=pal.folded,   bg=pal.texthl2,    style='none', },
 
         -- treesitter
-        TSInclude       = { fg=palette.lyellow,                                     },
-        TSNamespace     = { fg=palette.preproc,                                     },
+        TSInclude       = { fg=pal.lyellow,                                   },
+        TSNamespace     = { fg=pal.preproc,                                   },
 
         -- git
-        diffAdded       = {                   bg=palette.diff_a_bg,                },
-        diffRemoved     = {                   bg=palette.diff_d_bg,                },
+        diffAdded       = {                  bg=pal.diff_a_bg,                },
+        diffRemoved     = {                  bg=pal.diff_d_bg,                },
 
-        DiffAdd         = {                   bg=palette.diff_a_bg,                },
-        DiffChange      = {                   bg=palette.diff_c_bg,                },
-        DiffDelete      = {                   bg=palette.diff_d_bg,                },
-        DiffText        = { fg=palette.text2, bg=palette.diff_cd_bg, style='bold', },
+        DiffAdd         = {                  bg=pal.diff_a_bg,                },
+        DiffChange      = {                  bg=pal.diff_c_bg,                },
+        DiffDelete      = {                  bg=pal.diff_d_bg,                },
+        DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style='bold', },
 
-        GitSignsAdd     = {                   bg=palette.diff_a_bg,                },
-        GitSignsChange  = {                   bg=palette.diff_c_bg,                },
-        GitSignsDelete  = { fg=palette.lred,                         style='bold', },
-        GitSignsChgDel  = { fg=palette.lred,  bg=palette.diff_c_bg,  style='bold', },
+        GitSignsAdd     = {                  bg=pal.diff_a_bg,                },
+        GitSignsChange  = {                  bg=pal.diff_c_bg,                },
+        GitSignsDelete  = { fg=pal.lred,                        style='bold', },
+        GitSignsChgDel  = { fg=pal.lred,     bg=pal.diff_c_bg,  style='bold', },
 
-        GitSignsAddLn     = { bg=palette.diff_a_bg  },
-        GitSignsChangeLn  = { bg=palette.diff_c_bg  },
-        GitSignsDeleteLn  = { bg=palette.diff_d_bg  },
-        GitSignsChgDelLn  = { bg=palette.diff_cd_bg },
+        GitSignsAddLn     = { bg=pal.diff_a_bg  },
+        GitSignsChangeLn  = { bg=pal.diff_c_bg  },
+        GitSignsDeleteLn  = { bg=pal.diff_d_bg  },
+        GitSignsChgDelLn  = { bg=pal.diff_cd_bg },
 
-        GitSignsAddNr     = { bg=palette.diff_a_bg  },
-        GitSignsChangeNr  = { bg=palette.diff_c_bg  },
-        GitSignsDeleteNr  = { bg=palette.diff_d_bg  },
-        GitSignsChgDelNr  = { bg=palette.diff_cd_bg },
+        GitSignsAddNr     = { bg=pal.diff_a_bg  },
+        GitSignsChangeNr  = { bg=pal.diff_c_bg  },
+        GitSignsDeleteNr  = { bg=pal.diff_d_bg  },
+        GitSignsChgDelNr  = { bg=pal.diff_cd_bg },
 
         -- lsp ocurrences
-        LspReferenceText  = { bg=palette.texthl2 },
-        LspReferenceRead  = { bg=palette.texthl2 },
-        LspReferenceWrite = { bg=palette.texthl2 },
+        LspReferenceText  = { bg=pal.texthl2 },
+        LspReferenceRead  = { bg=pal.texthl2 },
+        LspReferenceWrite = { bg=pal.texthl2 },
 
         -- lsp diagnostics
-        LspDiagnosticsVirtualTextError   = { fg=palette.dred,                       },
-        LspDiagnosticsVirtualTextWarning = { fg=palette.dyellow,                    },
-        LspDiagnosticsVirtualTextHint    = { fg=palette.lblue,                      },
-        LspDiagnosticsVirtualTextInfo    = { fg=palette.lblue,                      },
+        LspDiagnosticsVirtualTextError   = { fg=pal.dred,                       },
+        LspDiagnosticsVirtualTextWarning = { fg=pal.dyellow,                    },
+        LspDiagnosticsVirtualTextHint    = { fg=pal.lblue,                      },
+        LspDiagnosticsVirtualTextInfo    = { fg=pal.lblue,                      },
 
-        LspDiagnosticsSignError          = { fg=palette.lred,    style='bold',      },
-        LspDiagnosticsSignWarning        = { fg=palette.lyellow, style='bold',      },
-        LspDiagnosticsSignHint           = { fg=palette.lblue,   style='bold',      },
-        LspDiagnosticsSignInfo           = { fg=palette.lblue,   style='bold',      },
+        LspDiagnosticsSignError          = { fg=pal.lred,    style='bold',      },
+        LspDiagnosticsSignWarning        = { fg=pal.lyellow, style='bold',      },
+        LspDiagnosticsSignHint           = { fg=pal.lblue,   style='bold',      },
+        LspDiagnosticsSignInfo           = { fg=pal.lblue,   style='bold',      },
 
-        LspDiagnosticsFloatingError      = { fg=palette.dred,                       },
-        LspDiagnosticsFloatingWarning    = { fg=palette.dyellow,                    },
-        LspDiagnosticsFloatingHint       = { fg=palette.lblue,                      },
-        LspDiagnosticsFloatingInfo       = { fg=palette.lblue,                      },
+        LspDiagnosticsFloatingError      = { fg=pal.dred,                       },
+        LspDiagnosticsFloatingWarning    = { fg=pal.dyellow,                    },
+        LspDiagnosticsFloatingHint       = { fg=pal.lblue,                      },
+        LspDiagnosticsFloatingInfo       = { fg=pal.lblue,                      },
 
-        LspDiagnosticsUnderlineError     = { sp=palette.dred,    style='undercurl', },
-        LspDiagnosticsUnderlineWarning   = { sp=palette.dyellow, style='undercurl', },
-        LspDiagnosticsUnderlineHint      = { sp=palette.lblue,   style='undercurl', },
-        LspDiagnosticsUnderlineInfo      = { sp=palette.lblue,   style='undercurl', },
+        LspDiagnosticsUnderlineError     = { sp=pal.dred,    style='undercurl', },
+        LspDiagnosticsUnderlineWarning   = { sp=pal.dyellow, style='undercurl', },
+        LspDiagnosticsUnderlineHint      = { sp=pal.lblue,   style='undercurl', },
+        LspDiagnosticsUnderlineInfo      = { sp=pal.lblue,   style='undercurl', },
     }
 end
 
-local function get_lualine(palette)
+function M.get_lualine(pal)
     return {
         normal = {
-            a = { bg = palette.surface1, fg = palette.lyellow, gui = 'bold' },
-            b = { bg = palette.surface2, fg = palette.text2,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface1, fg = pal.lyellow, gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         insert = {
-            a = { bg = palette.surface1, fg = palette.lgreen,  gui = 'bold' },
-            b = { bg = palette.surface2, fg = palette.text2,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface1, fg = pal.lgreen,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         visual = {
-            a = { bg = palette.surface1, fg = palette.lpurple, gui = 'bold' },
-            b = { bg = palette.surface2, fg = palette.text2,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface1, fg = pal.lpurple, gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         replace = {
-            a = { bg = palette.surface1, fg = palette.lred,    gui = 'bold' },
-            b = { bg = palette.surface2, fg = palette.text2,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface1, fg = pal.lred,    gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         command = {
-            a = { bg = palette.surface1, fg = palette.lblue,   gui = 'bold' },
-            b = { bg = palette.surface2, fg = palette.text2,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface1, fg = pal.lblue,   gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         inactive = {
-            a = { bg = palette.surface3, fg = palette.text3,                },
-            b = { bg = palette.surface3, fg = palette.text3,                },
-            c = { bg = palette.surface3, fg = palette.text3,                },
+            a = { bg = pal.surface3, fg = pal.text3,                },
+            b = { bg = pal.surface3, fg = pal.text3,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         }
     }
 end
 
-local function apply_term_colors(palette)
-    vim.g.terminal_color_1  = palette.dred
-    vim.g.terminal_color_2  = palette.dgreen
-    vim.g.terminal_color_3  = palette.dyellow
-    vim.g.terminal_color_4  = palette.dblue
-    vim.g.terminal_color_5  = palette.dviolet
-    vim.g.terminal_color_6  = palette.dcyan
-    
-    vim.g.terminal_color_9  = palette.lred
-    vim.g.terminal_color_10 = palette.lgreen
-    vim.g.terminal_color_11 = palette.lyellow
-    vim.g.terminal_color_12 = palette.lblue
-    vim.g.terminal_color_13 = palette.lviolet
-    vim.g.terminal_color_14 = palette.lcyan
+function M.apply_term_colors(pal)
+    vim.g.terminal_color_1  = pal.dred
+    vim.g.terminal_color_2  = pal.dgreen
+    vim.g.terminal_color_3  = pal.dyellow
+    vim.g.terminal_color_4  = pal.dblue
+    vim.g.terminal_color_5  = pal.dviolet
+    vim.g.terminal_color_6  = pal.dcyan
+
+    vim.g.terminal_color_9  = pal.lred
+    vim.g.terminal_color_10 = pal.lgreen
+    vim.g.terminal_color_11 = pal.lyellow
+    vim.g.terminal_color_12 = pal.lblue
+    vim.g.terminal_color_13 = pal.lviolet
+    vim.g.terminal_color_14 = pal.lcyan
 end
 
-local function apply_highlights(highlights)
+function M.apply_highlights(highlights)
     vim.api.nvim_command('hi clear')
     vim.o.termguicolors = true
 
@@ -150,9 +152,4 @@ local function apply_highlights(highlights)
     end
 end
 
-return {
-    get_highlights = get_highlights,
-    get_lualine = get_lualine,
-    apply_term_colors = apply_term_colors,
-    apply_highlights = apply_highlights,
-}
+return M
