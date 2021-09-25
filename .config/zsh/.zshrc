@@ -191,7 +191,7 @@ alias gsp='git stash pop'
 alias gss='git stash push'
 
 
-alias ggc='git gc --prune=now --aggressive'
+alias ggc='git reflog expire --expire=now --all && git gc --prune=now --aggressive'
 alias gdu="git rev-list --objects --all \
          | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
          | sed -n 's/^blob //p' \
