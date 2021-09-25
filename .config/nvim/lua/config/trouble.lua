@@ -19,14 +19,12 @@ function M.setup()
         }
     }
 
-    maps.nnoremap("<f7>",       trouble.toggle,                    { silent = true })
-
-    local providers = require('trouble.providers').providers
-    maps.nnoremap("gr",         providers.lsp_references,            { silent = true })
-    maps.nnoremap("gi",         providers.lsp_implementations,       { silent = true })
-    maps.nnoremap("gy",         providers.lsp_type_definitions,      { silent = true })
-    maps.nnoremap("<leader>ld", providers.lsp_document_diagnostics,  { silent = true })
-    maps.nnoremap("<leader>lw", providers.lsp_workspace_diagnostics, { silent = true })
+    maps.nnoremap("<f7>",       trouble.toggle,                           { silent = true })
+    maps.nnoremap("gr",         ":Trouble lsp_references<cr>",            { silent = true })
+    maps.nnoremap("gi",         ":Trouble lsp_implementations<cr>",       { silent = true })
+    maps.nnoremap("gy",         ":Trouble lsp_type_definitions<cr>",      { silent = true })
+    maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>",  { silent = true })
+    maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>", { silent = true })
 end
 
 return M
