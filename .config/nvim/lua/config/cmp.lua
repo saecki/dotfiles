@@ -29,7 +29,7 @@ local function setup()
 
     -- Use <Tab> and <S-Tab> to navigate through popup menu
     maps.inoremap("<tab>",  'pumvisible() ? "\\<c-n>" : "\\<tab>"',   { expr = true })
-    maps.inoremap("<s-tab>",'pumvisible() ? "\\<c-n>" : "\\<s-tab>"', { expr = true })
+    maps.inoremap("<s-tab>",'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', { expr = true })
 
     vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
     vim.cmd("autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }")
