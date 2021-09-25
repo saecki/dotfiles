@@ -26,14 +26,15 @@ local function setup()
 
     gitsigns.setup {
         signs = {
-            add          = { hl='GitSignsAdd'   , text=' ', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
-            change       = { hl='GitSignsChange', text=' ', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
+            add          = { hl='GitSignsAdd'   , text='  ', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
+            change       = { hl='GitSignsChange', text='  ', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn' },
             delete       = { hl='GitSignsDelete', text='__', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
-            topdelete    = { hl='GitSignsDelete', text=' ', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
+            topdelete    = { hl='GitSignsDelete', text='  ', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn' },
             changedelete = { hl='GitSignsChgDel', text='__', numhl='GitSignsChgDelNr', linehl='GitSignsChgDelLn' },
         },
         numhl = false,
         linehl = false,
+        word_diff = false,
         keymaps = {
             noremap = true,
             ['n g}'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
@@ -41,10 +42,6 @@ local function setup()
             ['n <leader>gu'] = '<cmd>lua require("gitsigns").reset_hunk()<CR>',
             ['n <leader>gs'] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
             ['n <leader>gb'] = '<cmd>lua require("gitsigns").toggle_current_line_blame()<CR>',
-        },
-        watch_index = {
-            interval = 1000,
-            follow_files = true
         },
         current_line_blame = false,
         current_line_blame_formatter = current_line_blame_formatter,
@@ -58,8 +55,6 @@ local function setup()
         },
         sign_priority = 10,
         update_debounce = 100,
-        status_formatter = nil, -- Use default
-        word_diff = false,
         diff_opts = {
             internal = true,
         },
@@ -69,7 +64,7 @@ local function setup()
             style    = 'minimal',
             relative = 'cursor',
             row      = 0,
-            col      = 1
+            col      = 1,
         }
     }
 end

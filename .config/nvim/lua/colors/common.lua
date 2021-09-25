@@ -48,6 +48,16 @@ local function get_highlights(palette)
         GitSignsDelete  = { fg=palette.lred,                         style='bold', },
         GitSignsChgDel  = { fg=palette.lred,  bg=palette.diff_c_bg,  style='bold', },
 
+        GitSignsAddLn     = { bg=palette.diff_a_bg  },
+        GitSignsChangeLn  = { bg=palette.diff_c_bg  },
+        GitSignsDeleteLn  = { bg=palette.diff_d_bg  },
+        GitSignsChgDelLn  = { bg=palette.diff_cd_bg },
+
+        GitSignsAddNr     = { bg=palette.diff_a_bg  },
+        GitSignsChangeNr  = { bg=palette.diff_c_bg  },
+        GitSignsDeleteNr  = { bg=palette.diff_d_bg  },
+        GitSignsChgDelNr  = { bg=palette.diff_cd_bg },
+
         -- lsp ocurrences
         LspReferenceText  = { bg=palette.texthl2 },
         LspReferenceRead  = { bg=palette.texthl2 },
