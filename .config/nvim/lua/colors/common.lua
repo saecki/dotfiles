@@ -85,6 +85,10 @@ function M.get_highlights(pal)
         LspDiagnosticsUnderlineWarning   = { sp=pal.dyellow, style='undercurl', },
         LspDiagnosticsUnderlineHint      = { sp=pal.lblue,   style='undercurl', },
         LspDiagnosticsUnderlineInfo      = { sp=pal.lblue,   style='undercurl', },
+
+        -- dap
+        DapBreakpoint = { fg=pal.lred   },
+        DapStopped    = { fg=pal.lgreen },
     }
 end
 
