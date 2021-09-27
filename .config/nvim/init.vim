@@ -252,15 +252,6 @@ lua require('config.treesitter').setup()
 " ------------------------------------------------------------
 lua require('config.telescope').setup()
 
-nmap <silent> <leader>s  :lua require('telescope.builtin').live_grep()<cr>
-nmap <silent> <a-p>      :lua require('telescope.builtin').find_files { no_ignore = true }<cr>
-nmap <silent> <c-p>      :lua require('telescope.builtin').find_files()<cr>
-nmap <silent> <leader>;  :lua require('telescope.builtin').buffers()<cr>
-nmap <silent> <leader>fh :lua require('telescope.builtin').help_tags()<cr>
-nmap <silent> <leader>fc :lua require('telescope.builtin').commands()<cr>
-nmap <silent> <leader>fm :lua require('telescope.builtin').keymaps()<cr>
-nmap <silent> <leader>fi :lua require('telescope.builtin').highlights()<cr>
-
 " # vim-multiple-cursors
 " ------------------------------------------------------------
 let g:multi_cursor_use_default_mapping = 0
