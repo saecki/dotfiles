@@ -216,14 +216,7 @@ let g:rust_recommended_style = 0
 
 " # crates.nvim
 " ------------------------------------------------------------
-nnoremap <silent> <leader>vt :lua require('crates').toggle()<cr>
-nnoremap <silent> <leader>vr :lua require('crates').reload()<cr>
-nnoremap <silent> <leader>vu :lua require('crates').update_crate()<cr>
-vnoremap <silent> <leader>vu :lua require('crates').update_crates()<cr>
-nnoremap <silent> <leader>va :lua require('crates').update_all_crates()<cr>
-nnoremap <silent> <leader>vU :lua require('crates').upgrade_crate()<cr>
-vnoremap <silent> <leader>vU :lua require('crates').upgrade_crates()<cr>
-nnoremap <silent> <leader>vA :lua require('crates').upgrade_all_crates()<cr>
+lua require('config.crates').setup()
 
 " # gitsigns.nvim
 " ------------------------------------------------------------
@@ -233,22 +226,11 @@ lua require('config.gitsigns').setup()
 " ------------------------------------------------------------
 lua require('config.cmp').setup()
 
-" # lspconfig
+" # nvim-lspconfig
+" # lsp-status.nvim
+" # lsp_extensions.nvim
 " ------------------------------------------------------------
 lua require('config.lsp').setup()
-
-" Diagnostics
-sign define LspDiagnosticsSignError       text=  texthl=LspDiagnosticsSignError       linehl= numhl=
-sign define LspDiagnosticsSignWarning     text=  texthl=LspDiagnosticsSignWarning     linehl= numhl=
-sign define LspDiagnosticsSignHint        text=  texthl=LspDiagnosticsSignHint        linehl= numhl=
-sign define LspDiagnosticsSignInformation text=  texthl=LspDiagnosticsSignInformation linehl= numhl=
-
-" Highlight occurences
-augroup LspOccurences
-    autocmd!
-    autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
-augroup END
 
 " # trouble.nvim
 " ------------------------------------------------------------
@@ -257,13 +239,6 @@ lua require('config.trouble').setup()
 " # todo-comments.nvim
 " ------------------------------------------------------------
 lua require('config.todo-comments').setup()
-
-" # lsp_extensions
-" ------------------------------------------------------------
-
-" Show inlay hints
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require('lsp_extensions').inlay_hints{ prefix = '', highlight = "NonText", enabled = {"TypeHint", "ChainingHint"} }
 
 " # nvim-dap
 " ------------------------------------------------------------

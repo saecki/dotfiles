@@ -19,12 +19,12 @@ function M.setup()
         }
     }
 
-    maps.nnoremap("<f7>",       trouble.toggle,                           { silent = true })
-    maps.nnoremap("gr",         ":Trouble lsp_references<cr>",            { silent = true })
-    maps.nnoremap("gi",         ":Trouble lsp_implementations<cr>",       { silent = true })
-    maps.nnoremap("gy",         ":Trouble lsp_type_definitions<cr>",      { silent = true })
-    maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>",  { silent = true })
-    maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>", { silent = true })
+    maps.nnoremap("<f7>",       trouble.toggle)
+    maps.nnoremap("gr",         ":Trouble lsp_references<cr>")
+    maps.nnoremap("gi",         ":Trouble lsp_implementations<cr>")
+    maps.nnoremap("gy",         ":Trouble lsp_type_definitions<cr>")
+    maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>")
+    maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>")
 end
 
 return M

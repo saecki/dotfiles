@@ -89,6 +89,8 @@ function M.setup()
     }
 
     lsp_config.ccls.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
         compilationDatabaseDirectory = "build",
         init_options = {
             cache = {
@@ -104,6 +106,8 @@ function M.setup()
     table.insert(runtime_path, "lua/?/init.lua")
     lsp_config.sumneko_lua.setup {
         cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+        on_attach = on_attach,
+        capabilities = capabilities,
         settings = {
             Lua = {
                 runtime = {
@@ -121,23 +125,49 @@ function M.setup()
     }
 
 
+    -- Diagnostics
+    vim.fn.sign_define("LspDiagnosticsSignError",       { text="", texthl="LspDiagnosticsSignError",       linehl="", numhl="" })
+    vim.fn.sign_define("LspDiagnosticsSignWarning",     { text="", texthl="LspDiagnosticsSignWarning",     linehl="", numhl="" })
+    vim.fn.sign_define("LspDiagnosticsSignHint",        { text="", texthl="LspDiagnosticsSignHint",        linehl="", numhl="" })
+    vim.fn.sign_define("LspDiagnosticsSignInformation", { text="", texthl="LspDiagnosticsSignInformation", linehl="", numhl="" })
+
+
+    --Show inlay hints
+    vim.cmd("augroup LspInlayHints")
+    vim.cmd("autocmd!")
+    vim.cmd("autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * "
+            .."lua require('lsp_extensions').inlay_hints { "
+            .."prefix = '', highlight = 'NonText', "
+            .."enabled = { 'TypeHint', 'ChainingHint' } }")
+    vim.cmd("augroup END")
+
+    -- Highlight occurences
+    vim.cmd([[
+        augroup LspOccurences
+        autocmd!
+        autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+        augroup END
+    ]])
+
+
     -- Show documentation
-    maps.nnoremap("K", M.show_documentation, { silent = true })
+    maps.nnoremap("K", M.show_documentation)
 
     -- Signature help
-    maps.nnoremap("<c-k>", vim.lsp.buf.signature_help, { silent = true })
+    maps.nnoremap("<c-k>", vim.lsp.buf.signature_help)
 
     -- Code actions
-    maps.nnoremap("<leader>a", vim.lsp.buf.code_action, { silent = true })
-    maps.nnoremap("<leader>r", vim.lsp.buf.rename, { silent = true })
+    maps.nnoremap("<leader>a", vim.lsp.buf.code_action)
+    maps.nnoremap("<leader>r", vim.lsp.buf.rename)
 
     -- Goto actions
-    maps.nnoremap("gd", vim.lsp.buf.definition, { silent = true })
-    maps.nnoremap("gD", vim.lsp.buf.declaration, { silent = true })
-    maps.nnoremap("gw", vim.lsp.buf.document_symbol, { silent = true })
-    maps.nnoremap("gW", vim.lsp.buf.workspace_symbol, { silent = true })
-    maps.nnoremap("g[", vim.lsp.diagnostic.goto_prev, { silent = true })
-    maps.nnoremap("g]", vim.lsp.diagnostic.goto_next, { silent = true })
+    maps.nnoremap("gd", vim.lsp.buf.definition)
+    maps.nnoremap("gD", vim.lsp.buf.declaration)
+    maps.nnoremap("gw", vim.lsp.buf.document_symbol)
+    maps.nnoremap("gW", vim.lsp.buf.workspace_symbol)
+    maps.nnoremap("g[", vim.lsp.diagnostic.goto_prev)
+    maps.nnoremap("g]", vim.lsp.diagnostic.goto_next)
 end
 
 return M

@@ -28,7 +28,7 @@ function M.setup()
         },
     }
 
-    maps.nnoremap("<leader>lt", ":TodoTrouble<cr>", { silent = true })
+    maps.nnoremap("<leader>lt", ":TodoTrouble<cr>")
 end
 
 return M

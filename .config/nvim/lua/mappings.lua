@@ -2,11 +2,20 @@ local M = {}
 
 M.actions = {}
 
+function M.setup()
+    M.actions = {}
+end
+
 function M.register(mode, lhs, rhs, opts)
     local rhs_str = rhs
     if type(rhs) == "function" then
         table.insert(M.actions, rhs)
         rhs_str = ":lua require('mappings').actions["..#M.actions.."]()<cr>"
+    end
+
+    opts = opts or {}
+    if opts.silent == nil then
+        opts.silent = true
     end
 
     vim.api.nvim_set_keymap(mode, lhs, rhs_str, opts)
@@ -43,11 +52,6 @@ end
 
 function M.vnoremap(lhs, rhs, opts)
     M.nore_register("v", lhs, rhs, opts)
-end
-
-
-function M.setup()
-    M.actions = {}
 end
 
 return M

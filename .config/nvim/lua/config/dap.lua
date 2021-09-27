@@ -69,10 +69,10 @@ function M.setup()
     vim.fn.sign_define("DapBreakpoint", { text='', texthl='DapBreakpoint', linehl='', numhl='' })
     vim.fn.sign_define("DapStopped",    { text='', texthl='DapStopped', linehl='', numhl='' })
 
-    maps.nnoremap("<F8>",       dap_ui.toggle,         { silent = true })
-    maps.nnoremap("<leader>db", dap.toggle_breakpoint, { silent = true })
-    maps.nnoremap("<leader>dc", dap.continue,          { silent = true })
-    maps.nnoremap("<leader>dl", dap.run_last,          { silent = true })
+    maps.nnoremap("<F8>",       dap_ui.toggle)
+    maps.nnoremap("<leader>db", dap.toggle_breakpoint)
+    maps.nnoremap("<leader>dc", dap.continue)
+    maps.nnoremap("<leader>dl", dap.run_last)
 end
 
 return M
