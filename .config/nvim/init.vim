@@ -93,32 +93,6 @@ nnoremap <leader><leader> <c-^>
 map <F1> <esc>
 imap <F1> <esc>
 
-" Highlight trailing whitespace
-let g:matchtrailingwhitespace = 0
-function ToggleTrailingWhitespace()
-    if g:matchtrailingwhitespace == 0
-        let g:matchtrailingwhitespace = 1
-    else
-        let g:matchtrailingwhitespace = 0
-    endif
-    call HighlightTrailingWhitespace()
-endfunction
-
-function HighlightTrailingWhitespace()
-    if g:matchtrailingwhitespace == 1
-        let w:trailingwhitespaceid = matchadd('Error', '\s\+$')
-    else
-        call matchdelete(w:trailingwhitespaceid)
-    endif
-endfunction
-autocmd WinEnter * silent! call HighlightTrailingWhitespace()
-
-nnoremap <silent> <leader>hw :call ToggleTrailingWhitespace()<cr>
-
-" Highlight yanked text
-autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 250 }
-
-
 " ============================================================
 " # Plugins
 " ============================================================
@@ -196,11 +170,22 @@ call plug#end()
 lua require('globals')
 lua require('mappings').setup()
 lua require('colors').setup()
+lua require('highlight').setup()    
 
 
 " ============================================================
 " # Plugin config
 " ============================================================
+
+lua require('config.crates').setup()
+lua require('config.gitsigns').setup()
+lua require('config.cmp').setup()
+lua require('config.lsp').setup()
+lua require('config.trouble').setup()
+lua require('config.todo-comments').setup()
+lua require('config.dap').setup()
+lua require('config.treesitter').setup()
+lua require('config.telescope').setup()
 
 " # vim-markdown
 " ------------------------------------------------------------
@@ -213,44 +198,6 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_recommended_style = 0
-
-" # crates.nvim
-" ------------------------------------------------------------
-lua require('config.crates').setup()
-
-" # gitsigns.nvim
-" ------------------------------------------------------------
-lua require('config.gitsigns').setup()
-
-" # nvim-cmp
-" ------------------------------------------------------------
-lua require('config.cmp').setup()
-
-" # nvim-lspconfig
-" # lsp-status.nvim
-" # lsp_extensions.nvim
-" ------------------------------------------------------------
-lua require('config.lsp').setup()
-
-" # trouble.nvim
-" ------------------------------------------------------------
-lua require('config.trouble').setup()
-
-" # todo-comments.nvim
-" ------------------------------------------------------------
-lua require('config.todo-comments').setup()
-
-" # nvim-dap
-" ------------------------------------------------------------
-lua require('config.dap').setup()
-
-" # nvim-treesitter
-" ------------------------------------------------------------
-lua require('config.treesitter').setup()
-
-" # telescope.nvim
-" ------------------------------------------------------------
-lua require('config.telescope').setup()
 
 " # vim-multiple-cursors
 " ------------------------------------------------------------
