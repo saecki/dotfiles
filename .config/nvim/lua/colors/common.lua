@@ -87,8 +87,9 @@ function M.get_highlights(pal)
         LspDiagnosticsUnderlineInfo      = { sp=pal.lblue,   style='undercurl', },
 
         -- dap
-        DapBreakpoint = { fg=pal.lred   },
-        DapStopped    = { fg=pal.lgreen },
+        DapBreakpoint = { fg=pal.lred    },
+        DapLogPoint   = { fg=pal.lyellow },
+        DapStopped    = { fg=pal.lgreen  },
     }
 end
 

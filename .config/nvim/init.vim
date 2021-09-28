@@ -152,6 +152,9 @@ Plug 'rust-lang/rust.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug '~/Projects/crates.nvim'
 
+" Fancy notifications
+Plug 'rcarriga/nvim-notify'
+
 " Miscellaneous
 Plug 'farmergreg/vim-lastplace'
 Plug '907th/vim-auto-save'
@@ -177,6 +180,7 @@ lua require('highlight').setup()
 " # Plugin config
 " ============================================================
 
+lua vim.notify = require('notify')
 lua require('config.crates').setup()
 lua require('config.gitsigns').setup()
 lua require('config.cmp').setup()

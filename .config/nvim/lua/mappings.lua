@@ -7,6 +7,16 @@ function M.setup()
 end
 
 function M.register(mode, lhs, rhs, opts)
+    if mode == nil then
+        error("Missing mode on mapping", 2)
+    end
+    if lhs == nil then
+        error("Missing lhs on mapping", 2)
+    end
+    if rhs == nil then
+        error("Tried to map '"..lhs.."' to nil", 2)
+    end
+
     local rhs_str = rhs
     if type(rhs) == "function" then
         table.insert(M.actions, rhs)
