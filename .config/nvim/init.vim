@@ -104,16 +104,15 @@ Plug 'nvim-lua/plenary.nvim'
 " Gui enhancements
 Plug 'hoob3rt/lualine.nvim'
 
-" Utilities
-Plug 'preservim/nerdtree'
-Plug 'mbbill/undotree'
-
 " Multicursor
 Plug 'terryma/vim-multiple-cursors'
 
 " Fuzzy finding
 Plug 'airblade/vim-rooter'
 Plug 'nvim-telescope/telescope.nvim'
+
+" Filetree
+Plug 'kyazdani42/nvim-tree.lua'
 
 " Lists
 Plug '~/Projects/trouble.nvim'
@@ -190,6 +189,7 @@ lua require('config.todo-comments').setup()
 lua require('config.dap').setup()
 lua require('config.treesitter').setup()
 lua require('config.telescope').setup()
+lua require('config.nvim-tree').setup()
 
 " # vim-markdown
 " ------------------------------------------------------------
@@ -212,18 +212,6 @@ let g:multi_cursor_next_key         = '<a-j>'
 let g:multi_cursor_skip_key         = '<a-s-j>'
 let g:multi_cursor_prev_key         = '<a-k>'
 let g:multi_cursor_quit_key         = '<esc>'
-
-" # nerdtree
-" ------------------------------------------------------------
-
-" Toggle
-nnoremap <silent> <f6> :NERDTreeToggle<cr>
-
-" # undotree
-" ------------------------------------------------------------
-
-" Toggle
-nnoremap <silent> <f5> :UndotreeToggle<cr>:UndotreeFocus<cr>
 
 " # firenvim
 " ------------------------------------------------------------

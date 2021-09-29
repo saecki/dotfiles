@@ -45,6 +45,7 @@ function M.get_highlights(pal)
         DiffDelete      = {                  bg=pal.diff_d_bg,                },
         DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style='bold', },
 
+        -- gitsigns
         GitSignsAdd     = {                  bg=pal.diff_a_bg,                },
         GitSignsChange  = {                  bg=pal.diff_c_bg,                },
         GitSignsDelete  = { fg=pal.lred,                        style='bold', },
@@ -59,6 +60,14 @@ function M.get_highlights(pal)
         GitSignsChangeNr  = { bg=pal.diff_c_bg  },
         GitSignsDeleteNr  = { bg=pal.diff_d_bg  },
         GitSignsChgDelNr  = { bg=pal.diff_cd_bg },
+
+        -- nvim-tree
+        NvimTreeGitDirty   = { fg = pal.lblue   },
+        NvimTreeGitDeleted = { fg = pal.lblue   },
+        NvimTreeGitStaged  = { fg = pal.lblue   },
+        NvimTreeGitMerge   = { fg = pal.lorange },
+        NvimTreeGitRenamed = { fg = pal.lpurple },
+        NvimTreeGitNew     = { fg = pal.lgreen  },
 
         -- lsp ocurrences
         LspReferenceText  = { bg=pal.texthl2 },
