@@ -2,7 +2,7 @@ local M = {}
 
 local telescope = require('telescope')
 local telescope_builtin = require('telescope.builtin')
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.setup()
     telescope.setup {

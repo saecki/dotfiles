@@ -1,4 +1,4 @@
-local maps = require('mappings')
+local maps = require('util.maps')
 
 local function setup()
     local cmp = require('cmp')

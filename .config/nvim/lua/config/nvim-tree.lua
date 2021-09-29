@@ -1,6 +1,6 @@
 local M = {}
 
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.setup()
     vim.g.nvim_tree_git_hl = 1
@@ -87,6 +87,8 @@ function M.setup()
     }
 
     maps.nmap("<f6>", nvim_tree.toggle)
+    -- shift f6
+    maps.nmap("<f18>", ":NvimTreeFindFile<cr>")
 end
 
 return M

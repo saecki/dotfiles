@@ -1,7 +1,7 @@
 local M = {}
 
 local crates = require('crates')
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.setup()
     crates.setup {

@@ -3,7 +3,7 @@ local M = {
     whitespace_ids = {}
 }
 
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.toggle_trailing_whitespace()
     M.trailing_whitespace = not M.trailing_whitespace

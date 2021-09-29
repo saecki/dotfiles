@@ -1,7 +1,7 @@
 local M = {}
 
 local trouble = require('trouble')
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.setup()
     trouble.setup {

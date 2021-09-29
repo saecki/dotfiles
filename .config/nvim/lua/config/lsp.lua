@@ -2,7 +2,7 @@ local M = {}
 
 local lsp_status = require('lsp-status')
 local lsp_config = require('lspconfig')
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()

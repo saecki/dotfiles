@@ -1,67 +1,38 @@
 local M = {}
 
-M.actions = {}
+local maps = require('util.maps')
 
 function M.setup()
-    M.actions = {}
-end
+    -- Text navigation
+    maps.nnoremap("j", "gj")
+    maps.nnoremap("k", "gk")
 
-function M.register(mode, lhs, rhs, opts)
-    if mode == nil then
-        error("Missing mode on mapping", 2)
-    end
-    if lhs == nil then
-        error("Missing lhs on mapping", 2)
-    end
-    if rhs == nil then
-        error("Tried to map '"..lhs.."' to nil", 2)
-    end
+    -- Copy to the end of the line
+    maps.nnoremap("Y", "y$")
 
-    local rhs_str = rhs
-    if type(rhs) == "function" then
-        table.insert(M.actions, rhs)
-        rhs_str = ":lua require('mappings').actions["..#M.actions.."]()<cr>"
-    end
+    -- Resize
+    maps.nmap("<c-left>",  ":vertical resize -5<cr>")
+    maps.nmap("<c-down>",  ":resize +5<cr>")
+    maps.nmap("<c-up>",    ":resize -5<cr>")
+    maps.nmap("<c-right>", ":vertical resize +5<cr>")
 
-    opts = opts or {}
-    if opts.silent == nil then
-        opts.silent = true
-    end
+    -- Quick save
+    maps.nmap("<leader>w", ":w<cr>")
 
-    vim.api.nvim_set_keymap(mode, lhs, rhs_str, opts)
-end
+    -- stop searching
+    maps.vnoremap("<s-h>", ":nohlsearch<cr>")
+    maps.nnoremap("<s-h>", ":nohlsearch<cr>")
 
-function M.nore_register(mode, lhs, rhs, opts)
-    opts = opts or {}
-    opts.noremap = true
-    M.register(mode, lhs, rhs, opts)
-end
+    -- Copy paste
+    maps.vnoremap("<c-c>", '"+y')
+    maps.inoremap("<c-v>", "<c-r>+")
 
+    -- Toggle between buffers
+    maps.nnoremap("<leader><leader>", "<c-^>")
 
-function M.imap(lhs, rhs, opts)
-    M.register("i", lhs, rhs, opts)
-end
-
-function M.inoremap(lhs, rhs, opts)
-    M.nore_register("i", lhs, rhs, opts)
-end
-
-
-function M.nmap(lhs, rhs, opts)
-    M.register("n", lhs, rhs, opts)
-end
-
-function M.nnoremap(lhs, rhs, opts)
-    M.nore_register("n", lhs, rhs, opts)
-end
-
-
-function M.vmap(lhs, rhs, opts)
-    M.register("v", lhs, rhs, opts)
-end
-
-function M.vnoremap(lhs, rhs, opts)
-    M.nore_register("v", lhs, rhs, opts)
+    -- I don't need your help
+    maps.map("<F1>", "<esc>")
+    maps.imap("<F1>", "<esc>")
 end
 
 return M

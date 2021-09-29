@@ -2,7 +2,7 @@ local M = {}
 
 local dap = require('dap')
 local dap_ui = require('dapui')
-local maps = require('mappings')
+local maps = require('util.maps')
 
 function M.debuggables()
     local filetype = vim.bo.filetype
