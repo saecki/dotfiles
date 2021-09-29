@@ -115,7 +115,7 @@ function M.setup()
                     path = runtime_path,
                 },
                 diagnostics = {
-                    globals = { 'vim', 'P' },
+                    globals = { 'vim', 'P', 'use' },
                 },
                 telemetry = {
                     enable = false,

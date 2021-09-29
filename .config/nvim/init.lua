@@ -1,9 +1,7 @@
-lua require('globals')
-lua require('options').setup()
+require('globals')
+require('options').setup()
 
-" # Plugins
-" ------------------------------------------------------------
-lua << EOF
+-- Plugins
 require('packer').startup(function()
 	use { 'wbthomason/packer.nvim' }
 
@@ -73,28 +71,25 @@ require('packer').startup(function()
 	-- Browser Integration
 	use { 'glacambre/firenvim', run = function() vim.call('firenvim#install(0)') end }
 end)
-EOF
 
-" # Config
-" ------------------------------------------------------------
-lua require('util.maps').setup()
-lua require('mappings').setup()
-lua require('colors').setup()
-lua require('highlight').setup()    
+-- Config
+require('util.maps').setup()
+require('mappings').setup()
+require('colors').setup()
+require('highlight').setup()
 
-" # Plugin config
-" ------------------------------------------------------------
-lua vim.notify = require('notify')
-lua require('config.lang').setup()
-lua require('config.crates').setup()
-lua require('config.gitsigns').setup()
-lua require('config.cmp').setup()
-lua require('config.lsp').setup()
-lua require('config.trouble').setup()
-lua require('config.todo-comments').setup()
-lua require('config.dap').setup()
-lua require('config.treesitter').setup()
-lua require('config.telescope').setup()
-lua require('config.nvim-tree').setup()
-lua require('config.multi-cursor').setup()
-lua require('config.firenvim').setup()
+-- Plugin config
+vim.notify = require('notify')
+require('config.lang').setup()
+require('config.crates').setup()
+require('config.gitsigns').setup()
+require('config.cmp').setup()
+require('config.lsp').setup()
+require('config.trouble').setup()
+require('config.todo-comments').setup()
+require('config.dap').setup()
+require('config.treesitter').setup()
+require('config.telescope').setup()
+require('config.nvim-tree').setup()
+require('config.multi-cursor').setup()
+require('config.firenvim').setup()

@@ -20,7 +20,7 @@ function M.register(mode, lhs, rhs, opts)
     local rhs_str = rhs
     if type(rhs) == "function" then
         table.insert(M.actions, rhs)
-        rhs_str = ":lua require('mappings').actions["..#M.actions.."]()<cr>"
+        rhs_str = ":lua require('util.maps').actions["..#M.actions.."]()<cr>"
     end
 
     opts = opts or {}
