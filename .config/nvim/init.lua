@@ -52,7 +52,7 @@ require('packer').startup(function()
 
 	-- Language tools
 	use { 'plasticboy/vim-markdown' }
-	use { 'iamcco/markdown-preview.nvim', run = function() vim.call('mkdp#util#install()') end }
+	use { 'iamcco/markdown-preview.nvim', run = function() vim.call('mkdp#util#install') end }
 	use { 'teal-language/vim-teal' }
 	use { 'rust-lang/rust.vim' }
 	use { 'dhruvasagar/vim-table-mode' }
@@ -69,7 +69,7 @@ require('packer').startup(function()
 	use { 'andweeb/presence.nvim' }
 
 	-- Browser Integration
-	use { 'glacambre/firenvim', run = function() vim.call('firenvim#install(0)') end }
+	use { 'glacambre/firenvim', run = function() vim.call('firenvim#install', 0) end }
 end)
 
 -- Config

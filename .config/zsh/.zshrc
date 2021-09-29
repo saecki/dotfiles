@@ -134,7 +134,7 @@ alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
 
 # Config
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
-alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.vim)'
+alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
 alias cftm='$EDITOR ~/.tmux.conf'
 alias cfst='$EDITOR ~/.config/starship.toml'
