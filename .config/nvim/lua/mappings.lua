@@ -33,6 +33,9 @@ function M.setup()
     -- I don't need your help
     maps.map("<F1>", "<esc>")
     maps.imap("<F1>", "<esc>")
+
+    -- Toggle listchars
+    maps.nmap("<leader>hl", function() vim.opt.list = not vim.o.list end)
 end
 
 return M

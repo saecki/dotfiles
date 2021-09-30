@@ -32,7 +32,6 @@ local function setup()
     maps.inoremap("<s-tab>",'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', { expr = true })
 
     vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
-    --vim.cmd("autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }")
 end
 
 return {

@@ -18,6 +18,8 @@ function M.setup()
     maps.nnoremap("<leader>vU", crates.upgrade_crate)
     maps.vnoremap("<leader>vU", crates.upgrade_crates)
     maps.nnoremap("<leader>vA", crates.upgrade_all_crates)
+
+    vim.cmd("autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }")
 end
 
 return M

@@ -9,12 +9,13 @@ function M.setup()
     vim.opt.number = true
     vim.opt.relativenumber = true
     vim.opt.linebreak = true
-    vim.opt.showbreak  =  '⮡   '
+    vim.opt.showbreak  =  "⮡   "
     vim.opt.wrap = true
     vim.opt.scrolloff = 3
     vim.opt.textwidth = 0
     vim.opt.wrapmargin = 0
-    vim.opt.fillchars = { vert  =  "│" }
+    vim.opt.listchars = { space = "·", eol = "⮠" }
+    vim.opt.fillchars = { vert = "│" }
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
 
