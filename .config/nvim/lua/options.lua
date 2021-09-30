@@ -1,5 +1,7 @@
 local M = {}
 
+local util = require('util')
+
 function M.setup()
     vim.g.mapleader = " "
     vim.opt.shell = "/bin/bash"
@@ -45,7 +47,7 @@ function M.setup()
 
     -- Undo
     vim.opt.undolevels = 1000
-    vim.opt.undodir = vim.fn.expand("~/.local/share/nvim/undo")
+    vim.opt.undodir = util.join_paths(vim.fn.stdpath("data"), "undo")
     vim.opt.undofile = true
     vim.opt.swapfile = false
 

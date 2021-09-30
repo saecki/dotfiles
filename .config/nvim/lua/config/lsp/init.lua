@@ -2,6 +2,7 @@ local M = {}
 
 local lsp_status = require('lsp-status')
 local lsp_config = require('lspconfig')
+local util = require('util')
 local maps = require('util.maps')
 
 function M.get_capabilities()
@@ -69,6 +70,7 @@ function M.setup()
     -- server configurations
     local capabilities = M.get_capabilities()
 
+    -- Rust
     lsp_config.rust_analyzer.setup {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -88,6 +90,7 @@ function M.setup()
         },
     }
 
+    -- C/C++
     lsp_config.ccls.setup {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -99,13 +102,20 @@ function M.setup()
         },
     }
 
-    local sumneko_root_path = vim.fn.expand('~/Projects/lua-language-server')
-    local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
+    -- Lua
+    local os
+    if util.is_windows then
+        os = "Windows"
+    else
+        os = "Linux"
+    end
+    local sumneko_root_path = util.join_paths(vim.fn.stdpath("data"), "lua-language-server")
+    local sumneko_binary = util.join_paths(sumneko_root_path, "bin", os, "lua-language-server")
     local runtime_path = vim.split(package.path, ';')
-    table.insert(runtime_path, "lua/?.lua")
-    table.insert(runtime_path, "lua/?/init.lua")
+    table.insert(runtime_path, util.join_paths("lua", "?.lua"))
+    table.insert(runtime_path, util.join_paths("lua", "?", "init.lua"))
     lsp_config.sumneko_lua.setup {
-        cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+        cmd = { sumneko_binary, "-E", util.join_paths(sumneko_root_path, "main.lua") },
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {

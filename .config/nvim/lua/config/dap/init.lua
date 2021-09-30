@@ -13,7 +13,7 @@ end
 function M.setup()
     dap.adapters.lldb = {
         type = "executable",
-        command = "/usr/bin/lldb-vscode",
+        command = "lldb-vscode",
         name = "lldb",
     }
 

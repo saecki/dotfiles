@@ -42,7 +42,7 @@ function M.setup()
 
         -- Lists
         use {
-            '~/Projects/trouble.nvim',
+            'saecki/trouble.nvim',
             config = function()
                 require('config.trouble').setup()
             end,
@@ -152,7 +152,7 @@ function M.setup()
             end,
         }
         use {
-            '~/Projects/crates.nvim',
+            'saecki/crates.nvim',
             event = { "BufEnter Cargo.toml" },
             requires = { { 'nvim-lua/plenary.nvim' } },
             config = function()
