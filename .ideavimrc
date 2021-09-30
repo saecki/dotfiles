@@ -1,9 +1,21 @@
-source ~/.config/nvim/init.vim
-
 let mapleader = "\<space>"
 
 "Settings
 set ideajoin
+set incsearch
+set hlsearch
+set scrolloff=3
+set number
+set relativenumber
+
+" Clear search hl
+vmap <s-h> :nohlsearch<cr>
+nmap <s-h> :nohlsearch<cr>
+
+" Copy paste
+nnoremap Y     y$
+vnoremap <c-c> "+y'
+inoremap <c-v> <c-r>+
 
 " Jumps
 nmap <c-o> <Action>(Back)
