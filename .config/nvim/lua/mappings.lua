@@ -19,7 +19,7 @@ function M.setup()
     -- Quick save
     maps.nmap("<leader>w", ":w<cr>")
 
-    -- stop searching
+    -- Stop searching
     maps.vnoremap("<s-h>", ":nohlsearch<cr>")
     maps.nnoremap("<s-h>", ":nohlsearch<cr>")
 
