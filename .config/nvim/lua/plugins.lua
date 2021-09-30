@@ -153,11 +153,10 @@ function M.setup()
         }
         use {
             '~/Projects/crates.nvim',
-            ft = { "toml" },
+            event = { "BufEnter Cargo.toml" },
             requires = { { 'nvim-lua/plenary.nvim' } },
             config = function()
                 require('config.crates').setup()
-                require('crates').update()
             end,
         }
 
