@@ -28,6 +28,9 @@ export MANPAGER='nvim +Man!'
 # !! has to be souced before manydots-magic
 source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
+# Auto suggestions
+source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
 # Completion
 fpath=("$ZDOTDIR/functions" "/usr/share/zsh/vendor-completions" $fpath)
 autoload -Uz compinit; compinit
@@ -61,15 +64,16 @@ bindkey -v
 export KEYTIMEOUT=1
 zmodload zsh/complist
 
-bindkey -v '^?' backward-delete-char
+bindkey -M vicmd '_' beginning-of-line
+bindkey -M viins '^ ' autosuggest-accept
 
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
-bindkey -M vicmd      '^U' history-beginning-search-backward
-bindkey -M vicmd      '^D' history-beginning-search-forward
+bindkey -M vicmd      '^P' history-beginning-search-backward
+bindkey -M vicmd      '^N' history-beginning-search-forward
 
 # Edit command in editor
 autoload -Uz edit-command-line
