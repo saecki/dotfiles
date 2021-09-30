@@ -1,5 +1,7 @@
-local function setup()
-    require'nvim-treesitter.configs'.setup {
+local M = {}
+
+function M.setup()
+    require('nvim-treesitter.configs').setup {
         ensure_installed = {
             "bash",
             "c",
@@ -32,6 +34,4 @@ local function setup()
     }
 end
 
-return {
-    setup = setup
-}
+return M

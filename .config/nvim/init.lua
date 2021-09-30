@@ -1,95 +1,194 @@
+-- Config
 require('globals')
+require('util.maps').setup()
 require('options').setup()
+require('mappings').setup()
 
 -- Plugins
-require('packer').startup(function()
-	use { 'wbthomason/packer.nvim' }
+require('packer').startup(function(use)
+    use { 'wbthomason/packer.nvim' }
 
-	-- Dependencies
-	use { 'nvim-lua/plenary.nvim' }
+    -- Gui enhancements
+    use {
+        'rcarriga/nvim-notify',
+        config = function()
+            vim.notify = require('notify')
+        end,
+    }
+    use { 'hoob3rt/lualine.nvim' }
 
-	-- Gui enhancements
-	use { 'hoob3rt/lualine.nvim' }
+    -- Multicursor
+    use {
+        'terryma/vim-multiple-cursors',
+        config = function()
+            require('config.multi-cursor').setup()
+        end,
+    }
 
-	-- Multicursor
-	use { 'terryma/vim-multiple-cursors' }
+    -- Fuzzy finding
+    use { 'airblade/vim-rooter' }
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = { { 'nvim-lua/plenary.nvim' } },
+        config = function()
+            require('config.telescope').setup()
+        end,
+    }
 
-	-- Fuzzy finding
-	use { 'airblade/vim-rooter' }
-	use { 'nvim-telescope/telescope.nvim' }
+    -- Filetree
+    use {
+        'kyazdani42/nvim-tree.lua',
+        keys = { "<f6>", "<f18>" },
+        config = function()
+            require('config.nvim-tree').setup()
+        end,
+    }
 
-	-- Filetree
-    use { 'kyazdani42/nvim-tree.lua' }
+    -- Lists
+    use {
+        '~/Projects/trouble.nvim',
+        config = function()
+            require('config.trouble').setup()
+        end,
+    }
+    use {
+        'folke/todo-comments.nvim',
+        after = { 'trouble.nvim' },
+        config = function()
+            require('config.todo-comments').setup()
+        end,
+    }
 
-	-- Lists
-	use { '~/Projects/trouble.nvim' }
-	use { 'folke/todo-comments.nvim' }
+    -- Git
+    use { 'tpope/vim-fugitive' }
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = { { 'nvim-lua/plenary.nvim' } },
+        config = function()
+            require('config.gitsigns').setup()
+        end,
+    }
 
-	-- Git
-	use { 'tpope/vim-fugitive' }
-	use { 'lewis6991/gitsigns.nvim' }
+    -- Lsp
+    use {
+        'neovim/nvim-lspconfig',
+        requires = {
+            { 'nvim-lua/lsp_extensions.nvim' },
+            { 'nvim-lua/lsp-status.nvim' },
+        },
+        config = function()
+            require('config.lsp').setup()
+        end,
+    }
 
-	-- Lsp
-	use { 'neovim/nvim-lspconfig' }
-	use { 'nvim-lua/lsp_extensions.nvim' }
-	use { 'nvim-lua/lsp-status.nvim' }
+    -- Debugging
+    use {
+        'mfussenegger/nvim-dap',
+        config = function()
+            require('config.dap').setup()
+        end,
+    }
+    use {
+        'rcarriga/nvim-dap-ui',
+        after = { 'nvim-dap' },
+        config = function()
+            require('config.dap.ui').setup()
+        end,
+    }
 
-	-- Debugging
-	use { 'mfussenegger/nvim-dap' }
-	use { 'rcarriga/nvim-dap-ui' }
+    -- Completion
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            { 'hrsh7th/cmp-path' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-nvim-lua' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/vim-vsnip' },
+        },
+        config = function()
+            require('config.cmp').setup()
+        end,
+    }
 
-	-- Completion
-	use { 'hrsh7th/nvim-cmp' }
-	use { 'hrsh7th/cmp-path' }
-	use { 'hrsh7th/cmp-buffer' }
-	use { 'hrsh7th/cmp-nvim-lua' }
-	use { 'hrsh7th/cmp-nvim-lsp' }
-	use { 'hrsh7th/vim-vsnip' }
+    -- Treesitter
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            vim.cmd(':TSUpdate')
+        end,
+        config = function()
+            require('config.treesitter').setup()
+        end,
+    }
+    use {
+        'nvim-treesitter/playground',
+        after = { 'nvim-treesitter' },
+        cmd = "TSPlaygroundToggle",
+    }
 
-	-- Treesitter
-	use { 'nvim-treesitter/nvim-treesitter', run = function() vim.cmd(':TSUpdate') end }
-	use { 'nvim-treesitter/playground' }
+    -- Markdown
+    use {
+        'plasticboy/vim-markdown',
+        ft = { "markdown" },
+        config = function()
+            require('config.lang.markdown').setup()
+        end,
+    }
+    use {
+        'iamcco/markdown-preview.nvim',
+        ft = { "markdown" },
+        run = function()
+            vim.call('mkdp#util#install')
+        end,
+    }
+    use {
+        'dhruvasagar/vim-table-mode',
+        ft = { "markdown" },
+    }
 
-	-- Language tools
-	use { 'plasticboy/vim-markdown' }
-	use { 'iamcco/markdown-preview.nvim', run = function() vim.call('mkdp#util#install') end }
-	use { 'teal-language/vim-teal' }
-	use { 'rust-lang/rust.vim' }
-	use { 'dhruvasagar/vim-table-mode' }
-	use { '~/Projects/crates.nvim' }
+    -- Rust
+    use {
+        'rust-lang/rust.vim',
+        ft = { "rust" },
+        config = function()
+            require('config.lang.rust').setup()
+        end,
+    }
+    use {
+        '~/Projects/crates.nvim',
+        ft = { "toml" },
+        requires = { { 'nvim-lua/plenary.nvim' } },
+        config = function()
+            require('config.crates').setup()
+            require('crates').update()
+        end,
+    }
 
-	-- Fancy notifications
-	use { 'rcarriga/nvim-notify' }
+    -- Lua/Teal
+    use {
+        'teal-language/vim-teal',
+        ft = { "teal" },
+    }
 
-	-- Miscellaneous
-	use { 'farmergreg/vim-lastplace' }
-	use { '907th/vim-auto-save' }
+    -- Miscellaneous
+    use { 'farmergreg/vim-lastplace' }
+    use { '907th/vim-auto-save' }
 
-	-- Discord rich presence
-	use { 'andweeb/presence.nvim' }
+    -- Discord rich presence
+    use { 'andweeb/presence.nvim' }
 
-	-- Browser Integration
-	use { 'glacambre/firenvim', run = function() vim.call('firenvim#install', 0) end }
+    -- Browser Integration
+    use {
+        'glacambre/firenvim',
+        run = function()
+            vim.call('firenvim#install', 0)
+        end,
+        config = function()
+            require('config.firenvim').setup()
+        end
+    }
 end)
 
--- Config
-require('util.maps').setup()
-require('mappings').setup()
 require('colors').setup()
 require('highlight').setup()
-
--- Plugin config
-vim.notify = require('notify')
-require('config.lang').setup()
-require('config.crates').setup()
-require('config.gitsigns').setup()
-require('config.cmp').setup()
-require('config.lsp').setup()
-require('config.trouble').setup()
-require('config.todo-comments').setup()
-require('config.dap').setup()
-require('config.treesitter').setup()
-require('config.telescope').setup()
-require('config.nvim-tree').setup()
-require('config.multi-cursor').setup()
-require('config.firenvim').setup()

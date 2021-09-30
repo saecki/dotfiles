@@ -87,7 +87,6 @@ function M.setup()
     }
 
     maps.nmap("<f6>", nvim_tree.toggle)
-    -- shift f6
     maps.nmap("<f18>", ":NvimTreeFindFile<cr>")
 end
 
