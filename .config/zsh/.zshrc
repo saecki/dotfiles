@@ -30,6 +30,7 @@ source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Auto suggestions
 source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # Completion
 fpath=("$ZDOTDIR/functions" "/usr/share/zsh/vendor-completions" $fpath)
