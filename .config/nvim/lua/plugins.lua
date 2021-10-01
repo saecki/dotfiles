@@ -153,7 +153,7 @@ function M.setup()
         }
         use {
             'saecki/crates.nvim',
-            event = { "BufEnter Cargo.toml" },
+            event = { "BufRead Cargo.toml" },
             requires = { { 'nvim-lua/plenary.nvim' } },
             config = function()
                 require('config.crates').setup()
@@ -168,7 +168,6 @@ function M.setup()
 
         -- Miscellaneous
         use { 'farmergreg/vim-lastplace' }
-        use { '907th/vim-auto-save' }
 
         -- Discord rich presence
         use { 'andweeb/presence.nvim' }
