@@ -32,7 +32,7 @@ function M.setup()
     -- Search
     vim.opt.incsearch = true
     vim.opt.inccommand = "nosplit"
-    vim.opt.ignorecase = false
+    vim.opt.ignorecase = true
     vim.opt.hlsearch = true
     vim.opt.showmatch = true
     vim.opt.gdefault = true
