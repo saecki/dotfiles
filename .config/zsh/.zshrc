@@ -65,8 +65,10 @@ bindkey -v
 export KEYTIMEOUT=1
 zmodload zsh/complist
 
+# Make underscore work as expected
 bindkey -M vicmd '_' beginning-of-line
-bindkey -M viins '^ ' autosuggest-accept
+# Make backspace work as expected then appending
+bindkey -v '^?' backward-delete-char
 
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -75,6 +77,8 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 
 bindkey -M vicmd      '^P' history-beginning-search-backward
 bindkey -M vicmd      '^N' history-beginning-search-forward
+
+bindkey -M viins '^ ' autosuggest-accept
 
 # Edit command in editor
 autoload -Uz edit-command-line
