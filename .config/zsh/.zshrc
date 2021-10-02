@@ -120,15 +120,20 @@ eval "$(thefuck --alias)"
 # Reloas config
 alias reload='source $ZDOTDIR/.zshrc'
 
-# Programs
+# ls
+alias l.='exa -d .*'
+alias l='exa -lah'
+alias la='ls -ah --git-ignore'
+alias lg='ls -lah --git-ignore'
+alias ll='exa -lh'
+alias ls='exa'
+alias tree='exa --tree --sort type'
+
+# Editor
 alias v='$EDITOR'
 alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o $file; fi'
-alias vs='nvim -c Rg'
-alias vp='nvim -c Files'
-alias vf='vifm'
-alias fz='fzf-tmux'
-alias fs='rg --column --heading --line-number . | fzf-tmux'
 
+# Music
 update-cmus-lib() {
     cmus-remote -l -c ~/Music
 }
@@ -139,6 +144,7 @@ update-cmus-playlist() {
 }
 alias music='update-cmus-playlist; cmus'
 
+# Youtube-dl
 alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
 
 # Config
@@ -202,7 +208,6 @@ alias gsl='git stash list'
 alias gsp='git stash pop'
 alias gss='git stash push'
 
-
 alias ggc='git reflog expire --expire=now --all && git gc --prune=now --aggressive'
 alias gdu="git rev-list --objects --all \
          | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
@@ -211,62 +216,18 @@ alias gdu="git rev-list --objects --all \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
-# Dotfiles
-_dotfiles='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
-alias dotfiles="$_dotfiles"
-alias dotfiles-pull="$_dotfiles pull origin master"
-alias dotfiles-forcepull="$_dotfiles stash save;\
-                         $_dotfiles stash drop;\
-                         $_dotfiles pull origin master"
-alias dotfiles-push="$_dotfiles add -u;\
-                     $_dotfiles commit -m update;\
-                     $_dotfiles push origin master"
-alias dotfiles-forcepush="$_dotfiles add -u;\
-                          $_dotfiles commit --amend --no-edit;\
-                          $_dotfiles push origin master -f"
-unset _dotfiles
-
-# Stuff
-_stuff='git --git-dir=$HOME/.config/stuff --work-tree=$HOME'
-alias stuff="$_stuff"
-alias stuff-pull="$_stuff pull origin master"
-alias stuff-forcepull="$_stuff stash save;\
-                       $_stuff stash drop;\
-                       $_stuff pull origin master"
-alias stuff-push="$_stuff add -u;\
-                  $_stuff commit -m update;\
-                  $_stuff push origin master"
-alias stuff-forcepush="$_stuff add -u;\
-                       $_stuff commit --amend--no-edit;\
-                       $_stuff push origin master -f"
-unset _stuff
-
-# Notes
-_notes='git -C $HOME/Documents/notable'
-alias notes-pull="$_notes pull origin master"
-alias notes-push="$_notes add .;\
-                  $_notes commit -m "update";\
-                  $_notes push origin master"
-alias notes-diff="$_notes diff HEAD"
-unset _notes
-
-# ls
-alias l.='exa -d .*'
-alias l='exa -lah'
-alias la='ls -ah --git-ignore'
-alias lg='ls -lah --git-ignore'
-alias ll='exa -lh'
-alias ls='exa'
-alias tree='exa --tree --sort type'
-
 # Delete swap files
 alias delete-swap='rm ~/.local/share/nvim/swap/*'
 
 # Systemd reboot
 alias sysreboot='systemctl reboot -i'
 
+# Bare repos
+alias dotfiles="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+alias stuff="git --git-dir=$HOME/.config/stuff --work-tree=$HOME"
 alias csgo-config="git --git-dir $HOME/Documents/csgo-config --work-tree '$HOME/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg'"
 
+# 255 Colors
 print-color-table() {
     for i in {0..255}; do
         print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'};

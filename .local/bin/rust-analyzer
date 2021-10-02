@@ -1,2 +1,2 @@
 #!/bin/sh
-rustup run nightly rust-analyzer $@
+rustup run nightly rust-analyzer "$@"
