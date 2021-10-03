@@ -1,7 +1,9 @@
+local M = {}
+
+local cmp = require('cmp')
 local maps = require('util.maps')
 
-local function setup()
-    local cmp = require('cmp')
+function M.setup()
     cmp.setup {
         snippet = {
             expand = function(args)
@@ -34,6 +36,4 @@ local function setup()
     vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
 end
 
-return {
-    setup = setup,
-}
+return M
