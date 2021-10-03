@@ -75,6 +75,8 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
+bindkey -M vicmd      '^U' up-history
+bindkey -M vicmd      '^D' down-history
 bindkey -M vicmd      '^P' history-beginning-search-backward
 bindkey -M vicmd      '^N' history-beginning-search-forward
 
