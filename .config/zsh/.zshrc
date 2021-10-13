@@ -124,11 +124,11 @@ alias reload='source $ZDOTDIR/.zshrc'
 
 # ls
 alias l.='exa -d .*'
-alias l='exa -lah'
-alias la='ls -ah --git-ignore'
-alias lg='ls -lah --git-ignore'
-alias ll='exa -lh'
-alias ls='exa'
+alias l='exa -lah --git'
+alias la='ls -ah --git --git-ignore'
+alias lg='ls -lah --git --git-ignore'
+alias ll='exa -lh --git'
+alias ls='exa --git'
 alias tree='exa --tree --sort type'
 
 # Editor

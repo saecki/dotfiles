@@ -29,6 +29,8 @@ nmap gd <Action>(GotoDeclaration)
 nmap gi <Action>(GotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap gy <Action>(GotoTypeDeclaration)
+nmap g[ <Action>(GotoPreviousError)
+nmap g] <Action>(GotoNextError)
 nmap g{ <Action>(VcsShowPrevChangeMarker)
 nmap g} <Action>(VcsShowNextChangeMarker)
 
