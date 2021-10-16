@@ -15,6 +15,7 @@ rename_file() {
         fi
     fi
 }
+
 if [ -z "$1" ]; then
     filename="."
 elif [ -f "$1" ]; then

@@ -120,8 +120,12 @@ function M.setup()
         }
         use {
             'nvim-treesitter/playground',
-            after = { 'nvim-treesitter' },
+            requires = { 'nvim-treesitter' },
             cmd = "TSPlaygroundToggle",
+        }
+        use {
+            'romgrk/nvim-treesitter-context',
+            requires = { 'nvim-treesitter' },
         }
 
         -- Markdown

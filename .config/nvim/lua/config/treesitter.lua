@@ -32,6 +32,18 @@ function M.setup()
             additional_vim_regex_highlighting = false,
         },
     }
+
+    require'treesitter-context'.setup{
+        throttle = true,
+        max_lines = 1,
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+            default = {
+                'class',
+                'function',
+                'method',
+            },
+        },
+    }
 end
 
 return M
