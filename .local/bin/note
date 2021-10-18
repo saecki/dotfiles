@@ -32,8 +32,7 @@ else
             filename="$f"
         done
     else
-        date=$(date)
-        date=${date:0:10}
+        date=$(date --iso-8601=date)
         name="$date $basename"
         
         for a in "${@:2}"; do
