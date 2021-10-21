@@ -7,10 +7,24 @@ function M.setup()
     cmp.setup {
         snippet = {
             expand = function(args)
-                vim.fn['vsnip#anonymous'](args.body)
+                require('luasnip').lsp_expand(args.body)
             end
         },
         mapping = {
+            ['<tab>'] = function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    fallback()
+                end
+            end,
+            ['<s-tab>'] = function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    fallback()
+                end
+            end,
             ['<c-p>'] = cmp.mapping.select_prev_item(),
             ['<c-n>'] = cmp.mapping.select_next_item(),
             ['<c-u>'] = cmp.mapping.scroll_docs(-4), -- why doesn't this work
@@ -24,14 +38,11 @@ function M.setup()
         },
         sources = {
             { name = "nvim_lsp" },
+            { name = "luasnip" },
             { name = "buffer" },
             { name = "path" },
         },
     }
-
-    -- Use <Tab> and <S-Tab> to navigate through popup menu
-    maps.inoremap("<tab>",  'pumvisible() ? "\\<c-n>" : "\\<tab>"',   { expr = true })
-    maps.inoremap("<s-tab>",'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', { expr = true })
 
     vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
 end
