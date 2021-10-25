@@ -43,7 +43,6 @@ function M.setup()
         -- Lists
         use {
             'saecki/trouble.nvim',
-            branch = "provider",
             config = function()
                 require('config.trouble').setup()
             end,
