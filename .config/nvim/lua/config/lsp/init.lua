@@ -80,12 +80,6 @@ function M.setup()
                     importGranularity = "module",
                     importPrefix = "plain",
                 },
-                cargo = {
-                    loadOutDirsFromCheck = true
-                },
-                procMacro = {
-                    enable = true
-                },
             },
         },
     }

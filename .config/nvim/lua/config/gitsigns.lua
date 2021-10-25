@@ -1,3 +1,5 @@
+local M = {}
+
 -- Slightly modified version of default functino
 local function current_line_blame_formatter(name, blame_info, opts)
     if blame_info.author == name then
@@ -22,7 +24,7 @@ local function current_line_blame_formatter(name, blame_info, opts)
       return {{' '..text, 'GitSignsCurrentLineBlame'}}
 end
 
-local function setup()
+function M.setup()
     local gitsigns = require('gitsigns')
 
     gitsigns.setup {
@@ -70,6 +72,4 @@ local function setup()
     }
 end
 
-return {
-    setup = setup,
-}
+return M

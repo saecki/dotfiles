@@ -7,6 +7,11 @@ function M.setup()
 end
 
 function M.register(mode, lhs, rhs, opts)
+    opts = opts or {}
+    if opts.silent == nil then
+        opts.silent = true
+    end
+
     if mode == nil then
         error("Missing mode on mapping", 2)
     end
@@ -20,12 +25,12 @@ function M.register(mode, lhs, rhs, opts)
     local rhs_str = rhs
     if type(rhs) == "function" then
         table.insert(M.actions, rhs)
-        rhs_str = ":lua require('util.maps').actions["..#M.actions.."]()<cr>"
-    end
-
-    opts = opts or {}
-    if opts.silent == nil then
-        opts.silent = true
+        local luaexpr = "lua require('util.maps').actions["..#M.actions.."]()"
+        if opts.expr then
+            rhs_str = "luaeval('" .. luaexpr .. "')"
+        else
+            rhs_str = "<cmd>" .. luaexpr .. "<cr>"
+        end
     end
 
     vim.api.nvim_set_keymap(mode, lhs, rhs_str, opts)
@@ -70,6 +75,15 @@ end
 
 function M.vnoremap(lhs, rhs, opts)
     M.nore_register("v", lhs, rhs, opts)
+end
+
+
+function M.smap(lhs, rhs, opts)
+    M.register("s", lhs, rhs, opts)
+end
+
+function M.snoremap(lhs, rhs, opts)
+    M.nore_register("s", lhs, rhs, opts)
 end
 
 return M
