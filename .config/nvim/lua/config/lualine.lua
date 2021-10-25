@@ -1,3 +1,11 @@
+local M = {}
+
+local lualine = require('lualine')
+local lsp_status = require('lsp-status')
+local colors = require('colors.mineauto')
+local theme = colors.lualine
+local palette = colors.palette
+
 local modemap = {
     ['n']    = 'N ',
     ['no']   = 'O ',
@@ -48,12 +56,8 @@ local function position()
     return string.format(template, cursor[1], cursor[2])
 end
 
-local function setup()
-    local colors = require('colors.mineauto')
-    local theme = colors.lualine
-    local palette = colors.palette
-
-    require('lualine').setup {
+function M.setup()
+    lualine.setup {
         options = {
             icons_enabled = true,
             theme = theme,
@@ -62,7 +66,7 @@ local function setup()
         },
         sections = {
             lualine_a = { mode },
-            lualine_b = { require('lsp-status').status },
+            lualine_b = { function() lsp_status.status() end },
             lualine_c = { { 'filename', path = 1 } },
             lualine_x = { file_format, 'encoding', 'filetype' },
             lualine_y = { 'branch' },
@@ -93,6 +97,4 @@ local function setup()
     }
 end
 
-return {
-    setup = setup,
-}
+return M

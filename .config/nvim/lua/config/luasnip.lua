@@ -2,8 +2,9 @@ local M = {}
 
 local luasnip = require('luasnip')
 local s = luasnip.snippet
-local f = luasnip.function_node
 local t = luasnip.text_node
+local i = luasnip.insert_node
+local f = luasnip.function_node
 
 local function bash(_, _, command)
 	local file = io.popen(command, "r")
@@ -16,6 +17,13 @@ end
 
 function M.setup()
     luasnip.snippets = {
+        lua = {
+            s("module", {
+                t({ "local M = {}", "", "function M.setup()", "\t" }),
+                i(0, { "" }),
+                t({"", "end", "", "return M" }),
+            }),
+        },
         markdown = {
             s("pwd",      f(bash, {}, "pwd")),
             s("ls",       f(bash, {}, "ls")),
@@ -37,7 +45,7 @@ function M.setup()
             s("land", t("∧")),
             s("lor",  t("∨")),
             s("xor",  t("⊻")),
-        }
+        },
     }
 end
 

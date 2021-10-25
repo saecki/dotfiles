@@ -42,6 +42,7 @@ function M.setup()
         },
         sources = {
             { name = "nvim_lsp" },
+            { name = "nvim_lua" },
             { name = "luasnip" },
             { name = "path" },
             { name = "buffer", keyword_length = 5 },
@@ -51,8 +52,6 @@ function M.setup()
             ghost_text = true,
         }
     }
-
-    vim.cmd("autocmd FileType lua lua require('cmp').setup.buffer { sources = { { name = 'nvim_lua' } } }")
 end
 
 return M

@@ -2,7 +2,6 @@ local M = {}
 
 local lsp_status = require('lsp-status')
 local lsp_config = require('lspconfig')
-local util = require('util')
 local maps = require('util.maps')
 
 function M.get_capabilities()
@@ -67,74 +66,22 @@ function M.setup()
         }
     )
 
-    -- server configurations
+    -- client capabilities
     local capabilities = M.get_capabilities()
 
-    -- Rust
-    lsp_config.rust_analyzer.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-            ["rust-analyzer"] = {
-                assist = {
-                    importGranularity = "module",
-                    importPrefix = "plain",
-                },
-            },
-        },
-    }
-
-    -- C/C++
-    lsp_config.ccls.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        compilationDatabaseDirectory = "build",
-        init_options = {
-            cache = {
-                directory = ".ccls-cache",
-            },
-        },
-    }
-
-    -- Lua
-    local os
-    if util.is_windows then
-        os = "Windows"
-    else
-        os = "Linux"
+    -- server config
+    local function setup_server(path)
+        require(path).setup(lsp_config, on_attach, capabilities)
     end
-    local sumneko_root_path = util.join_paths(vim.fn.stdpath("data"), "lua-language-server")
-    local sumneko_binary = util.join_paths(sumneko_root_path, "bin", os, "lua-language-server")
-    local runtime_path = vim.split(package.path, ';')
-    table.insert(runtime_path, util.join_paths("lua", "?.lua"))
-    table.insert(runtime_path, util.join_paths("lua", "?", "init.lua"))
-    lsp_config.sumneko_lua.setup {
-        cmd = { sumneko_binary, "-E", util.join_paths(sumneko_root_path, "main.lua") },
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-            Lua = {
-                runtime = {
-                    version = 'LuaJIT',
-                    path = runtime_path,
-                },
-                diagnostics = {
-                    globals = { 'vim', 'P' },
-                },
-                telemetry = {
-                    enable = false,
-                },
-            },
-        },
-    }
-
+    setup_server('config.lsp.rust_analyzer')
+    setup_server('config.lsp.ccls')
+    setup_server('config.lsp.sumneko_lua')
 
     -- Diagnostics
     vim.fn.sign_define("LspDiagnosticsSignError",       { text="", texthl="LspDiagnosticsSignError",       linehl="", numhl="" })
     vim.fn.sign_define("LspDiagnosticsSignWarning",     { text="", texthl="LspDiagnosticsSignWarning",     linehl="", numhl="" })
     vim.fn.sign_define("LspDiagnosticsSignHint",        { text="", texthl="LspDiagnosticsSignHint",        linehl="", numhl="" })
     vim.fn.sign_define("LspDiagnosticsSignInformation", { text="", texthl="LspDiagnosticsSignInformation", linehl="", numhl="" })
-
 
     --Show inlay hints
     vim.cmd("augroup LspInlayHints")
