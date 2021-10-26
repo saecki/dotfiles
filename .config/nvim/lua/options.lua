@@ -58,6 +58,14 @@ function M.setup()
     vim.opt.updatetime = 300
     vim.opt.mouse = "a"
     vim.opt.hidden = true
+
+    -- Highlight yanked text
+    vim.cmd([[
+        augroup HighlightYank
+        autocmd!
+        autocmd TextYankPost * silent! lua vim.highlight.on_yank { on_visual=false, timeout=150 }
+        augroup END
+    ]])
 end
 
 return M

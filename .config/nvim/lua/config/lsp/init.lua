@@ -76,6 +76,7 @@ function M.setup()
     setup_server('config.lsp.rust_analyzer')
     setup_server('config.lsp.ccls')
     setup_server('config.lsp.sumneko_lua')
+    setup_server('config.lsp.texlab')
 
     -- Diagnostics
     vim.fn.sign_define("LspDiagnosticsSignError",       { text="", texthl="LspDiagnosticsSignError",       linehl="", numhl="" })
