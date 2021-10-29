@@ -20,8 +20,8 @@ function M.setup()
     maps.nmap("<leader>w", ":w<cr>")
 
     -- Stop searching
-    maps.vnoremap("<s-h>", ":nohlsearch<cr>")
-    maps.nnoremap("<s-h>", ":nohlsearch<cr>")
+    maps.vnoremap("H", ":nohlsearch<cr>")
+    maps.nnoremap("H", ":nohlsearch<cr>")
 
     -- Copy paste
     maps.vnoremap("<c-c>", '"+y')

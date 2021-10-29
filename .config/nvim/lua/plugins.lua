@@ -164,7 +164,7 @@ function M.setup()
             end,
         }
         use {
-            'saecki/crates.nvim',
+            '~/Projects/crates.nvim',
             event = { "BufRead Cargo.toml" },
             requires = { { 'nvim-lua/plenary.nvim' } },
             config = function()
