@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
     require('packer').startup(function(use)
-        use { 'wbthomason/packer.nvim' }
+        use 'wbthomason/packer.nvim'
 
         -- Gui enhancements
         use {
@@ -11,7 +11,7 @@ function M.setup()
                 vim.notify = require('notify')
             end,
         }
-        use { 'hoob3rt/lualine.nvim' }
+        use 'hoob3rt/lualine.nvim'
 
         -- Multicursor
         use {
@@ -22,7 +22,7 @@ function M.setup()
         }
 
         -- Fuzzy finding
-        use { 'airblade/vim-rooter' }
+        use 'airblade/vim-rooter'
         use {
             'nvim-telescope/telescope.nvim',
             requires = { { 'nvim-lua/plenary.nvim' } },
@@ -56,7 +56,7 @@ function M.setup()
         }
 
         -- Git
-        use { 'tpope/vim-fugitive' }
+        use 'tpope/vim-fugitive'
         use {
             'lewis6991/gitsigns.nvim',
             requires = { { 'nvim-lua/plenary.nvim' } },
@@ -155,6 +155,9 @@ function M.setup()
             ft = { "markdown" },
         }
 
+        -- Latex
+        use 'xuhdev/vim-latex-live-preview'
+
         -- Rust
         use {
             'rust-lang/rust.vim',
@@ -179,10 +182,10 @@ function M.setup()
         }
 
         -- Miscellaneous
-        use { 'farmergreg/vim-lastplace' }
+        use 'farmergreg/vim-lastplace'
 
         -- Discord rich presence
-        use { 'andweeb/presence.nvim' }
+        use 'andweeb/presence.nvim'
 
         -- Browser Integration
         use {

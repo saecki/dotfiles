@@ -114,6 +114,7 @@ function M.setup()
     maps.nnoremap("<leader>r", vim.lsp.buf.rename)
 
     -- Goto actions
+    maps.nnoremap("gd", vim.lsp.buf.definition)
     maps.nnoremap("gD", vim.lsp.buf.declaration)
     maps.nnoremap("gw", vim.lsp.buf.document_symbol)
     maps.nnoremap("gW", vim.lsp.buf.workspace_symbol)

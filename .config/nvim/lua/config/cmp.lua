@@ -34,7 +34,10 @@ function M.setup()
             ['<c-u>'] = cmp.mapping.scroll_docs(-4), -- why doesn't this work
             ['<c-d>'] = cmp.mapping.scroll_docs(4), -- why doesn't this work
             ['<c-space>'] = cmp.mapping.complete(),
-            ['<c-e>'] = cmp.mapping.close(),
+            ['<c-e>'] = cmp.mapping {
+                i = cmp.mapping.abort(),
+                c = cmp.mapping.close(),
+            },
             ['<cr>'] = cmp.mapping.confirm {
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
