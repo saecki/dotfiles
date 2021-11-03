@@ -8,5 +8,5 @@ if file_exists(dir.."/minedark.yml") then
 elseif file_exists(dir.."/minelight.yml") then
     return require('colors.minelight')
 else
-    return {}
+    return require('colors.minedark')
 end
