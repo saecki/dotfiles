@@ -8,7 +8,7 @@ function M.setup()
         use {
             'rcarriga/nvim-notify',
             config = function()
-                vim.notify = require('notify')
+                require('config.notify').setup()
             end,
         }
         use 'hoob3rt/lualine.nvim'

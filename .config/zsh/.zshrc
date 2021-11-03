@@ -147,7 +147,10 @@ update-cmus-playlist() {
 alias music='update-cmus-playlist; cmus'
 
 # Youtube-dl
-alias music-dl='youtube-dl -f 140 --ignore-errors --output "%(title)s.%(ext)s"'
+music-dl() {
+    youtube-dl --get-id "$1" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
+}
+
 
 # Config
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
