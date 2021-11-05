@@ -11,28 +11,34 @@ function M.setup()
             end
         },
         mapping = {
-            ['<tab>'] = function(fallback)
+            ['<Tab>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
+                    print("select next")
                     cmp.select_next_item()
                 elseif luasnip.jumpable(1) then
+                    print("luasnip jump 1")
                     luasnip.jump(1)
                 else
+                    print("fallback")
                     fallback()
                 end
-            end,
-            ['<s-tab>'] = function(fallback)
+            end),
+            ['<s-Tab>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
+                    print("select prev")
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then
+                    print("luasnip jump -1")
                     luasnip.jump(-1)
                 else
+                    print("fallback")
                     fallback()
                 end
-            end,
+            end),
             ['<c-p>'] = cmp.mapping.select_prev_item(),
             ['<c-n>'] = cmp.mapping.select_next_item(),
-            ['<c-u>'] = cmp.mapping.scroll_docs(-4), -- why doesn't this work
-            ['<c-d>'] = cmp.mapping.scroll_docs(4), -- why doesn't this work
+            ['<c-u>'] = cmp.mapping.scroll_docs(-4),
+            ['<c-d>'] = cmp.mapping.scroll_docs(4),
             ['<c-space>'] = cmp.mapping.complete(),
             ['<c-e>'] = cmp.mapping {
                 i = cmp.mapping.abort(),
