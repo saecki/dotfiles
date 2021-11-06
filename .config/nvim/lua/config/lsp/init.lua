@@ -30,6 +30,10 @@ function M.get_capabilities()
     return capabilities
 end
 
+function M.on_attach(client)
+    lsp_status.on_attach(client)
+end
+
 function M.show_documentation()
     local filetype = vim.bo.filetype
     if vim.tbl_contains({ 'vim','help' }, filetype) then
@@ -41,10 +45,6 @@ function M.show_documentation()
     else
         vim.lsp.buf.hover()
     end
-end
-
-local function on_attach(client)
-    lsp_status.on_attach(client)
 end
 
 function M.setup()
@@ -71,7 +71,7 @@ function M.setup()
 
     -- server config
     local function setup_server(path)
-        require(path).setup(lsp_config, on_attach, capabilities)
+        require(path).setup(lsp_config, M.on_attach, capabilities)
     end
     setup_server('config.lsp.rust_analyzer')
     setup_server('config.lsp.ccls')
@@ -85,7 +85,7 @@ function M.setup()
     vim.fn.sign_define("LspDiagnosticsSignHint",        { text="", texthl="LspDiagnosticsSignHint",        linehl="", numhl="" })
     vim.fn.sign_define("LspDiagnosticsSignInformation", { text="", texthl="LspDiagnosticsSignInformation", linehl="", numhl="" })
 
-    --Show inlay hints
+    -- Inlay hints
     vim.cmd("augroup LspInlayHints")
     vim.cmd("autocmd!")
     vim.cmd("autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * "
@@ -94,7 +94,7 @@ function M.setup()
             .."enabled = { 'TypeHint', 'ChainingHint' } }")
     vim.cmd("augroup END")
 
-    -- Highlight occurences
+    -- Occurences
     vim.cmd([[
         augroup LspOccurences
         autocmd!
@@ -102,7 +102,6 @@ function M.setup()
         autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
         augroup END
     ]])
-
 
     -- Show documentation
     maps.nnoremap("K", M.show_documentation)
