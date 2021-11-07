@@ -71,6 +71,7 @@ function M.setup()
             requires = {
                 { 'nvim-lua/lsp_extensions.nvim' },
                 { 'nvim-lua/lsp-status.nvim' },
+                { 'williamboman/nvim-lsp-installer' },
             },
             config = function()
                 require('config.lsp').setup()

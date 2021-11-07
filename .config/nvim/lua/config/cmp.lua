@@ -23,7 +23,7 @@ function M.setup()
                     fallback()
                 end
             end),
-            ['<s-Tab>'] = cmp.mapping(function(fallback)
+            ['<S-Tab>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     print("select prev")
                     cmp.select_prev_item()

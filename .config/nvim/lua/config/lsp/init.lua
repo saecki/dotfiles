@@ -1,7 +1,7 @@
 local M = {}
 
 local lsp_status = require('lsp-status')
-local lsp_config = require('lspconfig')
+local lsp_installer = require('nvim-lsp-installer')
 local maps = require('util.maps')
 
 function M.get_capabilities()
@@ -69,15 +69,25 @@ function M.setup()
     -- client capabilities
     local capabilities = M.get_capabilities()
 
-    -- server config
-    local function setup_server(path)
-        require(path).setup(lsp_config, M.on_attach, capabilities)
-    end
-    setup_server('config.lsp.rust_analyzer')
-    setup_server('config.lsp.ccls')
-    setup_server('config.lsp.sumneko_lua')
-    setup_server('config.lsp.sqls')
-    setup_server('config.lsp.texlab')
+    -- installer and server config
+    local server_configs = {
+        "rust_analyzer",
+        "ccls",
+        "sumneko_lua",
+        "sqls",
+        "texlab",
+    }
+
+    lsp_installer.on_server_ready(function(server)
+        if vim.tbl_contains(server_configs, server.name) then
+            require("config.lsp."..server.name).setup(server, M.on_attach, capabilities)
+        else
+            server:setup {
+                on_attach = M.on_attach,
+                capabilities = M.capabilities,
+            }
+        end
+    end)
 
     -- Diagnostics
     vim.fn.sign_define("LspDiagnosticsSignError",       { text="", texthl="LspDiagnosticsSignError",       linehl="", numhl="" })

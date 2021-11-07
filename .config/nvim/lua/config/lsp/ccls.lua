@@ -1,7 +1,7 @@
 local M = {}
 
-function M.setup(lsp_config, on_attach, capabilities)
-    lsp_config.ccls.setup {
+function M.setup(server, on_attach, capabilities)
+    server:setup {
         on_attach = on_attach,
         capabilities = capabilities,
         compilationDatabaseDirectory = "build",
