@@ -72,7 +72,7 @@ function M.setup()
     -- installer and server config
     local server_configs = {
         "rust_analyzer",
-        "ccls",
+        "clangd",
         "sumneko_lua",
         "sqls",
         "texlab",
