@@ -151,6 +151,16 @@ music-dl() {
     youtube-dl --get-id "$1" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
 }
 
+# Clean latex files
+latex-clean() {
+    rm -f *.aux
+    rm -f *.dvi
+    rm -f *.fdb_latexmk
+    rm -f *.fls
+    rm -f *.log
+    rm -f *.xdv
+    rm -f *.synctex.gz
+}
 
 # Config
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'

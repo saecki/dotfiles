@@ -156,9 +156,6 @@ function M.setup()
             ft = { "markdown" },
         }
 
-        -- Latex
-        use 'xuhdev/vim-latex-live-preview'
-
         -- Rust
         use {
             'rust-lang/rust.vim',
