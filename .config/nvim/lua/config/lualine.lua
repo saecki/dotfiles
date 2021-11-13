@@ -66,7 +66,7 @@ function M.setup()
         },
         sections = {
             lualine_a = { mode },
-            lualine_b = { function() lsp_status.status() end },
+            lualine_b = { function() return lsp_status.status() end },
             lualine_c = { { 'filename', path = 1 } },
             lualine_x = { file_format, 'encoding', 'filetype' },
             lualine_y = { 'branch' },
