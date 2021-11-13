@@ -19,6 +19,9 @@ function M.setup()
     maps.vnoremap("<leader>vU", crates.upgrade_crates)
     maps.nnoremap("<leader>vA", crates.upgrade_all_crates)
 
+    maps.nnoremap("<leader>vv", crates.show_versions_popup)
+    maps.nnoremap("<leader>vf", crates.show_features_popup)
+
     require('cmp').setup.buffer { sources = { { name = 'crates' } } }
 end
 
