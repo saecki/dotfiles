@@ -160,6 +160,7 @@ latex-clean() {
     rm -f *.log
     rm -f *.xdv
     rm -f *.synctex.gz
+    rm -f *.pdf
 }
 
 # Config
