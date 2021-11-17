@@ -2,9 +2,6 @@ local M = {}
 
 local lualine = require('lualine')
 local lsp_status = require('lsp-status')
-local colors = require('colors.mineauto')
-local theme = colors.lualine
-local palette = colors.palette
 
 local modemap = {
     ['n']    = 'N ',
@@ -57,6 +54,10 @@ local function position()
 end
 
 function M.setup()
+    local colors = require('colors.mineauto')
+    local theme = colors.lualine
+    local palette = colors.palette
+
     lualine.setup {
         options = {
             icons_enabled = true,
