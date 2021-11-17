@@ -85,7 +85,8 @@ bindkey -M viins '^ ' autosuggest-accept
 # Edit command in editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey -M vicmd f edit-command-line
+bindkey -M vicmd '^F' edit-command-line
+bindkey -M viins '^F' edit-command-line
 
 # ===================================================
 # Miscellaneous
