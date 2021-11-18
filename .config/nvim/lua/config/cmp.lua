@@ -13,25 +13,19 @@ function M.setup()
         mapping = {
             ['<Tab>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
-                    print("select next")
                     cmp.select_next_item()
                 elseif luasnip.jumpable(1) then
-                    print("luasnip jump 1")
                     luasnip.jump(1)
                 else
-                    print("fallback")
                     fallback()
                 end
             end),
             ['<S-Tab>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
-                    print("select prev")
                     cmp.select_prev_item()
                 elseif luasnip.jumpable(-1) then
-                    print("luasnip jump -1")
                     luasnip.jump(-1)
                 else
-                    print("fallback")
                     fallback()
                 end
             end),
@@ -54,7 +48,7 @@ function M.setup()
             { name = "nvim_lua" },
             { name = "luasnip" },
             { name = "path" },
-            { name = "buffer", keyword_length = 5 },
+            { name = "buffer", keyword_length = 4 },
         },
         experimental = {
             native_menu = false,
