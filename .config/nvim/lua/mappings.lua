@@ -11,13 +11,13 @@ function M.setup()
     maps.nnoremap("Y", "y$")
 
     -- Resize
-    maps.nmap("<c-left>",  ":vertical resize -5<cr>")
-    maps.nmap("<c-down>",  ":resize +5<cr>")
-    maps.nmap("<c-up>",    ":resize -5<cr>")
-    maps.nmap("<c-right>", ":vertical resize +5<cr>")
+    maps.nnoremap("<c-left>",  ":vertical resize -5<cr>")
+    maps.nnoremap("<c-down>",  ":resize +5<cr>")
+    maps.nnoremap("<c-up>",    ":resize -5<cr>")
+    maps.nnoremap("<c-right>", ":vertical resize +5<cr>")
 
     -- Quick save
-    maps.nmap("<leader>w", ":w<cr>")
+    maps.nnoremap("<leader>w", ":w<cr>")
 
     -- Stop searching
     maps.vnoremap("H", ":nohlsearch<cr>")
@@ -31,11 +31,11 @@ function M.setup()
     maps.nnoremap("<leader><leader>", "<c-^>")
 
     -- I don't need your help
-    maps.map("<F1>", "<esc>")
-    maps.imap("<F1>", "<esc>")
+    maps.noremap("<F1>", "<esc>")
+    maps.inoremap("<F1>", "<esc>")
 
     -- Toggle listchars
-    maps.nmap("<leader>hl", function() vim.opt.list = not vim.o.list end)
+    maps.nnoremap("<leader>hl", function() vim.opt.list = not vim.o.list end)
 end
 
 return M

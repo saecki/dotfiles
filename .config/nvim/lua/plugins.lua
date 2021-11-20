@@ -22,8 +22,14 @@ function M.setup()
         }
 
         -- File navigation
-        use 'airblade/vim-rooter'
         use 'farmergreg/vim-lastplace'
+        use {
+            'ahmedkhalf/project.nvim',
+            requires = { { 'nvim-telescope/telescope.nvim' } },
+            config = function()
+                require('config.project').setup()
+            end,
+        }
         use {
             'nvim-telescope/telescope.nvim',
             requires = { { 'nvim-lua/plenary.nvim' } },

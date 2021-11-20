@@ -18,8 +18,8 @@ function M.setup()
     }
 
     maps.nmap("<leader>s",  telescope_builtin.live_grep)
-    maps.nmap("<a-p>",      function() telescope_builtin.find_files { no_ignore = true } end)
-    maps.nmap("<c-p>",      telescope_builtin.find_files)
+    maps.nmap("<a-p>",      function() telescope_builtin.find_files { hidden = true, no_ignore = true } end)
+    maps.nmap("<c-p>",      function() telescope_builtin.find_files { hidden = true } end)
     maps.nmap("<leader>;",  telescope_builtin.buffers)
     maps.nmap("<leader>fh", telescope_builtin.help_tags)
     maps.nmap("<leader>fc", telescope_builtin.commands)
