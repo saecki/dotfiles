@@ -21,13 +21,21 @@ function M.setup()
             end,
         }
 
-        -- Fuzzy finding
+        -- File navigation
         use 'airblade/vim-rooter'
+        use 'farmergreg/vim-lastplace'
         use {
             'nvim-telescope/telescope.nvim',
             requires = { { 'nvim-lua/plenary.nvim' } },
             config = function()
                 require('config.telescope').setup()
+            end,
+        }
+        use {
+            'ThePrimeagen/harpoon',
+            requires = { { 'nvim-lua/plenary.nvim' } },
+            config = function()
+                require('config.harpoon').setup()
             end,
         }
 
@@ -178,9 +186,6 @@ function M.setup()
             'teal-language/vim-teal',
             ft = { "teal" },
         }
-
-        -- Miscellaneous
-        use 'farmergreg/vim-lastplace'
 
         -- Discord rich presence
         use 'andweeb/presence.nvim'

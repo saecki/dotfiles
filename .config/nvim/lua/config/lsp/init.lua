@@ -115,9 +115,8 @@ function M.setup()
 
     -- Show documentation
     maps.nnoremap("K", M.show_documentation)
-
-    -- Signature help
-    maps.nnoremap("<c-k>", vim.lsp.buf.signature_help)
+    -- Show Signature
+    maps.nnoremap("S", vim.lsp.buf.signature_help)
 
     -- Code actions
     maps.nnoremap("<leader>a", vim.lsp.buf.code_action)
