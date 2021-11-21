@@ -5,9 +5,7 @@ local telescope = require('telescope')
 local maps = require('util.maps')
 
 function M.setup()
-    project.setup {
-        silent_chdir = false,
-    }
+    project.setup {}
 
     telescope.load_extension('projects')
 
