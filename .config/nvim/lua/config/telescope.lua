@@ -18,15 +18,16 @@ function M.setup()
     }
 
 
-    maps.nmap("<leader>s",  telescope_builtin.live_grep)
     local fd_cmd = { "fd", "--type", "f", "--exclude", ".git", "--hidden" }
-    maps.nmap("<a-p>",      function() telescope_builtin.find_files { find_command = fd_cmd, no_ignore = true } end)
-    maps.nmap("<c-p>",      function() telescope_builtin.find_files { find_command = fd_cmd } end)
-    maps.nmap("<leader>;",  telescope_builtin.buffers)
-    maps.nmap("<leader>fh", telescope_builtin.help_tags)
-    maps.nmap("<leader>fc", telescope_builtin.commands)
-    maps.nmap("<leader>fm", telescope_builtin.keymaps)
-    maps.nmap("<leader>fi", telescope_builtin.highlights)
+    maps.nnoremap("<a-p>",      function() telescope_builtin.find_files { find_command = fd_cmd, no_ignore = true } end)
+    maps.nnoremap("<c-p>",      function() telescope_builtin.find_files { find_command = fd_cmd } end)
+    maps.nnoremap("<leader>s",  telescope_builtin.live_grep)
+    maps.nnoremap("<leader>;",  telescope_builtin.buffers)
+    maps.nnoremap("<leader>fh", telescope_builtin.help_tags)
+    maps.nnoremap("<leader>fc", telescope_builtin.commands)
+    maps.nnoremap("<leader>fm", telescope_builtin.keymaps)
+    maps.nnoremap("<leader>fi", telescope_builtin.highlights)
+    maps.nnoremap("<leader>fr", telescope_builtin.resume)
 end
 
 return M
