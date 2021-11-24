@@ -56,7 +56,7 @@ function M.setup()
 
         -- Lists
         use {
-            'saecki/trouble.nvim',
+            'folke/trouble.nvim',
             config = function()
                 require('config.trouble').setup()
             end,
