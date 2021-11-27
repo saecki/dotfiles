@@ -12,15 +12,16 @@ function M.setup()
 
     maps.nnoremap("<leader>vt", crates.toggle)
     maps.nnoremap("<leader>vr", crates.reload)
+
+    maps.nnoremap("<leader>vv", crates.show_versions_popup)
+    maps.nnoremap("<leader>vf", crates.show_features_popup)
+
     maps.nnoremap("<leader>vu", crates.update_crate)
     maps.vnoremap("<leader>vu", crates.update_crates)
     maps.nnoremap("<leader>va", crates.update_all_crates)
     maps.nnoremap("<leader>vU", crates.upgrade_crate)
     maps.vnoremap("<leader>vU", crates.upgrade_crates)
     maps.nnoremap("<leader>vA", crates.upgrade_all_crates)
-
-    maps.nnoremap("<leader>vv", crates.show_versions_popup)
-    maps.nnoremap("<leader>vf", crates.show_features_popup)
 
     require('cmp').setup.buffer { sources = { { name = 'crates' } } }
 end
