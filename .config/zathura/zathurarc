@@ -1,3 +1,5 @@
+set incremental-search
+
 map H nohlsearch
 
 map <C-=> zoom in

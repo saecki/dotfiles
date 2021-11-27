@@ -7,7 +7,7 @@ function M.setup()
     crates.setup {
         popup = {
             version_date = true,
-        }
+        },
     }
 
     maps.nnoremap("<leader>vt", crates.toggle)
