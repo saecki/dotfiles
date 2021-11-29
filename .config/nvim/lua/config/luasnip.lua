@@ -16,6 +16,10 @@ local function bash(_, _, command)
 end
 
 function M.setup()
+    luasnip.config.setup {
+        updateevents = "InsertLeave,TextChanged,TextChangedI",
+    }
+
     luasnip.snippets = {
         lua = {
             s("module", {
