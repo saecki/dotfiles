@@ -1,0 +1,95 @@
+local M = {}
+
+function M.input(text, insert, callback)
+    local cword = vim.fn.expand("<cword>")
+    text = text or cword or ""
+    local text_width = vim.fn.strdisplaywidth(text)
+
+    M.callback = callback
+    M.mode = vim.fn.mode()
+    M.min_width = 1
+    if cword then
+        M.min_width = vim.fn.strdisplaywidth(cword)
+    end
+
+    -- create buf
+    M.buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(M.buf, 0, 1, false, { text })
+
+    -- get word start
+    local old_pos = vim.api.nvim_win_get_cursor(0)
+    vim.fn.search(vim.fn.expand("<cword>"), "bc")
+    local new_pos = vim.api.nvim_win_get_cursor(0)
+    vim.api.nvim_win_set_cursor(0, old_pos)
+    local col = new_pos[2] - old_pos[2]
+
+    -- create win
+    local opts = {
+        relative = "cursor",
+        col = col,
+        row = 0,
+        width = math.max(text_width + 1, M.min_width),
+        height = 1,
+        style = "minimal",
+        border = "none",
+    }
+    M.win = vim.api.nvim_open_win(M.buf, false, opts)
+
+    -- key mappings
+    local submit_cmd = "<cmd>lua require('util.float').submit()<cr>"
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", submit_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "i", "<cr>", submit_cmd, { noremap = true, silent = true })
+    local cancel_cmd = "<cmd>lua require('util.float').hide()<cr>"
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
+
+    -- automatically resize
+    vim.cmd("augroup UtilFloatRename")
+    vim.cmd("autocmd TextChanged,TextChangedI,TextChangedP <buffer=" .. M.buf .. "> lua require('util.float').resize()")
+    vim.cmd("augroup END")
+
+    -- focus and enter insert mode
+    vim.api.nvim_set_current_win(M.win)
+    if insert then
+        vim.cmd("startinsert")
+    end
+    vim.api.nvim_win_set_cursor(M.win, { 1, text_width })
+end
+
+function M.resize()
+    local new_text = vim.api.nvim_buf_get_lines(M.buf, 0, 1, false)[1]
+    local new_text_width = vim.fn.strdisplaywidth(new_text)
+    local width = math.max(new_text_width + 1, M.min_width)
+
+    vim.api.nvim_win_set_width(M.win, width)
+end
+
+function M.submit()
+    local new_text = vim.api.nvim_buf_get_lines(M.buf, 0, 1, false)[1]
+    M.hide()
+
+    if M.callback then
+        M.callback(new_text)
+        M.callback = nil
+    end
+end
+
+function M.hide()
+    if M.win and vim.api.nvim_win_is_valid(M.win) then
+        vim.api.nvim_win_close(M.win, false)
+    end
+    M.win = nil
+
+    if M.buf and vim.api.nvim_buf_is_valid(M.buf) then
+        vim.api.nvim_buf_delete(M.buf, {})
+    end
+    M.buf = nil
+
+    if M.mode == "i" then
+        vim.cmd("startinsert")
+    elseif M.mode == "n" then
+        vim.cmd("stopinsert")
+    end
+end
+
+return M

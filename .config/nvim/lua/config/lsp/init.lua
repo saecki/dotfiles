@@ -120,12 +120,15 @@ function M.setup()
 
     -- Code actions
     maps.nnoremap("<leader>a", vim.lsp.buf.code_action)
-    maps.nnoremap("<leader>r", vim.lsp.buf.rename)
-    maps.nnoremap("<leader>R", function()
-        local status, new_name = pcall(vim.fn.input, "New Name: ", "")
-        if status then
+    maps.nnoremap("<leader>r", function()
+        require('util.float').input(nil, true, function(new_name)
             vim.lsp.buf.rename(new_name)
-        end
+        end)
+    end)
+    maps.nnoremap("<leader>R", function()
+        require('util.float').input("", true, function(new_name)
+            vim.lsp.buf.rename(new_name)
+        end)
     end)
 
     -- Goto actions
