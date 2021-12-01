@@ -1,8 +1,20 @@
 local M = {}
 
+local util = require('util')
+local packer = require('packer')
+
 function M.setup()
-    require('packer').startup(function(use)
+    -- load before other plugins
+    local success, notify = pcall(require, 'notify')
+    if success then
+        vim.notify = notify
+    end
+
+    packer.startup(function(use)
         use 'wbthomason/packer.nvim'
+
+        -- Perfomance
+        use 'lewis6991/impatient.nvim'
 
         -- Gui enhancements
         use {
@@ -11,7 +23,12 @@ function M.setup()
                 require('config.notify').setup()
             end,
         }
-        use 'hoob3rt/lualine.nvim'
+        use {
+            'hoob3rt/lualine.nvim',
+            config = function()
+                require('config.lualine').setup()
+            end,
+        }
 
         -- Multicursor
         use {
