@@ -121,7 +121,7 @@ function M.setup()
     -- Code actions
     maps.nnoremap("<leader>a", vim.lsp.buf.code_action)
     maps.nnoremap("<leader>r", function()
-        require('util.float').input(nil, true, function(new_name)
+        require('util.float').input(nil, false, function(new_name)
             vim.lsp.buf.rename(new_name)
         end)
     end)
