@@ -139,11 +139,20 @@ function M.setup()
                 require('config.cmp').setup()
             end,
         }
+
         -- Snippets
         use {
             'L3MON4D3/LuaSnip',
             config = function()
                 require('config.luasnip').setup()
+            end
+        }
+
+        -- Comments
+        use {
+            'numToStr/Comment.nvim',
+            config = function()
+                require('Comment').setup()
             end
         }
 
