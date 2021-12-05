@@ -46,6 +46,7 @@ function M.setup()
         sources = {
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
+            { name = "crates" },
             { name = "luasnip" },
             { name = "path" },
             { name = "buffer", keyword_length = 4 },

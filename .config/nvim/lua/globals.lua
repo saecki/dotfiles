@@ -1,5 +1,6 @@
 function P(...)
-    for _,v in ipairs(table.pack(...)) do
-        print(vim.inspect(v))
+    local args = table.pack(...)
+    for i=1, args.n, 1 do
+        print(vim.inspect(args[i]))
     end
 end
