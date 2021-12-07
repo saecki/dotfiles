@@ -1,6 +1,5 @@
 local M = {}
 
-local util = require('util')
 local packer = require('packer')
 
 function M.setup()
