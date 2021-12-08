@@ -170,6 +170,7 @@ latex-clean() {
 alias cfz='$EDITOR ~/.config/zsh/.zshrc'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
 alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
+alias cfkt='$EDITOR ~/.config/kitty/kitty.conf'
 alias cftm='$EDITOR ~/.tmux.conf'
 alias cfst='$EDITOR ~/.config/starship.toml'
 alias cfzt='$EDITOR ~/.config/zathura/zathurarc'
