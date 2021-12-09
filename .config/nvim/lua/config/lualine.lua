@@ -4,35 +4,35 @@ local lualine = require('lualine')
 local lsp_status = require('lsp-status')
 
 local modemap = {
-    ['n']    = 'N ',
-    ['no']   = 'O ',
-    ['nov']  = 'O ',
-    ['noV']  = 'O ',
-    ['no'] = 'O ',
-    ['niI']  = 'N ',
-    ['niR']  = 'N ',
-    ['niV']  = 'N ',
-    ['v']    = 'V ',
-    ['V']    = 'VL',
-    ['']   = 'VB',
-    ['s']    = 'S ',
-    ['S']    = 'SL',
-    ['']   = 'SB',
-    ['i']    = 'I ',
-    ['ic']   = 'I ',
-    ['ix']   = 'I ',
-    ['R']    = 'R ',
-    ['Rc']   = 'R ',
-    ['Rv']   = 'VR',
-    ['Rx']   = 'R ',
-    ['c']    = 'C ',
-    ['cv']   = 'EX',
-    ['ce']   = 'EX',
-    ['r']    = 'R ',
-    ['rm']   = 'MORE',
-    ['r?']   = 'CONFIRM',
-    ['!']    = 'SHELL',
-    ['t']    = 'TERMINAL',
+    ["n"]    = "N ",
+    ["no"]   = "O ",
+    ["nov"]  = "O ",
+    ["noV"]  = "O ",
+    ["no"] = "O ",
+    ["niI"]  = "N ",
+    ["niR"]  = "N ",
+    ["niV"]  = "N ",
+    ["v"]    = "V ",
+    ["V"]    = "VL",
+    [""]   = "VB",
+    ["s"]    = "S ",
+    ["S"]    = "SL",
+    [""]   = "SB",
+    ["i"]    = "I ",
+    ["ic"]   = "I ",
+    ["ix"]   = "I ",
+    ["R"]    = "R ",
+    ["Rc"]   = "R ",
+    ["Rv"]   = "VR",
+    ["Rx"]   = "R ",
+    ["c"]    = "C ",
+    ["cv"]   = "EX",
+    ["ce"]   = "EX",
+    ["r"]    = "R ",
+    ["rm"]   = "MORE",
+    ["r?"]   = "CONFIRM",
+    ["!"]    = "SHELL",
+    ["t"]    = "TERMINAL",
 }
 local function mode()
     local mode_code = vim.api.nvim_get_mode().mode
@@ -54,7 +54,7 @@ local function position()
 end
 
 function M.setup()
-    local colors = require('colors.mineauto')
+    local colors = require("colors.mineauto")
     local theme = colors.lualine
     local palette = colors.palette
 
@@ -62,34 +62,36 @@ function M.setup()
         options = {
             icons_enabled = true,
             theme = theme,
-            section_separators = { left = '', right = '' },
-            component_separators = { left = '│', right = '│' },
+            section_separators = { left = "", right = "" },
+            component_separators = { left = "│", right = "│" },
         },
         sections = {
-            lualine_a = { mode },
+            lualine_a = {
+                { mode, separator = { left = " " } }
+            },
             lualine_b = { function() return lsp_status.status() end },
-            lualine_c = { { 'filename', path = 1 } },
-            lualine_x = { file_format, 'encoding', 'filetype' },
-            lualine_y = { 'branch' },
+            lualine_c = { { "filename", path = 1 } },
+            lualine_x = { file_format, "encoding", "filetype" },
+            lualine_y = { "branch" },
             lualine_z = {
-                position,
                 {
-                    'diagnostics',
-                    sources = { 'nvim_lsp' },
-                    sections = { 'error', 'warn', 'info', 'hint' },
-                    symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+                    "diagnostics",
+                    sources = { "nvim_lsp" },
+                    sections = { "error", "warn", "info", "hint" },
+                    symbols = { error = " ", warn = " ", info = " ", hint = " " },
                     color_error = palette.lred,
                     color_warn  = palette.lyellow,
                     color_info  = palette.lcyan,
                     color_hint  = palette.lcyan,
-                }
+                },
+                { position, separator = { right = " " } },
             },
         },
         inactive_sections = {
             lualine_a = {},
             lualine_b = {},
-            lualine_c = { 'filename' },
-            lualine_x = { 'location' },
+            lualine_c = { "filename" },
+            lualine_x = { "location" },
             lualine_y = {},
             lualine_z = {}
         },

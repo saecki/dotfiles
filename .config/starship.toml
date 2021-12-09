@@ -2,6 +2,8 @@ add_newline = false
 format = """
 [\
 [ ](fg:0)\
+$status\
+$jobs\
 $username\
 $hostname\
 $directory\
@@ -42,35 +44,48 @@ $terraform\
 $vlang\
 $vagrant\
 $zig\
+$crystal\
 $nix_shell\
 $conda\
-$aws\
-$gcloud\
-$openstack\
-$crystal\
 $cmd_duration\
-](bold bg:0)\
+](bold fg:15 bg:0)\
 [](fg:0)\
 $line_break\
-$jobs\
-$status\
 $character\
 """
+
+##################################################
+##  status                                      ##
+##################################################
+
+[status]
+style = "bold fg:red bg:0"
+format = " [$symbol$status]($style)"
+disabled = false
+
+[jobs]
+style = "bold fg:cyan bg:0"
+symbol = ""
+format = " [$symbol( $number)]($style)"
 
 [username]
 style_root = "bold fg:red bg:0"
 style_user = "bold fg:yellow bg:0"
+format = " [$user]($style) in"
 
 [hostname]
 style = "bold fg:dimmed green bg:0"
+format = " [$hostname]($style) in"
 
 [directory]
 style = "bold fg:blue bg:0"
-format = "[$read_only]($read_only_style)[$path]($style) "
+format = " [$read_only]($read_only_style)[$path]($style) "
 truncate_to_repo = false
 truncation_symbol = "…/"
 
-##### vcs #####
+##################################################
+##  vcs                                         ##
+##################################################
 
 [git_branch]
 style = "bold fg:purple bg:0"
@@ -82,7 +97,7 @@ format = "[$hash$tag]($style) "
 
 [git_state]
 style = "bold fg:yellow bg:0"
-format = "[$state( $progress_current/$progress_total)]($style) "
+format = "[$state($progress_current/$progress_total)]($style) "
 
 [git_status]
 format = '($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )'
@@ -97,23 +112,49 @@ staged     = "[+${count}](bold fg:green bg:0)"
 modified   = "[!${count}](bold fg:yellow bg:0)"
 untracked  = "[?${count}](bold fg:yellow bg:0)"
 
-##### languages #####
+[hg_branch]
+style = "bold fg:purple bg:0"
+
+##################################################
+##  languages and ev tools                      ##
+##################################################
+
+[package]
+style = "bold fg:208 bg:0"
+
+[dart]
+style = "bold fg:blue bg:0"
+
+[golang]
+style = "bold fg:cyan bg:0"
+
+[cmake]
+style = "bold fg:blue bg:0"
 
 [lua]
 style = "bold fg:blue bg:0"
 
-[rust]
+[java]
+symbol = " "
+style = "bold fg:red dimmed bg:0"
 
-##### other #####
+[kotlin]
+style = "bold fg:#843eff dimmed bg:0"
+
+[rust]
+style = "bold fg:red bg:0"
+
+[zig]
+style = "bold fg:yellow bg:0"
+
+[python]
+symbol = ""
+style = "bold fg:yellow bg:0"
+format = "via [$symbol $pyenv_prefix($version )($virtualenv )]($style)"
+
+##################################################
+##  other                                       ##
+##################################################
 
 [cmd_duration]
 style = "bold fg:yellow bg:0"
-
-##### prompt #####
-
-[jobs]
-threshold = 1
-symbol = " "
-
-[status]
-disabled = false
