@@ -14,12 +14,12 @@ toggle() {
 }
 
 dark() {
-    alco -a apply minedark.yml&
+    alco -a apply minedark&
     apply "Layan-dark-solid"
 }
 
 light() {
-    alco -a apply minelight.yml&
+    alco -a apply minelight&
     apply "Layan-light-solid"
 }
 
