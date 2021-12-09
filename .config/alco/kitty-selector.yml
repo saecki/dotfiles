@@ -1,0 +1,3 @@
+minedark: "~/.config/kitty/colors/minedark.conf"
+minelight: "~/.config/kitty/colors/minelight.conf"
+else: "~/.config/kitty/colors/minedark.conf"
