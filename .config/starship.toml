@@ -1,5 +1,7 @@
 add_newline = false
 format = """
+[\
+[ ](fg:0)\
 $username\
 $hostname\
 $directory\
@@ -47,15 +49,67 @@ $gcloud\
 $openstack\
 $crystal\
 $cmd_duration\
+](bold bg:0)\
+[](fg:0)\
 $line_break\
 $jobs\
 $status\
-$character"""
+$character\
+"""
+
+[username]
+style_root = "bold fg:red bg:0"
+style_user = "bold fg:yellow bg:0"
+
+[hostname]
+style = "bold fg:dimmed green bg:0"
 
 [directory]
+style = "bold fg:blue bg:0"
 format = "[$read_only]($read_only_style)[$path]($style) "
 truncate_to_repo = false
 truncation_symbol = "…/"
+
+##### vcs #####
+
+[git_branch]
+style = "bold fg:purple bg:0"
+format = "on [$symbol$branch]($style) "
+
+[git_commit]
+style = "bold fg:green bg:0"
+format = "[$hash$tag]($style) "
+
+[git_state]
+style = "bold fg:yellow bg:0"
+format = "[$state( $progress_current/$progress_total)]($style) "
+
+[git_status]
+format = '($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )'
+ahead      = "[↑${count}](bold fg:green bg:0)"
+diverged   = "[↑${ahead_count}↓${behind_count}](bold fg:yellow bg:0)"
+behind     = "[↓${count}](bold fg:green bg:0)"
+conflicted = "[=${count}](bold fg:blue bg:0)"
+stashed    = "[*${count}](bold fg:blue bg:0)"
+deleted    = "[✘${count}](bold fg:red bg:0)"
+renamed    = "[»${count}](bold fg:yellow bg:0)"
+staged     = "[+${count}](bold fg:green bg:0)"
+modified   = "[!${count}](bold fg:yellow bg:0)"
+untracked  = "[?${count}](bold fg:yellow bg:0)"
+
+##### languages #####
+
+[lua]
+style = "bold fg:blue bg:0"
+
+[rust]
+
+##### other #####
+
+[cmd_duration]
+style = "bold fg:yellow bg:0"
+
+##### prompt #####
 
 [jobs]
 threshold = 1
@@ -63,21 +117,3 @@ symbol = " "
 
 [status]
 disabled = false
-
-[git_status]
-format = '[(\( ($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )\) )]($style)'
-style = "bold"
-ahead      = "[↑${count}](bold green)"
-diverged   = "[↑${ahead_count}↓${behind_count}](bold yellow)"
-behind     = "[↓${count}](bold green)"
-conflicted = "[=${count}](bold blue)"
-stashed    = "[*${count}](bold blue)"
-deleted    = "[✘${count}](bold red)"
-renamed    = "[»${count}](bold yellow)"
-staged     = "[+${count}](bold green)"
-modified   = "[!${count}](bold yellow)"
-untracked  = "[?${count}](bold yellow)"
-
-[java]
-style = "red"
-symbol = "🅙 "
