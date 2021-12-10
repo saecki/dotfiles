@@ -30,8 +30,59 @@ function M.get_capabilities()
     return capabilities
 end
 
-function M.on_attach(client)
+function M.on_attach(client, bufnr)
+    -- Status
     lsp_status.on_attach(client)
+
+    -- Occurences
+    if client.resolved_capabilities.document_highlight then
+        vim.cmd([[
+            augroup LspOccurences
+            autocmd!
+            autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+            augroup END
+        ]])
+    end
+
+    -- Inlay hints
+    if vim.bo.filetype == "rust" then
+        vim.cmd([[
+            augroup LspInlayHints
+            autocmd! *
+            autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints { prefix = '  ', highlight = 'NonText', enabled = { 'TypeHint', 'ChainingHint' } }
+            augroup END
+        ]])
+    end
+
+    -- Show documentation
+    maps.buf_nnoremap("K", M.show_documentation)
+    -- Show Signature
+    maps.buf_nnoremap("S", vim.lsp.buf.signature_help)
+
+    -- Code actions
+    maps.buf_nnoremap("<leader>a", vim.lsp.buf.code_action)
+    maps.buf_nnoremap("<leader>r", function()
+        require('util.float').input(nil, false, function(new_name)
+            vim.lsp.buf.rename(new_name)
+        end)
+    end)
+    maps.buf_nnoremap("<leader>R", function()
+        require('util.float').input("", true, function(new_name)
+            vim.lsp.buf.rename(new_name)
+        end)
+    end)
+
+    -- Code Format
+    maps.buf_nnoremap("<c-a>l", vim.lsp.buf.formatting)
+
+    -- Goto actions
+    maps.buf_nnoremap("gd", vim.lsp.buf.definition)
+    maps.buf_nnoremap("gD", vim.lsp.buf.declaration)
+    maps.buf_nnoremap("gw", vim.lsp.buf.document_symbol)
+    maps.buf_nnoremap("gW", vim.lsp.buf.workspace_symbol)
+    maps.buf_nnoremap("g[", vim.lsp.diagnostic.goto_prev)
+    maps.buf_nnoremap("g]", vim.lsp.diagnostic.goto_next)
 end
 
 function M.show_documentation()
@@ -48,18 +99,10 @@ function M.show_documentation()
 end
 
 function M.setup()
-    -- status
-    lsp_status.register_progress()
-    lsp_status.config {
-        status_symbol = "LSP",
-        current_function = false,
-        diagnostics = false,
-    }
-
-    -- client capabilities
+    -- Client capabilities
     local capabilities = M.get_capabilities()
 
-    -- installer and server config
+    -- Installer and server config
     local server_configs = {
         "rust_analyzer",
         "clangd",
@@ -67,19 +110,26 @@ function M.setup()
         "sqls",
         "texlab",
     }
-
     lsp_installer.on_server_ready(function(server)
         if vim.tbl_contains(server_configs, server.name) then
             require("config.lsp."..server.name).setup(server, M.on_attach, capabilities)
         else
             server:setup {
                 on_attach = M.on_attach,
-                capabilities = M.capabilities,
+                capabilities = capabilities,
             }
         end
     end)
 
-    -- diagnostics
+    -- Status
+    lsp_status.register_progress()
+    lsp_status.config {
+        status_symbol = "LSP",
+        current_function = false,
+        diagnostics = false,
+    }
+
+    -- Diagnostics
     vim.diagnostic.config {
             virtual_text = true,
             signs = true,
@@ -101,53 +151,6 @@ function M.setup()
         local hl = "DiagnosticSign"..n
         vim.fn.sign_define(hl, { text = s, texthl = hl, linehl = "", numhl = "" })
     end
-
-    -- Inlay hints
-    vim.cmd("augroup LspInlayHints")
-    vim.cmd("autocmd!")
-    vim.cmd("autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * "
-            .."lua require('lsp_extensions').inlay_hints { "
-            .."prefix = '', highlight = 'NonText', "
-            .."enabled = { 'TypeHint', 'ChainingHint' } }")
-    vim.cmd("augroup END")
-
-    -- Occurences
-    vim.cmd([[
-        augroup LspOccurences
-        autocmd!
-        autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
-        augroup END
-    ]])
-
-    -- Show documentation
-    maps.nnoremap("K", M.show_documentation)
-    -- Show Signature
-    maps.nnoremap("S", vim.lsp.buf.signature_help)
-
-    -- Code actions
-    maps.nnoremap("<leader>a", vim.lsp.buf.code_action)
-    maps.nnoremap("<leader>r", function()
-        require('util.float').input(nil, false, function(new_name)
-            vim.lsp.buf.rename(new_name)
-        end)
-    end)
-    maps.nnoremap("<leader>R", function()
-        require('util.float').input("", true, function(new_name)
-            vim.lsp.buf.rename(new_name)
-        end)
-    end)
-
-    -- Format
-    maps.nnoremap("<c-a>l", vim.lsp.buf.formatting)
-
-    -- Goto actions
-    maps.nnoremap("gd", vim.lsp.buf.definition)
-    maps.nnoremap("gD", vim.lsp.buf.declaration)
-    maps.nnoremap("gw", vim.lsp.buf.document_symbol)
-    maps.nnoremap("gW", vim.lsp.buf.workspace_symbol)
-    maps.nnoremap("g[", vim.lsp.diagnostic.goto_prev)
-    maps.nnoremap("g]", vim.lsp.diagnostic.goto_next)
 end
 
 return M

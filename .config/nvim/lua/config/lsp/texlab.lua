@@ -1,9 +1,11 @@
 local M = {}
 
+local maps = require('util.maps')
+
 function M.setup(server, on_attach, capabilities)
     local function m_on_attach(client, bufnr)
         on_attach(client, bufnr)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>fw", ":TexlabForward<cr>", { silent = true })
+        maps.buf_nnoremap("<leader>fw", ":TexlabForward<cr>", { buf = bufnr })
     end
     server:setup {
         on_attach = m_on_attach,
