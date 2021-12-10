@@ -107,10 +107,7 @@ function M.setup()
                 require('config.lsp').setup()
             end,
         }
-        use {
-            'nvim-lua/lsp-status.nvim',
-            commit = "e8e5303f9ee3d8dc327c97891eaa1257ba5d4eee", -- remove on 0.6
-        }
+        use 'nvim-lua/lsp-status.nvim'
 
         -- Debugging
         use {
