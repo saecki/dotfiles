@@ -131,6 +131,9 @@ function M.setup()
         end)
     end)
 
+    -- Format
+    maps.nnoremap("<c-a>l", vim.lsp.buf.formatting)
+
     -- Goto actions
     maps.nnoremap("gd", vim.lsp.buf.definition)
     maps.nnoremap("gD", vim.lsp.buf.declaration)
