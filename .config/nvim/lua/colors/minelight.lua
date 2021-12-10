@@ -27,9 +27,9 @@ M.palette = {
     text2        = '#585858',
     text3        = '#808080',
 
-    surface1     = '#d0d0d0',
-    surface2     = '#dadada',
-    surface3     = '#eeeeee',
+    surface1     = '#d8d8d8',
+    surface2     = '#e4e4e4',
+    surface3     = '#f2f2f2',
 
     scrollbg     = '#dadada',
     scrollfg     = '#a8a8a8',
@@ -49,7 +49,41 @@ M.palette = {
 }
 
 M.highlights = common.get_highlights(M.palette)
-M.lualine    = common.get_lualine(M.palette)
+local pal = M.palette
+M.lualine = {
+    normal = {
+        a = { bg = pal.surface1, fg = pal.dyellow, gui = 'bold' },
+        b = { bg = pal.surface2, fg = pal.text2,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    },
+    insert = {
+        a = { bg = pal.surface1, fg = pal.dgreen,  gui = 'bold' },
+        b = { bg = pal.surface2, fg = pal.text2,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    },
+    visual = {
+        a = { bg = pal.surface1, fg = pal.dpurple, gui = 'bold' },
+        b = { bg = pal.surface2, fg = pal.text2,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    },
+    replace = {
+        a = { bg = pal.surface1, fg = pal.dred,    gui = 'bold' },
+        b = { bg = pal.surface2, fg = pal.text2,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    },
+    command = {
+        a = { bg = pal.surface1, fg = pal.dblue,   gui = 'bold' },
+        b = { bg = pal.surface2, fg = pal.text2,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    },
+    inactive = {
+        a = { bg = pal.surface3, fg = pal.text3,                },
+        b = { bg = pal.surface3, fg = pal.text3,                },
+        c = { bg = pal.surface3, fg = pal.text3,                },
+    }
+}
+
+
 
 function M.setup()
     vim.g.colors_name = 'minelight'
