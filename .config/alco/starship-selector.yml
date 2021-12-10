@@ -1,0 +1,3 @@
+minedark: "~/.config/starship/colors/minedark.yml"
+minelight: "~/.config/starship/colors/minelight.yml"
+else: "~/.config/starship/colors/minedark.yml"
