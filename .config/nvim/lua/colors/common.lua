@@ -69,31 +69,31 @@ function M.get_highlights(pal)
         NvimTreeGitRenamed = { fg = pal.lpurple },
         NvimTreeGitNew     = { fg = pal.lgreen  },
 
+        -- lsp diagnostics
+        DiagnosticVirtualTextError = { fg=pal.dred,                       },
+        DiagnosticVirtualTextWarn  = { fg=pal.dyellow,                    },
+        DiagnosticVirtualTextHint  = { fg=pal.lblue,                      },
+        DiagnosticVirtualTextInfo  = { fg=pal.lblue,                      },
+
+        DiagnosticSignError        = { fg=pal.lred,    style='bold',      },
+        DiagnosticSignWarn         = { fg=pal.lyellow, style='bold',      },
+        DiagnosticSignHint         = { fg=pal.lblue,   style='bold',      },
+        DiagnosticSignInfo         = { fg=pal.lblue,   style='bold',      },
+
+        DiagnosticFloatingError    = { fg=pal.dred,                       },
+        DiagnosticFloatingWarn     = { fg=pal.dyellow,                    },
+        DiagnosticFloatingHint     = { fg=pal.lblue,                      },
+        DiagnosticFloatingInfo     = { fg=pal.lblue,                      },
+
+        DiagnosticUnderlineError   = { sp=pal.dred,    style='undercurl', },
+        DiagnosticUnderlineWarn    = { sp=pal.dyellow, style='undercurl', },
+        DiagnosticUnderlineHint    = { sp=pal.lblue,   style='undercurl', },
+        DiagnosticUnderlineInfo    = { sp=pal.lblue,   style='undercurl', },
+
         -- lsp ocurrences
         LspReferenceText  = { bg=pal.texthl2 },
         LspReferenceRead  = { bg=pal.texthl2 },
         LspReferenceWrite = { bg=pal.texthl2 },
-
-        -- lsp diagnostics
-        LspDiagnosticsVirtualTextError   = { fg=pal.dred,                       },
-        LspDiagnosticsVirtualTextWarning = { fg=pal.dyellow,                    },
-        LspDiagnosticsVirtualTextHint    = { fg=pal.lblue,                      },
-        LspDiagnosticsVirtualTextInfo    = { fg=pal.lblue,                      },
-
-        LspDiagnosticsSignError          = { fg=pal.lred,    style='bold',      },
-        LspDiagnosticsSignWarning        = { fg=pal.lyellow, style='bold',      },
-        LspDiagnosticsSignHint           = { fg=pal.lblue,   style='bold',      },
-        LspDiagnosticsSignInfo           = { fg=pal.lblue,   style='bold',      },
-
-        LspDiagnosticsFloatingError      = { fg=pal.dred,                       },
-        LspDiagnosticsFloatingWarning    = { fg=pal.dyellow,                    },
-        LspDiagnosticsFloatingHint       = { fg=pal.lblue,                      },
-        LspDiagnosticsFloatingInfo       = { fg=pal.lblue,                      },
-
-        LspDiagnosticsUnderlineError     = { sp=pal.dred,    style='undercurl', },
-        LspDiagnosticsUnderlineWarning   = { sp=pal.dyellow, style='undercurl', },
-        LspDiagnosticsUnderlineHint      = { sp=pal.lblue,   style='undercurl', },
-        LspDiagnosticsUnderlineInfo      = { sp=pal.lblue,   style='undercurl', },
 
         -- dap
         DapBreakpoint = { fg=pal.lred    },

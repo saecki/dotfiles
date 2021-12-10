@@ -56,16 +56,6 @@ function M.setup()
         diagnostics = false,
     }
 
-    -- diagnostics
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = true,
-            signs = true,
-            update_in_insert = true,
-            severity_sort = true,
-        }
-    )
-
     -- client capabilities
     local capabilities = M.get_capabilities()
 
@@ -89,11 +79,28 @@ function M.setup()
         end
     end)
 
-    -- Diagnostics
-    vim.fn.sign_define("LspDiagnosticsSignError",       { text="", texthl="LspDiagnosticsSignError",       linehl="", numhl="" })
-    vim.fn.sign_define("LspDiagnosticsSignWarning",     { text="", texthl="LspDiagnosticsSignWarning",     linehl="", numhl="" })
-    vim.fn.sign_define("LspDiagnosticsSignHint",        { text="", texthl="LspDiagnosticsSignHint",        linehl="", numhl="" })
-    vim.fn.sign_define("LspDiagnosticsSignInformation", { text="", texthl="LspDiagnosticsSignInformation", linehl="", numhl="" })
+    -- diagnostics
+    vim.diagnostic.config {
+            virtual_text = true,
+            signs = true,
+            underline = true,
+            update_in_insert = true,
+            severity_sort = true,
+    }
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = true,
+            virtual_text = {
+                spacing = 2,
+                severity_limit = "Warning",
+            },
+        }
+    )
+    local signs = { Error = "", Warn = "", Hint = "", Infor = "" }
+    for n,s in pairs(signs) do
+        local hl = "DiagnosticSign"..n
+        vim.fn.sign_define(hl, { text = s, texthl = hl, linehl = "", numhl = "" })
+    end
 
     -- Inlay hints
     vim.cmd("augroup LspInlayHints")
