@@ -30,7 +30,7 @@ function M.get_capabilities()
     return capabilities
 end
 
-function M.on_attach(client, bufnr)
+function M.on_attach(client, buf)
     -- Status
     lsp_status.on_attach(client)
 
@@ -45,44 +45,34 @@ function M.on_attach(client, bufnr)
         ]])
     end
 
-    -- Inlay hints
-    if vim.bo.filetype == "rust" then
-        vim.cmd([[
-            augroup LspInlayHints
-            autocmd! *
-            autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints { prefix = '  ', highlight = 'NonText', enabled = { 'TypeHint', 'ChainingHint' } }
-            augroup END
-        ]])
-    end
-
     -- Show documentation
-    maps.buf_nnoremap("K", M.show_documentation)
+    maps.buf_nnoremap(buf, "K", M.show_documentation)
     -- Show Signature
-    maps.buf_nnoremap("S", vim.lsp.buf.signature_help)
+    maps.buf_nnoremap(buf, "S", vim.lsp.buf.signature_help)
 
     -- Code actions
-    maps.buf_nnoremap("<leader>a", vim.lsp.buf.code_action)
-    maps.buf_nnoremap("<leader>r", function()
+    maps.buf_nnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
+    maps.buf_nnoremap(buf, "<leader>r", function()
         require('util.float').input(nil, false, function(new_name)
             vim.lsp.buf.rename(new_name)
         end)
     end)
-    maps.buf_nnoremap("<leader>R", function()
+    maps.buf_nnoremap(buf, "<leader>R", function()
         require('util.float').input("", true, function(new_name)
             vim.lsp.buf.rename(new_name)
         end)
     end)
 
     -- Code Format
-    maps.buf_nnoremap("<c-a>l", vim.lsp.buf.formatting)
+    maps.buf_nnoremap(buf, "<c-a>l", vim.lsp.buf.formatting)
 
     -- Goto actions
-    maps.buf_nnoremap("gd", vim.lsp.buf.definition)
-    maps.buf_nnoremap("gD", vim.lsp.buf.declaration)
-    maps.buf_nnoremap("gw", vim.lsp.buf.document_symbol)
-    maps.buf_nnoremap("gW", vim.lsp.buf.workspace_symbol)
-    maps.buf_nnoremap("g[", vim.lsp.diagnostic.goto_prev)
-    maps.buf_nnoremap("g]", vim.lsp.diagnostic.goto_next)
+    maps.buf_nnoremap(buf, "gd", vim.lsp.buf.definition)
+    maps.buf_nnoremap(buf, "gD", vim.lsp.buf.declaration)
+    maps.buf_nnoremap(buf, "gw", vim.lsp.buf.document_symbol)
+    maps.buf_nnoremap(buf, "gW", vim.lsp.buf.workspace_symbol)
+    maps.buf_nnoremap(buf, "g[", vim.lsp.diagnostic.goto_prev)
+    maps.buf_nnoremap(buf, "g]", vim.lsp.diagnostic.goto_next)
 end
 
 function M.show_documentation()
