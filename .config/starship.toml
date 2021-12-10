@@ -65,7 +65,7 @@ disabled = false
 
 [jobs]
 style = "bold fg:blue bg:0"
-symbol = ""
+symbol = ""
 format = " [$symbol( $number)]($style)"
 
 [username]
@@ -133,6 +133,7 @@ style = "bold fg:blue bg:0"
 
 [lua]
 style = "bold fg:blue bg:0"
+symbol = " "
 
 [java]
 symbol = " "
@@ -148,9 +149,9 @@ style = "bold fg:red bg:0"
 style = "bold fg:yellow bg:0"
 
 [python]
-symbol = ""
+symbol = " "
 style = "bold fg:yellow bg:0"
-format = "via [$symbol $pyenv_prefix($version )($virtualenv )]($style)"
+format = "via [$symbol$pyenv_prefix($version )($virtualenv )]($style)"
 
 ##################################################
 ##  other                                       ##

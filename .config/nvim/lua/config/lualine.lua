@@ -53,6 +53,10 @@ local function position()
     return string.format(template, cursor[1], cursor[2])
 end
 
+local function lsp_status_text()
+    return lsp_status.status():gsub("%s+$", "")
+end
+
 function M.setup()
     local colors = require("colors.mineauto")
     local theme = colors.lualine
@@ -62,14 +66,14 @@ function M.setup()
         options = {
             icons_enabled = true,
             theme = theme,
-            section_separators = { left = "", right = "" },
-            component_separators = { left = "│", right = "│" },
+            section_separators = { left = "", right = "" },
+            component_separators = { left = "", right = "" },
         },
         sections = {
             lualine_a = {
-                { mode, separator = { left = " " } }
+                { mode, separator = { left = " " } },
             },
-            lualine_b = { function() return lsp_status.status() end },
+            lualine_b = { lsp_status_text },
             lualine_c = { { "filename", path = 1 } },
             lualine_x = { file_format, "encoding", "filetype" },
             lualine_y = { "branch" },
@@ -90,8 +94,12 @@ function M.setup()
         inactive_sections = {
             lualine_a = {},
             lualine_b = {},
-            lualine_c = { "filename" },
-            lualine_x = { "location" },
+            lualine_c = {
+                {"filename", separator = { left = " " } },
+            },
+            lualine_x = {
+                {"location", separator = { right = " " } },
+            },
             lualine_y = {},
             lualine_z = {}
         },
