@@ -46,6 +46,11 @@ M.palette = {
     diff_c_bg    = '#c7dcff',
     diff_d_bg    = '#ffbdbd',
     diff_cd_bg   = '#d0b6ff',
+
+    diff_a_fg    = '#9fefaa',
+    diff_c_fg    = '#b7ccff',
+    diff_d_fg    = '#ffadad',
+    diff_cd_fg   = '#d096ff',
 }
 
 M.highlights = common.get_highlights(M.palette)

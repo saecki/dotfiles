@@ -46,10 +46,10 @@ function M.get_highlights(pal)
         DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style='bold', },
 
         -- gitsigns
-        GitSignsAdd     = {                  bg=pal.diff_a_bg,                },
-        GitSignsChange  = {                  bg=pal.diff_c_bg,                },
-        GitSignsDelete  = { fg=pal.lred,                        style='bold', },
-        GitSignsChgDel  = { fg=pal.lred,     bg=pal.diff_c_bg,  style='bold', },
+        GitSignsAdd     = { fg=pal.diff_a_fg  },
+        GitSignsChange  = { fg=pal.diff_c_fg  },
+        GitSignsDelete  = { fg=pal.diff_d_fg  },
+        GitSignsChgDel  = { fg=pal.diff_cd_fg },
 
         GitSignsAddLn     = { bg=pal.diff_a_bg  },
         GitSignsChangeLn  = { bg=pal.diff_c_bg  },
