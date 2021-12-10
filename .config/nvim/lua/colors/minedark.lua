@@ -49,7 +49,7 @@ M.palette = {
 
     diff_a_fg    = '#4f654d',
     diff_c_fg    = '#465770',
-    diff_d_fg    = '#945050',
+    diff_d_fg    = '#944040',
     diff_cd_fg   = '#724388',
 }
 
