@@ -173,8 +173,8 @@ font:
 # Colors
 colors:
   cursor:
-    text: '<color>'
-    cursor: '<color>'
+    text: '#21212a'
+    cursor: '#add8e6'
   primary:
     background: '<color>'
     foreground: '<color>'
