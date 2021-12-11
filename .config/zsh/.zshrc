@@ -167,13 +167,13 @@ latex-clean() {
 }
 
 # Config
-alias cfz='$EDITOR ~/.config/zsh/.zshrc'
+alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
-alias cfal='$EDITOR ~/.config/alacritty/alacritty.yml'
-alias cfkt='$EDITOR ~/.config/kitty/kitty.conf'
-alias cftm='$EDITOR ~/.tmux.conf'
-alias cfst='$EDITOR ~/.config/starship.toml'
-alias cfzt='$EDITOR ~/.config/zathura/zathurarc'
+alias cfal='(cd ~/.config/alacritty && $EDITOR ~/.config/alacritty/alacritty.yml.in)'
+alias cfkt='(cd ~/.config/kitty && $EDITOR ~/.config/kitty/kitty.conf)'
+alias cftm='(cd ~/.config/tmux && $EDITOR ~/.tmux.conf)'
+alias cfst='(cd ~/.config/starship && $EDITOR ~/.config/starship/starship.toml.in)'
+alias cfzt='(cd ~/.config/zathura && $EDITOR ~/.config/zathura/zathurarc)'
 
 # Cd
 alias cdp='cd ~/Projects'
