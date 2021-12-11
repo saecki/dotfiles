@@ -6,7 +6,7 @@ function M.setup(server, on_attach, capabilities)
         vim.cmd([[
             augroup LspInlayHints
             autocmd! *
-            autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints { prefix = '  ', highlight = 'NonText', enabled = { 'TypeHint', 'ChainingHint' } }
+            autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs lua require('lsp_extensions').inlay_hints { prefix = '  ', highlight = 'NonText', enabled = { 'TypeHint', 'ChainingHint' } }
             augroup END
         ]])
     end

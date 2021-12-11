@@ -28,6 +28,12 @@ function M.setup()
                 require('config.lualine').setup()
             end,
         }
+        use {
+            'RishabhRD/popfix',
+            config = function()
+                require('config.popfix').setup()
+            end
+        }
 
         -- Multicursor
         use {
@@ -41,21 +47,21 @@ function M.setup()
         use 'farmergreg/vim-lastplace'
         use {
             'ahmedkhalf/project.nvim',
-            requires = { { 'nvim-telescope/telescope.nvim' } },
+            requires = { 'nvim-telescope/telescope.nvim' },
             config = function()
                 require('config.project').setup()
             end,
         }
         use {
             'nvim-telescope/telescope.nvim',
-            requires = { { 'nvim-lua/plenary.nvim' } },
+            requires = { 'nvim-lua/plenary.nvim' },
             config = function()
                 require('config.telescope').setup()
             end,
         }
         use {
             'ThePrimeagen/harpoon',
-            requires = { { 'nvim-lua/plenary.nvim' } },
+            requires = { 'nvim-lua/plenary.nvim' },
             config = function()
                 require('config.harpoon').setup()
             end,
@@ -89,7 +95,7 @@ function M.setup()
         use 'tpope/vim-fugitive'
         use {
             'lewis6991/gitsigns.nvim',
-            requires = { { 'nvim-lua/plenary.nvim' } },
+            requires = { 'nvim-lua/plenary.nvim' },
             config = function()
                 require('config.gitsigns').setup()
             end,
@@ -206,7 +212,7 @@ function M.setup()
         }
         use {
             '~/Projects/crates.nvim',
-            requires = { { 'nvim-lua/plenary.nvim' } },
+            requires = { 'nvim-lua/plenary.nvim' },
             config = function()
                 require('config.crates').setup()
             end,

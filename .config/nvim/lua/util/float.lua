@@ -1,4 +1,6 @@
-local M = {}
+local M = {
+    namespace = vim.api.nvim_create_namespace("util.float")
+}
 
 function M.input(text, insert, callback)
     local cword = vim.fn.expand("<cword>")
@@ -15,6 +17,7 @@ function M.input(text, insert, callback)
     -- create buf
     M.buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(M.buf, 0, 1, false, { text })
+    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Special", 0, 0, -1)
 
     -- get word start
     local old_pos = vim.api.nvim_win_get_cursor(0)
