@@ -64,7 +64,7 @@ function M.on_attach(client, buf)
     end)
 
     -- Code Format
-    maps.buf_nnoremap(buf, "<c-a>l", vim.lsp.buf.formatting)
+    maps.buf_nnoremap(buf, "<c-a-l>", vim.lsp.buf.formatting)
 
     -- Goto actions
     maps.buf_nnoremap(buf, "gd", vim.lsp.buf.definition)
