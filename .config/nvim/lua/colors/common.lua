@@ -13,7 +13,8 @@ function M.get_highlights(pal)
         PmenuSBar       = {                  bg=pal.scrollbg,                 },
         PmenuThumb      = {                  bg=pal.scrollfg,                 },
         Visual          = {                  bg=pal.texthl1,                  },
-        VertSplit       = {                  bg='none',                       },
+        VertSplit       = { fg=pal.text2,    bg='none',                       },
+        StatusLineNC    = { fg='none',       bg='none',                       },
 
         -- syntax
         Title           = { fg=pal.title,                       style='bold', },

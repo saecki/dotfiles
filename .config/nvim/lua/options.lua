@@ -17,7 +17,7 @@ function M.setup()
     vim.opt.textwidth = 0
     vim.opt.wrapmargin = 0
     vim.opt.listchars = { space = "·", eol = "⮠" }
-    vim.opt.fillchars = { vert = "│" }
+    vim.opt.fillchars:append { vert = "│", eob = " " }
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
 
