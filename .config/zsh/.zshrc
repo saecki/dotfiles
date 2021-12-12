@@ -96,11 +96,7 @@ bindkey -M viins '^F' edit-command-line
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
-    starship_zle-keymap-select
-
-    if [[ ${KEYMAP} == vicmd ]] ||
-        [[ $1 = 'block' ]]
-    then
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]] then
         echo -ne '\e[1 q'
     elif [[ ${KEYMAP} == main ]] ||
         [[ ${KEYMAP} == viins ]] ||
@@ -109,6 +105,8 @@ function zle-keymap-select {
     then
         echo -ne '\e[5 q'
     fi
+    
+    starship_zle-keymap-select
 }
 zle -N zle-keymap-select
 zle-line-init() {

@@ -13,40 +13,20 @@ $git_state\
 $git_status\
 $git_metrics\
 $hg_branch\
-$docker_context\
 $package\
 $cmake\
 $dart\
-$deno\
-$dotnet\
-$elixir\
-$elm\
-$erlang\
 $golang\
-$helm\
 $java\
-$julia\
 $kotlin\
 $lua\
-$nim\
-$nodejs\
 $ocaml\
-$perl\
-$php\
-$purescript\
 $python\
-$red\
-$ruby\
 $rust\
 $scala\
 $swift\
-$terraform\
-$vlang\
-$vagrant\
 $zig\
-$crystal\
 $nix_shell\
-$conda\
 $cmd_duration\
 ](bold fg:<fg> bg:<bg>)\
 [](fg:<bg>)\
@@ -116,24 +96,20 @@ untracked  = "[?${count}](bold fg:yellow bg:<bg>)"
 style = "bold fg:purple bg:<bg>"
 
 ##################################################
-##  languages and ev tools                      ##
+##  toolchains                                  ##
 ##################################################
 
 [package]
 style = "bold fg:208 bg:<bg>"
+
+[cmake]
+style = "bold fg:blue bg:<bg>"
 
 [dart]
 style = "bold fg:blue bg:<bg>"
 
 [golang]
 style = "bold fg:cyan bg:<bg>"
-
-[cmake]
-style = "bold fg:blue bg:<bg>"
-
-[lua]
-style = "bold fg:blue bg:<bg>"
-symbol = " "
 
 [java]
 symbol = " "
@@ -142,16 +118,32 @@ style = "bold fg:red dimmed bg:<bg>"
 [kotlin]
 style = "bold fg:#843eff dimmed bg:<bg>"
 
-[rust]
-style = "bold fg:red bg:<bg>"
+[lua]
+style = "bold fg:blue bg:<bg>"
+symbol = " "
 
-[zig]
+[ocaml]
 style = "bold fg:yellow bg:<bg>"
 
 [python]
 symbol = " "
 style = "bold fg:yellow bg:<bg>"
 format = "via [$symbol$pyenv_prefix($version )($virtualenv )]($style)"
+
+[rust]
+style = "bold fg:red bg:<bg>"
+
+[scala]
+style = "bold fg:red dimmed bg:<bg>"
+
+[swift]
+style = "bold fg:202 bg:<bg>"
+
+[zig]
+style = "bold fg:yellow bg:<bg>"
+
+[nix_shell]
+style = "bold fg:blue bg:<bg>"
 
 ##################################################
 ##  other                                       ##
