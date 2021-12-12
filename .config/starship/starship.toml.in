@@ -159,3 +159,4 @@ format = "via [$symbol$pyenv_prefix($version )($virtualenv )]($style)"
 
 [cmd_duration]
 style = "bold fg:yellow bg:<bg>"
+
