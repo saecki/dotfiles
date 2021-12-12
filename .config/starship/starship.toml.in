@@ -139,7 +139,7 @@ style = "bold fg:red dimmed bg:<bg>"
 style = "bold fg:#843eff dimmed bg:<bg>"
 
 [lua]
-style = "bold fg:blue bg:<bg>"
+style = "bold fg:26 bg:<bg>"
 symbol = " "
 
 [ocaml]
