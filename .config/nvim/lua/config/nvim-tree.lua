@@ -3,50 +3,50 @@ local M = {}
 local maps = require("util.maps")
 
 function M.setup()
-	vim.g.nvim_tree_git_hl = 1
-	vim.g.nvim_tree_show_icons = {
-		folder_arrows = 1,
-		folders = 1,
-		files = 1,
-		git = 0,
-	}
-	vim.g.nvim_tree_special_files = {}
---		["README.md"] = 1,
---		["Makefile"] = 1,
---		["MAKEFILE"] = 1,
---	}
-	vim.g.nvim_tree_icons = {
-		default = "",
-		symlink = "",
-		git = {
-			unstaged = "!",
-			staged = "+",
-			unmerged = "=",
-			renamed = "»",
-			untracked = "?",
-			deleted = "✘",
-			ignored = "~",
-		},
-		folder = {
-			arrow_closed = "",
-			arrow_open = "",
-			default = "",
-			open = "",
-			empty = "",
-			empty_open = "",
-			symlink = "",
-			symlink_open = "",
-		},
-		lsp = {
-			hint = "",
-			info = "",
-			warning = "",
-			error = "",
-		},
-	}
+    vim.g.nvim_tree_git_hl = 1
+    vim.g.nvim_tree_show_icons = {
+        folder_arrows = 1,
+        folders = 1,
+        files = 1,
+        git = 0,
+    }
+    vim.g.nvim_tree_special_files = {}
+    --		["README.md"] = 1,
+    --		["Makefile"] = 1,
+    --		["MAKEFILE"] = 1,
+    --	}
+    vim.g.nvim_tree_icons = {
+        default = "",
+        symlink = "",
+        git = {
+            unstaged = "!",
+            staged = "+",
+            unmerged = "=",
+            renamed = "»",
+            untracked = "?",
+            deleted = "✘",
+            ignored = "~",
+        },
+        folder = {
+            arrow_closed = "",
+            arrow_open = "",
+            default = "",
+            open = "",
+            empty = "",
+            empty_open = "",
+            symlink = "",
+            symlink_open = "",
+        },
+        lsp = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
+    }
 
-	local nvim_tree = require("nvim-tree")
-	local tree_cb = require("nvim-tree.config").nvim_tree_callback
+    local nvim_tree = require("nvim-tree")
+    local tree_cb = require("nvim-tree.config").nvim_tree_callback
 
     -- stylua: ignore start
     nvim_tree.setup {
@@ -91,10 +91,10 @@ function M.setup()
             },
         },
     }
-	-- stylua: ignore end
+    -- stylua: ignore end
 
-	maps.nmap("<f6>", nvim_tree.toggle)
-	maps.nmap("<f18>", ":NvimTreeFindFile<cr>")
+    maps.nmap("<f6>", nvim_tree.toggle)
+    maps.nmap("<f18>", ":NvimTreeFindFile<cr>")
 end
 
 return M

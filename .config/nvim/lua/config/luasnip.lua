@@ -7,18 +7,18 @@ local i = luasnip.insert_node
 local f = luasnip.function_node
 
 local function bash(_, _, command)
-	local file = io.popen(command, "r")
-	local res = {}
-	for line in file:lines() do
-		table.insert(res, line)
-	end
-	return res
+    local file = io.popen(command, "r")
+    local res = {}
+    for line in file:lines() do
+        table.insert(res, line)
+    end
+    return res
 end
 
 function M.setup()
-	luasnip.config.setup({
-		updateevents = "InsertLeave,TextChanged,TextChangedI",
-	})
+    luasnip.config.setup({
+        updateevents = "InsertLeave,TextChanged,TextChangedI",
+    })
 
     -- stylua: ignore start
     luasnip.snippets = {
@@ -60,7 +60,7 @@ function M.setup()
             s("xor",  t("⊻")),
         },
     }
-	-- stylua: ignore end
+    -- stylua: ignore end
 end
 
 return M

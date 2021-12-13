@@ -23,14 +23,14 @@ function M.setup()
             hint  = "",
         }
     })
-	-- stylua: ignore end
+    -- stylua: ignore end
 
-	maps.nnoremap("<f7>", trouble.toggle)
-	maps.nnoremap("gr", ":Trouble lsp_references<cr>")
-	maps.nnoremap("gi", ":Trouble lsp_implementations<cr>")
-	maps.nnoremap("gy", ":Trouble lsp_type_definitions<cr>")
-	maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>")
-	maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>")
+    maps.nnoremap("<f7>", trouble.toggle)
+    maps.nnoremap("gr", ":Trouble lsp_references<cr>")
+    maps.nnoremap("gi", ":Trouble lsp_implementations<cr>")
+    maps.nnoremap("gy", ":Trouble lsp_type_definitions<cr>")
+    maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>")
+    maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>")
 end
 
 return M

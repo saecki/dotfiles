@@ -2,30 +2,30 @@ local M = {}
 
 -- Slightly modified version of default functino
 local function current_line_blame_formatter(name, blame_info, opts)
-	if blame_info.author == name then
-		blame_info.author = "You"
-	end
+    if blame_info.author == name then
+        blame_info.author = "You"
+    end
 
-	local text
-	if blame_info.author == "Not Committed Yet" then
-		text = blame_info.author
-	else
-		local date_time
+    local text
+    if blame_info.author == "Not Committed Yet" then
+        text = blame_info.author
+    else
+        local date_time
 
-		if opts.relative_time then
-			date_time = require("gitsigns.util").get_relative_time(tonumber(blame_info["author_time"]))
-		else
-			date_time = os.date("%Y-%m-%d", tonumber(blame_info["author_time"]))
-		end
+        if opts.relative_time then
+            date_time = require("gitsigns.util").get_relative_time(tonumber(blame_info["author_time"]))
+        else
+            date_time = os.date("%Y-%m-%d", tonumber(blame_info["author_time"]))
+        end
 
-		text = string.format(" // %s, %s - %s", blame_info.author, date_time, blame_info.summary)
-	end
+        text = string.format(" // %s, %s - %s", blame_info.author, date_time, blame_info.summary)
+    end
 
-	return { { " " .. text, "GitSignsCurrentLineBlame" } }
+    return { { " " .. text, "GitSignsCurrentLineBlame" } }
 end
 
 function M.setup()
-	local gitsigns = require("gitsigns")
+    local gitsigns = require("gitsigns")
 
     -- stylua: ignore start
 	gitsigns.setup({
@@ -71,7 +71,7 @@ function M.setup()
 			col = 1,
 		},
 	})
-	-- stylua: ignore end
+    -- stylua: ignore end
 end
 
 return M

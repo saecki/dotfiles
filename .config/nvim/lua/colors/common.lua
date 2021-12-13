@@ -102,24 +102,24 @@ function M.highlights(pal)
         DapLogPoint   = { fg=pal.lyellow },
         DapStopped    = { fg=pal.lgreen  },
     }
-	-- stylua: ignore end
+    -- stylua: ignore end
 end
 
 function M.lualine(pal, dark)
-	local accent = {}
-	if dark then
-		accent.n = pal.lyellow
-		accent.i = pal.lgreen
-		accent.v = pal.lpurple
-		accent.r = pal.lred
-		accent.c = pal.lblue
-	else
-		accent.n = pal.dyellow
-		accent.i = pal.dgreen
-		accent.v = pal.dpurple
-		accent.r = pal.dred
-		accent.c = pal.dblue
-	end
+    local accent = {}
+    if dark then
+        accent.n = pal.lyellow
+        accent.i = pal.lgreen
+        accent.v = pal.lpurple
+        accent.r = pal.lred
+        accent.c = pal.lblue
+    else
+        accent.n = pal.dyellow
+        accent.i = pal.dgreen
+        accent.v = pal.dpurple
+        accent.r = pal.dred
+        accent.c = pal.dblue
+    end
     -- stylua: ignore start
     return {
         normal = {
@@ -153,37 +153,37 @@ function M.lualine(pal, dark)
             c = { bg = pal.surface3, fg = pal.text3,              },
         }
     }
-	-- stylua: ignore end
+    -- stylua: ignore end
 end
 
 function M.apply_term_colors(pal)
-	vim.g.terminal_color_1 = pal.dred
-	vim.g.terminal_color_2 = pal.dgreen
-	vim.g.terminal_color_3 = pal.dyellow
-	vim.g.terminal_color_4 = pal.dblue
-	vim.g.terminal_color_5 = pal.dviolet
-	vim.g.terminal_color_6 = pal.dcyan
+    vim.g.terminal_color_1 = pal.dred
+    vim.g.terminal_color_2 = pal.dgreen
+    vim.g.terminal_color_3 = pal.dyellow
+    vim.g.terminal_color_4 = pal.dblue
+    vim.g.terminal_color_5 = pal.dviolet
+    vim.g.terminal_color_6 = pal.dcyan
 
-	vim.g.terminal_color_9 = pal.lred
-	vim.g.terminal_color_10 = pal.lgreen
-	vim.g.terminal_color_11 = pal.lyellow
-	vim.g.terminal_color_12 = pal.lblue
-	vim.g.terminal_color_13 = pal.lviolet
-	vim.g.terminal_color_14 = pal.lcyan
+    vim.g.terminal_color_9 = pal.lred
+    vim.g.terminal_color_10 = pal.lgreen
+    vim.g.terminal_color_11 = pal.lyellow
+    vim.g.terminal_color_12 = pal.lblue
+    vim.g.terminal_color_13 = pal.lviolet
+    vim.g.terminal_color_14 = pal.lcyan
 end
 
 function M.apply_highlights(highlights)
-	vim.o.termguicolors = true
+    vim.o.termguicolors = true
 
-	for group, colors in pairs(highlights) do
+    for group, colors in pairs(highlights) do
         -- stylua: ignore start
         local style = colors.style and "gui="   .. colors.style or "gui=NONE"
         local fg    = colors.fg    and "guifg=" .. colors.fg    or "guifg=NONE"
         local bg    = colors.bg    and "guibg=" .. colors.bg    or "guibg=NONE"
         local sp    = colors.sp    and "guisp=" .. colors.sp    or ""
-		-- stylua: ignore end
-		vim.api.nvim_command("highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp)
-	end
+        -- stylua: ignore end
+        vim.api.nvim_command("highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp)
+    end
 end
 
 return M
