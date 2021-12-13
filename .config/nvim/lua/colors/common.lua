@@ -1,6 +1,6 @@
 local M = {}
 
-function M.get_highlights(pal)
+function M.highlights(pal)
     return {
         -- editor
         Normal          = { fg=pal.fg,       bg=pal.bg,                       },
@@ -103,37 +103,51 @@ function M.get_highlights(pal)
     }
 end
 
-function M.get_lualine(pal)
+function M.lualine(pal, dark)
+    local accent = {}
+    if dark then
+        accent.n  = pal.lyellow
+        accent.i  = pal.lgreen
+        accent.v  = pal.lpurple
+        accent.r  = pal.lred
+        accent.c  = pal.lblue
+    else
+        accent.n  = pal.dyellow
+        accent.i  = pal.dgreen
+        accent.v  = pal.dpurple
+        accent.r  = pal.dred
+        accent.c  = pal.dblue
+    end
     return {
         normal = {
-            a = { bg = pal.surface1, fg = pal.lyellow, gui = 'bold' },
-            b = { bg = pal.surface2, fg = pal.text2,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface1, fg = accent.n,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         },
         insert = {
-            a = { bg = pal.surface1, fg = pal.lgreen,  gui = 'bold' },
-            b = { bg = pal.surface2, fg = pal.text2,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface1, fg = accent.i,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         },
         visual = {
-            a = { bg = pal.surface1, fg = pal.lpurple, gui = 'bold' },
-            b = { bg = pal.surface2, fg = pal.text2,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface1, fg = accent.v,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         },
         replace = {
-            a = { bg = pal.surface1, fg = pal.lred,    gui = 'bold' },
-            b = { bg = pal.surface2, fg = pal.text2,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface1, fg = accent.r,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         },
         command = {
-            a = { bg = pal.surface1, fg = pal.lblue,   gui = 'bold' },
-            b = { bg = pal.surface2, fg = pal.text2,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface1, fg = accent.c,  gui = 'bold' },
+            b = { bg = pal.surface2, fg = pal.text2,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         },
         inactive = {
-            a = { bg = pal.surface3, fg = pal.text3,                },
-            b = { bg = pal.surface3, fg = pal.text3,                },
-            c = { bg = pal.surface3, fg = pal.text3,                },
+            a = { bg = pal.surface3, fg = pal.text3,              },
+            b = { bg = pal.surface3, fg = pal.text3,              },
+            c = { bg = pal.surface3, fg = pal.text3,              },
         }
     }
 end
@@ -155,7 +169,6 @@ function M.apply_term_colors(pal)
 end
 
 function M.apply_highlights(highlights)
-    vim.api.nvim_command('hi clear')
     vim.o.termguicolors = true
 
     for group, colors in pairs(highlights) do

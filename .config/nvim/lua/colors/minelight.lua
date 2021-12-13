@@ -47,48 +47,14 @@ M.palette = {
     diff_d_bg    = '#ffbdbd',
     diff_cd_bg   = '#d0b6ff',
 
-    diff_a_fg    = '#3fef3d',
-    diff_c_fg    = '#879cff',
-    diff_d_fg    = '#ff8d8d',
-    diff_cd_fg   = '#e096ff',
+    diff_a_fg    = '#7ee07d',
+    diff_c_fg    = '#77acff',
+    diff_d_fg    = '#ff8080',
+    diff_cd_fg   = '#c982ff',
 }
 
-M.highlights = common.get_highlights(M.palette)
-local pal = M.palette
-M.lualine = {
-    normal = {
-        a = { bg = pal.surface1, fg = pal.dyellow, gui = 'bold' },
-        b = { bg = pal.surface2, fg = pal.text2,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    },
-    insert = {
-        a = { bg = pal.surface1, fg = pal.dgreen,  gui = 'bold' },
-        b = { bg = pal.surface2, fg = pal.text2,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    },
-    visual = {
-        a = { bg = pal.surface1, fg = pal.dpurple, gui = 'bold' },
-        b = { bg = pal.surface2, fg = pal.text2,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    },
-    replace = {
-        a = { bg = pal.surface1, fg = pal.dred,    gui = 'bold' },
-        b = { bg = pal.surface2, fg = pal.text2,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    },
-    command = {
-        a = { bg = pal.surface1, fg = pal.dblue,   gui = 'bold' },
-        b = { bg = pal.surface2, fg = pal.text2,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    },
-    inactive = {
-        a = { bg = pal.surface3, fg = pal.text3,                },
-        b = { bg = pal.surface3, fg = pal.text3,                },
-        c = { bg = pal.surface3, fg = pal.text3,                },
-    }
-}
-
-
+M.highlights = common.highlights(M.palette)
+M.lualine = common.lualine(M.palette, true)
 
 function M.setup()
     vim.g.colors_name = 'minelight'

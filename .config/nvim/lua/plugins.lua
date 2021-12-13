@@ -34,6 +34,13 @@ function M.setup()
                 require('config.popfix').setup()
             end
         }
+        use {
+            'norcalli/nvim-colorizer.lua',
+            cmd = "ColorizerToggle",
+            config = function()
+                require('colorizer').setup {}
+            end
+        }
 
         -- Multicursor
         use {
@@ -113,7 +120,13 @@ function M.setup()
                 require('config.lsp').setup()
             end,
         }
-        use 'nvim-lua/lsp-status.nvim'
+        use {
+            'jose-elias-alvarez/null-ls.nvim',
+            ft = { "teal" },
+            config = function()
+                require('config.null-ls').setup()
+            end,
+        }
 
         -- Debugging
         use {
