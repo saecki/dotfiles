@@ -64,12 +64,12 @@ function M.highlights(pal)
         GitSignsChgDelNr  = { bg=pal.diff_cd_bg },
 
         -- nvim-tree
-        NvimTreeGitDirty   = { fg = pal.lblue   },
-        NvimTreeGitDeleted = { fg = pal.lblue   },
-        NvimTreeGitStaged  = { fg = pal.lblue   },
-        NvimTreeGitMerge   = { fg = pal.lorange },
-        NvimTreeGitRenamed = { fg = pal.lpurple },
-        NvimTreeGitNew     = { fg = pal.lgreen  },
+        NvimTreeGitDirty   = { fg = pal.dblue   },
+        NvimTreeGitDeleted = { fg = pal.dblue   },
+        NvimTreeGitStaged  = { fg = pal.dblue   },
+        NvimTreeGitMerge   = { fg = pal.dorange },
+        NvimTreeGitRenamed = { fg = pal.dpurple },
+        NvimTreeGitNew     = { fg = pal.dgreen  },
 
         -- lsp diagnostics
         DiagnosticVirtualTextError = { fg=pal.dred,                       },
@@ -106,51 +106,37 @@ function M.highlights(pal)
 end
 
 function M.lualine(pal, dark)
-    local accent = {}
-    if dark then
-        accent.n = pal.lyellow
-        accent.i = pal.lgreen
-        accent.v = pal.lpurple
-        accent.r = pal.lred
-        accent.c = pal.lblue
-    else
-        accent.n = pal.dyellow
-        accent.i = pal.dgreen
-        accent.v = pal.dpurple
-        accent.r = pal.dred
-        accent.c = pal.dblue
-    end
     -- stylua: ignore start
     return {
         normal = {
-            a = { bg = pal.surface1, fg = accent.n,  gui = "bold" },
-            b = { bg = pal.surface2, fg = pal.text2,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface1, fg = pal.lyellow, gui = "bold" },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         insert = {
-            a = { bg = pal.surface1, fg = accent.i,  gui = "bold" },
-            b = { bg = pal.surface2, fg = pal.text2,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface1, fg = pal.lgreen,  gui = "bold" },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         visual = {
-            a = { bg = pal.surface1, fg = accent.v,  gui = "bold" },
-            b = { bg = pal.surface2, fg = pal.text2,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface1, fg = pal.lpurple, gui = "bold" },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         replace = {
-            a = { bg = pal.surface1, fg = accent.r,  gui = "bold" },
-            b = { bg = pal.surface2, fg = pal.text2,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface1, fg = pal.lred,    gui = "bold" },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         command = {
-            a = { bg = pal.surface1, fg = accent.c,  gui = "bold" },
-            b = { bg = pal.surface2, fg = pal.text2,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface1, fg = pal.lblue,   gui = "bold" },
+            b = { bg = pal.surface2, fg = pal.text2,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         },
         inactive = {
-            a = { bg = pal.surface3, fg = pal.text3,              },
-            b = { bg = pal.surface3, fg = pal.text3,              },
-            c = { bg = pal.surface3, fg = pal.text3,              },
+            a = { bg = pal.surface3, fg = pal.text3,                },
+            b = { bg = pal.surface3, fg = pal.text3,                },
+            c = { bg = pal.surface3, fg = pal.text3,                },
         }
     }
     -- stylua: ignore end

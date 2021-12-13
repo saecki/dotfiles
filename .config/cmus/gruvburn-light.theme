@@ -41,12 +41,12 @@ set color_win_cur_sel_fg=11
 
 # Color of the selected row which is also the currently playing track in inactive window.
 set color_win_inactive_cur_sel_bg=255
-set color_win_inactive_cur_sel_fg=3
+set color_win_inactive_cur_sel_fg=11
 
 # Color of selected row in active window.
 set color_win_sel_bg=253
-set color_win_sel_fg=8
+set color_win_sel_fg=15
 
 # Color of selected row in inactive window.
 set color_win_inactive_sel_bg=255
-set color_win_inactive_sel_fg=0
+set color_win_inactive_sel_fg=7

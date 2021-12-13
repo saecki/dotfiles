@@ -41,10 +41,9 @@ $rust\
 $scala\
 $swift\
 $terraform\
-$vlang\
 $vagrant\
+$vlang\
 $zig\
-$crystal\
 $nix_shell\
 $conda\
 $cmd_duration\
@@ -128,12 +127,33 @@ style = "bold fg:blue bg:<bg>"
 [dart]
 style = "bold fg:blue bg:<bg>"
 
+[deno]
+style = "bold fg:green bg:<bg>"
+
+[dotnet]
+style = "bold fg:blue bg:<bg>"
+
+[elixir]
+style = "bold fg:purple bg:<bg>"
+
+[elm]
+style = "bold fg:cyan bg:<bg>"
+
+[erlang]
+style = "bold fg:red bg:<bg>"
+
 [golang]
 style = "bold fg:cyan bg:<bg>"
+
+[helm]
+style = "bold fg:white bg:<bg>"
 
 [java]
 symbol = " "
 style = "bold fg:red dimmed bg:<bg>"
+
+[julia]
+style = "bold fg:purple dimmed bg:<bg>"
 
 [kotlin]
 style = "bold fg:#843eff dimmed bg:<bg>"
@@ -142,13 +162,34 @@ style = "bold fg:#843eff dimmed bg:<bg>"
 style = "bold fg:26 bg:<bg>"
 symbol = " "
 
+[nim]
+style = "bold fg:yellow bg:<bg>"
+
+[nodejs]
+style = "bold fg:red bg:<bg>"
+
 [ocaml]
 style = "bold fg:yellow bg:<bg>"
+
+[perl]
+style = "bold fg:149 bg:<bg>"
+
+[php]
+style = "bold fg:147 bg:<bg>"
+
+[purescript]
+style = "bold fg:white bg:<bg>"
 
 [python]
 symbol = " "
 style = "bold fg:yellow bg:<bg>"
 format = "via [$symbol$pyenv_prefix($version )($virtualenv )]($style)"
+
+[red]
+style = "bold fg:red bg:<bg>"
+
+[ruby]
+style = "bold fg:red bg:<bg>"
 
 [rust]
 style = "bold fg:red bg:<bg>"
@@ -159,11 +200,23 @@ style = "bold fg:red dimmed bg:<bg>"
 [swift]
 style = "bold fg:202 bg:<bg>"
 
+[terraform]
+style = "bold fg:105 bg:<bg>"
+
+[vagrant]
+style = "bold fg:cyan bg:<bg>"
+
+[vlang]
+style = "bold fg:blue bg:<bg>"
+
 [zig]
 style = "bold fg:yellow bg:<bg>"
 
 [nix_shell]
 style = "bold fg:blue bg:<bg>"
+
+[conda]
+style = "bold fg:green bg:<bg>"
 
 ##################################################
 ##  other                                       ##

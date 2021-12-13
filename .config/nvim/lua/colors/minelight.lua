@@ -7,19 +7,19 @@ M.palette = {
     bg           = "#ffffff",
     fg           = "#31313a",
 
-    dred         = "#dd241d",
-    dgreen       = "#98ae0f",
-    dyellow      = "#f09300",
-    dblue        = "#46a5a9",
-    dpurple      = "#c15296",
+    dred         = "#cc241d",
+    dgreen       = "#98971a",
+    dyellow      = "#d79921",
+    dblue        = "#458588",
+    dpurple      = "#b16286",
     dcyan        = "#689d6a",
 
-    lred         = "#fb4934",
-    lgreen       = "#b8cb1c",
-    lyellow      = "#fca829",
-    lblue        = "#83b5aa",
-    lpurple      = "#d75f87",
-    lcyan        = "#7aba63",
+    lred         = "#9d0006",
+    lgreen       = "#79740e",
+    lyellow      = "#b57614",
+    lblue        = "#076678",
+    lpurple      = "#8f3f71",
+    lcyan        = "#427b58",
 
     texthl1      = "#e8e8e8",
     texthl2      = "#d7d7ff",
@@ -56,7 +56,7 @@ M.palette = {
 -- stylua: ignore end
 
 M.highlights = common.highlights(M.palette)
-M.lualine = common.lualine(M.palette, true)
+M.lualine = common.lualine(M.palette)
 
 function M.setup()
     vim.g.colors_name = "minelight"

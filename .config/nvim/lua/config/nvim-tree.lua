@@ -8,13 +8,9 @@ function M.setup()
         folder_arrows = 1,
         folders = 1,
         files = 1,
-        git = 0,
+        git = 1,
     }
     vim.g.nvim_tree_special_files = {}
-    --		["README.md"] = 1,
-    --		["Makefile"] = 1,
-    --		["MAKEFILE"] = 1,
-    --	}
     vim.g.nvim_tree_icons = {
         default = "",
         symlink = "",
