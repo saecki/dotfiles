@@ -10,9 +10,14 @@ function M.setup()
 		files = 1,
 		git = 0,
 	}
+	vim.g.nvim_tree_special_files = {}
+--		["README.md"] = 1,
+--		["Makefile"] = 1,
+--		["MAKEFILE"] = 1,
+--	}
 	vim.g.nvim_tree_icons = {
-		default = "",
-		symlink = " ",
+		default = "",
+		symlink = "",
 		git = {
 			unstaged = "!",
 			staged = "+",
@@ -23,14 +28,14 @@ function M.setup()
 			ignored = "~",
 		},
 		folder = {
-			arrow_closed = "",
-			arrow_open = "",
-			default = "",
-			open = "",
-			empty = "",
-			empty_open = "",
-			symlink = "",
-			symlink_open = "",
+			arrow_closed = "",
+			arrow_open = "",
+			default = "",
+			open = "",
+			empty = "",
+			empty_open = "",
+			symlink = "",
+			symlink_open = "",
 		},
 		lsp = {
 			hint = "",
@@ -64,7 +69,7 @@ function M.setup()
                     { key = "K",                              cb = tree_cb("first_sibling") },
                     { key = "J",                              cb = tree_cb("last_sibling") },
                     { key = "I",                              cb = tree_cb("toggle_ignored") },
-                    { key = "h",                              cb = tree_cb("toggle_dotfiles") },
+                    { key = "<c-h>",                              cb = tree_cb("toggle_dotfiles") },
                     { key = "<c-r>",                          cb = tree_cb("refresh") },
                     { key = "a",                              cb = tree_cb("create") },
                     { key = "d",                              cb = tree_cb("remove") },

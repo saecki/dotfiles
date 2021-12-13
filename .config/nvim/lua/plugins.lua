@@ -51,19 +51,29 @@ function M.setup()
 		})
 
 		-- File navigation
-		use("farmergreg/vim-lastplace")
+		use({
+			"kyazdani42/nvim-tree.lua",
+			requires = { "kyazdani42/nvim-web-devicons" },
+			keys = { "<f6>", "<f18>" },
+			config = function()
+				require("config.nvim-tree").setup()
+			end,
+		})
+		use({
+			"nvim-telescope/telescope.nvim",
+			requires = {
+				{ "nvim-lua/plenary.nvim" },
+				{ "kyazdani42/nvim-web-devicons" },
+			},
+			config = function()
+				require("config.telescope").setup()
+			end,
+		})
 		use({
 			"ahmedkhalf/project.nvim",
 			requires = { "nvim-telescope/telescope.nvim" },
 			config = function()
 				require("config.project").setup()
-			end,
-		})
-		use({
-			"nvim-telescope/telescope.nvim",
-			requires = { "nvim-lua/plenary.nvim" },
-			config = function()
-				require("config.telescope").setup()
 			end,
 		})
 		use({
@@ -73,13 +83,11 @@ function M.setup()
 				require("config.harpoon").setup()
 			end,
 		})
-
-		-- Filetree
+		use("farmergreg/vim-lastplace")
 		use({
-			"kyazdani42/nvim-tree.lua",
-			keys = { "<f6>", "<f18>" },
+			"kyazdani42/nvim-web-devicons",
 			config = function()
-				require("config.nvim-tree").setup()
+				require("config.devicons").setup()
 			end,
 		})
 
