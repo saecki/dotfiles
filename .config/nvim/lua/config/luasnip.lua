@@ -1,6 +1,6 @@
 local M = {}
 
-local luasnip = require('luasnip')
+local luasnip = require("luasnip")
 local s = luasnip.snippet
 local t = luasnip.text_node
 local i = luasnip.insert_node
@@ -16,16 +16,17 @@ local function bash(_, _, command)
 end
 
 function M.setup()
-    luasnip.config.setup {
-        updateevents = "InsertLeave,TextChanged,TextChangedI",
-    }
+	luasnip.config.setup({
+		updateevents = "InsertLeave,TextChanged,TextChangedI",
+	})
 
+    -- stylua: ignore start
     luasnip.snippets = {
         lua = {
             s("module", {
                 t({ "local M = {}", "", "function M.setup()", "\t" }),
                 i(0, { "" }),
-                t({"", "end", "", "return M" }),
+                t({ "", "end", "", "return M" }),
             }),
             s("lspmodule", {
                 t({ "local M = {}", "", "function M.setup(lsp_config, on_attach, capabilities)" }),
@@ -59,6 +60,7 @@ function M.setup()
             s("xor",  t("⊻")),
         },
     }
+	-- stylua: ignore end
 end
 
 return M

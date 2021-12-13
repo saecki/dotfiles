@@ -1,37 +1,38 @@
 local M = {}
 
 function M.highlights(pal)
+    -- stylua: ignore start
     return {
         -- editor
         Normal          = { fg=pal.fg,       bg=pal.bg,                       },
-        SignColumn      = {                  bg='none',                       },
+        SignColumn      = {                  bg="none",                       },
         LineNr          = { fg=pal.text3,                                     },
-        CursorLineNr    = { fg=pal.text2,                       style='bold', },
+        CursorLineNr    = { fg=pal.text2,                       style="bold", },
         CursorColumn    = {                  bg=pal.texthl2,                  },
         Pmenu           = { fg=pal.text2,    bg=pal.surface3,                 },
-        PmenuSel        = { fg=pal.surface3, bg=pal.text3,      style='bold', },
+        PmenuSel        = { fg=pal.surface3, bg=pal.text3,      style="bold", },
         PmenuSBar       = {                  bg=pal.scrollbg,                 },
         PmenuThumb      = {                  bg=pal.scrollfg,                 },
         Visual          = {                  bg=pal.texthl1,                  },
-        VertSplit       = { fg=pal.text2,    bg='none',                       },
-        StatusLineNC    = { fg='none',       bg='none',                       },
+        VertSplit       = { fg=pal.text2,    bg="none",                       },
+        StatusLineNC    = { fg="none",       bg="none",                       },
 
         -- syntax
-        Title           = { fg=pal.title,                       style='bold', },
+        Title           = { fg=pal.title,                       style="bold", },
         Comment         = { fg=pal.text3,                                     },
-        Constant        = { fg=pal.lpurple,                     style='none', },
-        Identifier      = { fg=pal.lcyan,                       style='bold', },
+        Constant        = { fg=pal.lpurple,                     style="none", },
+        Identifier      = { fg=pal.lcyan,                       style="bold", },
         Statement       = { fg=pal.lyellow,                                   },
         PreProc         = { fg=pal.preproc,                                   },
         Type            = { fg=pal.type,                                      },
         Special         = { fg=pal.special,                                   },
         Error           = {                  bg=pal.lred,                     },
-        Todo            = { fg=pal.todo,     bg='none',         style='bold', },
+        Todo            = { fg=pal.todo,     bg="none",         style="bold", },
         Directory       = { fg=pal.lgreen,                                    },
         Search          = { fg=pal.invtext,  bg=pal.lyellow,                  },
         MatchParen      = {                  bg=pal.texthl2,                  },
-        NonText         = { fg=pal.nontext,                     style='none', },
-        Folded          = { fg=pal.folded,   bg=pal.texthl2,    style='none', },
+        NonText         = { fg=pal.nontext,                     style="none", },
+        Folded          = { fg=pal.folded,   bg=pal.texthl2,    style="none", },
 
         -- treesitter
         TSInclude       = { fg=pal.lyellow,                                   },
@@ -44,7 +45,7 @@ function M.highlights(pal)
         DiffAdd         = {                  bg=pal.diff_a_bg,                },
         DiffChange      = {                  bg=pal.diff_c_bg,                },
         DiffDelete      = {                  bg=pal.diff_d_bg,                },
-        DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style='bold', },
+        DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style="bold", },
 
         -- gitsigns
         GitSignsAdd     = { fg=pal.diff_a_fg  },
@@ -76,20 +77,20 @@ function M.highlights(pal)
         DiagnosticVirtualTextHint  = { fg=pal.lblue,                      },
         DiagnosticVirtualTextInfo  = { fg=pal.lblue,                      },
 
-        DiagnosticSignError        = { fg=pal.lred,    style='bold',      },
-        DiagnosticSignWarn         = { fg=pal.lyellow, style='bold',      },
-        DiagnosticSignHint         = { fg=pal.lblue,   style='bold',      },
-        DiagnosticSignInfo         = { fg=pal.lblue,   style='bold',      },
+        DiagnosticSignError        = { fg=pal.lred,    style="bold",      },
+        DiagnosticSignWarn         = { fg=pal.lyellow, style="bold",      },
+        DiagnosticSignHint         = { fg=pal.lblue,   style="bold",      },
+        DiagnosticSignInfo         = { fg=pal.lblue,   style="bold",      },
 
         DiagnosticFloatingError    = { fg=pal.dred,                       },
         DiagnosticFloatingWarn     = { fg=pal.dyellow,                    },
         DiagnosticFloatingHint     = { fg=pal.lblue,                      },
         DiagnosticFloatingInfo     = { fg=pal.lblue,                      },
 
-        DiagnosticUnderlineError   = { sp=pal.dred,    style='undercurl', },
-        DiagnosticUnderlineWarn    = { sp=pal.dyellow, style='undercurl', },
-        DiagnosticUnderlineHint    = { sp=pal.lblue,   style='undercurl', },
-        DiagnosticUnderlineInfo    = { sp=pal.lblue,   style='undercurl', },
+        DiagnosticUnderlineError   = { sp=pal.dred,    style="undercurl", },
+        DiagnosticUnderlineWarn    = { sp=pal.dyellow, style="undercurl", },
+        DiagnosticUnderlineHint    = { sp=pal.lblue,   style="undercurl", },
+        DiagnosticUnderlineInfo    = { sp=pal.lblue,   style="undercurl", },
 
         -- lsp ocurrences
         LspReferenceText  = { bg=pal.texthl2 },
@@ -101,46 +102,48 @@ function M.highlights(pal)
         DapLogPoint   = { fg=pal.lyellow },
         DapStopped    = { fg=pal.lgreen  },
     }
+	-- stylua: ignore end
 end
 
 function M.lualine(pal, dark)
-    local accent = {}
-    if dark then
-        accent.n  = pal.lyellow
-        accent.i  = pal.lgreen
-        accent.v  = pal.lpurple
-        accent.r  = pal.lred
-        accent.c  = pal.lblue
-    else
-        accent.n  = pal.dyellow
-        accent.i  = pal.dgreen
-        accent.v  = pal.dpurple
-        accent.r  = pal.dred
-        accent.c  = pal.dblue
-    end
+	local accent = {}
+	if dark then
+		accent.n = pal.lyellow
+		accent.i = pal.lgreen
+		accent.v = pal.lpurple
+		accent.r = pal.lred
+		accent.c = pal.lblue
+	else
+		accent.n = pal.dyellow
+		accent.i = pal.dgreen
+		accent.v = pal.dpurple
+		accent.r = pal.dred
+		accent.c = pal.dblue
+	end
+    -- stylua: ignore start
     return {
         normal = {
-            a = { bg = pal.surface1, fg = accent.n,  gui = 'bold' },
+            a = { bg = pal.surface1, fg = accent.n,  gui = "bold" },
             b = { bg = pal.surface2, fg = pal.text2,              },
             c = { bg = pal.surface3, fg = pal.text3,              },
         },
         insert = {
-            a = { bg = pal.surface1, fg = accent.i,  gui = 'bold' },
+            a = { bg = pal.surface1, fg = accent.i,  gui = "bold" },
             b = { bg = pal.surface2, fg = pal.text2,              },
             c = { bg = pal.surface3, fg = pal.text3,              },
         },
         visual = {
-            a = { bg = pal.surface1, fg = accent.v,  gui = 'bold' },
+            a = { bg = pal.surface1, fg = accent.v,  gui = "bold" },
             b = { bg = pal.surface2, fg = pal.text2,              },
             c = { bg = pal.surface3, fg = pal.text3,              },
         },
         replace = {
-            a = { bg = pal.surface1, fg = accent.r,  gui = 'bold' },
+            a = { bg = pal.surface1, fg = accent.r,  gui = "bold" },
             b = { bg = pal.surface2, fg = pal.text2,              },
             c = { bg = pal.surface3, fg = pal.text3,              },
         },
         command = {
-            a = { bg = pal.surface1, fg = accent.c,  gui = 'bold' },
+            a = { bg = pal.surface1, fg = accent.c,  gui = "bold" },
             b = { bg = pal.surface2, fg = pal.text2,              },
             c = { bg = pal.surface3, fg = pal.text3,              },
         },
@@ -150,34 +153,37 @@ function M.lualine(pal, dark)
             c = { bg = pal.surface3, fg = pal.text3,              },
         }
     }
+	-- stylua: ignore end
 end
 
 function M.apply_term_colors(pal)
-    vim.g.terminal_color_1  = pal.dred
-    vim.g.terminal_color_2  = pal.dgreen
-    vim.g.terminal_color_3  = pal.dyellow
-    vim.g.terminal_color_4  = pal.dblue
-    vim.g.terminal_color_5  = pal.dviolet
-    vim.g.terminal_color_6  = pal.dcyan
+	vim.g.terminal_color_1 = pal.dred
+	vim.g.terminal_color_2 = pal.dgreen
+	vim.g.terminal_color_3 = pal.dyellow
+	vim.g.terminal_color_4 = pal.dblue
+	vim.g.terminal_color_5 = pal.dviolet
+	vim.g.terminal_color_6 = pal.dcyan
 
-    vim.g.terminal_color_9  = pal.lred
-    vim.g.terminal_color_10 = pal.lgreen
-    vim.g.terminal_color_11 = pal.lyellow
-    vim.g.terminal_color_12 = pal.lblue
-    vim.g.terminal_color_13 = pal.lviolet
-    vim.g.terminal_color_14 = pal.lcyan
+	vim.g.terminal_color_9 = pal.lred
+	vim.g.terminal_color_10 = pal.lgreen
+	vim.g.terminal_color_11 = pal.lyellow
+	vim.g.terminal_color_12 = pal.lblue
+	vim.g.terminal_color_13 = pal.lviolet
+	vim.g.terminal_color_14 = pal.lcyan
 end
 
 function M.apply_highlights(highlights)
-    vim.o.termguicolors = true
+	vim.o.termguicolors = true
 
-    for group, colors in pairs(highlights) do
-        local style = colors.style and 'gui='   .. colors.style or 'gui=NONE'
-        local fg    = colors.fg    and 'guifg=' .. colors.fg    or 'guifg=NONE'
-        local bg    = colors.bg    and 'guibg=' .. colors.bg    or 'guibg=NONE'
-        local sp    = colors.sp    and 'guisp=' .. colors.sp    or ''
-        vim.api.nvim_command('highlight ' .. group .. ' ' .. style .. ' ' .. fg .. ' ' .. bg..' '..sp)
-    end
+	for group, colors in pairs(highlights) do
+        -- stylua: ignore start
+        local style = colors.style and "gui="   .. colors.style or "gui=NONE"
+        local fg    = colors.fg    and "guifg=" .. colors.fg    or "guifg=NONE"
+        local bg    = colors.bg    and "guibg=" .. colors.bg    or "guibg=NONE"
+        local sp    = colors.sp    and "guisp=" .. colors.sp    or ""
+		-- stylua: ignore end
+		vim.api.nvim_command("highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp)
+	end
 end
 
 return M
