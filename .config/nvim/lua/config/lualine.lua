@@ -58,7 +58,7 @@ local function position()
 end
 
 local function lsp_status_text()
-    return lsp_status.status():gsub("%s+$", "")
+    return vim.trim(lsp_status.status())
 end
 
 function M.setup()
