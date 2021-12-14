@@ -18,8 +18,8 @@ function M.setup()
         signs = {
             other = "",
             error = "",
-            warn  = "",
-            info  = "",
+            warning  = "",
+            information  = "",
             hint  = "",
         },
     })

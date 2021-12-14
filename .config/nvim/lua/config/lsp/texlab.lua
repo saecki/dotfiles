@@ -2,13 +2,14 @@ local M = {}
 
 local maps = require("util.maps")
 
-function M.setup(server, on_attach, capabilities)
+function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
         maps.buf_nnoremap(buf, "<leader>fw", ":TexlabForward<cr>")
     end
 
     server:setup({
+        on_init = on_init,
         on_attach = m_on_attach,
         capabilities = capabilities,
         settings = {

@@ -2,12 +2,13 @@ local M = {}
 
 local util = require("util")
 
-function M.setup(server, on_attach, capabilities)
+function M.setup(server, on_init, on_attach, capabilities)
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, util.join_paths("lua", "?.lua"))
     table.insert(runtime_path, util.join_paths("lua", "?", "init.lua"))
 
     server:setup({
+        on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {

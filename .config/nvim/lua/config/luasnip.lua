@@ -29,10 +29,10 @@ function M.setup()
                 t({ "", "end", "", "return M" }),
             }),
             s("lspmodule", {
-                t({ "local M = {}", "", "function M.setup(lsp_config, on_attach, capabilities)" }),
+                t({ "local M = {}", "", "function M.setup(lsp_config, on_init, on_attach, capabilities)" }),
                 t({ "", "\tlsp_config." }),
                 i(1, { "server" }),
-                t({ ".setup {", "\t\ton_attach = on_attach,", "\t\tcapabilities = capabilities,", "\t\t" }),
+                t({ ".setup {", "\t\ton_init = on_init,", "\t\ton_attach = on_attach,", "\t\tcapabilities = capabilities,", "\t\t" }),
                 i(0, { "" }),
                 t({ "", "\t}", "end", "", "return M" }),
             }),

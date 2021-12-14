@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup(server, on_attach, capabilities)
+function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
         vim.cmd([[
@@ -12,6 +12,7 @@ function M.setup(server, on_attach, capabilities)
     end
 
     server:setup({
+        on_init = on_init,
         on_attach = m_on_attach,
         capabilities = capabilities,
         settings = {

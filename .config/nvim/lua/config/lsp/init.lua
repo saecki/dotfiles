@@ -30,6 +30,11 @@ function M.get_capabilities()
     return capabilities
 end
 
+function M.on_init(client)
+    client.config.flags = client.config.flags or {}
+    client.config.flags.allow_incremental_sync = true
+end
+
 function M.on_attach(client, buf)
     -- Status
     lsp_status.on_attach(client)
@@ -102,9 +107,11 @@ function M.setup()
     }
     lsp_installer.on_server_ready(function(server)
         if vim.tbl_contains(server_configs, server.name) then
-            require("config.lsp." .. server.name).setup(server, M.on_attach, capabilities)
+            local server_config = require("config.lsp." .. server.name)
+            server_config.setup(server, M.on_init, M.on_attach, capabilities)
         else
             server:setup({
+                on_init = M.on_init,
                 on_attach = M.on_attach,
                 capabilities = capabilities,
             })
