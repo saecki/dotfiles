@@ -21,7 +21,7 @@ function M.setup()
             warn  = "",
             info  = "",
             hint  = "",
-        }
+        },
     })
     -- stylua: ignore end
 
@@ -29,8 +29,8 @@ function M.setup()
     maps.nnoremap("gr", ":Trouble lsp_references<cr>")
     maps.nnoremap("gi", ":Trouble lsp_implementations<cr>")
     maps.nnoremap("gy", ":Trouble lsp_type_definitions<cr>")
-    maps.nnoremap("<leader>ld", ":Trouble lsp_document_diagnostics<cr>")
-    maps.nnoremap("<leader>lw", ":Trouble lsp_workspace_diagnostics<cr>")
+    maps.nnoremap("<leader>ld", ":Trouble document_diagnostics<cr>")
+    maps.nnoremap("<leader>lw", ":Trouble workspace_diagnostics<cr>")
 end
 
 return M

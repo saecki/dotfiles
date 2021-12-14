@@ -67,7 +67,7 @@ function M.highlights(pal)
         NvimTreeGitDirty   = { fg = pal.dblue   },
         NvimTreeGitDeleted = { fg = pal.dblue   },
         NvimTreeGitStaged  = { fg = pal.dblue   },
-        NvimTreeGitMerge   = { fg = pal.dorange },
+        NvimTreeGitMerge   = { fg = pal.dyellow },
         NvimTreeGitRenamed = { fg = pal.dpurple },
         NvimTreeGitNew     = { fg = pal.dgreen  },
 
@@ -105,7 +105,7 @@ function M.highlights(pal)
     -- stylua: ignore end
 end
 
-function M.lualine(pal, dark)
+function M.lualine(pal)
     -- stylua: ignore start
     return {
         normal = {

@@ -78,7 +78,7 @@ format = " [$hostname]($style) in"
 
 [directory]
 style = "bold fg:cyan bg:<bg>"
-format = " [$read_only]($read_only_style)[$path]($style) "
+format = " [$read_only $path]($style) "
 truncate_to_repo = false
 truncation_symbol = "…/"
 

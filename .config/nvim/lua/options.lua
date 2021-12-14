@@ -20,6 +20,7 @@ function M.setup()
     vim.opt.fillchars:append({ vert = "│", eob = " " })
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
+    vim.opt.showmode = false
 
     -- Indentation
     vim.opt.autoindent = true
