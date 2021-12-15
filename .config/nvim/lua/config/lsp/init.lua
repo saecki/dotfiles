@@ -56,6 +56,7 @@ function M.on_attach(client, buf)
     maps.buf_nnoremap(buf, "S", vim.lsp.buf.signature_help)
 
     -- Code actions
+    maps.buf_vnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
     maps.buf_nnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
     maps.buf_nnoremap(buf, "<leader>r", function()
         require("util.float").input(nil, false, function(new_name)

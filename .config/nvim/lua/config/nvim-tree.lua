@@ -33,12 +33,6 @@ function M.setup()
             symlink = "",
             symlink_open = "",
         },
-        lsp = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        },
     }
 
     local nvim_tree = require("nvim-tree")
@@ -46,6 +40,15 @@ function M.setup()
 
     -- stylua: ignore start
     nvim_tree.setup {
+        diagnostics = {
+            enable = true,
+            icons = {
+                hint = "",
+                info = "",
+                warning = "",
+                error = "",
+            },
+        },
         view = {
             width = 40,
             auto_resize = true,
