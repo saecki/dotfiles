@@ -53,6 +53,7 @@ function M.setup()
             width = 40,
             auto_resize = true,
             mappings = {
+                custom_only = true,
                 list = {
                     { key = { "<cr>", "o", "<2-leftmouse>" }, cb = tree_cb("edit") },
                     { key = { "<2-rightmouse>", "<C-]>" },    cb = tree_cb("cd") },
