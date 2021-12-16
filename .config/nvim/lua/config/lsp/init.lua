@@ -50,13 +50,11 @@ function M.on_attach(client, buf)
         ]])
     end
 
-    -- Show documentation
-    maps.buf_nnoremap(buf, "K", M.show_documentation)
     -- Show Signature
     maps.buf_nnoremap(buf, "S", vim.lsp.buf.signature_help)
 
     -- Code actions
-    maps.buf_vnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
+    maps.buf_xnoremap(buf, "<leader>a", vim.lsp.buf.range_code_action)
     maps.buf_nnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
     maps.buf_nnoremap(buf, "<leader>r", function()
         require("util.float").input(nil, false, function(new_name)
@@ -99,16 +97,9 @@ function M.setup()
     local capabilities = M.get_capabilities()
 
     -- Installer and server config
-    local server_configs = {
-        "rust_analyzer",
-        "clangd",
-        "sumneko_lua",
-        "sqls",
-        "texlab",
-    }
     lsp_installer.on_server_ready(function(server)
-        if vim.tbl_contains(server_configs, server.name) then
-            local server_config = require("config.lsp." .. server.name)
+        local success, server_config = pcall(require, "config.lsp." .. server.name)
+        if success then
             server_config.setup(server, M.on_init, M.on_attach, capabilities)
         else
             server:setup({
@@ -147,6 +138,9 @@ function M.setup()
         local hl = "DiagnosticSign" .. n
         vim.fn.sign_define(hl, { text = s, texthl = hl, linehl = "", numhl = "" })
     end
+
+    -- Show documentation
+    maps.nnoremap("K", M.show_documentation)
 end
 
 return M

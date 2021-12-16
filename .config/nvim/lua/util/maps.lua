@@ -75,6 +75,13 @@ function M.vnoremap(lhs, rhs, opts)
     M.nore_register("v", lhs, rhs, opts)
 end
 
+function M.xmap(lhs, rhs, opts)
+    M.register("x", lhs, rhs, opts)
+end
+function M.xnoremap(lhs, rhs, opts)
+    M.nore_register("x", lhs, rhs, opts)
+end
+
 function M.smap(lhs, rhs, opts)
     M.register("s", lhs, rhs, opts)
 end
@@ -121,6 +128,13 @@ function M.buf_vmap(buf, lhs, rhs, opts)
 end
 function M.buf_vnoremap(buf, lhs, rhs, opts)
     M.buf_nore_register(buf, "v", lhs, rhs, opts)
+end
+
+function M.buf_xmap(buf, lhs, rhs, opts)
+    M.buf_register(buf, "x", lhs, rhs, opts)
+end
+function M.buf_xnoremap(buf, lhs, rhs, opts)
+    M.buf_nore_register(buf, "x", lhs, rhs, opts)
 end
 
 function M.buf_smap(buf, lhs, rhs, opts)

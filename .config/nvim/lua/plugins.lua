@@ -120,7 +120,6 @@ function M.setup()
         use({
             "neovim/nvim-lspconfig",
             requires = {
-                { "nvim-lua/lsp_extensions.nvim" },
                 { "nvim-lua/lsp-status.nvim" },
                 { "williamboman/nvim-lsp-installer" },
             },
