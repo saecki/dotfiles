@@ -51,7 +51,7 @@ function M.on_attach(client, buf)
     end
 
     -- Show Signature
-    maps.buf_nnoremap(buf, "S", vim.lsp.buf.signature_help)
+    maps.buf_nnoremap(buf, "<a-k>", vim.lsp.buf.signature_help)
 
     -- Code actions
     maps.buf_xnoremap(buf, "<leader>a", vim.lsp.buf.range_code_action)

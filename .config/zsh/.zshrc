@@ -1,10 +1,3 @@
-# Starship prompt
-if [ -x "$(which starship)" ]; then
-    eval "$(starship init zsh)"
-else
-    echo "starship prompt is not installed"
-fi
-
 # ===================================================
 # Environment variables
 # ===================================================
@@ -105,8 +98,6 @@ function zle-keymap-select {
     then
         echo -ne '\e[5 q'
     fi
-    
-    starship_zle-keymap-select
 }
 zle -N zle-keymap-select
 zle-line-init() {
@@ -139,34 +130,6 @@ alias tree='exa --tree --sort type'
 # Editor
 alias v='$EDITOR'
 alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o $file; fi'
-
-# Music
-update-cmus-lib() {
-    cmus-remote -l -c ~/Music
-}
-update-cmus-playlist() {
-    playlist-localizer \
-        -m ~/Music \
-        -o ~/.config/cmus/playlists
-}
-alias music='update-cmus-playlist; cmus'
-
-# Youtube-dl
-music-dl() {
-    youtube-dl --get-id "$1" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
-}
-
-# Clean latex files
-latex-clean() {
-    rm -f *.aux
-    rm -f *.dvi
-    rm -f *.fdb_latexmk
-    rm -f *.fls
-    rm -f *.log
-    rm -f *.xdv
-    rm -f *.synctex.gz
-    rm -f *.pdf
-}
 
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
@@ -240,16 +203,27 @@ alias gdu="git rev-list --objects --all \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
-# Delete swap files
-alias delete-swap='rm ~/.local/share/nvim/swap/*'
-
-# Systemd reboot
-alias sysreboot='systemctl reboot -i'
-
 # Bare repos
 alias dotfiles="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 alias stuff="git --git-dir=$HOME/.config/stuff --work-tree=$HOME"
 alias csgo-config="git --git-dir $HOME/Documents/csgo-config --work-tree '$HOME/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg'"
+
+# Music
+update-cmus-lib() {
+    cmus-remote -l -c ~/Music
+}
+update-cmus-playlist() {
+    playlist-localizer \
+        -m ~/Music \
+        -o ~/.config/cmus/playlists
+}
+alias music='update-cmus-playlist; cmus'
+
+# Delete swap files
+alias clean-lua-cache='rm ~/.local/share/nvim/'
+
+# Systemd reboot
+alias sysreboot='systemctl reboot -i'
 
 # 255 Colors
 print-color-table() {
@@ -257,3 +231,27 @@ print-color-table() {
         print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'};
     done
 }
+
+# Youtube-dl
+music-dl() {
+    youtube-dl --get-id "$1" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
+}
+
+# Clean latex files
+latex-clean() {
+    rm -f *.aux
+    rm -f *.dvi
+    rm -f *.fdb_latexmk
+    rm -f *.fls
+    rm -f *.log
+    rm -f *.xdv
+    rm -f *.synctex.gz
+    rm -f *.pdf
+}
+
+# Starship prompt
+if [ -x "$(which starship)" ]; then
+    eval "$(starship init zsh)"
+else
+    echo "starship prompt is not installed"
+fi
