@@ -7,9 +7,6 @@ function M.setup()
     maps.nnoremap("j", "gj")
     maps.nnoremap("k", "gk")
 
-    -- Copy to the end of the line
-    maps.nnoremap("Y", "y$")
-
     -- Resize
     maps.nnoremap("<c-left>", ":vertical resize -5<cr>")
     maps.nnoremap("<c-down>", ":resize +5<cr>")
@@ -20,8 +17,8 @@ function M.setup()
     maps.nnoremap("<leader>w", ":w<cr>")
 
     -- Stop searching
-    maps.vnoremap("S", ":nohlsearch<cr>")
-    maps.nnoremap("S", ":nohlsearch<cr>")
+    maps.vnoremap("H", ":nohlsearch<cr>")
+    maps.nnoremap("H", ":nohlsearch<cr>")
 
     -- Copy paste
     maps.vnoremap("<c-c>", '"+y')
