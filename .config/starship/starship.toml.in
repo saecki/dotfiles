@@ -170,7 +170,7 @@ style = "bold fg:purple dimmed bg:<bg>"
 style = "bold fg:#843eff dimmed bg:<bg>"
 
 [lua]
-style = "bold fg:26 bg:<bg>"
+style = "bold fg:25 bg:<bg>"
 symbol = " "
 
 [nim]
