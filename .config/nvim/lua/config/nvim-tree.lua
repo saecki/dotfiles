@@ -8,19 +8,19 @@ function M.setup()
         folder_arrows = 1,
         folders = 1,
         files = 1,
-        git = 0,
+        git = 1,
     }
     vim.g.nvim_tree_special_files = {}
     vim.g.nvim_tree_icons = {
         default = "",
         symlink = "",
         git = {
-            unstaged = "!",
-            staged = "+",
-            unmerged = "=",
-            renamed = "»",
-            untracked = "?",
-            deleted = "✘",
+            unstaged = "",
+            staged = "",
+            unmerged = "",
+            renamed = "",
+            untracked = "",
+            deleted = "",
             ignored = "~",
         },
         folder = {
@@ -53,10 +53,9 @@ function M.setup()
             width = 40,
             auto_resize = true,
             mappings = {
-                custom_only = true,
                 list = {
                     { key = { "<cr>", "o", "<2-leftmouse>" }, cb = tree_cb("edit") },
-                    { key = { "<2-rightmouse>", "<C-]>" },    cb = tree_cb("cd") },
+                    { key = { "<2-rightmouse>", "<C-]>", "$" },    cb = tree_cb("cd") },
                     { key = "<c-v>",                          cb = tree_cb("vsplit") },
                     { key = "<c-x>",                          cb = tree_cb("split") },
                     { key = "<c-t>",                          cb = tree_cb("tabnew") },

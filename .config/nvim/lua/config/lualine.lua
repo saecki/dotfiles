@@ -78,8 +78,12 @@ function M.setup()
                 { mode, separator = { left = " " } },
             },
             lualine_b = { lsp_status_text },
-            lualine_c = { { "filename", path = 1 } },
-            lualine_x = { file_format, "encoding", "filetype" },
+            lualine_c = { {
+                "filename",
+                path = 1,
+                symbols = { modified = " ", readonly = " " },
+            } },
+            lualine_x = { file_format, "encoding", { "filetype" } },
             lualine_y = { "branch" },
             lualine_z = {
                 {

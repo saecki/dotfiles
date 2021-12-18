@@ -101,17 +101,26 @@ style = "bold fg:yellow bg:<bg>"
 format = "[$state($progress_current/$progress_total)]($style) "
 
 [git_status]
-format = '($ahead_behind )($conflicted$stashed )($deleted$renamed$staged )($modified$untracked )'
-ahead      = "[↑${count}](bold fg:green bg:<bg>)"
-diverged   = "[↑${ahead_count}↓${behind_count}](bold fg:yellow bg:<bg>)"
-behind     = "[↓${count}](bold fg:green bg:<bg>)"
-conflicted = "[=${count}](bold fg:blue bg:<bg>)"
-stashed    = "[*${count}](bold fg:blue bg:<bg>)"
-deleted    = "[✘${count}](bold fg:red bg:<bg>)"
-renamed    = "[»${count}](bold fg:yellow bg:<bg>)"
-staged     = "[+${count}](bold fg:green bg:<bg>)"
-modified   = "[!${count}](bold fg:yellow bg:<bg>)"
-untracked  = "[?${count}](bold fg:yellow bg:<bg>)"
+format = """\
+$ahead_behind\
+$conflicted\
+$stashed\
+$deleted\
+$renamed\
+$staged\
+$modified\
+$untracked\
+"""
+ahead      = "[↑${count} ](bold fg:green bg:<bg>)"
+diverged   = "[↑${ahead_count}↓${behind_count} ](bold fg:yellow bg:<bg>)"
+behind     = "[↓${count} ](bold fg:green bg:<bg>)"
+conflicted = "[ ${count} ](bold fg:yellow bg:<bg>)"
+stashed    = "[ ${count} ](bold fg:blue bg:<bg>)"
+deleted    = "[ ${count} ](bold fg:red bg:<bg>)"
+renamed    = "[ ${count} ](bold fg:yellow bg:<bg>)"
+staged     = "[ ${count} ](bold fg:green bg:<bg>)"
+modified   = "[ ${count} ](bold fg:yellow bg:<bg>)"
+untracked  = "[ ${count} ](bold fg:cyan bg:<bg>)"
 
 [hg_branch]
 style = "bold fg:purple bg:<bg>"
