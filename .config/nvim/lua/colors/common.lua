@@ -72,8 +72,8 @@ function M.highlights(pal)
         NvimTreeGitNew     = { fg = pal.dgreen  },
 
         -- lsp diagnostics
-        DiagnosticVirtualTextError = { fg=pal.dred,                       },
-        DiagnosticVirtualTextWarn  = { fg=pal.dyellow,                    },
+        DiagnosticVirtualTextError = { fg=pal.lred,                       },
+        DiagnosticVirtualTextWarn  = { fg=pal.lyellow,                    },
         DiagnosticVirtualTextHint  = { fg=pal.lblue,                      },
         DiagnosticVirtualTextInfo  = { fg=pal.lblue,                      },
 
@@ -82,13 +82,13 @@ function M.highlights(pal)
         DiagnosticSignHint         = { fg=pal.lblue,   style="bold",      },
         DiagnosticSignInfo         = { fg=pal.lblue,   style="bold",      },
 
-        DiagnosticFloatingError    = { fg=pal.dred,                       },
-        DiagnosticFloatingWarn     = { fg=pal.dyellow,                    },
+        DiagnosticFloatingError    = { fg=pal.lred,                       },
+        DiagnosticFloatingWarn     = { fg=pal.lyellow,                    },
         DiagnosticFloatingHint     = { fg=pal.lblue,                      },
         DiagnosticFloatingInfo     = { fg=pal.lblue,                      },
 
-        DiagnosticUnderlineError   = { sp=pal.dred,    style="undercurl", },
-        DiagnosticUnderlineWarn    = { sp=pal.dyellow, style="undercurl", },
+        DiagnosticUnderlineError   = { sp=pal.lred,    style="undercurl", },
+        DiagnosticUnderlineWarn    = { sp=pal.lyellow, style="undercurl", },
         DiagnosticUnderlineHint    = { sp=pal.lblue,   style="undercurl", },
         DiagnosticUnderlineInfo    = { sp=pal.lblue,   style="undercurl", },
 

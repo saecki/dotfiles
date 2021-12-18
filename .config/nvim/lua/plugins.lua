@@ -23,7 +23,7 @@ function M.setup()
             end,
         })
         use({
-            "hoob3rt/lualine.nvim",
+            "nvim-lualine/lualine.nvim",
             config = function()
                 require("config.lualine").setup()
             end,

@@ -64,7 +64,6 @@ end
 function M.setup()
     local colors = require("colors.mineauto")
     local theme = colors.lualine
-    local palette = colors.palette
 
     lualine.setup({
         options = {
@@ -78,24 +77,30 @@ function M.setup()
                 { mode, separator = { left = " " } },
             },
             lualine_b = { lsp_status_text },
-            lualine_c = { {
-                "filename",
-                path = 1,
-                symbols = { modified = " ", readonly = " " },
-            } },
+            lualine_c = {
+                {
+                    "filename",
+                    path = 1,
+                    symbols = { modified = " ", readonly = " ", unnamed = "<unnamed>" },
+                },
+            },
             lualine_x = { file_format, "encoding", { "filetype" } },
-            lualine_y = { "branch" },
-            lualine_z = {
+            lualine_y = {
+                { "branch" },
                 {
                     "diagnostics",
                     sources = { "nvim_diagnostic" },
                     sections = { "error", "warn", "info", "hint" },
                     symbols = { error = " ", warn = " ", info = " ", hint = " " },
-                    color_error = palette.lred,
-                    color_warn = palette.lyellow,
-                    color_info = palette.lcyan,
-                    color_hint = palette.lcyan,
+                    diagnostics_color = {
+                        error = "DiagnosticSignError",
+                        warn = "DiagnosticSignWarn",
+                        info = "DiagnosticSignInfo",
+                        hint = "DiagnosticSignHint",
+                    },
                 },
+            },
+            lualine_z = {
                 { position, separator = { right = " " } },
             },
         },
