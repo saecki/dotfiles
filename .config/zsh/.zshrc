@@ -88,7 +88,7 @@ bindkey -M viins '^F' edit-command-line
 # ===================================================
 
 # Change cursor shape for different vi modes.
-function zle-keymap-select {
+zle-keymap-select() {
     if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]] then
         echo -ne '\e[1 q'
     elif [[ ${KEYMAP} == main ]] ||
@@ -202,6 +202,10 @@ alias gdu="git rev-list --objects --all \
          | sort --numeric-sort --key=2 \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
+
+gcl-gh() {
+    gcl "git@github.com:$1"
+}
 
 # Bare repos
 alias dotfiles="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
