@@ -16,7 +16,12 @@ function M.setup()
         use("lewis6991/impatient.nvim")
 
         -- Key mappings
-        use("folke/which-key.nvim")
+        use({
+            "folke/which-key.nvim",
+            config = function()
+                require("config.which-key").setup()
+            end
+        })
 
         -- Gui enhancements
         use({

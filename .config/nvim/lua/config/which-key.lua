@@ -3,7 +3,7 @@ local M = {}
 local wk = require("which-key")
 
 function M.setup()
-    vim.opt.timeoutlen = 500
+    vim.opt.timeoutlen = 200
     wk.setup({
         window = {
             border = "none",

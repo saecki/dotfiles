@@ -223,8 +223,8 @@ update-cmus-playlist() {
 }
 alias music='update-cmus-playlist; cmus'
 
-# Delete swap files
-alias clean-lua-cache='rm ~/.local/share/nvim/'
+# Delete impatient.nvim luacache file
+alias clean-lua-cache='rm ~/.cache/nvim/luacache'
 
 # Systemd reboot
 alias sysreboot='systemctl reboot -i'
