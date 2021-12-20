@@ -1,7 +1,7 @@
 # Dark
 colors:
   primary:
-    background: '#31313a'
+    background: '#181818'
     foreground: '#ffedcd'
   normal:
     black:   '#282828'

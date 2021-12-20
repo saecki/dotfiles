@@ -73,7 +73,7 @@ style_user = "bold fg:yellow bg:<bg>"
 format = " [$user]($style) in"
 
 [hostname]
-style = "bold fg:dimmed green bg:<bg>"
+style = "bold fg:purple bg:<bg>"
 format = " [$hostname]($style) in"
 
 [directory]

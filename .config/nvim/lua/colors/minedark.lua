@@ -4,7 +4,7 @@ local common = require("colors.common")
 
 -- stylua: ignore start
 M.palette = {
-    bg           = "#31313a",
+    bg           = "#181818",
     fg           = "#ffedcd",
 
     dred         = "#cc241d",
