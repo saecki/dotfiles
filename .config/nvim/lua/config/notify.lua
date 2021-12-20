@@ -1,11 +1,16 @@
 local M = {}
 
 local notify = require("notify")
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
-    maps.nnoremap("<leader>nd", notify.dismiss)
-    maps.nnoremap("<leader>nh", notify._print_history)
+    wk.register({
+        ["<leader>n"] = {
+            name = "Notification",
+            ["d"] = { notify.dismiss, "Dismiss" },
+            ["h"] = { notify._print_history, "History" },
+        },
+    })
 end
 
 return M

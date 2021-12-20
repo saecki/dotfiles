@@ -1,6 +1,7 @@
 local M = {}
 
 local crates = require("crates")
+local wk = require("which-key")
 local maps = require("util.maps")
 
 function M.setup()
@@ -10,18 +11,30 @@ function M.setup()
         },
     })
 
-    maps.nnoremap("<leader>vt", crates.toggle)
-    maps.nnoremap("<leader>vr", crates.reload)
+    wk.register({
+        ["<leader>c"] = {
+            name = "Crates",
+            ["t"] = { crates.toggle, "Toggle" },
+            ["r"] = { crates.reload, "Reload" },
 
-    maps.nnoremap("<leader>vv", crates.show_versions_popup)
-    maps.nnoremap("<leader>vf", crates.show_features_popup)
+            ["v"] = { crates.show_versions_popup, "Versions popup" },
+            ["f"] = { crates.show_features_popup, "Features popup" },
 
-    maps.nnoremap("<leader>vu", crates.update_crate)
-    maps.vnoremap("<leader>vu", crates.update_crates)
-    maps.nnoremap("<leader>va", crates.update_all_crates)
-    maps.nnoremap("<leader>vU", crates.upgrade_crate)
-    maps.vnoremap("<leader>vU", crates.upgrade_crates)
-    maps.nnoremap("<leader>vA", crates.upgrade_all_crates)
+            ["u"] = { crates.update_crate, "Update crate" },
+            ["U"] = { crates.upgrade_crate, "Upgrade crates" },
+            ["a"] = { crates.update_all_crates, "Update all crate" },
+            ["A"] = { crates.upgrade_all_crates, "Upgrade all crates" },
+        },
+    })
+    wk.register({
+        ["<leader>c"] = {
+            name = "Crates",
+            ["u"] = { crates.update_crates, "Update crates" },
+            ["U"] = { crates.upgrade_crates, "Upgrade crates" },
+        },
+    }, {
+        mode = "v",
+    })
 end
 
 return M

@@ -1,7 +1,7 @@
 local M = {}
 
 local trouble = require("trouble")
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
     -- stylua: ignore start
@@ -25,12 +25,20 @@ function M.setup()
     })
     -- stylua: ignore end
 
-    maps.nnoremap("<f7>", trouble.toggle)
-    maps.nnoremap("gr", ":Trouble lsp_references<cr>")
-    maps.nnoremap("gi", ":Trouble lsp_implementations<cr>")
-    maps.nnoremap("gy", ":Trouble lsp_type_definitions<cr>")
-    maps.nnoremap("<leader>ld", ":Trouble document_diagnostics<cr>")
-    maps.nnoremap("<leader>lw", ":Trouble workspace_diagnostics<cr>")
+    wk.register({
+        ["<f7>"] = { ":TroubleToggle<cr>", "List UI toggle" },
+        ["g"] = {
+            name = "Goto",
+            ["r"] = { ":Trouble lsp_references<cr>", "References" },
+            ["i"] = { ":Trouble lsp_implementations<cr>", "Implementations" },
+            ["y"] = { ":Trouble lsp_type_definitions<cr>", "Type definitions" },
+        },
+        ["<leader>l"] = {
+            name = "List",
+            ["d"] = { ":Trouble document_diagnostics<cr>", "Document diagnostics" },
+            ["D"] = { ":Trouble workspace_diagnostics<cr>", "Workspace diagnostics" },
+        },
+    })
 end
 
 return M

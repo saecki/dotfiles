@@ -1,6 +1,7 @@
 local M = {}
 
 local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
     vim.g.nvim_tree_git_hl = 1
@@ -92,8 +93,10 @@ function M.setup()
     }
     -- stylua: ignore end
 
-    maps.nmap("<f6>", nvim_tree.toggle)
-    maps.nmap("<f18>", ":NvimTreeFindFile<cr>")
+    wk.register({
+        ["<f6>"] = { nvim_tree.toggle, "Filetree toggle" },
+        ["<f18>"] = { maps.rhs(nvim_tree.toggle, true), "Filetree current file" },
+    })
 end
 
 return M

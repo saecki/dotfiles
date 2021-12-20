@@ -44,7 +44,7 @@ local function mode()
     return modemap[mode_code]
 end
 
-local function file_format()
+local function fileformat()
     return vim.bo.fileformat
 end
 
@@ -81,10 +81,10 @@ function M.setup()
                 {
                     "filename",
                     path = 1,
-                    symbols = { modified = " ", readonly = " ", unnamed = "<unnamed>" },
+                    symbols = { modified = " ", readonly = " ", unnamed = "|unnamed|" },
                 },
             },
-            lualine_x = { file_format, "encoding", { "filetype" } },
+            lualine_x = { fileformat, "encoding", { "filetype" } },
             lualine_y = {
                 { "branch" },
                 {
@@ -108,7 +108,12 @@ function M.setup()
             lualine_a = {},
             lualine_b = {},
             lualine_c = {
-                { "filename", separator = { left = " " } },
+                {
+                    "filename",
+                    path = 1,
+                    symbols = { modified = " ", readonly = " ", unnamed = "|unnamed|" },
+                    separator = { left = " " },
+                },
             },
             lualine_x = {
                 { "location", separator = { right = " " } },

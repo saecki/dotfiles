@@ -2,6 +2,7 @@ local M = {}
 
 local dap = require("dap")
 local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.debuggables()
     local filetype = vim.bo.filetype
@@ -23,23 +24,32 @@ function M.setup()
     vim.fn.sign_define("DapStopped",    { text="", texthl="DapStopped", linehl="", numhl="" })
     -- stylua: ignore end
 
-    maps.nmap("<leader>dd", M.debuggables, { silent = false })
-    maps.nmap("<leader>dD", dap.run_last, { silent = false })
-    maps.nmap("<leader>dr", dap.restart, { silent = false })
-    maps.nmap("<leader>dq", dap.close)
-
-    maps.nmap("<f9>", dap.continue)
-    maps.nmap("<f10>", dap.step_over)
-    maps.nmap("<f11>", dap.step_into)
-    maps.nmap("<f12>", dap.step_out)
-
-    maps.nmap("<leader>db", dap.toggle_breakpoint)
-    maps.nmap("<leader>dB", function()
-        dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-    end)
-    maps.nmap("<leader>dL", function()
-        dap.set_breakpoint(nil, nil, vim.fn.input("Print message: "))
-    end)
+    wk.register({
+        ["<f9>"] = { dap.continue, "Debug continue" },
+        ["<f10>"] = { dap.step_over, "Debug step over" },
+        ["<f11>"] = { dap.step_into, "Debug step into" },
+        ["<f12>"] = { dap.step_out, "Debug step out" },
+        ["<leader>d"] = {
+            name = "Debug",
+            ["d"] = { M.debuggables, "Debug", silent = false },
+            ["D"] = { dap.run_last, "Rerun", silent = false },
+            ["r"] = { dap.restart, "Restart", silent = false },
+            ["q"] = { dap.close, "Close" },
+            ["b"] = { dap.toggle_breakpoint, "Breakpoint" },
+            ["c"] = {
+                function()
+                    dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+                end,
+                "Conditional breakpoint",
+            },
+            ["l"] = {
+                function()
+                    dap.set_breakpoint(nil, nil, vim.fn.input("Print message: "))
+                end,
+                "Logpoint",
+            },
+        },
+    })
 end
 
 return M

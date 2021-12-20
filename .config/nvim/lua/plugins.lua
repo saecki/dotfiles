@@ -15,6 +15,9 @@ function M.setup()
         -- Perfomance
         use("lewis6991/impatient.nvim")
 
+        -- Key mappings
+        use("folke/which-key.nvim")
+
         -- Gui enhancements
         use({
             "rcarriga/nvim-notify",
@@ -54,7 +57,6 @@ function M.setup()
         use({
             "kyazdani42/nvim-tree.lua",
             requires = { "kyazdani42/nvim-web-devicons" },
-            keys = { "<f6>", "<f18>" },
             config = function()
                 require("config.nvim-tree").setup()
             end,
@@ -129,7 +131,6 @@ function M.setup()
         })
         use({
             "jose-elias-alvarez/null-ls.nvim",
-            ft = { "teal", "lua" },
             config = function()
                 require("config.null-ls").setup()
             end,
@@ -178,7 +179,7 @@ function M.setup()
         use({
             "numToStr/Comment.nvim",
             config = function()
-                require("Comment").setup()
+                require("config.comment").setup()
             end,
         })
 

@@ -1,11 +1,17 @@
 local M = {}
 
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
-        maps.buf_nnoremap(buf, "<leader>fw", ":TexlabForward<cr>")
+
+        wk.register({
+            ["<leader>f"] = {
+                name = "Find",
+                ["w"] = { ":TexlabForward<cr>", "Forward search" },
+            },
+        })
     end
 
     server:setup({

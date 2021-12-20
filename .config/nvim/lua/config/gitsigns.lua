@@ -1,6 +1,10 @@
 local M = {}
 
--- Slightly modified version of default functino
+local gitsigns = require("gitsigns")
+local gitsigns_actions = require("gitsigns.actions")
+local wk = require("which-key")
+
+-- Slightly modified version of default function
 local function current_line_blame_formatter(name, blame_info, opts)
     if blame_info.author == name then
         blame_info.author = "You"
@@ -25,8 +29,6 @@ local function current_line_blame_formatter(name, blame_info, opts)
 end
 
 function M.setup()
-    local gitsigns = require("gitsigns")
-
     -- stylua: ignore start
 	gitsigns.setup({
 		signs = {
@@ -39,14 +41,7 @@ function M.setup()
 		numhl = false,
 		linehl = false,
 		word_diff = false,
-		keymaps = {
-			noremap = true,
-			["n g}"] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'" },
-			["n g{"] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'" },
-			["n <leader>gu"] = '<cmd>lua require("gitsigns").reset_hunk()<CR>',
-			["n <leader>gs"] = '<cmd>lua require("gitsigns").preview_hunk()<CR>',
-			["n <leader>gb"] = '<cmd>lua require("gitsigns").toggle_current_line_blame()<CR>',
-		},
+		keymaps = {},
 		current_line_blame = false,
 		current_line_blame_formatter = current_line_blame_formatter,
 		current_line_blame_formatter_opts = {
@@ -72,6 +67,21 @@ function M.setup()
 		},
 	})
     -- stylua: ignore end
+    wk.register({
+        ["g"] = {
+            name = "Goto",
+            ["}"] = { gitsigns_actions.next_hunk, "Next hunk" },
+            ["{"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
+        },
+        ["<leader>g"] = {
+            name = "Git",
+            ["u"] = { gitsigns.reset_hunk, "Undo hunk" },
+            ["s"] = { gitsigns.preview_hunk, "Show hunk" },
+            ["b"] = { gitsigns.blame_line, "Blame line" },
+            ["B"] = { gitsigns.toggle_current_line_blame, "Toggle inline blame" },
+            ["r"] = { gitsigns.refresh, "Refresh" },
+        },
+    })
 end
 
 return M

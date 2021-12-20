@@ -30,16 +30,24 @@ local format_entries = function(entries, formatter)
     return results
 end
 
-local custom_ui_select = function(entries, stuff, on_user_choice)
-    assert(entries ~= nil and not vim.tbl_isempty(entries), "No entries available.")
+local custom_ui_select = function(items, opts, on_choice)
+    assert(items ~= nil and not vim.tbl_isempty(items), "No entries available.")
 
     assert(popup_reference == nil, "Busy in other LSP popup.")
 
     local commit_choice = function(choice_index)
-        on_user_choice(entries[choice_index], choice_index)
+        on_choice(items[choice_index], choice_index)
+    end
+    local select_index = function(num)
+        return function(popup)
+            popup:close(function()
+                commit_choice(num)
+            end)
+            popup_reference = nil
+        end
     end
 
-    local formatted_entries = format_entries(entries, stuff.format_item)
+    local formatted_entries = format_entries(items, opts.format_item)
 
     popup_reference = popfix:new({
         width = calculate_popup_width(formatted_entries),
@@ -73,6 +81,15 @@ local custom_ui_select = function(entries, stuff, on_user_choice)
                     popup:close()
                     popup_reference = nil
                 end,
+                ["1"] = select_index(1),
+                ["2"] = select_index(2),
+                ["3"] = select_index(3),
+                ["4"] = select_index(4),
+                ["5"] = select_index(5),
+                ["6"] = select_index(6),
+                ["7"] = select_index(7),
+                ["8"] = select_index(8),
+                ["9"] = select_index(9),
             },
         },
         callbacks = {

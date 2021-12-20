@@ -1,6 +1,6 @@
 local M = {}
 
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
     require("todo-comments").setup({
@@ -28,7 +28,12 @@ function M.setup()
         },
     })
 
-    maps.nnoremap("<leader>lt", ":TodoTrouble<cr>")
+    wk.register({
+        ["<leader>l"] = {
+            name = "List",
+            ["t"] = { ":TodoTrouble<cr>", "TODO comments" },
+        },
+    })
 end
 
 return M

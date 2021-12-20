@@ -2,7 +2,7 @@ local M = {}
 
 local lsp_status = require("lsp-status")
 local lsp_installer = require("nvim-lsp-installer")
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -50,33 +50,47 @@ function M.on_attach(client, buf)
         ]])
     end
 
-    -- Show Signature
-    maps.buf_nnoremap(buf, "<a-k>", vim.lsp.buf.signature_help)
+    wk.register({
+        ["<c-a-l>"] = { vim.lsp.buf.formatting_sync, "Formating" },
+        ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
+        ["g"] = {
+            name = "Goto",
+            ["d"] = { vim.lsp.buf.definition, "Definition" },
+            ["D"] = { vim.lsp.buf.declaration, "Declaration" },
+            ["["] = { vim.lsp.diagnostic.goto_prev, "Previous diagnostic" },
+            ["]"] = { vim.lsp.diagnostic.goto_next, "Next diagnostic" },
+        },
+        ["<leader>"] = {
+            ["a"] = { vim.lsp.buf.code_action, "Code action" },
+            ["r"] = {
+                function()
+                    require("util.float").input(nil, false, function(new_name)
+                        vim.lsp.buf.rename(new_name)
+                    end)
+                end,
+                "Refactor keep name",
+            },
+            ["R"] = {
+                function()
+                    require("util.float").input("", true, function(new_name)
+                        vim.lsp.buf.rename(new_name)
+                    end)
+                end,
+                "Refactor clear name",
+            },
+        },
+    }, {
+        buffer = buf,
+    })
 
-    -- Code actions
-    maps.buf_xnoremap(buf, "<leader>a", vim.lsp.buf.range_code_action)
-    maps.buf_nnoremap(buf, "<leader>a", vim.lsp.buf.code_action)
-    maps.buf_nnoremap(buf, "<leader>r", function()
-        require("util.float").input(nil, false, function(new_name)
-            vim.lsp.buf.rename(new_name)
-        end)
-    end)
-    maps.buf_nnoremap(buf, "<leader>R", function()
-        require("util.float").input("", true, function(new_name)
-            vim.lsp.buf.rename(new_name)
-        end)
-    end)
-
-    -- Code Format
-    maps.buf_nnoremap(buf, "<c-a-l>", vim.lsp.buf.formatting)
-
-    -- Goto actions
-    maps.buf_nnoremap(buf, "gd", vim.lsp.buf.definition)
-    maps.buf_nnoremap(buf, "gD", vim.lsp.buf.declaration)
-    maps.buf_nnoremap(buf, "gw", vim.lsp.buf.document_symbol)
-    maps.buf_nnoremap(buf, "gW", vim.lsp.buf.workspace_symbol)
-    maps.buf_nnoremap(buf, "g[", vim.lsp.diagnostic.goto_prev)
-    maps.buf_nnoremap(buf, "g]", vim.lsp.diagnostic.goto_next)
+    wk.register({
+        ["<leader>"] = {
+            ["a"] = { vim.lsp.buf.range_code_action, "Code action" },
+        },
+    }, {
+        mode = "x",
+        buffer = buf,
+    })
 end
 
 function M.show_documentation()
@@ -140,7 +154,9 @@ function M.setup()
     end
 
     -- Show documentation
-    maps.nnoremap("K", M.show_documentation)
+    wk.register({
+        ["K"] = { M.show_documentation, "Show documentation" },
+    })
 end
 
 return M

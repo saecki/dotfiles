@@ -1,40 +1,39 @@
 local M = {}
 
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
-    -- Text navigation
-    maps.nnoremap("j", "gj")
-    maps.nnoremap("k", "gk")
+    wk.register({
+        ["<f1>"] = { "<esc>" },
+        ["j"] = { "gj" },
+        ["k"] = { "gk" },
+        ["S"] = { ":nohlsearch<cr>", "Stop searching" },
+        ["<c-left>"] = { ":vertical resize -5<cr>", "Decrease width" },
+        ["<c-right>"] = { ":vertical resize +5<cr>", "Increase width" },
+        ["<c-up>"] = { ":resize -5<cr>", "Decrease height" },
+        ["<c-down>"] = { ":resize +5<cr>", "Increase height" },
+        ["<leader>"] = {
+            ["<leader>"] = { "<c-^>", "Goto previous buffer" },
+            ["w"] = { ":w<cr>", "Write" },
+            ["t"] = {
+                name = "Toggle",
+                ["l"] = { ":set list!<cr>", "Listchars" },
+            },
+        },
+    })
 
-    -- Resize
-    maps.nnoremap("<c-left>", ":vertical resize -5<cr>")
-    maps.nnoremap("<c-down>", ":resize +5<cr>")
-    maps.nnoremap("<c-up>", ":resize -5<cr>")
-    maps.nnoremap("<c-right>", ":vertical resize +5<cr>")
+    wk.register({
+        ["<f1>"] = { "<esc>" },
+        ["<c-v>"] = { "<c-r>+", "Paste system clipboard" },
+    }, {
+        mode = "i",
+    })
 
-    -- Quick save
-    maps.nnoremap("<leader>w", ":w<cr>")
-
-    -- Stop searching
-    maps.vnoremap("H", ":nohlsearch<cr>")
-    maps.nnoremap("H", ":nohlsearch<cr>")
-
-    -- Copy paste
-    maps.vnoremap("<c-c>", '"+y')
-    maps.inoremap("<c-v>", "<c-r>+")
-
-    -- Toggle between buffers
-    maps.nnoremap("<leader><leader>", "<c-^>")
-
-    -- I don't need your help
-    maps.noremap("<F1>", "<esc>")
-    maps.inoremap("<F1>", "<esc>")
-
-    -- Toggle listchars
-    maps.nnoremap("<leader>hl", function()
-        vim.opt.list = not vim.o.list
-    end)
+    wk.register({
+        ["<c-c>"] = { '"+y', "Copy to system clipboard" },
+    }, {
+        mode = "v",
+    })
 end
 
 return M

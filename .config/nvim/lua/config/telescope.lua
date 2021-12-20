@@ -2,6 +2,7 @@ local M = {}
 
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
+local wk = require("which-key")
 local maps = require("util.maps")
 
 local function find_files(no_ignore)
@@ -25,22 +26,28 @@ function M.setup()
         },
     })
 
-    maps.nnoremap("<a-p>", function()
-        find_files(true)
-    end)
-    maps.nnoremap("<c-p>", function()
-        find_files(false)
-    end)
-    maps.nnoremap("<leader>s", telescope_builtin.live_grep)
-    maps.nnoremap("<leader>;", telescope_builtin.buffers)
-    maps.nnoremap("<leader>fh", telescope_builtin.help_tags)
-    maps.nnoremap("<leader>fc", telescope_builtin.commands)
-    maps.nnoremap("<leader>fm", telescope_builtin.keymaps)
-    maps.nnoremap("<leader>fi", telescope_builtin.highlights)
-    maps.nnoremap("<leader>fg", telescope_builtin.git_status)
-    maps.nnoremap("<leader>fd", telescope_builtin.lsp_document_symbols)
-    maps.nnoremap("<leader>fw", telescope_builtin.lsp_workspace_symbols)
-    maps.nnoremap("<leader>fr", telescope_builtin.resume)
+    wk.register({
+        ["<a-p>"] = { maps.rhs(find_files, true), "Find ignored files" },
+        ["<c-p>"] = { maps.rhs(find_files, false), "Find files" },
+        ["<leader>"] = {
+            ["s"] = { telescope_builtin.live_grep, "Search text" },
+            [";"] = { telescope_builtin.buffers, "Search buffers" },
+            ["f"] = {
+                name = "Find",
+                ["h"] = { telescope_builtin.help_tags, "Help" },
+                ["c"] = { telescope_builtin.commands, "Commands" },
+                ["m"] = { telescope_builtin.keymaps, "Key mappings" },
+                ["i"] = { telescope_builtin.highlights, "Highlight groups" },
+                ["g"] = { telescope_builtin.git_status, "Git status" },
+                ["d"] = { maps.rhs(telescope_builtin.diagnostics, { bufnr = 0 }), "Document diagnostics" },
+                ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
+                ["s"] = { telescope_builtin.lsp_document_symbols, "Lsp document symbols" },
+                ["S"] = { telescope_builtin.lsp_workspace_symbols, "Lsp workspace symbols" },
+                ["r"] = { telescope_builtin.resume, "Resume" },
+                ["w"] = { maps.rhs(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }), "Whitespace" },
+            },
+        },
+    })
 end
 
 return M

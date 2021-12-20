@@ -1,7 +1,7 @@
 local M = {}
 
 local dap_ui = require("dapui")
-local maps = require("util.maps")
+local wk = require("which-key")
 
 function M.setup()
     dap_ui.setup({
@@ -30,7 +30,9 @@ function M.setup()
         windows = { indent = 1 },
     })
 
-    maps.nmap("<F8>", dap_ui.toggle)
+    wk.register({
+        ["<F8>"] = { dap_ui.toggle, "Debug UI toggle" },
+    })
 end
 
 return M
