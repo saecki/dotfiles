@@ -3,13 +3,18 @@ local M = {}
 local wk = require("which-key")
 
 function M.setup()
-    vim.opt.timeoutlen = 200
+    vim.opt.timeoutlen = 400
     wk.setup({
+        icons = {
+            breadcrumb = "»",
+            separator = "➜",
+            group = "+",
+        },
         window = {
             border = "none",
             position = "bottom",
             margin = { 1, 1, 2, 1 },
-            padding = { 2, 2, 2, 2 },
+            padding = { 1, 1, 1, 1 },
             winblend = 0,
         },
     })

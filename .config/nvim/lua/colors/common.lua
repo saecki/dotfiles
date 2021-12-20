@@ -71,6 +71,9 @@ function M.highlights(pal)
         NvimTreeGitRenamed = { fg = pal.dpurple },
         NvimTreeGitNew     = { fg = pal.dgreen  },
 
+        -- which-key
+        WhichKey = { fg = pal.special },
+
         -- lsp diagnostics
         DiagnosticVirtualTextError = { fg=pal.lred,                       },
         DiagnosticVirtualTextWarn  = { fg=pal.lyellow,                    },
