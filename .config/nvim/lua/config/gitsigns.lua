@@ -77,8 +77,8 @@ function M.setup()
             name = "Git",
             ["u"] = { gitsigns.reset_hunk, "Undo hunk" },
             ["s"] = { gitsigns.preview_hunk, "Show hunk" },
-            ["b"] = { gitsigns.blame_line, "Blame line" },
-            ["B"] = { gitsigns.toggle_current_line_blame, "Toggle inline blame" },
+            ["b"] = { gitsigns.toggle_current_line_blame, "Toggle inline blame" },
+            ["B"] = { gitsigns.blame_line, "Blame line" },
             ["r"] = { gitsigns.refresh, "Refresh" },
         },
     })
