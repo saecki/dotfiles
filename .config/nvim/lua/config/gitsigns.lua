@@ -22,10 +22,10 @@ local function current_line_blame_formatter(name, blame_info, opts)
             date_time = os.date("%Y-%m-%d", tonumber(blame_info["author_time"]))
         end
 
-        text = string.format(" // %s, %s - %s", blame_info.author, date_time, blame_info.summary)
+        text = string.format("// %s, %s - %s", blame_info.author, date_time, blame_info.summary)
     end
 
-    return { { " " .. text, "GitSignsCurrentLineBlame" } }
+    return { { text, "Comment" } }
 end
 
 function M.setup()
