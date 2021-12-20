@@ -13,7 +13,7 @@ function M.setup()
     wk.register({
         ["<leader>f"] = {
             name = "Find",
-            ["p"] = { telescope.extensions.projects.projects, "projects" },
+            ["p"] = { telescope.extensions.projects.projects, "Projects" },
         },
     })
 end

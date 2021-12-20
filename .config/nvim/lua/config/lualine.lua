@@ -64,6 +64,11 @@ end
 function M.setup()
     local colors = require("colors.mineauto")
     local theme = colors.lualine
+    local filename_symbols = {
+        modified = " ",
+        readonly = " ",
+        unnamed = "unnamed",
+    }
 
     lualine.setup({
         options = {
@@ -81,7 +86,7 @@ function M.setup()
                 {
                     "filename",
                     path = 1,
-                    symbols = { modified = " ", readonly = " ", unnamed = "|unnamed|" },
+                    symbols = filename_symbols,
                 },
             },
             lualine_x = { fileformat, "encoding", { "filetype" } },
@@ -111,7 +116,7 @@ function M.setup()
                 {
                     "filename",
                     path = 1,
-                    symbols = { modified = " ", readonly = " ", unnamed = "|unnamed|" },
+                    symbols = filename_symbols,
                     separator = { left = " " },
                 },
             },
