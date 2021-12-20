@@ -54,9 +54,9 @@ function M.on_attach(client, buf)
         ["<c-a-l>"] = { vim.lsp.buf.formatting_sync, "Formating" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
-            name = "Goto",
-            ["d"] = { vim.lsp.buf.definition, "Definition" },
-            ["D"] = { vim.lsp.buf.declaration, "Declaration" },
+            name = "Go",
+            ["d"] = { vim.lsp.buf.definition, "LSP Definition" },
+            ["D"] = { vim.lsp.buf.declaration, "LSP Declaration" },
             ["["] = { vim.lsp.diagnostic.goto_prev, "Previous diagnostic" },
             ["]"] = { vim.lsp.diagnostic.goto_next, "Next diagnostic" },
         },

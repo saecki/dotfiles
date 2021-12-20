@@ -5,6 +5,14 @@ local wk = require("which-key")
 function M.setup()
     vim.opt.timeoutlen = 400
     wk.setup({
+        spelling = {
+            enabled = true,
+            suggestions = 20,
+        },
+        operators = {
+            gc = "Comment",
+            gb = "Block comment",
+        },
         icons = {
             breadcrumb = "»",
             separator = "➜",
@@ -17,6 +25,10 @@ function M.setup()
             padding = { 1, 1, 1, 1 },
             winblend = 0,
         },
+    })
+
+    wk.register({
+        ["<leader>k"] = { ":WhichKey<cr>", "Which key?" },
     })
 end
 

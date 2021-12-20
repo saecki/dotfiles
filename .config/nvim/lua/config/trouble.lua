@@ -26,12 +26,12 @@ function M.setup()
     -- stylua: ignore end
 
     wk.register({
-        ["<f7>"] = { ":TroubleToggle<cr>", "List UI toggle" },
+        ["<f7>"] = { ":TroubleToggle<cr>", "Toggle List UI" },
         ["g"] = {
-            name = "Goto",
-            ["r"] = { ":Trouble lsp_references<cr>", "References" },
-            ["i"] = { ":Trouble lsp_implementations<cr>", "Implementations" },
-            ["y"] = { ":Trouble lsp_type_definitions<cr>", "Type definitions" },
+            name = "Go",
+            ["r"] = { ":Trouble lsp_references<cr>", "LSP references" },
+            ["i"] = { ":Trouble lsp_implementations<cr>", "LSP implementations" },
+            ["y"] = { ":Trouble lsp_type_definitions<cr>", "LSP type definitions" },
         },
         ["<leader>l"] = {
             name = "List",
