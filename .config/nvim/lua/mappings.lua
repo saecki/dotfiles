@@ -18,6 +18,7 @@ function M.setup()
             ["t"] = {
                 name = "Toggle",
                 ["l"] = { ":set list!<cr>", "Listchars" },
+                ["s"] = { ":set spell!<cr>", "Spelling" },
             },
         },
     })

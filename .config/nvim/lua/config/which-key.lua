@@ -5,9 +5,11 @@ local wk = require("which-key")
 function M.setup()
     vim.opt.timeoutlen = 400
     wk.setup({
-        spelling = {
-            enabled = true,
-            suggestions = 20,
+        plugins = {
+            spelling = {
+                enabled = true,
+                suggestions = 40,
+            },
         },
         operators = {
             gc = "Comment",
