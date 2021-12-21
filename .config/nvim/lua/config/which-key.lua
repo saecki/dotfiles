@@ -27,6 +27,22 @@ function M.setup()
             padding = { 1, 1, 1, 1 },
             winblend = 0,
         },
+        hidden = {
+            "<silent>",
+            "<cmd>",
+            "<Cmd>",
+            "<plug>",
+            "<Plug>",
+            "<CR>",
+            "call",
+            "lua",
+            "^:",
+            "^ ",
+        },
+        triggers_blacklist = {
+            n = { "<a-j>", "<a-s-j>", "<a-k>" },
+            v = { "<a-j>", "<a-s-j>", "<a-k>" },
+        },
     })
 
     wk.register({

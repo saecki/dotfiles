@@ -23,10 +23,18 @@ function M.setup()
     -- stylua: ignore start
     luasnip.snippets = {
         lua = {
+            s("which-key", t("local wk = require(\"which-key\")")),
             s("require", {
                 t({ "require(\"" }),
                 i(0, { "mod" }),
                 t({ "\")" }),
+            }),
+            s("entry", {
+                t({ "[\"" }),
+                i(1, { "key" }),
+                t({ "\"] = " }),
+                i(0, { "val",}),
+                t({ ","})
             }),
             s("module", {
                 t({ "local M = {}", "", "function M.setup()", "\t" }),

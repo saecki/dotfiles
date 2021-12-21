@@ -10,7 +10,12 @@ function M.setup()
     end
 
     packer.startup(function(use)
-        use("wbthomason/packer.nvim")
+        use({
+            "wbthomason/packer.nvim",
+            config = function()
+                require("config.packer").setup()
+            end,
+        })
 
         -- Perfomance
         use("lewis6991/impatient.nvim")
@@ -20,7 +25,7 @@ function M.setup()
             "folke/which-key.nvim",
             config = function()
                 require("config.which-key").setup()
-            end
+            end,
         })
 
         -- Gui enhancements
@@ -44,9 +49,8 @@ function M.setup()
         })
         use({
             "norcalli/nvim-colorizer.lua",
-            cmd = "ColorizerToggle",
             config = function()
-                require("colorizer").setup({})
+                require("config.colorizer").setup()
             end,
         })
 
@@ -222,7 +226,9 @@ function M.setup()
         })
         use({
             "dhruvasagar/vim-table-mode",
-            ft = { "markdown" },
+            config = function()
+                require("config.table-mode").setup()
+            end,
         })
 
         -- Rust
