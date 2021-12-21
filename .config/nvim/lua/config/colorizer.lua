@@ -8,7 +8,7 @@ function M.setup()
 
     wk.register({
         ["<leader>e"] = {
-            name = "Toggle (enable/disable)",
+            name = "Toggle (enable)",
             ["c"] = { ":ColorizerToggle<cr>", "Colorizer" },
         },
     })

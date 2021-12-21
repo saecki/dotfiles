@@ -21,7 +21,7 @@ function M.setup()
             ["<leader>"] = { "<c-^>", "Goto previous buffer" },
             ["w"] = { ":w<cr>", "Write" },
             ["e"] = {
-                name = "Toggle",
+                name = "Toggle (enable)",
                 ["l"] = { ":set list!<cr>", "Listchars" },
                 ["s"] = { ":set spell!<cr>", "Spelling" },
             },
