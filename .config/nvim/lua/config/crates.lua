@@ -21,8 +21,8 @@ function M.setup()
             ["f"] = { crates.show_features_popup, "Features popup" },
 
             ["u"] = { crates.update_crate, "Update crate" },
-            ["U"] = { crates.upgrade_crate, "Upgrade crates" },
-            ["a"] = { crates.update_all_crates, "Update all crate" },
+            ["U"] = { crates.upgrade_crate, "Upgrade crate" },
+            ["a"] = { crates.update_all_crates, "Update all crates" },
             ["A"] = { crates.upgrade_all_crates, "Upgrade all crates" },
         },
     })
