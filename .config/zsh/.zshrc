@@ -131,6 +131,18 @@ alias tree='exa --tree --sort type'
 alias v='$EDITOR'
 alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o $file; fi'
 
+# Cd
+alias cdp='cd ~/Projects'
+alias cdn='cd ~/Documents/notes'
+
+alias cdz='cd ~/.config/zsh'
+alias cdnv='cd ~/.config/nvim'
+alias cdal='cd ~/.config/alacritty'
+alias cdkt='cd ~/.config/kitty'
+alias cdtm='cd ~/.config/tmux'
+alias cdst='cd ~/.config/starship'
+alias cdzt='cd ~/.config/zathura'
+
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
@@ -139,12 +151,6 @@ alias cfkt='(cd ~/.config/kitty && $EDITOR ~/.config/kitty/kitty.conf)'
 alias cftm='(cd ~/.config/tmux && $EDITOR ~/.tmux.conf)'
 alias cfst='(cd ~/.config/starship && $EDITOR ~/.config/starship/starship.toml.in)'
 alias cfzt='(cd ~/.config/zathura && $EDITOR ~/.config/zathura/zathurarc)'
-
-# Cd
-alias cdp='cd ~/Projects'
-alias cdn='cd ~/Documents/notes'
-alias cdv='cd ~/.config/nvim'
-alias countryroads='cd ~'
 
 # Git
 alias ga='git add'
