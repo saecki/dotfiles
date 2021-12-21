@@ -1,8 +1,13 @@
 local M = {}
 
-local wk = require("which-key")
+local wk_ok, wk = pcall(require, "which-key")
 
 function M.setup()
+    if not wk_ok then
+        vim.notify("which-key isn't installed")
+        return
+    end
+
     wk.register({
         ["<f1>"] = { "<esc>" },
         ["j"] = { "gj" },

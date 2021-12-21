@@ -4,8 +4,8 @@ local packer = require("packer")
 
 function M.setup()
     -- load before other plugins
-    local success, notify = pcall(require, "notify")
-    if success then
+    local notify_ok, notify = pcall(require, "notify")
+    if notify_ok then
         vim.notify = notify
     end
 
