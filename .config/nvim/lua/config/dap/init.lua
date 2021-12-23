@@ -1,7 +1,6 @@
 local M = {}
 
 local dap = require("dap")
-local maps = require("util.maps")
 local wk = require("which-key")
 
 function M.debuggables()

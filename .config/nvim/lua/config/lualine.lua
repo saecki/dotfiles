@@ -126,7 +126,6 @@ function M.setup()
             lualine_y = {},
             lualine_z = {},
         },
-        tabline = {},
         extensions = {},
     })
 end

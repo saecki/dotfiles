@@ -168,7 +168,7 @@ function M.debug(args)
                                 type = "lldb",
                                 request = "launch",
                                 program = json.executable,
-                                args = {},
+                                args = vim.split(vim.fn.input("args: "), " "),
                                 cwd = args.workspaceRoot,
                                 stopOnEntry = false,
                                 runInTerminal = false,

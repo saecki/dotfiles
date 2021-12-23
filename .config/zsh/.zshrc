@@ -209,7 +209,7 @@ alias gdu="git rev-list --objects --all \
          | cut -c 1-12,41- \
          | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
 
-gcl-gh() {
+ghcl() {
     gcl "git@github.com:$1"
 }
 
