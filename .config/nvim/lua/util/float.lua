@@ -23,7 +23,7 @@ function M.input(text, insert, callback)
     local old_pos = vim.api.nvim_win_get_cursor(0)
     vim.fn.search(vim.fn.expand("<cword>"), "bc")
     local new_pos = vim.api.nvim_win_get_cursor(0)
-    vim.api.nvim_win_set_cursor(0, old_pos)
+    vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] + 1})
     local col = new_pos[2] - old_pos[2]
 
     -- create win
