@@ -66,6 +66,7 @@ function M.setup()
         use({
             "kyazdani42/nvim-tree.lua",
             requires = { "kyazdani42/nvim-web-devicons" },
+            keys = { "<f6>", "<f18>" },
             config = function()
                 require("config.nvim-tree").setup()
             end,
