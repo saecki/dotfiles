@@ -2,7 +2,6 @@ local M = {}
 
 local crates = require("crates")
 local wk = require("which-key")
-local maps = require("util.maps")
 
 function M.setup()
     crates.setup({
