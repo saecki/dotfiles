@@ -13,8 +13,8 @@ set ignorecase
 nmap <leader>w :w<cr>
 
 " Stop searching
-vmap <s-h> :nohlsearch<cr>
-nmap <s-h> :nohlsearch<cr>
+vmap S :nohlsearch<cr>
+nmap S :nohlsearch<cr>
 
 " Copy paste
 nnoremap Y     y$
