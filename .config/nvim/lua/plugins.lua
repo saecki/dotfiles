@@ -119,7 +119,12 @@ function M.setup()
         })
 
         -- Git
-        use("tpope/vim-fugitive")
+        use({
+            "tpope/vim-fugitive",
+            config = function()
+                require("config.fugitive").setup()
+            end,
+        })
         use({
             "lewis6991/gitsigns.nvim",
             requires = { "nvim-lua/plenary.nvim" },
