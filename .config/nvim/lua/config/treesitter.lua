@@ -19,6 +19,7 @@ function M.setup()
             "kotlin",
             "latex",
             "lua",
+            "markdown",
             "python",
             "query",
             "regex",
