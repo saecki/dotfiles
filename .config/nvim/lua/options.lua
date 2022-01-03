@@ -17,7 +17,7 @@ function M.setup()
     vim.opt.textwidth = 0
     vim.opt.wrapmargin = 0
     vim.opt.listchars = { space = "·", eol = "⮠" }
-    vim.opt.fillchars:append({ vert = "│", eob = " " })
+    vim.opt.fillchars:append({ vert = "│", eob = " ", fold = " " })
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
     vim.opt.showmode = false
@@ -31,8 +31,10 @@ function M.setup()
     vim.opt.tabstop = 4
 
     -- Folds
-    vim.o.foldlevelstart = 99
-    vim.o.foldnestmax = 10
+    vim.opt.foldlevelstart = 99
+    vim.opt.foldnestmax = 10
+    vim.opt.foldminlines = 1
+    vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').' ... '.trim(getline(v:foldend)).'  ('.(v:foldend - v:foldstart + 1).' lines)']]
 
     -- Search
     vim.opt.incsearch = true

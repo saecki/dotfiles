@@ -34,7 +34,7 @@ function M.highlights(pal)
         MatchParen      = {                  bg=pal.texthl2,                 },
         NonText         = { fg=pal.nontext,                     style="none" },
         Whitespace      = { fg=pal.whitespace,                  style="none" },
-        Folded          = { fg=pal.folded,   bg=pal.texthl2,    style="none" },
+        Folded          = { fg=pal.folded,   bg=pal.folded_bg,  style="none" },
 
         -- treesitter
         TSProperty      = { fg=pal.lcyan,                       style="bold" },

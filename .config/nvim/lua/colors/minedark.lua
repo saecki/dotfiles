@@ -42,7 +42,8 @@ M.palette = {
     todo       = "#afff00",
     nontext    = "#5b676a",
     whitespace = "#222628",
-    folded     = "#8ec0fc",
+    folded     = "#c0c0d0",
+    folded_bg  = "#282832",
 
     diff_a_bg  = "#395039",
     diff_c_bg  = "#33415b",
