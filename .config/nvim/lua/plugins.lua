@@ -54,7 +54,7 @@ function M.setup()
             end,
         })
         use({
-            "saecki/indent-blankline.nvim",
+            "lukas-reineke/indent-blankline.nvim",
             config = function()
                 require("config.indent-blankline").setup()
             end,
