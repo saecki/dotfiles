@@ -78,7 +78,8 @@ function M.highlights(pal)
         WhichKey = { fg = pal.special },
         
         -- indent-blankline
-        IndentBlanklineChar = { fg = pal.whitespace },
+        IndentBlanklineChar      = { fg = pal.whitespace },
+        IndentBlanklineSpaceChar = { fg = pal.whitespace },
 
         -- lsp diagnostics
         DiagnosticVirtualTextError = { fg=pal.lred,                      },
