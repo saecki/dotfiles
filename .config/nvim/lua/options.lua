@@ -30,6 +30,10 @@ function M.setup()
     vim.opt.softtabstop = 4
     vim.opt.tabstop = 4
 
+    -- Folds
+    vim.o.foldlevelstart = 99
+    vim.o.foldnestmax = 10
+
     -- Search
     vim.opt.incsearch = true
     vim.opt.inccommand = "nosplit"
