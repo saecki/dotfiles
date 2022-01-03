@@ -53,6 +53,12 @@ function M.setup()
                 require("config.colorizer").setup()
             end,
         })
+        use({
+            "lukas-reineke/indent-blankline.nvim",
+            config = function()
+                require("config.indent-blankline").setup()
+            end,
+        })
 
         -- Multicursor
         use({

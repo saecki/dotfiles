@@ -57,8 +57,6 @@ function M.on_attach(client, buf)
             name = "Go",
             ["d"] = { vim.lsp.buf.definition, "LSP Definition" },
             ["D"] = { vim.lsp.buf.declaration, "LSP Declaration" },
-            ["["] = { vim.lsp.diagnostic.goto_prev, "Previous diagnostic" },
-            ["]"] = { vim.lsp.diagnostic.goto_next, "Next diagnostic" },
         },
         ["<leader>"] = {
             ["a"] = { vim.lsp.buf.code_action, "Code action" },

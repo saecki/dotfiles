@@ -26,6 +26,11 @@ function M.setup()
                 ["s"] = { ":set spell!<cr>", "Spelling" },
             },
         },
+        ["g"] = {
+            name = "Go",
+            ["["] = { vim.diagnostic.goto_prev, "Previous diagnostic" },
+            ["]"] = { vim.diagnostic.goto_next, "Next diagnostic" },
+        },
     })
 
     wk.register({

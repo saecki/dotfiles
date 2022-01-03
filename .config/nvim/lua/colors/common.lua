@@ -33,6 +33,7 @@ function M.highlights(pal)
         Search          = { fg=pal.invtext,  bg=pal.lyellow,                 },
         MatchParen      = {                  bg=pal.texthl2,                 },
         NonText         = { fg=pal.nontext,                     style="none" },
+        Whitespace      = { fg=pal.whitespace,                  style="none" },
         Folded          = { fg=pal.folded,   bg=pal.texthl2,    style="none" },
 
         -- treesitter
@@ -75,6 +76,9 @@ function M.highlights(pal)
 
         -- which-key
         WhichKey = { fg = pal.special },
+        
+        -- indent-blankline
+        IndentBlanklineChar = { fg = pal.whitespace },
 
         -- lsp diagnostics
         DiagnosticVirtualTextError = { fg=pal.lred,                      },

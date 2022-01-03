@@ -41,6 +41,7 @@ M.palette = {
     special    = "#875fd7",
     todo       = "#00d700",
     nontext    = "#b1c9c8",
+    whitespace = "#e0eaed",
     folded     = "#3e70bc",
 
     diff_a_bg  = "#ccfbba",
