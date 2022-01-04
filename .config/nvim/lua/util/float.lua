@@ -23,7 +23,7 @@ function M.input(text, insert, callback)
     local old_pos = vim.api.nvim_win_get_cursor(0)
     vim.fn.search(vim.fn.expand("<cword>"), "bc")
     local new_pos = vim.api.nvim_win_get_cursor(0)
-    vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] + 1})
+    vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] })
     local col = new_pos[2] - old_pos[2]
 
     -- create win
@@ -87,10 +87,13 @@ function M.hide()
         vim.api.nvim_buf_delete(M.buf, {})
     end
     M.buf = nil
-
-    if M.mode == "i" then
+    
+    if M.mode == "i"  and vim.fn.mode() ~= "i" then
         vim.cmd("startinsert")
-    elseif M.mode == "n" then
+    elseif M.mode ~= "i" and vim.fn.mode() == "i" then
+        local pos = vim.api.nvim_win_get_cursor(0)
+        pos[2] = pos[2] + 1
+        vim.api.nvim_win_set_cursor(0, pos)
         vim.cmd("stopinsert")
     end
 end
