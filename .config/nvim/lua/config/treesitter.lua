@@ -24,7 +24,7 @@ function M.setup()
             "kotlin",
             "latex",
             "lua",
-            "markdown",
+            -- "markdown", https://github.com/nvim-treesitter/nvim-treesitter/issues/2206
             "nix",
             "python",
             "query",
