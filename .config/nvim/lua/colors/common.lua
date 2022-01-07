@@ -76,7 +76,7 @@ function M.highlights(pal)
 
         -- which-key
         WhichKey = { fg = pal.special },
-        
+
         -- indent-blankline
         IndentBlanklineChar      = { fg = pal.whitespace },
         IndentBlanklineSpaceChar = { fg = pal.whitespace },
@@ -172,13 +172,17 @@ function M.apply_highlights(highlights)
     vim.o.termguicolors = true
 
     for group, colors in pairs(highlights) do
-        -- stylua: ignore start
-        local style = colors.style and "gui="   .. colors.style or "gui=NONE"
-        local fg    = colors.fg    and "guifg=" .. colors.fg    or "guifg=NONE"
-        local bg    = colors.bg    and "guibg=" .. colors.bg    or "guibg=NONE"
-        local sp    = colors.sp    and "guisp=" .. colors.sp    or ""
-        -- stylua: ignore end
-        vim.api.nvim_command("highlight " .. group .. " " .. style .. " " .. fg .. " " .. bg .. " " .. sp)
+        if colors.link then
+            vim.api.nvim_command(string.format("highlight link %s %s", group, colors.link))
+        else
+            -- stylua: ignore start
+            local style = colors.style and "gui="   .. colors.style or "gui=NONE"
+            local fg    = colors.fg    and "guifg=" .. colors.fg    or "guifg=NONE"
+            local bg    = colors.bg    and "guibg=" .. colors.bg    or "guibg=NONE"
+            local sp    = colors.sp    and "guisp=" .. colors.sp    or ""
+            -- stylua: ignore end
+            vim.api.nvim_command(string.format("highlight %s %s %s %s %s", group, style, fg, bg, sp))
+        end
     end
 end
 

@@ -87,7 +87,7 @@ function M.hide()
         vim.api.nvim_buf_delete(M.buf, {})
     end
     M.buf = nil
-    
+
     if M.mode == "i"  and vim.fn.mode() ~= "i" then
         vim.cmd("startinsert")
     elseif M.mode ~= "i" and vim.fn.mode() == "i" then
