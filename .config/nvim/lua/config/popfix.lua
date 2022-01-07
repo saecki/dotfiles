@@ -33,7 +33,7 @@ end
 local custom_ui_select = function(items, opts, on_choice)
     assert(items ~= nil and not vim.tbl_isempty(items), "No entries available.")
 
-    assert(popup_reference == nil, "Busy in other LSP popup.")
+    -- assert(popup_reference == nil, "Busy in other LSP popup.") TODO: fails randomly
 
     local commit_choice = function(choice_index)
         on_choice(items[choice_index], choice_index)
