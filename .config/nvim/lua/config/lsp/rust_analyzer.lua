@@ -43,7 +43,8 @@ function M.setup(server, on_init, on_attach, capabilities)
         vim.cmd([[
             augroup LspInlayHints
             autocmd! * <buffer>
-            autocmd TextChanged,TextChangedI,TextChangedP,BufEnter,BufWinEnter,TabEnter,BufWritePost <buffer> lua require('config.lsp.rust_analyzer').inlay_hints()
+            autocmd TextChanged,TextChangedI,TextChangedP,BufEnter,BufWinEnter,TabEnter,BufWritePost <buffer>
+                \ lua require('config.lsp.rust_analyzer').inlay_hints()
             augroup END
         ]])
     end
