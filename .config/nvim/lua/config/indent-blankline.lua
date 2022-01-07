@@ -7,7 +7,13 @@ function M.setup()
         char = "⎸",
         show_trailing_blankline_indent = false,
         use_treesitter = true,
-        filetype_exclude = { "man", "help", "NvimTree" },
+        filetype_exclude = {
+            "man",
+            "help",
+            "NvimTree",
+            "lsp-installer",
+            "packer",
+        },
     })
 end
 
