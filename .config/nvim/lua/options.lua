@@ -73,6 +73,17 @@ function M.setup()
         autocmd TextYankPost * silent! lua vim.highlight.on_yank { on_visual=false, timeout=150 }
         augroup END
     ]])
+
+    -- Split windows to the right
+    vim.cmd([[
+        augroup vertical_help
+        autocmd!
+        autocmd FileType help
+            \ setlocal bufhidden=unload |
+            \ wincmd L |
+            \ vertical resize 90
+        augroup END
+    ]])
 end
 
 return M
