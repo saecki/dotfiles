@@ -21,6 +21,10 @@ M.palette = {
     lpurple    = "#d3869b",
     lcyan      = "#8ec07c",
 
+    lred_bg    = "#1f0906",
+    lyellow_bg = "#2a2008",
+    lblue_bg   = "#222a27",
+
     texthl1    = "#585858",
     texthl2    = "#5f5f87",
 

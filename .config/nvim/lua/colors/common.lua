@@ -81,7 +81,12 @@ function M.highlights(pal)
         IndentBlanklineChar      = { fg = pal.whitespace },
         IndentBlanklineSpaceChar = { fg = pal.whitespace },
 
-        -- lsp diagnostics
+        -- diagnostics
+        InlineDiagnosticTextError  = { fg=pal.lred,    bg=pal.lred_bg    },
+        InlineDiagnosticTextWarn   = { fg=pal.lyellow, bg=pal.lyellow_bg },
+        InlineDiagnosticTextHint   = { fg=pal.lblue,   bg=pal.lblue_bg   },
+        InlineDiagnosticTextInfo   = { fg=pal.lblue,   bg=pal.lblue_bg   },
+
         DiagnosticVirtualTextError = { fg=pal.lred,                      },
         DiagnosticVirtualTextWarn  = { fg=pal.lyellow,                   },
         DiagnosticVirtualTextHint  = { fg=pal.lblue,                     },

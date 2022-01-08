@@ -42,10 +42,10 @@ function M.on_attach(client, buf)
     -- Occurences
     if client.resolved_capabilities.document_highlight then
         vim.cmd([[
-            augroup LspOccurences
-            autocmd!
-            autocmd CursorHold  * silent lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved * silent lua vim.lsp.buf.clear_references()
+            augroup ConfigLspOccurences
+            autocmd! * <buffer>
+            autocmd CursorHold  <buffer> silent lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved <buffer> silent lua vim.lsp.buf.clear_references()
             augroup END
         ]])
     end
@@ -131,13 +131,6 @@ function M.setup()
     })
 
     -- Diagnostics
-    vim.diagnostic.config({
-        virtual_text = true,
-        signs = true,
-        underline = true,
-        update_in_insert = true,
-        severity_sort = true,
-    })
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
         virtual_text = {
@@ -145,11 +138,6 @@ function M.setup()
             severity_limit = "Warning",
         },
     })
-    local signs = { Error = "", Warn = "", Hint = "", Infor = "" }
-    for n, s in pairs(signs) do
-        local hl = "DiagnosticSign" .. n
-        vim.fn.sign_define(hl, { text = s, texthl = hl, linehl = "", numhl = "" })
-    end
 
     -- Show documentation
     wk.register({

@@ -1,6 +1,6 @@
 local M = {}
 
-local namespace = vim.api.nvim_create_namespace("lsp.rust_analyzer.closing_tags")
+local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer")
 
 local function inlay_hints_handler(err, result, ctx)
     if err then
@@ -44,7 +44,7 @@ function M.setup(server, on_init, on_attach, capabilities)
             augroup LspInlayHints
             autocmd! * <buffer>
             autocmd TextChanged,TextChangedI,TextChangedP,BufEnter,BufWinEnter,TabEnter,BufWritePost <buffer>
-                \ lua require('config.lsp.rust_analyzer').inlay_hints()
+                \ lua require('config.lsp.server.rust_analyzer').inlay_hints()
             augroup END
         ]])
     end

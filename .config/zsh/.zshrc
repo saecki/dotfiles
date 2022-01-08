@@ -118,6 +118,8 @@ eval "$(thefuck --alias)"
 # Reloas config
 alias reload='source $ZDOTDIR/.zshrc'
 
+alias chmox='chmod +x'
+
 # ls
 alias l.='exa -d .*'
 alias l='exa -lah --git'
