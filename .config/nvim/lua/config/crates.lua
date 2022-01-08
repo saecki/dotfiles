@@ -18,6 +18,7 @@ function M.setup()
 
             ["v"] = { crates.show_versions_popup, "Versions popup" },
             ["f"] = { crates.show_features_popup, "Features popup" },
+            ["d"] = { crates.show_dependencies_popup, "Dependencies popup" },
 
             ["u"] = { crates.update_crate, "Update crate" },
             ["U"] = { crates.upgrade_crate, "Upgrade crate" },

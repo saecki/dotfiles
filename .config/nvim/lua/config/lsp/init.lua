@@ -110,7 +110,7 @@ function M.setup()
 
     -- Installer and server config
     lsp_installer.on_server_ready(function(server)
-        local success, server_config = pcall(require, "config.lsp." .. server.name)
+        local success, server_config = pcall(require, "config.lsp.server." .. server.name)
         if success then
             server_config.setup(server, M.on_init, M.on_attach, capabilities)
         else

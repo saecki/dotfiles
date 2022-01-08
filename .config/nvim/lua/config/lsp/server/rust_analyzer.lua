@@ -64,6 +64,9 @@ function M.setup(server, on_init, on_attach, capabilities)
                 }
             },
         },
+        handlers = {
+            ["textDocument/publishClosingLabels"] = function() M.inlay_hints() end,
+        },
     })
 end
 
