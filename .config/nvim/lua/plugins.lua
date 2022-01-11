@@ -61,12 +61,7 @@ function M.setup()
         })
 
         -- Multicursor
-        use({
-            "terryma/vim-multiple-cursors",
-            config = function()
-                require("config.multi-cursor").setup()
-            end,
-        })
+        use("mg979/vim-visual-multi")
 
         -- File navigation
         use({
