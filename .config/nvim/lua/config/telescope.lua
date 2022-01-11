@@ -43,8 +43,8 @@ function M.setup()
                 ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
                 ["s"] = { telescope_builtin.lsp_document_symbols, "LSP document symbols" },
                 ["S"] = { telescope_builtin.lsp_workspace_symbols, "LSP workspace symbols" },
-                ["r"] = { telescope_builtin.resume, "Resume" },
                 ["w"] = { maps.rhs(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }), "Whitespace" },
+                ["r"] = { telescope_builtin.resume, "Resume" },
             },
         },
     })

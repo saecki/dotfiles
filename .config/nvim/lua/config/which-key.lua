@@ -40,8 +40,8 @@ function M.setup()
             "^ ",
         },
         triggers_blacklist = {
-            n = { "<a-j>", "<a-s-j>", "<a-k>" },
-            v = { "<a-j>", "<a-s-j>", "<a-k>" },
+            n = { "v", "<a-j>", "<a-s-j>", "<a-k>" },
+            v = { "v", "<a-j>", "<a-s-j>", "<a-k>" },
         },
     })
 
