@@ -250,7 +250,7 @@ print-color-table() {
 
 # Youtube-dl
 music-dl() {
-    youtube-dl --get-id "$1" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
+    youtube-dl --get-id "$@" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
 }
 
 # Clean latex files
