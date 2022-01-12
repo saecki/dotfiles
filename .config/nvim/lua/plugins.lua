@@ -15,7 +15,11 @@ function M.setup()
         vim.notify = notify
     end
 
-    pcall(require, "packer_compiled")
+    local packer_compiled_ok = pcall(require, "packer_compiled")
+    if not packer_compiled_ok then
+        vim.notify("compiled packer config wasn't found", vim.log.levels.ERROR)
+    end
+
     packer.startup({
         function(use)
             use({
