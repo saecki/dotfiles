@@ -21,7 +21,7 @@ function M.setup()
             "html",
             "java",
             "json",
-            "kotlin",
+            -- "kotlin",
             "latex",
             "lua",
             -- "markdown", https://github.com/nvim-treesitter/nvim-treesitter/issues/2206
@@ -30,6 +30,7 @@ function M.setup()
             "query",
             "regex",
             "rust",
+            "teal",
             "toml",
             "vim",
             "yaml",
