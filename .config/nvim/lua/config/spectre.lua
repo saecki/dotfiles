@@ -23,8 +23,8 @@ function M.setup()
         ["<leader>"] = {
             ["s"] = {
                 name = "Search/Replace",
-                ["p"] = { spectre.open_visual, "Project" },
-                ["f"] = { maps.rhs(spectre.open_visual, { path = vim.fn.expand("%") }), "File" },
+                ["p"] = { ":lua require('spectre').open_visual()<cr>", "Project" },
+                ["f"] = { ":lua require('spectre').open_visual({ path = vim.fn.expand('%') })<cr>", "File" },
             },
         },
     }, {

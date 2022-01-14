@@ -29,8 +29,8 @@ function M.setup()
     wk.register({
         ["<leader>c"] = {
             name = "Crates",
-            ["u"] = { crates.update_crates, "Update crates" },
-            ["U"] = { crates.upgrade_crates, "Upgrade crates" },
+            ["u"] = { ":lua require('crates').update_crates()<cr>", "Update crates" },
+            ["U"] = { ":lua require('crates').upgrade_crates()<cr>", "Upgrade crates" },
         },
     }, {
         mode = "v",

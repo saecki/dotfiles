@@ -32,7 +32,7 @@ function M.setup()
         ["<leader>"] = {
             ["f"] = {
                 name = "Find",
-                ["l"] = { telescope_builtin.live_grep, "Live grep" },
+                ["f"] = { telescope_builtin.live_grep, "Live grep" },
                 ["b"] = { telescope_builtin.buffers, "Buffers" },
                 ["h"] = { telescope_builtin.help_tags, "Help" },
                 ["c"] = { telescope_builtin.commands, "Commands" },
