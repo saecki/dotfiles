@@ -30,10 +30,10 @@ function M.setup()
         ["<a-p>"] = { maps.rhs(find_files, true), "Find ignored files" },
         ["<c-p>"] = { maps.rhs(find_files, false), "Find files" },
         ["<leader>"] = {
-            ["s"] = { telescope_builtin.live_grep, "Search text" },
-            [";"] = { telescope_builtin.buffers, "Search buffers" },
             ["f"] = {
                 name = "Find",
+                ["l"] = { telescope_builtin.live_grep, "Live grep" },
+                ["b"] = { telescope_builtin.buffers, "Buffers" },
                 ["h"] = { telescope_builtin.help_tags, "Help" },
                 ["c"] = { telescope_builtin.commands, "Commands" },
                 ["m"] = { telescope_builtin.keymaps, "Key mappings" },

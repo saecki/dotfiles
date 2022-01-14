@@ -71,11 +71,17 @@ function M.setup()
                     require("config.indent-blankline").setup()
                 end,
             })
+            use({
+                "kyazdani42/nvim-web-devicons",
+                config = function()
+                    require("config.devicons").setup()
+                end,
+            })
 
             -- Multicursor
             use("mg979/vim-visual-multi")
 
-            -- File navigation
+            -- Filetree
             use({
                 "kyazdani42/nvim-tree.lua",
                 requires = { "kyazdani42/nvim-web-devicons" },
@@ -84,6 +90,8 @@ function M.setup()
                     require("config.nvim-tree").setup()
                 end,
             })
+
+            -- File Search/Replace
             use({
                 "nvim-telescope/telescope.nvim",
                 requires = {
@@ -95,24 +103,30 @@ function M.setup()
                 end,
             })
             use({
+                "windwp/nvim-spectre",
+                requires = {
+                    { "nvim-lua/plenary.nvim" },
+                    { "kyazdani42/nvim-web-devicons" },
+                },
+                config = function()
+                    require("config.spectre").setup()
+                end,
+            })
+
+            -- File navigation
+            use({
                 "ahmedkhalf/project.nvim",
                 requires = { "nvim-telescope/telescope.nvim" },
                 config = function()
                     require("config.project").setup()
                 end,
             })
+            use("farmergreg/vim-lastplace")
             use({
                 "ThePrimeagen/harpoon",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
                     require("config.harpoon").setup()
-                end,
-            })
-            use("farmergreg/vim-lastplace")
-            use({
-                "kyazdani42/nvim-web-devicons",
-                config = function()
-                    require("config.devicons").setup()
                 end,
             })
 
