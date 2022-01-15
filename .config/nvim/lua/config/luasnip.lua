@@ -1,5 +1,6 @@
 local M = {}
 
+local wk = require("which-key")
 local luasnip = require("luasnip")
 local s = luasnip.snippet
 local t = luasnip.text_node
@@ -18,6 +19,27 @@ end
 function M.setup()
     luasnip.config.setup({
         updateevents = "InsertLeave,TextChanged,TextChangedI",
+    })
+
+    wk.register({
+        ["<tab>"] = {
+            function()
+                if luasnip.jumpable(1) then
+                    luasnip.jump(1)
+                end
+            end,
+            "Jump to next snippet input"
+        },
+        ["<s-tab>"] = {
+            function()
+                if luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
+                end
+            end,
+            "Jump to previous snippet input"
+        },
+    }, {
+        mode = "v",
     })
 
     -- stylua: ignore start
