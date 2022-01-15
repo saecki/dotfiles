@@ -40,6 +40,17 @@ function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
 
+        local old_progress_handler = vim.lsp.handlers['$/progress']
+        vim.lsp.handlers['$/progress'] = function(err, result, ctx, config)
+            if old_progress_handler then
+                old_progress_handler(err, result, ctx, config)
+            end
+
+            if result.value and result.value.kind == "end" then
+                M.inlay_hints()
+            end
+        end
+
         vim.cmd([[
             augroup LspInlayHints
             autocmd! * <buffer>
