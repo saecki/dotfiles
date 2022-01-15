@@ -7,7 +7,6 @@ if not packer_ok then
     end
 end
 
-
 function M.setup()
     -- load before other plugins
     local notify_ok, notify = pcall(require, "notify")
@@ -279,6 +278,9 @@ function M.setup()
                     require("config.crates").setup()
                 end,
             })
+
+            -- Kotlin
+            use("udalov/kotlin-vim")
 
             -- Lua/Teal
             use({
