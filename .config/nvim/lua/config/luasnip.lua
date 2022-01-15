@@ -92,6 +92,17 @@ function M.setup()
             s("lor",  t("∨")),
             s("xor",  t("⊻")),
         },
+        rust = {
+            s("stateful_atom", {
+                t({ "let bounds = find_bounds(reader, size)?;", "" }),
+                t({ "let mut " }),
+                i(0, { "fourcc" }),
+                t({ " = Self {", "" }),
+                t({ "\tstate: State::Existing(bounds),", "" }),
+                t({ "\t..Default::default()", "" }),
+                t({ "};" }),
+            }),
+        },
     }
     -- stylua: ignore end
 end
