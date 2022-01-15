@@ -58,6 +58,8 @@ function M.setup(server, on_init, on_attach, capabilities)
                 \ lua require('config.lsp.server.rust_analyzer').inlay_hints()
             augroup END
         ]])
+
+        M.inlay_hints()
     end
 
     server:setup({
