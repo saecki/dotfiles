@@ -23,7 +23,7 @@ local function inlay_hints_handler(err, result, ctx)
 
     for l, t in pairs(hints) do
         local text = table.concat(t, " ")
-        vim.api.nvim_buf_set_extmark(ctx.bufnr, namespace, l, -1, {
+        vim.api.nvim_buf_set_extmark(ctx.bufnr, namespace, l, 0, {
             virt_text = { { text, highlight } },
             virt_text_pos = "eol",
             hl_mode = "combine",
