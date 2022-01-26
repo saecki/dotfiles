@@ -43,7 +43,7 @@ nmap <leader>gs <Action>(VcsShowCurrentChangeMarker)
 nmap <leader>r <Action>(RenameElement)
 nmap <leader>a <Action>(ShowIntentionActions)
 " Search
-nmap <leader>s <Action>(FindInPath)
+nmap <leader>ff <Action>(FindInPath)
 
 " Open files
 nmap <c-p> <Action>(SearchEverywhere)
