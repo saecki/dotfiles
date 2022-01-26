@@ -22,6 +22,13 @@ function M.setup()
             pattern = [[.*<(KEYWORDS)]], -- pattern or table of patterns, used for highlightng (vim regex)
             comments_only = true, -- uses treesitter to match keywords in comments only
         },
+        colors = {
+            error = { "DiagnosticError" },
+            warning = { "DiagnosticWarn" },
+            info = { "Todo" },
+            hint = { "DiagnosticHint" },
+            default = { "Identifier", "#7C3AED" },
+        },
         search = {
             pattern = [[\b(KEYWORDS)]], -- ripgrep regex
         },
