@@ -1,6 +1,5 @@
 local M = {}
 
-local lsp_status = require("lsp-status")
 local lsp_installer = require("nvim-lsp-installer")
 local wk = require("which-key")
 
@@ -36,9 +35,6 @@ function M.on_init(client)
 end
 
 function M.on_attach(client, buf)
-    -- Status
-    lsp_status.on_attach(client)
-
     -- Occurences
     if client.resolved_capabilities.document_highlight then
         vim.cmd([[
@@ -121,14 +117,6 @@ function M.setup()
             })
         end
     end)
-
-    -- Status
-    lsp_status.register_progress()
-    lsp_status.config({
-        status_symbol = "LSP",
-        current_function = false,
-        diagnostics = false,
-    })
 
     -- Diagnostics
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

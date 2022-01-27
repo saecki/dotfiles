@@ -1,7 +1,7 @@
 local M = {}
 
 local lualine = require("lualine")
-local lsp_status = require("lsp-status")
+-- local lsp_status = require("lsp-status")
 
 -- stylua: ignore start
 local modemap = {
@@ -57,10 +57,6 @@ local function position()
     return string.format(template, cursor[1], cursor[2])
 end
 
-local function lsp_status_text()
-    return vim.trim(lsp_status.status())
-end
-
 function M.setup()
     local colors = require("colors.mineauto")
     local theme = colors.lualine
@@ -81,7 +77,7 @@ function M.setup()
             lualine_a = {
                 { mode, separator = { left = " " } },
             },
-            lualine_b = { lsp_status_text },
+            lualine_b = {},
             lualine_c = {
                 {
                     "filename",

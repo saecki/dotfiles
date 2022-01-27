@@ -163,7 +163,6 @@ function M.setup()
             use({
                 "neovim/nvim-lspconfig",
                 requires = {
-                    { "nvim-lua/lsp-status.nvim" },
                     { "williamboman/nvim-lsp-installer" },
                 },
                 config = function()
@@ -174,6 +173,12 @@ function M.setup()
                 "jose-elias-alvarez/null-ls.nvim",
                 config = function()
                     require("config.null-ls").setup()
+                end,
+            })
+            use({
+                "j-hui/fidget.nvim",
+                config = function()
+                    require("config.fidget").setup()
                 end,
             })
 
