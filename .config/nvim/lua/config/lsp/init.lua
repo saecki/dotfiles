@@ -47,7 +47,7 @@ function M.on_attach(client, buf)
     end
 
     wk.register({
-        ["<c-a-l>"] = { vim.lsp.buf.formatting_sync, "Formating" },
+        ["<c-a-l>"] = { vim.lsp.buf.formatting, "Formating" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
