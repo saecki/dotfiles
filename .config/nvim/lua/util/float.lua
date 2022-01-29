@@ -41,6 +41,7 @@ function M.input(text, insert, callback)
     -- key mappings
     local submit_cmd = "<cmd>lua require('util.float').submit()<cr>"
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", submit_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "v", "<cr>", submit_cmd, { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "i", "<cr>", submit_cmd, { noremap = true, silent = true })
     local cancel_cmd = "<cmd>lua require('util.float').hide()<cr>"
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
