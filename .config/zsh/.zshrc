@@ -149,6 +149,7 @@ alias cdzt='cd ~/.config/zathura'
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
+alias cfiv='(cd ~/.config/ideavim && $EDITOR ~/.config/ideavim/ideavimrc)'
 alias cfal='(cd ~/.config/alacritty && $EDITOR ~/.config/alacritty/alacritty.yml.in)'
 alias cfkt='(cd ~/.config/kitty && $EDITOR ~/.config/kitty/kitty.conf)'
 alias cftm='(cd ~/.config/tmux && $EDITOR ~/.tmux.conf)'

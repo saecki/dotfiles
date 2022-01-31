@@ -50,4 +50,5 @@ nmap <c-p> <Action>(SearchEverywhere)
 nnoremap <leader><leader> <c-s-6>
 
 " Select occurences
-vmap <a-k> <Action>(UnselectPreviousOccurrence)
+vmap <c-s-n> <Action>(UnselectPreviousOccurrence)
+vmap <c-n> <Action>(SelectNextOccurrence)
