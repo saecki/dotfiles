@@ -1,26 +1,28 @@
 #!/bin/sh
 
+LIGHT_THEME="Adwaita"
+DARK_THEME="Adwaita-dark"
+
 apply() {
     gsettings set org.gnome.desktop.interface gtk-theme "$1"
-    gsettings set org.gnome.shell.extensions.user-theme name 'Layan-dark-solid'
 }
 
 toggle() {
     case "$1" in
-        "'Layan-light-solid'" ) dark ;;
-        "'Layan-dark-solid'" ) light ;;
+        "'$LIGHT_THEME'" ) dark ;;
+        "'$DARK_THEME'" ) light ;;
         * ) dark ;;
     esac
 }
 
 dark() {
     alco -a apply minedark&
-    apply "Layan-dark-solid"
+    apply "$DARK_THEME"
 }
 
 light() {
     alco -a apply minelight&
-    apply "Layan-light-solid"
+    apply "$LIGHT_THEME"
 }
 
 current=$(gsettings get org.gnome.desktop.interface gtk-theme)
