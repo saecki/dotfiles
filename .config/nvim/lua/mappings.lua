@@ -8,10 +8,11 @@ function M.setup()
         return
     end
 
+    vim.api.nvim_set_keymap("", "j", "gj", { noremap = true })
+    vim.api.nvim_set_keymap("", "k", "gk", { noremap = true })
+
     wk.register({
         ["<f1>"] = { "<esc>" },
-        ["j"] = { "gj" },
-        ["k"] = { "gk" },
         ["S"] = { ":nohlsearch<cr>", "Stop searching" },
         ["<c-left>"] = { ":vertical resize -5<cr>", "Decrease width" },
         ["<c-right>"] = { ":vertical resize +5<cr>", "Increase width" },
