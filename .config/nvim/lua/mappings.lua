@@ -9,7 +9,9 @@ function M.setup()
     end
 
     vim.api.nvim_set_keymap("", "j", "gj", { noremap = true })
+    vim.api.nvim_set_keymap("", "gj", "j", { noremap = true })
     vim.api.nvim_set_keymap("", "k", "gk", { noremap = true })
+    vim.api.nvim_set_keymap("", "gk", "k", { noremap = true })
 
     wk.register({
         ["<f1>"] = { "<esc>" },
