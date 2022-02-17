@@ -1,6 +1,7 @@
 local M = {}
 
 local wk_ok, wk = pcall(require, "which-key")
+local map = vim.api.nvim_set_keymap
 
 function M.setup()
     if not wk_ok then
@@ -8,10 +9,10 @@ function M.setup()
         return
     end
 
-    vim.api.nvim_set_keymap("", "j", "gj", { noremap = true })
-    vim.api.nvim_set_keymap("", "gj", "j", { noremap = true })
-    vim.api.nvim_set_keymap("", "k", "gk", { noremap = true })
-    vim.api.nvim_set_keymap("", "gk", "k", { noremap = true })
+    map("", "j", "gj", { noremap = true })
+    map("", "gj", "j", { noremap = true })
+    map("", "k", "gk", { noremap = true })
+    map("", "gk", "k", { noremap = true })
 
     wk.register({
         ["<f1>"] = { "<esc>" },

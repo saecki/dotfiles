@@ -26,6 +26,8 @@ function M.setup()
     -- stylua: ignore end
 
     wk.register({
+        ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
+
         ["<f7>"] = { ":TroubleToggle<cr>", "Toggle List UI" },
         ["g"] = {
             name = "Go",

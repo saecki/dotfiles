@@ -2,6 +2,7 @@ local M = {}
 
 local lsp_installer = require("nvim-lsp-installer")
 local wk = require("which-key")
+local maps = require("util.maps")
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -47,12 +48,14 @@ function M.on_attach(client, buf)
     end
 
     wk.register({
+        ["<C-LeftMouse>"] = { "<LeftMouse>"..maps.rhs(vim.lsp.buf.definition), "LSP definition" },
+
         ["<c-a-l>"] = { vim.lsp.buf.formatting, "Formating" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
-            ["d"] = { vim.lsp.buf.definition, "LSP Definition" },
-            ["D"] = { vim.lsp.buf.declaration, "LSP Declaration" },
+            ["d"] = { vim.lsp.buf.definition, "LSP definition" },
+            ["D"] = { vim.lsp.buf.declaration, "LSP declaration" },
         },
         ["<leader>"] = {
             ["a"] = { vim.lsp.buf.code_action, "Code action" },
