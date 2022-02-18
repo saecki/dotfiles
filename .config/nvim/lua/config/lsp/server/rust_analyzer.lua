@@ -69,6 +69,7 @@ function M.setup(server, on_init, on_attach, capabilities)
         settings = {
             ["rust-analyzer"] = {
                 assist = {
+                    importEnforceGranularity = true,
                     importGranularity = "module",
                     importPrefix = "plain",
                 },
