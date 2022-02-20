@@ -5,8 +5,7 @@ local wk = require("which-key")
 local function toggle_diff()
     if vim.o.diff then
         vim.cmd("diffoff")
-        vim.cmd("bdelete //2")
-        vim.cmd("bdelete //3")
+        vim.cmd("bdelete fugitive://")
     else
         vim.cmd("Gvdiffsplit!")
     end
