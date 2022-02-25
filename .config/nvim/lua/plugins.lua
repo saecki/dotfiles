@@ -1,5 +1,7 @@
 local M = {}
 
+local util = require("util")
+
 local packer_ok, packer = pcall(require, "packer")
 if not packer_ok then
     return function()
@@ -308,7 +310,9 @@ function M.setup()
             })
         end,
         config = {
-            compile_path = vim.fn.stdpath("config") .. "/lua/packer_compiled.lua",
+            compile_path = util.join_paths(vim.fn.stdpath("config"), "lua", "packer_compiled.lua"),
+            snapshot_path = util.join_paths(vim.fn.stdpath("config"), "snapshots"),
+            snapshot = "v0.1.0",
         },
     })
 end
