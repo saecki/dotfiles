@@ -312,7 +312,7 @@ function M.setup()
         config = {
             compile_path = util.join_paths(vim.fn.stdpath("config"), "lua", "packer_compiled.lua"),
             snapshot_path = util.join_paths(vim.fn.stdpath("config"), "snapshots"),
-            snapshot = "v0.1.0",
+            snapshot = "v0.1.1",
         },
     })
 end
