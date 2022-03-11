@@ -166,6 +166,7 @@ function M.setup()
                 "neovim/nvim-lspconfig",
                 requires = {
                     { "williamboman/nvim-lsp-installer" },
+                    { "nanotee/sqls.nvim" },
                 },
                 config = function()
                     require("config.lsp").setup()
