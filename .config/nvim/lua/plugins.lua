@@ -1,6 +1,6 @@
 local M = {}
 
-local values = require("values")
+local shared = require("shared")
 
 local packer_ok, packer = pcall(require, "packer")
 if not packer_ok then
@@ -311,9 +311,9 @@ function M.setup()
             })
         end,
         config = {
-            compile_path = values.packer.compile_path,
-            snapshot_path = values.packer.snapshot_path,
-            snapshot = values.packer.snapshot_version,
+            compile_path = shared.packer.compile_path,
+            snapshot_path = shared.packer.snapshot_path,
+            snapshot = shared.packer.snapshot_version,
         },
     })
 end
