@@ -1,31 +1,31 @@
 #!/bin/sh
 
-LIGHT_THEME="Adwaita"
-DARK_THEME="Adwaita-dark"
-
-apply() {
-    gsettings set org.gnome.desktop.interface gtk-theme "$1"
-}
+SYSTEM_LIGHT_THEME="default"
+SYSTEM_DARK_THEME="prefer-dark"
+GTK_LIGHT_THEME="Adwaita"
+GTK_DARK_THEME="Adwaita-dark"
 
 toggle() {
     case "$1" in
-        "'$LIGHT_THEME'" ) dark ;;
-        "'$DARK_THEME'" ) light ;;
+        "'$SYSTEM_LIGHT_THEME'" ) dark ;;
+        "'$SYSTEM_DARK_THEME'" ) light ;;
         * ) dark ;;
     esac
 }
 
 dark() {
+    gsettings set org.gnome.desktop.interface color-scheme "'$SYSTEM_DARK_THEME'"
+    gsettings set org.gnome.desktop.interface gtk-theme "'$GTK_DARK_THEME'"
     alco -a apply minedark&
-    apply "$DARK_THEME"
 }
 
 light() {
+    gsettings set org.gnome.desktop.interface color-scheme "'$SYSTEM_LIGHT_THEME'"
+    gsettings set org.gnome.desktop.interface gtk-theme "'$GTK_LIGHT_THEME'"
     alco -a apply minelight&
-    apply "$LIGHT_THEME"
 }
 
-current=$(gsettings get org.gnome.desktop.interface gtk-theme)
+current=$(gsettings get org.gnome.desktop.interface color-scheme)
 case "$1" in
     "toggle" ) toggle "$current" ;;
     "dark" ) dark ;;
