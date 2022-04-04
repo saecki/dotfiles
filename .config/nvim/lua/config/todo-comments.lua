@@ -10,7 +10,7 @@ function M.setup()
             STOPSHIP = { icon = " ", color = "error" },
             HACK = { icon = " ", color = "warning" },
             WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-            TODO = { icon = " ", color = "info" },
+            TODO = { icon = " ", color = "info", alt = { "todo!" } },
             PERF = { icon = " ", color = "info" },
             NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
         },
