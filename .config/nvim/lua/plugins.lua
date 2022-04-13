@@ -313,7 +313,6 @@ function M.setup()
         config = {
             compile_path = shared.packer.compile_path,
             snapshot_path = shared.packer.snapshot_path,
-            snapshot = shared.packer.snapshot_version,
         },
     })
 end
