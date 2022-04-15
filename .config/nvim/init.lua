@@ -16,6 +16,7 @@ pcall(require, "impatient")
 
 prequire("globals", false)
 prequire("util.maps")
+prequire("util.select")
 prequire("options")
 prequire("mappings")
 prequire("colors")

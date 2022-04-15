@@ -3,6 +3,7 @@ local M = {}
 local lsp_installer = require("nvim-lsp-installer")
 local wk = require("which-key")
 local maps = require("util.maps")
+local shared = require("shared")
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -48,7 +49,7 @@ function M.on_attach(client, buf)
     end
 
     wk.register({
-        ["<C-LeftMouse>"] = { "<LeftMouse>"..maps.rhs(vim.lsp.buf.definition), "LSP definition" },
+        ["<C-LeftMouse>"] = { "<LeftMouse>" .. maps.rhs(vim.lsp.buf.definition), "LSP definition" },
 
         ["<c-a-l>"] = { vim.lsp.buf.formatting, "Formating" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
@@ -61,7 +62,7 @@ function M.on_attach(client, buf)
             ["a"] = { vim.lsp.buf.code_action, "Code action" },
             ["r"] = {
                 function()
-                    require("util.float").input(nil, false, function(new_name)
+                    require("util.input").input(nil, false, function(new_name)
                         vim.lsp.buf.rename(new_name)
                     end)
                 end,
@@ -69,7 +70,7 @@ function M.on_attach(client, buf)
             },
             ["R"] = {
                 function()
-                    require("util.float").input("", true, function(new_name)
+                    require("util.input").input("", true, function(new_name)
                         vim.lsp.buf.rename(new_name)
                     end)
                 end,
@@ -128,6 +129,11 @@ function M.setup()
             spacing = 2,
             severity_limit = "Warning",
         },
+    })
+
+    -- Documentation window border
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = shared.window.border,
     })
 
     -- Show documentation

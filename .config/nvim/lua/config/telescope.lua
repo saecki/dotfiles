@@ -18,11 +18,49 @@ function M.setup()
         defaults = {
             layout_config = {
                 horizontal = {
-                    width = 0.9,
-                    height = 0.9,
+                    width = {
+                        padding = 8,
+                    },
+                    height = {
+                        padding = 3,
+                    },
                     preview_cutoff = 120,
                 },
             },
+            borderchars = {
+                prompt = {
+                    "█",
+                    "█",
+                    "█",
+                    "█",
+                    "█",
+                    "█",
+                    "",
+                    "",
+                },
+                results = {
+                    "█",
+                    "█",
+                    "█",
+                    "█",
+                    "",
+                    "",
+                    "█",
+                    "█",
+                },
+                preview = {
+                    "█",
+                    "█",
+                    "█",
+                    "▐",
+                    "▐",
+                    "",
+                    "",
+                    "▐",
+                },
+            },
+            prompt_prefix = " ",
+            selection_caret = " ",
         },
     })
 
@@ -43,7 +81,10 @@ function M.setup()
                 ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
                 ["s"] = { telescope_builtin.lsp_document_symbols, "LSP document symbols" },
                 ["S"] = { telescope_builtin.lsp_workspace_symbols, "LSP workspace symbols" },
-                ["w"] = { maps.rhs(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }), "Whitespace" },
+                ["w"] = {
+                    maps.rhs(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }),
+                    "Whitespace",
+                },
                 ["r"] = { telescope_builtin.resume, "Resume" },
             },
         },

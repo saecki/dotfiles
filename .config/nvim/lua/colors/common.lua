@@ -9,6 +9,7 @@ function M.highlights(pal)
         LineNr          = { fg=pal.text3,                                    },
         CursorLineNr    = { fg=pal.text2,                       style="bold" },
         CursorColumn    = {                  bg=pal.texthl2,                 },
+        FloatBorder     = { fg=pal.surface3, bg=pal.bg,                      },
         Pmenu           = { fg=pal.text2,    bg=pal.surface3,                },
         PmenuSel        = { fg=pal.surface3, bg=pal.text3,      style="bold" },
         PmenuSBar       = {                  bg=pal.scrollbg,                },
@@ -73,6 +74,22 @@ function M.highlights(pal)
         NvimTreeGitMerge   = { fg=pal.dyellow },
         NvimTreeGitRenamed = { fg=pal.dpurple },
         NvimTreeGitNew     = { fg=pal.dgreen  },
+
+        -- harpoon
+        HarpoonWindow = { link = "Pmenu" },
+        HarpoonBorder = { link = "FloatBorder" },
+
+        -- telescope
+        FloatTitle             = { fg=pal.text3, bg=pal.surface3,                      },
+        TelescopeResultsNormal = { link = "Pmenu" },
+        TelescopeResultsBorder = { link = "FloatBorder" },
+        TelescopeResultsTitle  = { link = "FloatTitle" },
+        TelescopePromptNormal  = { link = "Pmenu" },
+        TelescopePromptBorder  = { link = "FloatBorder" },
+        TelescopePromptTitle   = { link = "FloatTitle" },
+        TelescopePreviewNormal = { link = "Pmenu" },
+        TelescopePreviewBorder = { link = "FloatBorder" },
+        TelescopePreviewTitle  = { link = "FloatTitle" },
 
         -- which-key
         WhichKey = { fg = pal.special },

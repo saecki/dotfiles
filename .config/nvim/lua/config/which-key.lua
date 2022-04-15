@@ -1,6 +1,7 @@
 local M = {}
 
 local wk = require("which-key")
+local shared = require("shared")
 
 function M.setup()
     vim.opt.timeoutlen = 400
@@ -21,10 +22,10 @@ function M.setup()
             group = "+",
         },
         window = {
-            border = "none",
+            border = shared.window.border,
             position = "bottom",
-            margin = { 1, 1, 2, 1 },
-            padding = { 1, 1, 1, 1 },
+            margin = { 2, 2, 2, 4 },
+            padding = { 0, 0, 0, 0 },
             winblend = 0,
         },
         hidden = {

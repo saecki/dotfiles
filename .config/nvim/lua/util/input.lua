@@ -1,5 +1,5 @@
 local M = {
-    namespace = vim.api.nvim_create_namespace("util.float"),
+    namespace = vim.api.nvim_create_namespace("util.input"),
 }
 
 function M.input(text, insert, callback)
@@ -17,7 +17,6 @@ function M.input(text, insert, callback)
     -- create buf
     M.buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(M.buf, 0, 1, false, { text })
-    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Special", 0, 0, -1)
 
     -- get word start
     local old_pos = vim.api.nvim_win_get_cursor(0)
@@ -39,17 +38,17 @@ function M.input(text, insert, callback)
     M.win = vim.api.nvim_open_win(M.buf, false, opts)
 
     -- key mappings
-    local submit_cmd = "<cmd>lua require('util.float').submit()<cr>"
+    local submit_cmd = "<cmd>lua require('util.input').submit()<cr>"
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", submit_cmd, { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "v", "<cr>", submit_cmd, { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "i", "<cr>", submit_cmd, { noremap = true, silent = true })
-    local cancel_cmd = "<cmd>lua require('util.float').hide()<cr>"
+    local cancel_cmd = "<cmd>lua require('util.input').hide()<cr>"
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
 
     -- automatically resize
-    vim.cmd("augroup UtilFloatRename")
-    vim.cmd("autocmd TextChanged,TextChangedI,TextChangedP <buffer=" .. M.buf .. "> lua require('util.float').resize()")
+    vim.cmd("augroup UtilInputWindow")
+    vim.cmd("autocmd TextChanged,TextChangedI,TextChangedP <buffer=" .. M.buf .. "> lua require('util.input').resize()")
     vim.cmd("augroup END")
 
     -- focus and enter insert mode
@@ -66,6 +65,8 @@ function M.resize()
     local width = math.max(new_text_width + 1, M.min_width)
 
     vim.api.nvim_win_set_width(M.win, width)
+    vim.api.nvim_buf_clear_namespace(M.buf, M.namespace, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Underlined", 0, 0, -1)
 end
 
 function M.submit()

@@ -55,12 +55,6 @@ function M.setup()
                 end,
             })
             use({
-                "RishabhRD/popfix",
-                config = function()
-                    require("config.popfix").setup()
-                end,
-            })
-            use({
                 "norcalli/nvim-colorizer.lua",
                 config = function()
                     require("config.colorizer").setup()

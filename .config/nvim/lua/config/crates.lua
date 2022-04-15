@@ -2,10 +2,12 @@ local M = {}
 
 local crates = require("crates")
 local wk = require("which-key")
+local shared = require("shared")
 
 function M.setup()
     crates.setup({
         popup = {
+            border = shared.window.border,
             version_date = true,
         },
     })
