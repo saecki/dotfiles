@@ -2,9 +2,17 @@ local M = {}
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+local shared = require("shared")
 
 function M.setup()
     cmp.setup({
+        window = {
+            documentation = {
+                border = shared.window.border,
+                winhighlight = "Pmenu:Pmenu,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+                zindex = 1001,
+            },
+        },
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
