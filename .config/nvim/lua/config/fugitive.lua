@@ -5,6 +5,7 @@ local wk = require("which-key")
 local function toggle_diff()
     if vim.o.diff then
         vim.cmd("diffoff")
+        -- TODO: fix for 3-way diff
         vim.cmd("bdelete fugitive://")
     else
         vim.cmd("Gvdiffsplit!")
