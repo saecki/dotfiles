@@ -3,6 +3,7 @@ local M = {}
 local gitsigns = require("gitsigns")
 local gitsigns_actions = require("gitsigns.actions")
 local wk = require("which-key")
+local shared = require("shared")
 
 -- Slightly modified version of default function
 local function current_line_blame_formatter(name, blame_info, opts)
@@ -59,7 +60,7 @@ function M.setup()
 		},
 		base = "HEAD",
 		preview_config = {
-			border = "none",
+			border = shared.window.border,
 			style = "minimal",
 			relative = "cursor",
 			row = 0,
