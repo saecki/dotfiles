@@ -1,6 +1,7 @@
 local M = {}
 
 local wk = require("which-key")
+local shared = require("shared")
 
 function M.setup()
     local signs = { Error = "", Warn = "", Hint = "", Info = "" }
@@ -14,6 +15,9 @@ function M.setup()
         underline = true,
         update_in_insert = true,
         severity_sort = true,
+        float = {
+            border = shared.window.border,
+        }
     })
 
     wk.register({
