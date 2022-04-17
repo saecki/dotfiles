@@ -34,7 +34,8 @@ function M.setup()
     vim.opt.foldlevelstart = 99
     vim.opt.foldnestmax = 10
     vim.opt.foldminlines = 1
-    vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').' ... '.trim(getline(v:foldend)).'  ('.(v:foldend - v:foldstart + 1).' lines)']]
+    vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').' ]]
+        .. [[... '.trim(getline(v:foldend)).'  ('.(v:foldend - v:foldstart + 1).' lines)']]
 
     -- Search
     vim.opt.incsearch = true
@@ -67,23 +68,25 @@ function M.setup()
     vim.opt.hidden = true
 
     -- Highlight yanked text
-    vim.cmd([[
-        augroup HighlightYank
-        autocmd!
-        autocmd TextYankPost * silent! lua vim.highlight.on_yank { on_visual=false, timeout=150 }
-        augroup END
-    ]])
+    local group = vim.api.nvim_create_augroup("HighlightYank", {})
+    vim.api.nvim_create_autocmd("TextYankPost", {
+        group = group,
+        callback = function()
+            vim.highlight.on_yank({ on_visual = false, timeout = 150 })
+        end,
+    })
 
     -- Split windows to the right
-    vim.cmd([[
-        augroup vertical_help
-        autocmd!
-        autocmd FileType help
-            \ setlocal bufhidden=unload |
-            \ wincmd L |
-            \ vertical resize 90
-        augroup END
-    ]])
+    local group = vim.api.nvim_create_augroup("SplitHelpWindow", {})
+    vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        pattern = "help",
+        callback = function()
+            vim.opt_local.bufhidden = "unload"
+            vim.cmd("wincmd L")
+            vim.api.nvim_win_set_width(0, 90)
+        end,
+    })
 end
 
 return M

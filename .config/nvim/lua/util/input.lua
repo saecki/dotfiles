@@ -47,9 +47,12 @@ function M.input(text, insert, callback)
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
 
     -- automatically resize
-    vim.cmd("augroup UtilInputWindow")
-    vim.cmd("autocmd TextChanged,TextChangedI,TextChangedP <buffer=" .. M.buf .. "> lua require('util.input').resize()")
-    vim.cmd("augroup END")
+    local group = vim.api.nvim_create_augroup("UtilInputWindow", {})
+    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+        group = group,
+        buffer = M.buf,
+        callback = M.resize,
+    })
 
     -- focus and enter insert mode
     vim.api.nvim_set_current_win(M.win)
@@ -90,7 +93,7 @@ function M.hide()
     end
     M.buf = nil
 
-    if M.mode == "i"  and vim.fn.mode() ~= "i" then
+    if M.mode == "i" and vim.fn.mode() ~= "i" then
         vim.cmd("startinsert")
     elseif M.mode ~= "i" and vim.fn.mode() == "i" then
         local pos = vim.api.nvim_win_get_cursor(0)

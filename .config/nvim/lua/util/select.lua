@@ -113,10 +113,13 @@ function M.select(items, opts, on_choice)
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
 
-    -- automatically resize
-    vim.cmd("augroup UtilSelectWindow")
-    vim.cmd("autocmd CursorMoved,CursorMovedI <buffer=" .. M.buf .. "> lua require('util.select').highlight()")
-    vim.cmd("augroup END")
+    -- highlight current line
+    local group = vim.api.nvim_create_augroup("UtilSelectWindow", {})
+    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        group = group,
+        buffer = M.buf,
+        callback = M.highlight,
+    })
 
     -- focus window
     vim.api.nvim_set_current_win(M.win)

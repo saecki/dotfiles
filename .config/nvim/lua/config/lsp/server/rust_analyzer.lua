@@ -40,8 +40,8 @@ function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
 
-        local old_progress_handler = vim.lsp.handlers['$/progress']
-        vim.lsp.handlers['$/progress'] = function(err, result, ctx, config)
+        local old_progress_handler = vim.lsp.handlers["$/progress"]
+        vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
             if old_progress_handler then
                 old_progress_handler(err, result, ctx, config)
             end
@@ -51,13 +51,15 @@ function M.setup(server, on_init, on_attach, capabilities)
             end
         end
 
-        vim.cmd([[
-            augroup LspInlayHints
-            autocmd! * <buffer>
-            autocmd TextChanged,TextChangedI,TextChangedP,BufEnter,BufWinEnter,TabEnter,BufWritePost <buffer>
-                \ lua require('config.lsp.server.rust_analyzer').inlay_hints()
-            augroup END
-        ]])
+        local group = vim.api.nvim_create_augroup("LspInlayHints", {})
+        vim.api.nvim_create_autocmd(
+            { "TextChanged", "TextChangedI", "TextChangedP", "BufEnter", "BufWinEnter", "TabEnter", "BufWritePost" },
+            {
+                group = group,
+                buffer = buf,
+                callback = M.inlay_hints,
+            }
+        )
 
         M.inlay_hints()
     end
@@ -75,11 +77,13 @@ function M.setup(server, on_init, on_attach, capabilities)
                 },
                 inlayHints = {
                     maxLength = 40,
-                }
+                },
             },
         },
         handlers = {
-            ["textDocument/publishClosingLabels"] = function() M.inlay_hints() end,
+            ["textDocument/publishClosingLabels"] = function()
+                M.inlay_hints()
+            end,
         },
     })
 end
