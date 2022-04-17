@@ -17,7 +17,7 @@ function M.setup()
     vim.opt.textwidth = 0
     vim.opt.wrapmargin = 0
     vim.opt.listchars = { space = "·", eol = "⮠" }
-    vim.opt.fillchars:append({ vert = "│", eob = " ", fold = " " })
+    vim.opt.fillchars:append({ horiz = "─", vert = "│", eob = " ", fold = " " })
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
     vim.opt.showmode = false
@@ -50,6 +50,7 @@ function M.setup()
     vim.opt.shortmess:append("c")
 
     -- Splits
+    vim.opt.laststatus = 3
     vim.opt.splitright = true
     vim.opt.splitbelow = true
 

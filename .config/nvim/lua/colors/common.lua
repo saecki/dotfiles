@@ -15,7 +15,7 @@ function M.highlights(pal)
         PmenuSBar       = {                  bg=pal.scrollbg,                },
         PmenuThumb      = {                  bg=pal.scrollfg,                },
         Visual          = {                  bg=pal.texthl1,                 },
-        VertSplit       = { fg=pal.text2,    bg="none",                      },
+        VertSplit       = { fg=pal.text3,    bg="none",                      },
         StatusLineNC    = { fg="none",       bg="none",                      },
 
         -- syntax
