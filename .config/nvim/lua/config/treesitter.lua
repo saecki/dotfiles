@@ -45,7 +45,7 @@ function M.setup()
     require("treesitter-context").setup({
         throttle = true,
         max_lines = 1,
-        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        patterns = {
             default = {
                 "class",
                 "function",

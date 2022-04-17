@@ -229,7 +229,7 @@ function M.setup()
             -- Treesitter
             use({
                 "nvim-treesitter/nvim-treesitter",
-                requires = { "romgrk/nvim-treesitter-context" },
+                requires = { "lewis6991/nvim-treesitter-context" },
                 run = function()
                     vim.cmd(":TSUpdate")
                 end,
