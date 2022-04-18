@@ -31,6 +31,7 @@ M.palette = {
     surface1   = "#d8d8d8",
     surface2   = "#e4e4e4",
     surface3   = "#f2f2f2",
+    surface4   = "#f6f6f6",
 
     scrollbg   = "#dadada",
     scrollfg   = "#a8a8a8",

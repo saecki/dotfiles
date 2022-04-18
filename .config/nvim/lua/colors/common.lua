@@ -9,9 +9,9 @@ function M.highlights(pal)
         LineNr          = { fg=pal.text3,                                    },
         CursorLineNr    = { fg=pal.text2,                       style="bold" },
         CursorColumn    = {                  bg=pal.texthl2,                 },
-        FloatBorder     = { fg=pal.surface3, bg=pal.bg,                      },
-        Pmenu           = { fg=pal.text2,    bg=pal.surface3,                },
-        PmenuSel        = { fg=pal.surface3, bg=pal.text3,      style="bold" },
+        FloatBorder     = { fg=pal.surface4, bg=pal.bg,                      },
+        Pmenu           = { fg=pal.text2,    bg=pal.surface4,                },
+        PmenuSel        = {                  bg=pal.surface2,   style="bold" },
         PmenuSBar       = {                  bg=pal.scrollbg,                },
         PmenuThumb      = {                  bg=pal.scrollfg,                },
         Visual          = {                  bg=pal.texthl1,                 },
@@ -41,6 +41,24 @@ function M.highlights(pal)
         TSProperty      = { fg=pal.lcyan,                       style="bold" },
         TSInclude       = { fg=pal.lyellow,                                  },
         TSNamespace     = { fg=pal.preproc,                                  },
+
+        -- cmp
+        CmpItemKindModule       = { fg=pal.preproc                  },
+        CmpItemKindClass        = { fg=pal.type                     },
+        CmpItemKindStruct       = { fg=pal.type                     },
+        CmpItemKindInterface    = { fg=pal.type                     },
+        CmpItemKindTypeParamter = { fg=pal.type                     },
+        CmpItemKindEnum         = { fg=pal.type                     },
+        CmpItemKindEnumMember   = { fg=pal.lpurple                  },
+        CmpItemKindConstant     = { fg=pal.lpurple                  },
+        CmpItemKindVariable     = { fg=pal.lblue                    },
+        CmpItemKindField        = { fg=pal.lblue                    },
+        CmpItemKindProperty     = { fg=pal.lblue                    },
+        CmpItemKindFunction     = { fg=pal.lcyan                    },
+        CmpItemKindMethod       = { fg=pal.lcyan                    },
+        CmpItemKindConstructor  = { fg=pal.lcyan                    },
+        CmpItemKindKeyword      = { fg=pal.lyellow                  },
+        CmpItemKindOperator     = { fg=pal.lyellow                  },
 
         -- git
         diffAdded       = {                  bg=pal.diff_a_bg,               },
@@ -76,20 +94,20 @@ function M.highlights(pal)
         NvimTreeGitNew     = { fg=pal.dgreen  },
 
         -- harpoon
-        HarpoonWindow = { link = "Pmenu" },
+        HarpoonWindow = { link = "Pmenu"       },
         HarpoonBorder = { link = "FloatBorder" },
 
         -- telescope
-        FloatTitle             = { fg=pal.text3, bg=pal.surface3,                      },
-        TelescopeResultsNormal = { link = "Pmenu" },
+        FloatTitle             = { fg=pal.text3, bg=pal.surface3 },
+        TelescopeResultsNormal = { link = "Pmenu"       },
         TelescopeResultsBorder = { link = "FloatBorder" },
-        TelescopeResultsTitle  = { link = "FloatTitle" },
-        TelescopePromptNormal  = { link = "Pmenu" },
+        TelescopeResultsTitle  = { link = "FloatTitle"  },
+        TelescopePromptNormal  = { link = "Pmenu"       },
         TelescopePromptBorder  = { link = "FloatBorder" },
-        TelescopePromptTitle   = { link = "FloatTitle" },
-        TelescopePreviewNormal = { link = "Pmenu" },
+        TelescopePromptTitle   = { link = "FloatTitle"  },
+        TelescopePreviewNormal = { link = "Pmenu"       },
         TelescopePreviewBorder = { link = "FloatBorder" },
-        TelescopePreviewTitle  = { link = "FloatTitle" },
+        TelescopePreviewTitle  = { link = "FloatTitle"  },
 
         -- which-key
         WhichKey = { fg = pal.special },
