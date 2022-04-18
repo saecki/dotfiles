@@ -2,6 +2,7 @@ local M = {
     namespace = vim.api.nvim_create_namespace("util.select"),
 }
 
+local util = require("util")
 local shared = require("shared")
 
 local calculate_popup_width = function(entries)
@@ -45,7 +46,7 @@ local function hide()
     M.buf = nil
 end
 
-function M.highlight()
+local function highlight()
     local row = vim.api.nvim_win_get_cursor(M.win)[1] - 1
     vim.api.nvim_buf_clear_namespace(M.buf, M.namespace, 0, -1)
     vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Underlined", row, 0, -1)
@@ -103,27 +104,32 @@ function M.select(items, opts, on_choice)
     M.win = vim.api.nvim_open_win(M.buf, false, win_opts)
 
     -- key mappings
-    local confirm_cmd = "<cmd>lua require('util.select').confirm()<cr>"
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", confirm_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", {
+        callback = util.wrap(M.confirm),
+        noremap = true,
+        silent = true,
+    })
     for i = 1, math.min(#formatted_items, 9) do
-        local confirm_index_cmd = string.format("<cmd>lua require('util.select').confirm(%s)<cr>", i)
-        vim.api.nvim_buf_set_keymap(M.buf, "n", tostring(i), confirm_index_cmd, { noremap = true, silent = true })
+        vim.api.nvim_buf_set_keymap(M.buf, "n", tostring(i), "", {
+            callback = util.wrap(M.confirm, i),
+            noremap = true,
+            silent = true,
+        })
     end
-    local cancel_cmd = "<cmd>lua require('util.select').cancel()<cr>"
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", "", { callback = M.cancel, noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.cancel, noremap = true, silent = true })
 
     -- highlight current line
     local group = vim.api.nvim_create_augroup("UtilSelectWindow", {})
     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
         group = group,
         buffer = M.buf,
-        callback = M.highlight,
+        callback = highlight,
     })
 
     -- focus window
     vim.api.nvim_set_current_win(M.win)
-    M.highlight()
+    highlight()
 
     vim.opt_local.number = true
     if #formatted_items < 10 then

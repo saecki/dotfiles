@@ -38,13 +38,11 @@ function M.input(text, insert, callback)
     M.win = vim.api.nvim_open_win(M.buf, false, opts)
 
     -- key mappings
-    local submit_cmd = "<cmd>lua require('util.input').submit()<cr>"
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", submit_cmd, { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(M.buf, "v", "<cr>", submit_cmd, { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(M.buf, "i", "<cr>", submit_cmd, { noremap = true, silent = true })
-    local cancel_cmd = "<cmd>lua require('util.input').hide()<cr>"
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", cancel_cmd, { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", cancel_cmd, { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "v", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "i", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", "", { callback = M.hide, noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.hide, noremap = true, silent = true })
 
     -- automatically resize
     local group = vim.api.nvim_create_augroup("UtilInputWindow", {})
