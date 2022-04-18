@@ -2,7 +2,6 @@ local M = {}
 
 local project = require("project_nvim")
 local telescope = require("telescope")
-local maps = require("util.maps")
 local wk = require("which-key")
 
 function M.setup()

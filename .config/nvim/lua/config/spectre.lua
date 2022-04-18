@@ -2,7 +2,6 @@ local M = {}
 
 local spectre = require("spectre")
 local wk = require("which-key")
-local maps = require("util.maps")
 
 function M.setup()
     spectre.setup({

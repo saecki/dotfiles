@@ -1,7 +1,7 @@
 local M = {}
 
-local maps = require("util.maps")
 local wk = require("which-key")
+local util = require("util")
 
 function M.setup()
     vim.g.nvim_tree_git_hl = 1
@@ -95,7 +95,7 @@ function M.setup()
 
     wk.register({
         ["<f6>"] = { nvim_tree.toggle, "Filetree toggle" },
-        ["<f18>"] = { maps.rhs(nvim_tree.toggle, true), "Filetree current file" },
+        ["<f18>"] = { util.wrap(nvim_tree.toggle, true), "Filetree current file" },
     })
 end
 

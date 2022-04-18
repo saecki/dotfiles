@@ -3,7 +3,7 @@ local M = {}
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local wk = require("which-key")
-local maps = require("util.maps")
+local util = require("util")
 
 local function find_files(no_ignore)
     local fd_cmd = { "fd", "--type", "f", "--exclude", ".git", "--hidden" }
@@ -65,8 +65,8 @@ function M.setup()
     })
 
     wk.register({
-        ["<a-p>"] = { maps.rhs(find_files, true), "Find ignored files" },
-        ["<c-p>"] = { maps.rhs(find_files, false), "Find files" },
+        ["<a-p>"] = { util.wrap(find_files, true), "Find ignored files" },
+        ["<c-p>"] = { util.wrap(find_files, false), "Find files" },
         ["<leader>"] = {
             ["f"] = {
                 name = "Find",
@@ -77,12 +77,12 @@ function M.setup()
                 ["m"] = { telescope_builtin.keymaps, "Key mappings" },
                 ["i"] = { telescope_builtin.highlights, "Highlight groups" },
                 ["g"] = { telescope_builtin.git_status, "Git status" },
-                ["d"] = { maps.rhs(telescope_builtin.diagnostics, { bufnr = 0 }), "Document diagnostics" },
+                ["d"] = { util.wrap(telescope_builtin.diagnostics, { bufnr = 0 }), "Document diagnostics" },
                 ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
                 ["s"] = { telescope_builtin.lsp_document_symbols, "LSP document symbols" },
                 ["S"] = { telescope_builtin.lsp_workspace_symbols, "LSP workspace symbols" },
                 ["w"] = {
-                    maps.rhs(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }),
+                    util.wrap(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }),
                     "Whitespace",
                 },
                 ["r"] = { telescope_builtin.resume, "Resume" },

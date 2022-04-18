@@ -18,4 +18,11 @@ function M.join_paths(...)
     return table.concat({ ... }, separator)
 end
 
+function M.wrap(fun, ...)
+    local args = { ... }
+    return function()
+        return fun(unpack(args))
+    end
+end
+
 return M
