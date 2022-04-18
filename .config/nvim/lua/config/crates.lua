@@ -8,7 +8,7 @@ function M.setup()
     crates.setup({
         popup = {
             border = shared.window.border,
-            version_date = true,
+            show_version_date = true,
         },
     })
 
