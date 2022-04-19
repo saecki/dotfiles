@@ -4,9 +4,8 @@ local wk_ok, wk = pcall(require, "which-key")
 local map = vim.api.nvim_set_keymap
 
 function M.setup()
-    -- make kitty aware that nvim can differentiate <tab> and <c-i> etc.
-    vim.cmd([[autocmd UIEnter * if v:event.chan ==# 0 | call chansend(v:stderr, "\x1b[>1u") | endif]])
-    vim.cmd([[autocmd UILeave * if v:event.chan ==# 0 | call chansend(v:stderr, "\x1b[<1u") | endif]])
+    -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.
+    map("", "<tab>", "<c-i>", {})
 
     if not wk_ok then
         vim.notify("which-key isn't installed", vim.log.levels.ERROR)
