@@ -6,7 +6,10 @@ local function prequire(name, setup)
     end
 
     if setup ~= false then
-        mod.setup()
+        local ok = pcall(mod.setup)
+        if not ok then
+            vim.notify("Failed to setup config module " .. name, vim.log.levels.ERROR)
+        end
     end
 
     return mod
