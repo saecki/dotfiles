@@ -1,10 +1,11 @@
 local M = {}
 
 local trouble = require("trouble")
+local todo_comments = require("todo-comments")
 local wk = require("which-key")
+local util = require("util")
 
 function M.setup()
-    -- stylua: ignore start
     trouble.setup({
         position = "right",
         width = 60,
@@ -18,12 +19,41 @@ function M.setup()
         signs = {
             other = "",
             error = "",
-            warning  = "",
-            information  = "",
-            hint  = "",
+            warning = "",
+            information = "",
+            hint = "",
         },
     })
-    -- stylua: ignore end
+    todo_comments.setup({
+        signs = false,
+        keywords = {
+            FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+            STOPSHIP = { icon = " ", color = "error" },
+            HACK = { icon = " ", color = "warning" },
+            WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+            TODO = { icon = " ", color = "info", alt = { "todo!" } },
+            PERF = { icon = " ", color = "info" },
+            NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        },
+        merge_keywords = true,
+        highlight = {
+            before = "",
+            keyword = "fg",
+            after = "",
+            pattern = [[.*<(KEYWORDS)]], -- pattern or table of patterns, used for highlightng (vim regex)
+            comments_only = true, -- uses treesitter to match keywords in comments only
+        },
+        colors = {
+            error = { "DiagnosticError" },
+            warning = { "DiagnosticWarn" },
+            info = { "Todo" },
+            hint = { "DiagnosticHint" },
+            default = { "Identifier", "#7C3AED" },
+        },
+        search = {
+            pattern = [[\b(KEYWORDS)]], -- ripgrep regex
+        },
+    })
 
     wk.register({
         ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
@@ -31,14 +61,15 @@ function M.setup()
         ["<f7>"] = { ":TroubleToggle<cr>", "Toggle List UI" },
         ["g"] = {
             name = "Go",
-            ["r"] = { ":Trouble lsp_references<cr>", "LSP references" },
-            ["i"] = { ":Trouble lsp_implementations<cr>", "LSP implementations" },
-            ["y"] = { ":Trouble lsp_type_definitions<cr>", "LSP type definitions" },
+            ["r"] = { util.wrap(trouble.open, "lsp_references"), "LSP references" },
+            ["i"] = { util.wrap(trouble.open, "lsp_implementations"), "LSP implementations" },
+            ["y"] = { util.wrap(trouble.open, "lsp_type_definitions"), "LSP type definitions" },
         },
         ["<leader>l"] = {
             name = "List",
-            ["d"] = { ":Trouble document_diagnostics<cr>", "Document diagnostics" },
-            ["D"] = { ":Trouble workspace_diagnostics<cr>", "Workspace diagnostics" },
+            ["d"] = { util.wrap(trouble.open, "document_diagnostics"), "Document diagnostics" },
+            ["D"] = { util.wrap(trouble.open, "workspace_diagnostics"), "Workspace diagnostics" },
+            ["t"] = { util.wrap(trouble.open, "todo"), "TODO comments" },
         },
     })
 end

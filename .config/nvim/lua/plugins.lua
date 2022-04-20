@@ -128,15 +128,9 @@ function M.setup()
             -- Lists
             use({
                 "folke/trouble.nvim",
+                requires = { "folke/todo-comments.nvim" },
                 config = function()
                     require("config.trouble").setup()
-                end,
-            })
-            use({
-                "folke/todo-comments.nvim",
-                after = { "trouble.nvim" },
-                config = function()
-                    require("config.todo-comments").setup()
                 end,
             })
 
