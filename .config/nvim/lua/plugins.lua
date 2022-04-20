@@ -143,7 +143,6 @@ function M.setup()
             })
             use({
                 "lewis6991/gitsigns.nvim",
-                requires = { "nvim-lua/plenary.nvim" },
                 config = function()
                     require("config.gitsigns").setup()
                 end,
