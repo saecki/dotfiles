@@ -144,6 +144,15 @@ function M.setup()
     -- Show documentation
     wk.register({
         ["K"] = { M.show_documentation, "Show documentation" },
+        ["<leader>i"] = {
+            name = "Lsp",
+            ["s"] = { ":LspStart<cr>", "Start" },
+            ["r"] = { ":LspRestart<cr>", "Restart" },
+            ["t"] = { ":LspStop<cr>", "Stop" },
+            ["i"] = { ":LspInfo<cr>", "Info" },
+            ["I"] = { lsp_installer.info_window.open, "Install Info" },
+            ["l"] = { ":LspInstallLog<cr>", "Install Log" },
+        },
     })
 end
 
