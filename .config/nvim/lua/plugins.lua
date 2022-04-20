@@ -176,15 +176,9 @@ function M.setup()
             -- Debugging
             use({
                 "mfussenegger/nvim-dap",
+                requires = { "rcarriga/nvim-dap-ui" },
                 config = function()
                     require("config.dap").setup()
-                end,
-            })
-            use({
-                "rcarriga/nvim-dap-ui",
-                after = { "nvim-dap" },
-                config = function()
-                    require("config.dap.ui").setup()
                 end,
             })
 
