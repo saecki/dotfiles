@@ -98,7 +98,7 @@ function M.highlights(pal)
         HarpoonBorder = { link = "FloatBorder" },
 
         -- telescope
-        FloatTitle             = { fg=pal.text3, bg=pal.surface3 },
+        FloatTitle             = { fg=pal.text3, bg=pal.surface4 },
         TelescopeResultsNormal = { link = "Pmenu"       },
         TelescopeResultsBorder = { link = "FloatBorder" },
         TelescopeResultsTitle  = { link = "FloatTitle"  },
