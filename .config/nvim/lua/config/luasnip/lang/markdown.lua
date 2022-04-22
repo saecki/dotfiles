@@ -12,7 +12,6 @@ local function bash(_, _, command)
     return res
 end
 
--- stylua: ignore start
 return {
     s("pwd", f(bash, {}, "pwd")),
     s("ls", f(bash, {}, "ls")),
@@ -35,4 +34,3 @@ return {
     s("lor", t("∨")),
     s("xor", t("⊻")),
 }
--- stylua: ignore end

@@ -18,11 +18,9 @@ function M.setup()
         name = "lldb",
     }
 
-    -- stylua: ignore start
-    vim.fn.sign_define("DapBreakpoint", { text="", texthl="DapBreakpoint", linehl="", numhl="" })
-    vim.fn.sign_define("DapLogPoint",   { text="", texthl="DapLogPoint", linehl="", numhl="" })
-    vim.fn.sign_define("DapStopped",    { text="", texthl="DapStopped", linehl="", numhl="" })
-    -- stylua: ignore end
+    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+    vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", linehl = "", numhl = "" })
+    vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "", numhl = "" })
 
     dap_ui.setup({
         icons = { expanded = "▾", collapsed = "▸" },

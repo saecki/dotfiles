@@ -3,7 +3,6 @@ local s = luasnip.snippet
 local t = luasnip.text_node
 local i = luasnip.insert_node
 
--- stylua: ignore start
 return {
     s("stateful_atom", {
         t({ "let bounds = find_bounds(reader, size)?;", "" }),
@@ -16,4 +15,3 @@ return {
         i(0),
     }),
 }
--- stylua: ignore end
