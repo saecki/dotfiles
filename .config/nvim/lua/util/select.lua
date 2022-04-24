@@ -57,17 +57,17 @@ function M.confirm(index)
     if index == nil then
         index = vim.api.nvim_win_get_cursor(M.win)[1]
     end
+    hide()
     if M.on_choice and M.items and M.items[index] then
         M.on_choice(M.items[index], index)
     end
-    hide()
 end
 
 function M.cancel()
+    hide()
     if M.on_choice then
         M.on_choice()
     end
-    hide()
 end
 
 function M.select(items, opts, on_choice)
