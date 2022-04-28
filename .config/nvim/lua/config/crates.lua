@@ -26,6 +26,9 @@ function M.setup()
             ["U"] = { crates.upgrade_crate, "Upgrade crate" },
             ["a"] = { crates.update_all_crates, "Update all crates" },
             ["A"] = { crates.upgrade_all_crates, "Upgrade all crates" },
+
+            ["D"] = { crates.open_docs_rs, "Open docs.rs" },
+            ["C"] = { crates.open_crates_io, "Open crates.io" },
         },
     })
     wk.register({
