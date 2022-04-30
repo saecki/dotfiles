@@ -10,6 +10,9 @@ function M.setup()
             border = shared.window.border,
             show_version_date = true,
         },
+        null_ls = {
+            enabled = true,
+        },
     })
 
     wk.register({
@@ -27,7 +30,9 @@ function M.setup()
             ["a"] = { crates.update_all_crates, "Update all crates" },
             ["A"] = { crates.upgrade_all_crates, "Upgrade all crates" },
 
-            ["D"] = { crates.open_docs_rs, "Open docs.rs" },
+            ["H"] = { crates.open_homepage, "Open homepage" },
+            ["R"] = { crates.open_repository, "Open repository" },
+            ["D"] = { crates.open_documentation, "Open documentation" },
             ["C"] = { crates.open_crates_io, "Open crates.io" },
         },
     })
