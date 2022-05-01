@@ -29,13 +29,12 @@ function M.setup()
         keywords = {
             FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
             STOPSHIP = { icon = " ", color = "error" },
-            HACK = { icon = " ", color = "warning" },
-            WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+            HACK = { icon = " ", color = "warning", alt = { "XXX" } },
             TODO = { icon = " ", color = "info", alt = { "todo!" } },
             PERF = { icon = " ", color = "info" },
             NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
         },
-        merge_keywords = true,
+        merge_keywords = false,
         highlight = {
             before = "",
             keyword = "fg",
