@@ -29,11 +29,13 @@ function M.setup()
         mode = "v",
     })
 
-    luasnip.snippets = {
-        lua = require("config.luasnip.lang.lua"),
-        markdown = require("config.luasnip.lang.markdown"),
-        rust = require("config.luasnip.lang.rust"),
-    }
+    local function add(lang)
+        luasnip.add_snippets(lang, require("config.luasnip.lang."..lang))
+    end
+    add("lua")
+    add("markdown")
+    add("rust")
+    add("tex")
 end
 
 return M
