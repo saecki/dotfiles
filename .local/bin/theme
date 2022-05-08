@@ -2,8 +2,8 @@
 
 SYSTEM_LIGHT_THEME="default"
 SYSTEM_DARK_THEME="prefer-dark"
-GTK_LIGHT_THEME="Adwaita"
-GTK_DARK_THEME="Adwaita-dark"
+GTK_LIGHT_THEME="adw-gtk3"
+GTK_DARK_THEME="adw-gtk3-dark"
 
 toggle() {
     case "$1" in
