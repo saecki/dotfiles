@@ -1,0 +1,18 @@
+[keybindings]
+esc = "back"
+q = "quit"
+s = "toggle-summary"
+w = "toggle-wrap"
+t = "toggle-backtrace"
+h = "job:clippy"
+
+Home = "scroll-to-top"
+End = "scroll-to-bottom"
+g = "scroll-to-top"
+shift-g = "scroll-to-bottom"
+Up = "scroll-lines(-1)"
+Down = "scroll-lines(1)"
+k = "scroll-lines(-1)"
+j = "scroll-lines(1)"
+ctrl-u = "scroll-pages(-1)"
+ctrl-d = "scroll-pages(1)"
