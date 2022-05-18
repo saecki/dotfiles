@@ -12,9 +12,9 @@ function M.setup()
         icons = false,
         fold_open = "",
         fold_closed = "",
-        auto_jump = {
-            "lsp_definitions",
-            "lsp_type_definitions",
+        auto_jump = { -- TODO: fix
+            -- "lsp_definitions",
+            -- "lsp_type_definitions",
         },
         signs = {
             other = "",
