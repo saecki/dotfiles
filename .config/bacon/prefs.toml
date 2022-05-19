@@ -4,7 +4,6 @@ q = "quit"
 s = "toggle-summary"
 w = "toggle-wrap"
 t = "toggle-backtrace"
-h = "job:clippy"
 
 Home = "scroll-to-top"
 End = "scroll-to-bottom"
