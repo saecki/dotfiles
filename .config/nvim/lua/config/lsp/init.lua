@@ -39,16 +39,12 @@ function M.on_attach(client, buf)
     -- Occurences
     if client.resolved_capabilities.document_highlight then
         local group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-            group = group,
-            buffer = buf,
-            callback = vim.lsp.buf.document_highlight,
-        })
         vim.api.nvim_create_autocmd("CursorMoved", {
             group = group,
             buffer = buf,
             callback = function()
                 vim.lsp.buf.clear_references()
+                vim.lsp.buf.document_highlight()
             end,
         })
     end
