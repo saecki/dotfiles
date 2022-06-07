@@ -43,7 +43,6 @@ function M.setup()
     })
 
     require("treesitter-context").setup({
-        throttle = true,
         max_lines = 1,
         patterns = {
             default = {
