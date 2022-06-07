@@ -4,6 +4,8 @@ local lsp_installer = require("nvim-lsp-installer")
 local wk = require("which-key")
 local shared = require("shared")
 
+local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
+
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem = {
@@ -43,7 +45,6 @@ function M.on_attach(client, buf)
             group = group,
             buffer = buf,
             callback = function()
-                vim.lsp.buf.clear_references()
                 vim.lsp.buf.document_highlight()
             end,
         })
@@ -131,6 +132,12 @@ function M.setup()
             severity_limit = "Warning",
         },
     })
+
+    -- Occurences
+    vim.lsp.handlers["textDocument/documentHighlight"] = function(...)
+        vim.lsp.buf.clear_references()
+        DOCUMENT_HIGHLIGHT_HANDLER(...)
+    end
 
     -- Documentation window border
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
