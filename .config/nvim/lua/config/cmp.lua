@@ -13,6 +13,12 @@ function M.setup()
                 zindex = 1001,
             },
         },
+        formatting = {
+            format = function(_, vim_item)
+                vim_item.kind = vim_item.kind:lower()
+                return vim_item
+            end,
+        },
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
