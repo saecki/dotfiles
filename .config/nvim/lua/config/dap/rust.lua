@@ -82,7 +82,7 @@ function M.mk_handler(fn)
     end
 end
 
-function M.debuggables()
+function M.debuggables(prompt)
     local pickers = require("telescope.pickers")
     local finders = require("telescope.finders")
     local sorters = require("telescope.sorters")
@@ -98,7 +98,7 @@ function M.debuggables()
 
                 actions.close(bufnr)
                 local args = results[choice].args
-                M.debug(args)
+                M.debug(args, prompt)
             end
 
             map("n", "<CR>", on_select)
@@ -143,10 +143,15 @@ local function get_cargo_args_from_runnables_args(runnable_args)
     return cargo_args
 end
 
-function M.debug(args)
+function M.debug(args, prompt)
     local cargo_args = get_cargo_args_from_runnables_args(args)
 
     vim.notify("Compiling a debug build for debugging. This might take some time...")
+
+    local cmd_args = {}
+    if prompt then
+        cmd_args = vim.split(vim.fn.input("args: "), " ")
+    end
 
     Job
         :new({
@@ -168,7 +173,7 @@ function M.debug(args)
                                 type = "lldb",
                                 request = "launch",
                                 program = json.executable,
-                                args = vim.split(vim.fn.input("args: "), " "),
+                                args = cmd_args,
                                 cwd = args.workspaceRoot,
                                 stopOnEntry = false,
                                 runInTerminal = false,

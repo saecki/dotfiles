@@ -3,11 +3,12 @@ local M = {}
 local dap = require("dap")
 local dap_ui = require("dapui")
 local wk = require("which-key")
+local util = require("util")
 
-function M.debuggables()
+function M.debuggables(prompt)
     local filetype = vim.bo.filetype
     if filetype == "rust" then
-        require("config.dap.rust").debuggables()
+        require("config.dap.rust").debuggables(prompt)
     end
 end
 
@@ -56,8 +57,9 @@ function M.setup()
         ["<f12>"] = { dap.step_out, "Debug step out" },
         ["<leader>d"] = {
             name = "Debug",
-            ["d"] = { M.debuggables, "Debug", silent = false },
-            ["D"] = { dap.run_last, "Rerun", silent = false },
+            ["d"] = { util.wrap(M.debuggables, false), "Debug", silent = false },
+            ["D"] = { util.wrap(M.debuggables, true), "Debug with args", silent = false },
+            ["R"] = { dap.run_last, "Rerun", silent = false },
             ["r"] = { dap.restart, "Restart", silent = false },
             ["q"] = { dap.close, "Close" },
             ["b"] = { dap.toggle_breakpoint, "Breakpoint" },
