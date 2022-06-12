@@ -43,7 +43,8 @@ function M.setup()
     })
 
     require("treesitter-context").setup({
-        max_lines = 1,
+        mode = "topline",
+        max_lines = 2,
         patterns = {
             default = {
                 "class",
