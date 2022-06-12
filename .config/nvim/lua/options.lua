@@ -9,7 +9,7 @@ function M.setup()
     -- Visuals
     vim.opt.signcolumn = "yes:2"
     vim.opt.number = true
-    vim.opt.relativenumber = true
+    --vim.opt.relativenumber = true
     vim.opt.linebreak = true
     vim.opt.showbreak = "⮡   "
     vim.opt.wrap = true
