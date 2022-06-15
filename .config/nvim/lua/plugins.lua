@@ -216,18 +216,16 @@ function M.setup()
             -- Treesitter
             use({
                 "nvim-treesitter/nvim-treesitter",
-                requires = { "nvim-treesitter/nvim-treesitter-context" },
+                requires = {
+                    { "nvim-treesitter/nvim-treesitter-context" },
+                    { "nvim-treesitter/playground" },
+                },
                 run = function()
                     vim.cmd(":TSUpdate")
                 end,
                 config = function()
                     require("config.treesitter").setup()
                 end,
-            })
-            use({
-                "nvim-treesitter/playground",
-                requires = { "nvim-treesitter" },
-                cmd = "TSPlaygroundToggle",
             })
 
             -- Markdown

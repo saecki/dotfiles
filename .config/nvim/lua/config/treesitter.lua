@@ -1,5 +1,7 @@
 local M = {}
 
+local wk = require("which-key")
+
 function M.setup()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -21,7 +23,7 @@ function M.setup()
             "html",
             "java",
             "json",
-            -- "kotlin",
+            "kotlin",
             "latex",
             "lua",
             "markdown",
@@ -40,18 +42,19 @@ function M.setup()
             enable = true,
             additional_vim_regex_highlighting = false,
         },
+        playground = {
+            enable = true,
+        },
     })
 
     require("treesitter-context").setup({
         mode = "topline",
+        truncate_side = "outer",
         max_lines = 2,
-        patterns = {
-            default = {
-                "class",
-                "function",
-                "method",
-            },
-        },
+    })
+
+    wk.register({
+        ["<leader>et"] = { ":TSPlaygroundToggle<cr>", "Treesitter playground" },
     })
 end
 
