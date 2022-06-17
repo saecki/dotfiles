@@ -217,7 +217,7 @@ function M.setup()
             use({
                 "nvim-treesitter/nvim-treesitter",
                 requires = {
-                    { "nvim-treesitter/nvim-treesitter-context" },
+                    { "saecki/nvim-treesitter-context", branch = "exact_queries" },
                     { "nvim-treesitter/playground" },
                 },
                 run = function()

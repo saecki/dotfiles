@@ -1,12 +1,15 @@
 local M = {}
 
+local ts_config = require("nvim-treesitter.configs")
+local ts_context = require("treesitter-context")
+local CATEGORY = ts_context.CATEGORY
 local wk = require("which-key")
 
 function M.setup()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-    require("nvim-treesitter.configs").setup({
+    ts_config.setup({
         ensure_installed = {
             "bash",
             "c",
@@ -47,10 +50,21 @@ function M.setup()
         },
     })
 
-    require("treesitter-context").setup({
+    ts_context.setup({
         mode = "topline",
         truncate_side = "outer",
         max_lines = 2,
+        categories = {
+            default = {
+                CATEGORY.CLASS,
+                CATEGORY.INTERFACE,
+                CATEGORY.STRUCT,
+                CATEGORY.ENUM,
+                CATEGORY.FUNCTION,
+                CATEGORY.METHOD,
+                CATEGORY.SECTION,
+            },
+        },
     })
 
     wk.register({
