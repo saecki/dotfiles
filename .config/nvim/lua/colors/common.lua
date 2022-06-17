@@ -61,13 +61,13 @@ function M.highlights(pal)
         CmpItemKindOperator     = { link = "Statement"  },
 
         -- git
-        diffAdded       = {                  bg=pal.diff_a_bg,               },
-        diffRemoved     = {                  bg=pal.diff_d_bg,               },
+        diffAdded       = {                   bg=pal.diff_a_bg,               },
+        diffRemoved     = {                   bg=pal.diff_d_bg,               },
 
-        DiffAdd         = {                  bg=pal.diff_a_bg,               },
-        DiffChange      = {                  bg=pal.diff_c_bg,               },
-        DiffDelete      = {                  bg=pal.diff_d_bg,               },
-        DiffText        = { fg=pal.text2,    bg=pal.diff_cd_bg, style="bold" },
+        DiffAdd         = {                   bg=pal.diff_a_bg,               },
+        DiffChange      = {                   bg=pal.diff_c_bg,               },
+        DiffDelete      = { fg=pal.diff_d_fg, bg=pal.diff_d_bg,               },
+        DiffText        = { fg=pal.text2,     bg=pal.diff_cd_bg, style="bold" },
 
         -- gitsigns
         GitSignsAdd       = { fg=pal.diff_a_fg  },
