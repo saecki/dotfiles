@@ -2,7 +2,7 @@ local M = {}
 
 local ts_config = require("nvim-treesitter.configs")
 local ts_context = require("treesitter-context")
-local CATEGORY = ts_context.CATEGORY
+local CATEGORY = ts_context.CATEGORY or {}
 local wk = require("which-key")
 
 function M.setup()
