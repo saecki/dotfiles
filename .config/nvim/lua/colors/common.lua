@@ -9,8 +9,8 @@ function M.highlights(pal)
         LineNr          = { fg=pal.text3,                                    },
         CursorLineNr    = { fg=pal.text2,                       style="bold" },
         CursorColumn    = {                  bg=pal.texthl2,                 },
-        FloatBorder     = { fg=pal.surface4, bg=pal.bg,                      },
-        Pmenu           = { fg=pal.text2,    bg=pal.surface4,                },
+        FloatBorder     = { fg=pal.surface3, bg=pal.bg,                      },
+        Pmenu           = { fg=pal.text2,    bg=pal.surface3,                },
         PmenuSel        = {                  bg=pal.surface2,   style="bold" },
         PmenuSBar       = {                  bg=pal.scrollbg,                },
         PmenuThumb      = {                  bg=pal.scrollfg,                },
@@ -98,7 +98,7 @@ function M.highlights(pal)
         HarpoonBorder = { link = "FloatBorder" },
 
         -- telescope
-        FloatTitle             = { fg=pal.text3, bg=pal.surface4 },
+        FloatTitle             = { fg=pal.text3, bg=pal.surface3 },
         TelescopeResultsNormal = { link = "Pmenu"       },
         TelescopeResultsBorder = { link = "FloatBorder" },
         TelescopeResultsTitle  = { link = "FloatTitle"  },
