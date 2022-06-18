@@ -4,9 +4,40 @@ local cmp = require("cmp")
 local luasnip = require("luasnip")
 local shared = require("shared")
 
+local kind_icons = {
+    ["Class"] = "🅒 ",
+    ["Interface"] = "🅘 ",
+    ["TypeParameter"] = "🅣 ",
+    ["Struct"] = "🅢",
+    ["Enum"] = "🅔 ",
+    ["Unit"] = "🅤 ",
+    ["EnumMember"] = "🅔 ",
+    ["Constant"] = "🅒 ",
+    ["Field"] = "🅕 ",
+    ["Property"] = " ",
+    ["Variable"] = "🅥 ",
+    ["Reference"] = "🅡 ",
+    ["Function"] = "🅕 ",
+    ["Method"] = "🅜 ",
+    ["Constructor"] = "🅒 ",
+    ["Module"] = "🅜 ",
+    ["File"] = "🅕 ",
+    ["Folder"] = "🅕 ",
+    ["Keyword"] = "🅚 ",
+    ["Operator"] = "🅞 ",
+    ["Snippet"] = "🅢 ",
+    ["Value"] = "🅥 ",
+    ["Color"] = "🅒 ",
+    ["Event"] = "🅔 ",
+    ["Text"] = "🅣 ",
+}
+
 function M.setup()
     cmp.setup({
         window = {
+            completion = {
+                col_offset = -3,
+            },
             documentation = {
                 border = shared.window.border,
                 winhighlight = "Pmenu:Pmenu,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
@@ -14,8 +45,10 @@ function M.setup()
             },
         },
         formatting = {
+            fields = { "kind", "abbr", "menu" },
             format = function(_, vim_item)
-                vim_item.kind = vim_item.kind:lower()
+                vim_item.menu = vim_item.kind
+                vim_item.kind = kind_icons[vim_item.kind] or "  "
                 return vim_item
             end,
         },
