@@ -21,8 +21,8 @@ M.palette = {
     lpurple    = "#8f3f71",
     lcyan      = "#427b58",
 
-    texthl1    = "#e8e8e8",
-    texthl2    = "#d7d7ff",
+    texthl1    = "#d4d4d4",
+    texthl2    = "#f2eaff",
 
     invtext    = "#dedede",
     text2      = "#585858",
