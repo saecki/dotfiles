@@ -1,3 +1,3 @@
-minedark: "~/.config/alacritty/colors/minedark.yml"
-minelight: "~/.config/alacritty/colors/minelight.yml"
+dark: "~/.config/alacritty/colors/minedark.yml"
+light: "~/.config/alacritty/colors/minelight.yml"
 else: "~/.config/alacritty/colors/minedark.yml"

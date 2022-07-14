@@ -1,3 +1,3 @@
-minedark: "gruvburn-dark"
-minelight: "gruvburn-light"
+dark: "gruvburn-dark"
+light: "gruvburn-light"
 else: "gruvburn-dark"

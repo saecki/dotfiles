@@ -19,9 +19,9 @@ end
 
 local dir = vim.env.HOME .. "/.config/alco/alco.yml"
 local current = read_current_colorscheme(dir)
-if current == "minedark" then
+if current == "dark" then
     return require("colors.minedark")
-elseif current == "minelight" then
+elseif current == "light" then
     return require("colors.minelight")
 else
     return require("colors.minedark")
