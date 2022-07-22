@@ -16,13 +16,13 @@ toggle() {
 dark() {
     gsettings set org.gnome.desktop.interface color-scheme "'$SYSTEM_DARK_THEME'"
     gsettings set org.gnome.desktop.interface gtk-theme "'$GTK_DARK_THEME'"
-    alco -a apply minedark&
+    alco -a apply dark
 }
 
 light() {
     gsettings set org.gnome.desktop.interface color-scheme "'$SYSTEM_LIGHT_THEME'"
     gsettings set org.gnome.desktop.interface gtk-theme "'$GTK_LIGHT_THEME'"
-    alco -a apply minelight&
+    alco -a apply light
 }
 
 current=$(gsettings get org.gnome.desktop.interface color-scheme)
