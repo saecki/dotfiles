@@ -88,6 +88,16 @@ function M.setup()
             vim.api.nvim_win_set_width(0, 90)
         end,
     })
+
+    -- Git commit spell checking
+    local group = vim.api.nvim_create_augroup("GitCommitSpellChecking", {})
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "gitcommit",
+        group = group,
+        callback = function()
+            vim.opt_local.spell = true
+        end,
+    })
 end
 
 return M
