@@ -72,10 +72,8 @@
                 <string>meta.parameters, variable.parameter</string>
                 <key>settings</key>
                 <dict>
-                    <key>fontStyle</key>
-                    <string>bold</string>
                     <key>foreground</key>
-                    <string>#7aba63</string>
+                    <string>#427b58</string>
                 </dict>
             </dict>
             <dict>
@@ -85,10 +83,8 @@
                 <string>variable.parameter.function</string>
                 <key>settings</key>
                 <dict>
-                    <key>fontStyle</key>
-                    <string>bold</string>
                     <key>foreground</key>
-                    <string>#7aba63</string>
+                    <string>#427b58</string>
                 </dict>
             </dict>
             <dict>
