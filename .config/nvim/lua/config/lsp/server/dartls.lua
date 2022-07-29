@@ -27,7 +27,7 @@ local function closing_labels_handler(err, result, ctx)
 end
 
 function M.setup(server, on_init, on_attach, capabilities)
-    server:setup({
+    server.setup({
         on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,

@@ -1,6 +1,8 @@
 local M = {}
 
-local lsp_installer = require("nvim-lsp-installer")
+local lsp_config = require("lspconfig")
+local mason = require("mason")
+local mason_ui = require("mason.ui")
 local wk = require("which-key")
 local shared = require("shared")
 
@@ -110,19 +112,27 @@ function M.setup()
     -- Client capabilities
     local capabilities = M.get_capabilities()
 
-    -- Installer and server config
-    lsp_installer.on_server_ready(function(server)
-        local success, server_config = pcall(require, "config.lsp.server." .. server.name)
-        if success then
-            server_config.setup(server, M.on_init, M.on_attach, capabilities)
-        else
-            server:setup({
-                on_init = M.on_init,
-                on_attach = M.on_attach,
-                capabilities = capabilities,
-            })
-        end
-    end)
+    -- Setup servers
+    local servers = {
+        "arduino_language_server",
+        "clangd",
+        "dartls",
+        "rust_analyzer",
+        "sqls",
+        "sumneko_lua",
+        "texlab",
+    }
+    for _,s in ipairs(servers) do
+        local server = require("config.lsp.server." .. s)
+        server.setup(lsp_config[s], M.on_init, M.on_attach, capabilities)
+    end
+
+    -- Setup servers
+    mason.setup({
+        ui = {
+            border = shared.border,
+        },
+    })
 
     -- Diagnostics
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -153,7 +163,7 @@ function M.setup()
             ["r"] = { ":LspRestart<cr>", "Restart" },
             ["t"] = { ":LspStop<cr>", "Stop" },
             ["i"] = { ":LspInfo<cr>", "Info" },
-            ["I"] = { lsp_installer.info_window.open, "Install Info" },
+            ["I"] = { mason_ui.open, "Install Info" },
             ["l"] = { ":LspInstallLog<cr>", "Install Log" },
         },
     })

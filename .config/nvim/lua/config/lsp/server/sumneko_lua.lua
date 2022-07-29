@@ -7,7 +7,7 @@ function M.setup(server, on_init, on_attach, capabilities)
     table.insert(runtime_path, util.join_paths("lua", "?.lua"))
     table.insert(runtime_path, util.join_paths("lua", "?", "init.lua"))
 
-    server:setup({
+    server.setup({
         on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,

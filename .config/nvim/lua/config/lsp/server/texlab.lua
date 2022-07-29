@@ -14,7 +14,7 @@ function M.setup(server, on_init, on_attach, capabilities)
         })
     end
 
-    server:setup({
+    server.setup({
         on_init = on_init,
         on_attach = m_on_attach,
         capabilities = capabilities,

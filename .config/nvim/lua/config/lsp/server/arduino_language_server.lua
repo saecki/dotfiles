@@ -14,7 +14,7 @@ function M.setup(server, on_init, on_attach, capabilities)
         config.cmd = vim.list_extend(partial_cmd, { "-fqbn", fqbn })
     end
 
-    server:setup({
+    server.setup({
         on_init = on_init,
         on_attach = on_attach,
         on_new_config = on_new_config,
