@@ -124,10 +124,10 @@ function M.highlights(pal)
         InlineDiagnosticTextHint   = { fg=pal.lblue,   bg=pal.lblue_bg   },
         InlineDiagnosticTextInfo   = { fg=pal.lblue,   bg=pal.lblue_bg   },
 
-        DiagnosticVirtualTextError = { fg=pal.lred,    bg=pal.lred_bg    },
-        DiagnosticVirtualTextWarn  = { fg=pal.lyellow, bg=pal.lyellow_bg },
-        DiagnosticVirtualTextHint  = { fg=pal.lblue,   bg=pal.lblue_bg   },
-        DiagnosticVirtualTextInfo  = { fg=pal.lblue,   bg=pal.lblue_bg   },
+        DiagnosticVirtualTextError = { fg=pal.lred,                      },
+        DiagnosticVirtualTextWarn  = { fg=pal.lyellow,                   },
+        DiagnosticVirtualTextHint  = { fg=pal.lblue,                     },
+        DiagnosticVirtualTextInfo  = { fg=pal.lblue,                     },
 
         DiagnosticSignError        = { fg=pal.lred,    style="bold"      },
         DiagnosticSignWarn         = { fg=pal.lyellow, style="bold"      },
