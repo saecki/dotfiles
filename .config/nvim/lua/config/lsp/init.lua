@@ -41,7 +41,7 @@ end
 
 function M.on_attach(client, buf)
     -- Occurences
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
         local group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
         vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
             group = group,
