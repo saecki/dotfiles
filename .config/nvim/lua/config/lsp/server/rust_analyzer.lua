@@ -1,3 +1,4 @@
+-- TODO: fix inlay hints
 local M = {}
 
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer")

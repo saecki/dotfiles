@@ -55,7 +55,7 @@ function M.on_attach(client, buf)
     wk.register({
         ["<C-LeftMouse>"] = { "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>", "LSP definition" },
 
-        ["<c-a-l>"] = { vim.lsp.buf.formatting, "Formating" },
+        ["<c-a-l>"] = { vim.lsp.buf.format, "Formating" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
