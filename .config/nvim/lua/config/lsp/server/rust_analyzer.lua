@@ -1,6 +1,11 @@
 -- TODO: fix inlay hints
 local M = {}
 
+local KIND = {
+    OTHER = 1,
+    PARAM_HINTS = 2,
+}
+
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer")
 
 local function inlay_hints_handler(err, result, ctx)
@@ -12,13 +17,14 @@ local function inlay_hints_handler(err, result, ctx)
 
     local prefix = " "
     local highlight = "NonText"
-    local enabled = { "TypeHint", "ChainingHint" }
     local hints = {}
     for _, item in ipairs(result) do
-        if vim.tbl_contains(enabled, item.kind) then
-            local line = tonumber(item.range["end"].line)
+        if item.kind == KIND.OTHER then
+            local line = tonumber(item.position.line)
             hints[line] = hints[line] or {}
-            table.insert(hints[line], prefix .. item.label)
+
+            local text = item.label:gsub(": ", "")
+            table.insert(hints[line], prefix .. text)
         end
     end
 
@@ -32,9 +38,26 @@ local function inlay_hints_handler(err, result, ctx)
     end
 end
 
-function M.inlay_hints()
-    local params = { textDocument = vim.lsp.util.make_text_document_params() }
-    vim.lsp.buf_request(0, "rust-analyzer/inlayHints", params, inlay_hints_handler)
+local function inlay_hints()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local line_count = vim.api.nvim_buf_line_count(bufnr) - 1
+    local last_line = vim.api.nvim_buf_get_lines(bufnr, line_count, line_count + 1, true)
+
+    local params = {
+        textDocument = vim.lsp.util.make_text_document_params(bufnr),
+        range = {
+            start = {
+                line = 0,
+                character = 0,
+            },
+            ["end"] = {
+                line = line_count,
+                character = #last_line[1],
+            },
+        },
+    }
+
+    vim.lsp.buf_request(0, "textDocument/inlayHint", params, inlay_hints_handler)
 end
 
 function M.setup(server, on_init, on_attach, capabilities)
@@ -48,7 +71,7 @@ function M.setup(server, on_init, on_attach, capabilities)
             end
 
             if result.value and result.value.kind == "end" then
-                M.inlay_hints()
+                inlay_hints()
             end
         end
 
@@ -58,11 +81,11 @@ function M.setup(server, on_init, on_attach, capabilities)
             {
                 group = group,
                 buffer = buf,
-                callback = M.inlay_hints,
+                callback = inlay_hints,
             }
         )
 
-        M.inlay_hints()
+        inlay_hints()
     end
 
     server.setup({
@@ -80,11 +103,6 @@ function M.setup(server, on_init, on_attach, capabilities)
                     maxLength = 40,
                 },
             },
-        },
-        handlers = {
-            ["textDocument/publishClosingLabels"] = function()
-                M.inlay_hints()
-            end,
         },
     })
 end
