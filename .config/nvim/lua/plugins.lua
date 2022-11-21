@@ -252,13 +252,6 @@ function M.setup()
 
             -- Rust
             use({
-                "rust-lang/rust.vim",
-                ft = { "rust" },
-                config = function()
-                    require("config.lang.rust").setup()
-                end,
-            })
-            use({
                 "~/Projects/crates.nvim",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
