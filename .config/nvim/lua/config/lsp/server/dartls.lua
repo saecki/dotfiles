@@ -9,19 +9,24 @@ local function closing_labels_handler(err, result, ctx)
         return
     end
 
-    local bufnr = ctx.bufnr or 0
+    local bufnr = vim.uri_to_bufnr(result.uri)
+    if not bufnr then
+        return
+    end
 
     vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
 
     local prefix = "// "
     local highlight = "NonText"
     for _, item in ipairs(result.labels) do
-        local line = item.range["end"].line
-        vim.api.nvim_buf_set_extmark(bufnr, namespace, tonumber(line), -1, {
-            virt_text = { {
-                prefix .. item.label,
-                highlight,
-            } },
+        local line = tonumber(item.range["end"].line)
+        vim.api.nvim_buf_set_extmark(bufnr, namespace, line, -1, {
+            virt_text = {
+                {
+                    prefix .. item.label,
+                    highlight,
+                },
+            },
             virt_text_pos = "eol",
             hl_mode = "combine",
         })
