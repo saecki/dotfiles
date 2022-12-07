@@ -19,7 +19,7 @@ function M.setup()
 
     wk.register({
         ["<f1>"] = { "<esc>" },
-        ["S"] = { ":nohlsearch<cr>", "Stop searching" },
+        ["<c-h>"] = { ":nohlsearch<cr>", "Stop searching" },
         ["<c-left>"] = { ":vertical resize -5<cr>", "Decrease width" },
         ["<c-right>"] = { ":vertical resize +5<cr>", "Increase width" },
         ["<c-up>"] = { ":resize -5<cr>", "Decrease height" },
