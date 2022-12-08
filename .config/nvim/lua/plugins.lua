@@ -91,7 +91,7 @@ function M.setup()
                 "nvim-telescope/telescope.nvim",
                 requires = {
                     { "nvim-lua/plenary.nvim" },
-                    { "kyazdani42/nvim-web-devicons" },
+                    { "nvim-tree/nvim-web-devicons" },
                 },
                 config = function()
                     require("config.telescope").setup()
@@ -258,9 +258,6 @@ function M.setup()
                     require("config.crates").setup()
                 end,
             })
-
-            -- Kotlin
-            use("udalov/kotlin-vim")
 
             -- Lua/Teal
             use({
