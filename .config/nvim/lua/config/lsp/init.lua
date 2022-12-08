@@ -1,6 +1,6 @@
 local M = {}
 
-local lsp_config = require("lspconfig")
+local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
@@ -113,6 +113,8 @@ function M.setup()
     local capabilities = M.get_capabilities()
 
     -- Setup servers
+    lspconfig.util.default_config.autostart = false
+
     local servers = {
         "arduino_language_server",
         "clangd",
@@ -124,10 +126,10 @@ function M.setup()
     }
     for _,s in ipairs(servers) do
         local server = require("config.lsp.server." .. s)
-        server.setup(lsp_config[s], M.on_init, M.on_attach, capabilities)
+        server.setup(lspconfig[s], M.on_init, M.on_attach, capabilities)
     end
 
-    -- Setup servers
+    -- Setup lsp installer
     mason.setup({
         ui = {
             border = shared.border,
@@ -154,7 +156,7 @@ function M.setup()
         border = shared.window.border,
     })
 
-    -- Show documentation
+    -- Keymappings
     wk.register({
         ["K"] = { M.show_documentation, "Show documentation" },
         ["<leader>i"] = {
