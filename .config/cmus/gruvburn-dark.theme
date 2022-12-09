@@ -21,8 +21,8 @@ set color_info=lightgreen
 set color_separator=0
 
 # Color of window titles (topmost line of the screen).
-set color_win_title_bg=61
-set color_win_title_fg=0
+set color_win_title_bg=0
+set color_win_title_fg=61
 
 # Color of the line displaying currently playing track.
 set color_titleline_bg=0
@@ -31,7 +31,6 @@ set color_titleline_fg=15
 # Status line color.
 set color_statusline_bg=239
 set color_statusline_fg=11
-
 
 # Color of currently playing track.
 set color_win_cur=11
