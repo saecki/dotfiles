@@ -1,21 +1,20 @@
 local M = {}
 
 local wk_ok, wk = pcall(require, "which-key")
-local map = vim.api.nvim_set_keymap
 
 function M.setup()
     -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.
-    map("", "<tab>", "<c-i>", {})
+    -- vim.keymap.set("", "<tab>", "<c-i>", {})
 
     if not wk_ok then
         vim.notify("which-key isn't installed", vim.log.levels.ERROR)
         return
     end
 
-    map("", "j", "gj", { noremap = true })
-    map("", "gj", "j", { noremap = true })
-    map("", "k", "gk", { noremap = true })
-    map("", "gk", "k", { noremap = true })
+    vim.keymap.set("", "j", "gj")
+    vim.keymap.set("", "gj", "j")
+    vim.keymap.set("", "k", "gk")
+    vim.keymap.set("", "gk", "k")
 
     wk.register({
         ["<f1>"] = { "<esc>" },
@@ -44,9 +43,13 @@ function M.setup()
 
     wk.register({
         ["<c-c>"] = { '"+y', "Copy to system clipboard" },
+        ["J"] = { ":m '>+1<CR>gv=gv", "Move selection down" },
+        ["K"] = { ":m '<-2<CR>gv=gv", "Move selection up" },
     }, {
         mode = "v",
     })
+
+    vim.keymap.set("x", "<leader>p", '"_dP')
 end
 
 return M
