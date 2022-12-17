@@ -5,7 +5,7 @@ local fidget = require("fidget")
 function M.setup()
     fidget.setup({
         text = {
-            spinner = "dots_negative",
+            spinner = "dots",
             done = "",
             commenced = "",
             completed = "",
