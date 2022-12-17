@@ -5,32 +5,15 @@ local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
 local shared = require("shared")
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem = {
-        snippetSupport = true,
-        preselectSupport = true,
-        insertReplaceSupport = true,
-        labelDetailsSupport = true,
-        deprecatedSupport = true,
-        commitCharactersSupport = true,
-        tagSupport = {
-            valueSet = { 1 },
-        },
-        resolveSupport = {
-            properties = {
-                "documentation",
-                "detail",
-                "additionalTextEdits",
-            },
-        },
-    }
-    capabilities.window = {
-        workDoneProgress = true,
-    }
+    local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
+    local fidget_capabilities = { capabilities = { window = { workDoneProgress = true } } }
+    capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities, fidget_capabilities)
     return capabilities
 end
 
@@ -124,7 +107,7 @@ function M.setup()
         "sumneko_lua",
         "texlab",
     }
-    for _,s in ipairs(servers) do
+    for _, s in ipairs(servers) do
         local server = require("config.lsp.server." .. s)
         server.setup(lspconfig[s], M.on_init, M.on_attach, capabilities)
     end

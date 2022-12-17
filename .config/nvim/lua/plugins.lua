@@ -154,6 +154,7 @@ function M.setup()
                 requires = {
                     { "williamboman/mason.nvim" },
                     { "nanotee/sqls.nvim" },
+                    { "hrsh7th/cmp-nvim-lsp" },
                 },
                 config = function()
                     require("config.lsp").setup()
