@@ -29,7 +29,7 @@ function M.setup()
             ["e"] = {
                 name = "Toggle (enable)",
                 ["l"] = { ":set list!<cr>", "Listchars" },
-                ["s"] = { ":set spell!<cr>", "Spelling" },
+                ["s"] = { ":set spell!<cr>", "Spellchecking" },
             },
         },
     })
