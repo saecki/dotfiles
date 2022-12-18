@@ -8,6 +8,7 @@ local shared = require("shared")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
+local document_highlight = true
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -30,7 +31,9 @@ function M.on_attach(client, buf)
             group = group,
             buffer = buf,
             callback = function()
-                vim.lsp.buf.document_highlight()
+                if document_highlight then
+                    vim.lsp.buf.document_highlight()
+                end
             end,
         })
     end
@@ -47,6 +50,17 @@ function M.on_attach(client, buf)
         },
         ["<leader>"] = {
             ["a"] = { vim.lsp.buf.code_action, "Code action" },
+            ["eh"] = {
+                function()
+                    document_highlight = not document_highlight
+                    if not document_highlight then
+                        vim.lsp.buf.clear_references()
+                    else
+                        vim.lsp.buf.document_highlight()
+                    end
+                end,
+                "Document highlight",
+            },
             ["r"] = {
                 function()
                     require("util.input").input(nil, false, function(new_name)
