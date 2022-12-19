@@ -101,8 +101,8 @@ function M.debuggables(prompt)
                 M.debug(args, prompt)
             end
 
-            map("n", "<CR>", on_select)
-            map("i", "<CR>", on_select)
+            map("n", "<cr>", on_select)
+            map("i", "<cr>", on_select)
 
             -- Additional mappings don't push the item to the tagstack.
             return true

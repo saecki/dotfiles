@@ -57,7 +57,6 @@ function M.setup()
     wk.register({
         ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
 
-        ["<f7>"] = { ":TroubleToggle<cr>", "Toggle List UI" },
         ["g"] = {
             name = "Go",
             ["r"] = { util.wrap(trouble.open, "lsp_references"), "LSP references" },
@@ -66,6 +65,7 @@ function M.setup()
         },
         ["<leader>l"] = {
             name = "List",
+            ["e"] = { ":TroubleToggle<cr>", "Toggle UI" },
             ["d"] = { util.wrap(trouble.open, "document_diagnostics"), "Document diagnostics" },
             ["D"] = { util.wrap(trouble.open, "workspace_diagnostics"), "Workspace diagnostics" },
             ["t"] = { util.wrap(trouble.open, "todo"), "TODO comments" },

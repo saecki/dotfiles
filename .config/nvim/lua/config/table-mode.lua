@@ -7,7 +7,7 @@ function M.setup()
     wk.register({
         ["<leader>t"] = {
             name = "Tablemode",
-            ["m"] = { nil, "Toggle" },
+            ["e"] = { nil, "Toggle" },
             ["t"] = { nil, "Tableize" },
             ["r"] = { nil, "Realign" },
             ["s"] = { nil, "Sort" },

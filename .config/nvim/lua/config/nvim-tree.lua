@@ -55,7 +55,7 @@ function M.setup()
             mappings = {
                 list = {
                     { key = { "<cr>", "o", "<2-leftmouse>" },   action = "edit" },
-                    { key = { "<2-rightmouse>", "<C-]>", "$" }, action = "cd" },
+                    { key = { "<2-rightmouse>", "<c-]>", "$" }, action = "cd" },
                     { key = "<c-v>",                            action = "vsplit" },
                     { key = "<c-x>",                            action = "split" },
                     { key = "<c-t>",                            action = "tabnew" },
@@ -93,8 +93,8 @@ function M.setup()
     -- stylua: ignore end
 
     wk.register({
-        ["<f6>"] = { nvim_tree.toggle, "Filetree toggle" },
-        ["<f18>"] = { util.wrap(nvim_tree.toggle, true), "Filetree current file" },
+        ["<leader>x"] = { nvim_tree.toggle, "Filetree toggle" },
+        ["<leader>X"] = { util.wrap(nvim_tree.toggle, true), "Filetree current file" },
     })
 end
 

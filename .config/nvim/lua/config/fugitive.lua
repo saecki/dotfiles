@@ -19,7 +19,7 @@ function M.setup()
     wk.register({
         ["<leader>g"] = {
             name = "Git",
-            ["d"] = { toggle_diff, "Toggle 3 way diff" },
+            ["d"] = { toggle_diff, "Toggle diff" },
             ["h"] = { ":diffget //2<cr>", "Get left diff" },
             ["l"] = { ":diffget //3<cr>", "Get right diff" },
         },

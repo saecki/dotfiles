@@ -52,13 +52,13 @@ function M.setup()
     })
 
     wk.register({
-        ["<F8>"] = { dap_ui.toggle, "Debug UI toggle" },
         ["<f9>"] = { dap.continue, "Debug continue" },
         ["<f10>"] = { dap.step_over, "Debug step over" },
         ["<f11>"] = { dap.step_into, "Debug step into" },
         ["<f12>"] = { dap.step_out, "Debug step out" },
         ["<leader>d"] = {
             name = "Debug",
+            ["e"] = { dap_ui.toggle, "Toggle UI" },
             ["d"] = { util.wrap(M.debuggables, false), "Debug", silent = false },
             ["D"] = { util.wrap(M.debuggables, true), "Debug with args", silent = false },
             ["R"] = { dap.run_last, "Rerun", silent = false },
