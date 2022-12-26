@@ -26,7 +26,9 @@ M.palette = {
     lblue_bg   = "#222a27",
 
     texthl1    = "#585858",
-    texthl2    = "#343052",
+    ref_text   = "#343052",
+    ref_write  = "#284034",
+    ref_read   = "#42321a",
 
     invtext    = "#000000",
     text2      = "#ebdbb2",
