@@ -18,14 +18,18 @@ return {
     s("accessor", {
         t({ "pub fn " }),
         i(1, { "ident" }),
-        t({ "(&self) -> f64 {", "" }),
+        t({ "(&self) -> " }),
+        i(2, { "type" }),
+        t({ " {", "" }),
         t({ "\tself." }),
-        f(
-            function(args) return args[1][1] end,
-            {1}
-        ),
-        t({ " as f64", "" }),
-        t({ "}" }),
+        f(function(args)
+            return args[1][1]
+        end, { 1 }),
+        t({ " as " }),
+        f(function(args)
+            return args[1][1]
+        end, { 2 }),
+        t({ "", "}" }),
         i(0),
     }),
 }
