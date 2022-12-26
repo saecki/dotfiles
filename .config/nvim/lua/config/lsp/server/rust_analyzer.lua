@@ -23,7 +23,14 @@ local function inlay_hints_handler(err, result, ctx)
             local line = tonumber(item.position.line)
             hints[line] = hints[line] or {}
 
-            local text = item.label:gsub(": ", "")
+            local text = ""
+            if type(item.label) == "table" then
+                local labels = vim.tbl_map(function(i) return i.value end, item.label)
+                text = table.concat(labels)
+            else -- string
+                text = item.label
+            end
+            local text = text:gsub(": ", "")
             table.insert(hints[line], prefix .. text)
         end
     end
