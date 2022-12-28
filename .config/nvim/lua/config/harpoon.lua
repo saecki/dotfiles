@@ -15,13 +15,13 @@ function M.setup()
     })
 
     wk.register({
-        ["<c-j>"] = { util.wrap(harpoon_ui.nav_file, 1), "Harpoon file 1" },
-        ["<c-k>"] = { util.wrap(harpoon_ui.nav_file, 2), "Harpoon file 2" },
-        ["<c-l>"] = { util.wrap(harpoon_ui.nav_file, 3), "Harpoon file 3" },
+        ["<c-h>"] = { util.wrap(harpoon_ui.nav_file, 1), "Harpoon file 1" },
+        ["<c-j>"] = { util.wrap(harpoon_ui.nav_file, 2), "Harpoon file 2" },
+        ["<c-k>"] = { util.wrap(harpoon_ui.nav_file, 3), "Harpoon file 3" },
         ["<leader>h"] = {
             name = "Harpoon",
             ["a"] = { harpoon_mark.add_file, "Add file" },
-            ["s"] = { harpoon_ui.toggle_quick_menu, "Show" },
+            ["e"] = { harpoon_ui.toggle_quick_menu, "Toggle UI" },
         },
     })
 end
