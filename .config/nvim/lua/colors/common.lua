@@ -69,7 +69,7 @@ function M.highlights(pal)
 
         DiffAdd         = {                   bg=pal.diff_a_bg,               },
         DiffChange      = {                   bg=pal.diff_c_bg,               },
-        DiffDelete      = { fg=pal.diff_d_fg, bg=pal.diff_d_bg,               },
+        DiffDelete      = { fg=pal.text2,     bg=pal.diff_d_bg,               },
         DiffText        = { fg=pal.text2,     bg=pal.diff_cd_bg, style="bold" },
 
         -- gitsigns
