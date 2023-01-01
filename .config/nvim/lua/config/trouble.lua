@@ -47,7 +47,7 @@ function M.setup()
             warning = { "DiagnosticWarn" },
             info = { "Todo" },
             hint = { "DiagnosticHint" },
-            default = { "Identifier", "#7C3AED" },
+            default = { "PreProc" },
         },
         search = {
             pattern = [[\b(KEYWORDS)]], -- ripgrep regex
