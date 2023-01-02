@@ -1,159 +1,159 @@
 local M = {}
 
-function M.highlights(pal)
+function M.highlights(p)
     -- stylua: ignore start
     return {
         -- editor
-        Normal          = { fg=pal.fg,       bg=pal.bg,                      },
-        SignColumn      = {                  bg="none",                      },
-        LineNr          = { fg=pal.text3,                                    },
-        CursorLineNr    = { fg=pal.text2,                       style="bold" },
-        CursorLine      = {                  bg=pal.ref_text,                },
-        CursorColumn    = {                  bg=pal.ref_text,                },
-        FloatBorder     = { fg=pal.surface3, bg=pal.bg,                      },
-        Pmenu           = { fg=pal.text2,    bg=pal.surface3,                },
-        PmenuSel        = {                  bg=pal.surface2,   style="bold" },
-        PmenuSBar       = {                  bg=pal.scrollbg,                },
-        PmenuThumb      = {                  bg=pal.scrollfg,                },
-        Visual          = {                  bg=pal.texthl1,                 },
-        VertSplit       = { fg=pal.text3,    bg="none",                      },
-        StatusLineNC    = { fg="none",       bg="none",                      },
+        Normal          = { fg = p.fg,       bg = p.bg,                      },
+        SignColumn      = {                  bg = "none",                    },
+        LineNr          = { fg = p.text3,                                    },
+        CursorLineNr    = { fg = p.text2,                       bold = true  },
+        CursorLine      = {                  bg = p.ref_text,                },
+        CursorColumn    = {                  bg = p.ref_text,                },
+        FloatBorder     = { fg = p.surface3, bg = p.bg,                      },
+        Pmenu           = { fg = p.text2,    bg = p.surface3,                },
+        PmenuSel        = {                  bg = p.surface2,   bold = true  },
+        PmenuSBar       = {                  bg = p.scrollbg,                },
+        PmenuThumb      = {                  bg = p.scrollfg,                },
+        Visual          = {                  bg = p.texthl1,                 },
+        VertSplit       = { fg = p.text3,    bg = "none",                    },
+        StatusLineNC    = { fg = "none",     bg = "none",                    },
 
         -- syntax
-        Title           = { fg=pal.title,                       style="bold" },
-        Comment         = { fg=pal.text3,                                    },
-        Constant        = { fg=pal.lpurple,                     style="none" },
-        Identifier      = { fg=pal.lblue,                       style="bold" },
-        Function        = { fg=pal.lcyan,                       style="bold" },
-        Statement       = { fg=pal.lyellow,                                  },
-        PreProc         = { fg=pal.preproc,                                  },
-        Type            = { fg=pal.type,                                     },
-        Special         = { fg=pal.special,                                  },
-        Error           = {                  bg=pal.lred,                    },
-        Todo            = { fg=pal.todo,     bg="none",         style="bold" },
-        Directory       = { fg=pal.lgreen,                                   },
-        Search          = { fg=pal.invtext,  bg=pal.lyellow,                 },
-        MatchParen      = {                  bg=pal.ref_text,                },
-        NonText         = { fg=pal.nontext,                     style="none" },
-        Whitespace      = { fg=pal.whitespace,                  style="none" },
-        Folded          = { fg=pal.folded,   bg=pal.folded_bg,  style="none" },
+        Title           = { fg = p.title,                       bold = true  },
+        Comment         = { fg = p.text3,                                    },
+        Constant        = { fg = p.lpurple,                                  },
+        Identifier      = { fg = p.lblue,                       bold = true  },
+        Function        = { fg = p.lcyan,                       bold = true  },
+        Statement       = { fg = p.lyellow,                                  },
+        PreProc         = { fg = p.preproc,                                  },
+        Type            = { fg = p.type,                                     },
+        Special         = { fg = p.special,                                  },
+        Error           = {                  bg = p.lred,                    },
+        Todo            = { fg = p.todo,     bg = "none",       bold = true  },
+        Directory       = { fg = p.lgreen,                                   },
+        Search          = { fg = p.invtext,  bg = p.lyellow,                 },
+        MatchParen      = {                  bg = p.ref_text,                },
+        NonText         = { fg = p.nontext,                                  },
+        Whitespace      = { fg = p.whitespace,                               },
+        Folded          = { fg = p.folded,   bg = p.folded_bg,               },
 
         -- treesitter
-        TSProperty      = { fg=pal.lcyan,                       style="bold" },
-        TSInclude       = { fg=pal.lyellow,                                  },
-        TSNamespace     = { fg=pal.preproc,                                  },
+        TSProperty      = { fg = p.lcyan,                       bold = true  },
+        TSInclude       = { fg = p.lyellow,                                  },
+        TSNamespace     = { fg = p.preproc,                                  },
 
         -- cmp
-        CmpItemMenuDefault      = { fg=pal.text3,   style="italic" },
-        CmpItemKindDefault      = { fg=pal.special, style="bold"   },
-        CmpItemKindModule       = { fg=pal.preproc, style="bold"   },
-        CmpItemKindClass        = { fg=pal.type,    style="bold"   },
-        CmpItemKindStruct       = { fg=pal.type,    style="bold"   },
-        CmpItemKindInterface    = { fg=pal.type,    style="bold"   },
-        CmpItemKindTypeParamter = { fg=pal.type,    style="bold"   },
-        CmpItemKindEnum         = { fg=pal.type,    style="bold"   },
-        CmpItemKindEnumMember   = { fg=pal.lpurple, style="bold"   },
-        CmpItemKindConstant     = { fg=pal.lpurple, style="bold"   },
-        CmpItemKindField        = { fg=pal.lblue,   style="bold"   },
-        CmpItemKindProperty     = { fg=pal.lblue,   style="bold"   },
-        CmpItemKindVariable     = { fg=pal.special, style="bold"   },
-        CmpItemKindFunction     = { fg=pal.lcyan,   style="bold"   },
-        CmpItemKindMethod       = { fg=pal.lcyan,   style="bold"   },
-        CmpItemKindConstructor  = { fg=pal.lcyan,   style="bold"   },
-        CmpItemKindKeyword      = { fg=pal.lyellow, style="bold"   },
-        CmpItemKindOperator     = { fg=pal.lyellow, style="bold"   },
+        CmpItemMenuDefault      = { fg = p.text3,   italic = true },
+        CmpItemKindDefault      = { fg = p.special, bold = true   },
+        CmpItemKindModule       = { fg = p.preproc, bold = true   },
+        CmpItemKindClass        = { fg = p.type,    bold = true   },
+        CmpItemKindStruct       = { fg = p.type,    bold = true   },
+        CmpItemKindInterface    = { fg = p.type,    bold = true   },
+        CmpItemKindTypeParamter = { fg = p.type,    bold = true   },
+        CmpItemKindEnum         = { fg = p.type,    bold = true   },
+        CmpItemKindEnumMember   = { fg = p.lpurple, bold = true   },
+        CmpItemKindConstant     = { fg = p.lpurple, bold = true   },
+        CmpItemKindField        = { fg = p.lblue,   bold = true   },
+        CmpItemKindProperty     = { fg = p.lblue,   bold = true   },
+        CmpItemKindVariable     = { fg = p.special, bold = true   },
+        CmpItemKindFunction     = { fg = p.lcyan,   bold = true   },
+        CmpItemKindMethod       = { fg = p.lcyan,   bold = true   },
+        CmpItemKindConstructor  = { fg = p.lcyan,   bold = true   },
+        CmpItemKindKeyword      = { fg = p.lyellow, bold = true   },
+        CmpItemKindOperator     = { fg = p.lyellow, bold = true   },
 
         -- git
-        diffAdded       = {                   bg=pal.diff_a_bg,               },
-        diffRemoved     = {                   bg=pal.diff_d_bg,               },
+        diffAdded       = {               bg = p.diff_a_bg,              },
+        diffRemoved     = {               bg = p.diff_d_bg,              },
 
-        DiffAdd         = {                   bg=pal.diff_a_bg,               },
-        DiffChange      = {                   bg=pal.diff_c_bg,               },
-        DiffDelete      = { fg=pal.text2,     bg=pal.diff_d_bg,               },
-        DiffText        = { fg=pal.text2,     bg=pal.diff_cd_bg, style="bold" },
+        DiffAdd         = {               bg = p.diff_a_bg,              },
+        DiffChange      = {               bg = p.diff_c_bg,              },
+        DiffDelete      = { fg = p.text2, bg = p.diff_d_bg,              },
+        DiffText        = { fg = p.text2, bg = p.diff_cd_bg, bold = true },
 
         -- gitsigns
-        GitSignsAdd       = { fg=pal.diff_a_fg  },
-        GitSignsChange    = { fg=pal.diff_c_fg  },
-        GitSignsDelete    = { fg=pal.diff_d_fg  },
-        GitSignsChgDel    = { fg=pal.diff_cd_fg },
+        GitSignsAdd       = { fg = p.diff_a_fg  },
+        GitSignsChange    = { fg = p.diff_c_fg  },
+        GitSignsDelete    = { fg = p.diff_d_fg  },
+        GitSignsChgDel    = { fg = p.diff_cd_fg },
 
-        GitSignsAddLn     = { bg=pal.diff_a_bg  },
-        GitSignsChangeLn  = { bg=pal.diff_c_bg  },
-        GitSignsDeleteLn  = { bg=pal.diff_d_bg  },
-        GitSignsChgDelLn  = { bg=pal.diff_cd_bg },
+        GitSignsAddLn     = { bg = p.diff_a_bg  },
+        GitSignsChangeLn  = { bg = p.diff_c_bg  },
+        GitSignsDeleteLn  = { bg = p.diff_d_bg  },
+        GitSignsChgDelLn  = { bg = p.diff_cd_bg },
 
-        GitSignsAddNr     = { bg=pal.diff_a_bg  },
-        GitSignsChangeNr  = { bg=pal.diff_c_bg  },
-        GitSignsDeleteNr  = { bg=pal.diff_d_bg  },
-        GitSignsChgDelNr  = { bg=pal.diff_cd_bg },
+        GitSignsAddNr     = { bg = p.diff_a_bg  },
+        GitSignsChangeNr  = { bg = p.diff_c_bg  },
+        GitSignsDeleteNr  = { bg = p.diff_d_bg  },
+        GitSignsChgDelNr  = { bg = p.diff_cd_bg },
 
         -- nvim-tree
-        NvimTreeGitDirty   = { fg=pal.dblue   },
-        NvimTreeGitDeleted = { fg=pal.dblue   },
-        NvimTreeGitStaged  = { fg=pal.dblue   },
-        NvimTreeGitMerge   = { fg=pal.dyellow },
-        NvimTreeGitRenamed = { fg=pal.dpurple },
-        NvimTreeGitNew     = { fg=pal.dgreen  },
+        NvimTreeGitDirty   = { fg = p.dblue   },
+        NvimTreeGitDeleted = { fg = p.dblue   },
+        NvimTreeGitStaged  = { fg = p.dblue   },
+        NvimTreeGitMerge   = { fg = p.dyellow },
+        NvimTreeGitRenamed = { fg = p.dpurple },
+        NvimTreeGitNew     = { fg = p.dgreen  },
 
         -- harpoon
         HarpoonWindow = { link = "Pmenu"       },
         HarpoonBorder = { link = "FloatBorder" },
 
         -- telescope
-        FloatTitle             = { fg=pal.text3, bg=pal.surface3 },
-        TelescopeResultsNormal = { link = "Pmenu"       },
-        TelescopeResultsBorder = { link = "FloatBorder" },
-        TelescopeResultsTitle  = { link = "FloatTitle"  },
-        TelescopePromptNormal  = { link = "Pmenu"       },
-        TelescopePromptBorder  = { link = "FloatBorder" },
-        TelescopePromptTitle   = { link = "FloatTitle"  },
-        TelescopePreviewNormal = { link = "Pmenu"       },
-        TelescopePreviewBorder = { link = "FloatBorder" },
-        TelescopePreviewTitle  = { link = "FloatTitle"  },
+        FloatTitle             = { fg = p.text3, bg = p.surface3 },
+        TelescopeResultsNormal = { link = "Pmenu"                },
+        TelescopeResultsBorder = { link = "FloatBorder"          },
+        TelescopeResultsTitle  = { link = "FloatTitle"           },
+        TelescopePromptNormal  = { link = "Pmenu"                },
+        TelescopePromptBorder  = { link = "FloatBorder"          },
+        TelescopePromptTitle   = { link = "FloatTitle"           },
+        TelescopePreviewNormal = { link = "Pmenu"                },
+        TelescopePreviewBorder = { link = "FloatBorder"          },
+        TelescopePreviewTitle  = { link = "FloatTitle"           },
 
         -- which-key
-        WhichKey = { fg = pal.special },
+        WhichKey = { fg = p.special },
 
         -- indent-blankline
-        IndentBlanklineChar      = { fg = pal.whitespace },
-        IndentBlanklineSpaceChar = { fg = pal.whitespace },
+        IndentBlanklineChar      = { fg = p.whitespace },
+        IndentBlanklineSpaceChar = { fg = p.whitespace },
 
         -- diagnostics
-        InlineDiagnosticTextError  = { fg=pal.lred,    bg=pal.lred_bg    },
-        InlineDiagnosticTextWarn   = { fg=pal.lyellow, bg=pal.lyellow_bg },
-        InlineDiagnosticTextHint   = { fg=pal.lblue,   bg=pal.lblue_bg   },
-        InlineDiagnosticTextInfo   = { fg=pal.lblue,   bg=pal.lblue_bg   },
+        InlineDiagnosticTextError  = { fg = p.lred,    bg = p.lred_bg    },
+        InlineDiagnosticTextWarn   = { fg = p.lyellow, bg = p.lyellow_bg },
+        InlineDiagnosticTextHint   = { fg = p.lblue,   bg = p.lblue_bg   },
+        InlineDiagnosticTextInfo   = { fg = p.lblue,   bg = p.lblue_bg   },
 
-        DiagnosticVirtualTextError = { fg=pal.lred,                      },
-        DiagnosticVirtualTextWarn  = { fg=pal.lyellow,                   },
-        DiagnosticVirtualTextHint  = { fg=pal.lblue,                     },
-        DiagnosticVirtualTextInfo  = { fg=pal.lblue,                     },
+        DiagnosticVirtualTextError = { fg = p.lred,                      },
+        DiagnosticVirtualTextWarn  = { fg = p.lyellow,                   },
+        DiagnosticVirtualTextHint  = { fg = p.lblue,                     },
+        DiagnosticVirtualTextInfo  = { fg = p.lblue,                     },
 
-        DiagnosticSignError        = { fg=pal.lred,    style="bold"      },
-        DiagnosticSignWarn         = { fg=pal.lyellow, style="bold"      },
-        DiagnosticSignHint         = { fg=pal.lblue,   style="bold"      },
-        DiagnosticSignInfo         = { fg=pal.lblue,   style="bold"      },
+        DiagnosticSignError        = { fg = p.lred,    bold = true       },
+        DiagnosticSignWarn         = { fg = p.lyellow, bold = true       },
+        DiagnosticSignHint         = { fg = p.lblue,   bold = true       },
+        DiagnosticSignInfo         = { fg = p.lblue,   bold = true       },
 
-        DiagnosticFloatingError    = { fg=pal.lred,                      },
-        DiagnosticFloatingWarn     = { fg=pal.lyellow,                   },
-        DiagnosticFloatingHint     = { fg=pal.lblue,                     },
-        DiagnosticFloatingInfo     = { fg=pal.lblue,                     },
+        DiagnosticFloatingError    = { fg = p.lred,                      },
+        DiagnosticFloatingWarn     = { fg = p.lyellow,                   },
+        DiagnosticFloatingHint     = { fg = p.lblue,                     },
+        DiagnosticFloatingInfo     = { fg = p.lblue,                     },
 
-        DiagnosticUnderlineError   = { sp=pal.lred,    style="undercurl" },
-        DiagnosticUnderlineWarn    = { sp=pal.lyellow, style="undercurl" },
-        DiagnosticUnderlineHint    = { sp=pal.lblue,   style="undercurl" },
-        DiagnosticUnderlineInfo    = { sp=pal.lblue,   style="undercurl" },
+        DiagnosticUnderlineError   = { sp = p.lred,    undercurl = true  },
+        DiagnosticUnderlineWarn    = { sp = p.lyellow, undercurl = true  },
+        DiagnosticUnderlineHint    = { sp = p.lblue,   undercurl = true  },
+        DiagnosticUnderlineInfo    = { sp = p.lblue,   undercurl = true  },
 
         -- lsp ocurrences
-        LspReferenceText  = { bg=pal.ref_text  },
-        LspReferenceRead  = { bg=pal.ref_read  },
-        LspReferenceWrite = { bg=pal.ref_write },
+        LspReferenceText  = { bg = p.ref_text  },
+        LspReferenceRead  = { bg = p.ref_read  },
+        LspReferenceWrite = { bg = p.ref_write },
 
         -- dap
-        DapBreakpoint = { fg=pal.lred    },
-        DapLogPoint   = { fg=pal.lyellow },
-        DapStopped    = { fg=pal.lgreen  },
+        DapBreakpoint = { fg = p.lred    },
+        DapLogPoint   = { fg = p.lyellow },
+        DapStopped    = { fg = p.lgreen  },
     }
     -- stylua: ignore end
 end
@@ -215,17 +215,7 @@ function M.apply_highlights(highlights)
     vim.o.termguicolors = true
 
     for group, colors in pairs(highlights) do
-        if colors.link then
-            vim.api.nvim_command(string.format("highlight link %s %s", group, colors.link))
-        else
-            -- stylua: ignore start
-            local style = colors.style and "gui="   .. colors.style or "gui=NONE"
-            local fg    = colors.fg    and "guifg=" .. colors.fg    or "guifg=NONE"
-            local bg    = colors.bg    and "guibg=" .. colors.bg    or "guibg=NONE"
-            local sp    = colors.sp    and "guisp=" .. colors.sp    or ""
-            -- stylua: ignore end
-            vim.api.nvim_command(string.format("highlight %s %s %s %s %s", group, style, fg, bg, sp))
-        end
+        vim.api.nvim_set_hl(0, group, colors)
     end
 end
 
