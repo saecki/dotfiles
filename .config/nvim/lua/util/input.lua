@@ -2,12 +2,13 @@ local M = {
     namespace = vim.api.nvim_create_namespace("util.input"),
 }
 
-function M.input(text, insert, callback)
+function M.input(opts, on_confirm)
     local cword = vim.fn.expand("<cword>")
-    text = text or cword or ""
+    local text = opts.text or cword or ""
     local text_width = vim.fn.strdisplaywidth(text)
 
-    M.callback = callback
+    M.confirm_opts = {}
+    M.on_confirm = on_confirm
     M.mode = vim.fn.mode()
     M.min_width = 1
     if cword then
@@ -23,10 +24,29 @@ function M.input(text, insert, callback)
     vim.fn.search(vim.fn.expand("<cword>"), "bc")
     local new_pos = vim.api.nvim_win_get_cursor(0)
     vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] })
-    local col = new_pos[2] - old_pos[2]
+    local col = 0
+    if new_pos[1] == old_pos[1] then
+        col = new_pos[2] - old_pos[2]
+    end
+
+    -- treesitter things
+    if vim.bo.filetype == "rust" then
+        local buf = vim.api.nvim_get_current_buf()
+        local parser = vim.treesitter.get_parser(buf, "rust")
+        local tree = parser:parse()[1]
+        local l, c = old_pos[1] - 1, old_pos[2]
+        local node = tree:root():named_descendant_for_range(l, c, l, c)
+
+        if node:type() == "identifier" then
+            local parent = node:parent()
+            if parent:type() == "loop_label" or parent:type() == "lifetime" then
+                M.confirm_opts.prefix = "'"
+            end
+        end
+    end
 
     -- create win
-    local opts = {
+    local win_opts = {
         relative = "cursor",
         col = col,
         row = 0,
@@ -35,7 +55,7 @@ function M.input(text, insert, callback)
         style = "minimal",
         border = "none",
     }
-    M.win = vim.api.nvim_open_win(M.buf, false, opts)
+    M.win = vim.api.nvim_open_win(M.buf, false, win_opts)
 
     -- key mappings
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
@@ -54,7 +74,7 @@ function M.input(text, insert, callback)
 
     -- focus and enter insert mode
     vim.api.nvim_set_current_win(M.win)
-    if insert then
+    if opts.insert then
         vim.cmd("startinsert")
     end
     vim.api.nvim_win_set_cursor(M.win, { 1, text_width })
@@ -74,9 +94,10 @@ function M.submit()
     local new_text = vim.api.nvim_buf_get_lines(M.buf, 0, 1, false)[1]
     M.hide()
 
-    if M.callback then
-        M.callback(new_text)
-        M.callback = nil
+    if M.on_confirm then
+        local prefix = M.confirm_opts.prefix or ""
+        M.on_confirm(prefix .. new_text)
+        M.on_confirm = nil
     end
 end
 
