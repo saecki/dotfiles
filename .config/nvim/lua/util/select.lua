@@ -73,6 +73,9 @@ end
 function M.select(items, opts, on_choice)
     assert(items ~= nil and not vim.tbl_isempty(items), "No entries available.")
 
+    -- close still open window
+    hide()
+
     M.items = items
     M.on_choice = on_choice
 
@@ -89,13 +92,16 @@ function M.select(items, opts, on_choice)
     vim.fn.search(vim.fn.expand("<cword>"), "bc")
     local new_pos = vim.api.nvim_win_get_cursor(0)
     vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] })
-    local col = new_pos[2] - old_pos[2]
+    local col = 0
+    if new_pos[1] == old_pos[1] then
+        col = new_pos[2] - old_pos[2]
+    end
 
     -- create win
     local win_opts = {
         relative = "cursor",
-        col = col,
-        row = 0,
+        col = col - 3,
+        row = 1,
         width = width,
         height = #items,
         style = "minimal",
