@@ -28,6 +28,7 @@ function M.setup()
             ["w"] = { ":w<cr>", "Write" },
             ["e"] = {
                 name = "Toggle (enable)",
+                ["r"] = { ":set rnu!<cr>", "Relative line numbers" },
                 ["l"] = { ":set list!<cr>", "Listchars" },
                 ["s"] = { ":set spell!<cr>", "Spellchecking" },
             },
