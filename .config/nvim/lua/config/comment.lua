@@ -1,9 +1,12 @@
 local M = {}
 
 local comment = require("Comment")
+local comment_ft = require("Comment.ft")
 local wk = require("which-key")
 
 function M.setup()
+    comment_ft.set("cods", { '//%s', '/*%s*/' })
+
     comment.setup({
         toggler = {
             line = "gcc",
