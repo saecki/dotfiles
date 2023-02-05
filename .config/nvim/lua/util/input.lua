@@ -29,22 +29,6 @@ function M.input(opts, on_confirm)
         col = new_pos[2] - old_pos[2]
     end
 
-    -- treesitter things
-    if vim.bo.filetype == "rust" then
-        local buf = vim.api.nvim_get_current_buf()
-        local parser = vim.treesitter.get_parser(buf, "rust")
-        local tree = parser:parse()[1]
-        local l, c = old_pos[1] - 1, old_pos[2]
-        local node = tree:root():named_descendant_for_range(l, c, l, c)
-
-        if node:type() == "identifier" then
-            local parent = node:parent()
-            if parent:type() == "loop_label" or parent:type() == "lifetime" then
-                M.confirm_opts.prefix = "'"
-            end
-        end
-    end
-
     -- create win
     local win_opts = {
         relative = "cursor",
@@ -95,8 +79,7 @@ function M.submit()
     M.hide()
 
     if M.on_confirm then
-        local prefix = M.confirm_opts.prefix or ""
-        M.on_confirm(prefix .. new_text)
+        M.on_confirm(new_text)
         M.on_confirm = nil
     end
 end
