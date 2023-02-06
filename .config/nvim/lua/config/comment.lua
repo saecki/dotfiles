@@ -27,23 +27,6 @@ function M.setup()
             extended = false,
         },
     })
-
-    wk.register({
-        ["g"] = {
-            name = "Go",
-            ["c"] = {
-                name = "Comment",
-                ["c"] = { nil, "Toggle" },
-                ["A"] = { nil, "Append" },
-                ["O"] = { nil, "Insert above" },
-                ["o"] = { nil, "Insert below" },
-            },
-            ["b"] = {
-                name = "Block Comment",
-                ["c"] = { nil, "Toggle" },
-            },
-        },
-    })
 end
 
 return M

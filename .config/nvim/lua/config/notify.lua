@@ -4,6 +4,8 @@ local notify = require("notify")
 local wk = require("which-key")
 
 function M.setup()
+    vim.notify = notify
+
     wk.register({
         ["<leader>n"] = {
             name = "Notification",

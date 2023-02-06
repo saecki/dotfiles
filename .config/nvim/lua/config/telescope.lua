@@ -2,6 +2,7 @@ local M = {}
 
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
+local project = require("project_nvim")
 local wk = require("which-key")
 local util = require("util")
 
@@ -64,12 +65,16 @@ function M.setup()
         },
     })
 
+    project.setup({})
+    telescope.load_extension("projects")
+
     wk.register({
         ["<a-p>"] = { util.wrap(find_files, true), "Find ignored files" },
         ["<c-p>"] = { util.wrap(find_files, false), "Find files" },
         ["<leader>"] = {
             ["f"] = {
                 name = "Find",
+                ["p"] = { telescope.extensions.projects.projects, "Projects" },
                 ["f"] = { telescope_builtin.live_grep, "Live grep" },
                 ["b"] = { telescope_builtin.buffers, "Buffers" },
                 ["h"] = { telescope_builtin.help_tags, "Help" },

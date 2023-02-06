@@ -1,5 +1,3 @@
-local util = require("util")
-
 local chars = {
     border_n = "▄",
     border_e = "█",
@@ -34,10 +32,5 @@ return {
             chars.corner_se,
             chars.corner_sw,
         },
-    },
-    packer = {
-        snapshot_version = "v0.1.9",
-        snapshot_path = util.join_paths(vim.fn.stdpath("config"), "snapshots"),
-        compile_path = util.join_paths(vim.fn.stdpath("config"), "lua", "packer_compiled.lua"),
     },
 }

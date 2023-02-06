@@ -21,12 +21,10 @@ local function prequire(name, setup)
     return mod
 end
 
-prequire("impatient", false)
-
-prequire("globals", false)
+prequire("globals")
 prequire("util.select")
 prequire("options")
-prequire("mappings")
 prequire("colors")
-prequire("diagnostic")
 prequire("plugins")
+prequire("diagnostic")
+prequire("mappings")
