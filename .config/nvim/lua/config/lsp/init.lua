@@ -118,7 +118,7 @@ function M.setup()
         "dartls",
         "rust_analyzer",
         "sqls",
-        "sumneko_lua",
+        "lua_ls",
         "texlab",
     }
     for _, s in ipairs(servers) do

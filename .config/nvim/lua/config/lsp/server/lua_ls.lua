@@ -1,12 +1,6 @@
 local M = {}
 
-local util = require("util")
-
 function M.setup(server, on_init, on_attach, capabilities)
-    local runtime_path = vim.split(package.path, ";")
-    table.insert(runtime_path, util.join_paths("lua", "?.lua"))
-    table.insert(runtime_path, util.join_paths("lua", "?", "init.lua"))
-
     server.setup({
         on_init = on_init,
         on_attach = on_attach,
@@ -19,6 +13,9 @@ function M.setup(server, on_init, on_attach, capabilities)
                 },
                 diagnostics = {
                     globals = { "vim", "P" },
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true)
                 },
                 telemetry = {
                     enable = false,
