@@ -156,14 +156,13 @@ function M.setup()
         },
 
         -- Debugging
-        {
-            "mfussenegger/nvim-dap",
-            dependencies = { "rcarriga/nvim-dap-ui" },
-            keys = { "<leader>e" },
-            config = function()
-                require("config.dap").setup()
-            end,
-        },
+        -- {
+        --     "mfussenegger/nvim-dap",
+        --     dependencies = { "rcarriga/nvim-dap-ui" },
+        --     config = function()
+        --         require("config.dap").setup()
+        --     end,
+        -- },
 
         -- Completion
         {
