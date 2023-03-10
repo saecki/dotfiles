@@ -61,7 +61,7 @@ function M.setup()
     vim.opt.swapfile = false
 
     -- Spell checking
-    vim.opt.spell = true
+    vim.opt.spell = false
     vim.opt.spelllang = { "en", "de", "es", "nl" }
 
     -- Miscellaneous
