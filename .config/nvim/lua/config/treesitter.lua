@@ -55,15 +55,10 @@ function M.setup()
         truncate_side = "outer",
         max_lines = 2,
         categories = {
-            default = {
-                CATEGORY.CLASS,
-                CATEGORY.INTERFACE,
-                CATEGORY.STRUCT,
-                CATEGORY.ENUM,
-                CATEGORY.FUNCTION,
-                CATEGORY.METHOD,
-                CATEGORY.SECTION,
-            },
+            ["if"] = false,
+            ["switch"] = false,
+            ["loop"] = false,
+            ["lambda"] = false,
         },
     })
 
