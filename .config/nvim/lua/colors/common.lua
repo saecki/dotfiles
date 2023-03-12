@@ -43,6 +43,9 @@ function M.highlights(p)
         TSInclude       = { fg = p.lyellow,                                  },
         TSNamespace     = { fg = p.preproc,                                  },
 
+        -- treesitter context
+        TreesitterContextLineNumber = { link = "Pmenu" },
+
         -- cmp
         CmpItemMenuDefault      = { fg = p.text3,   italic = true },
         CmpItemKindDefault      = { fg = p.special, bold = true   },
