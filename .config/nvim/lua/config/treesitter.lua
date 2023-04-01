@@ -55,10 +55,17 @@ function M.setup()
         truncate_side = "outer",
         max_lines = 2,
         categories = {
-            ["if"] = false,
-            ["switch"] = false,
-            ["loop"] = false,
-            ["lambda"] = false,
+            default = {
+                ["if"] = false,
+                ["switch"] = false,
+                ["case"] = false,
+                ["loop"] = false,
+                ["block"] = false,
+                ["lambda"] = false,
+            },
+            lua = {
+                ["table"] = false,
+            },
         },
     })
 
