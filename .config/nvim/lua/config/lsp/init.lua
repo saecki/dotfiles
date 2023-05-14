@@ -117,7 +117,6 @@ function M.setup()
         "clangd",
         "dartls",
         "rust_analyzer",
-        "sqls",
         "lua_ls",
         "texlab",
     }
