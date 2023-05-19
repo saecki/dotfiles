@@ -49,6 +49,7 @@ function M.highlights(p)
         -- cmp
         CmpItemMenuDefault      = { fg = p.text3,   italic = true },
         CmpItemKindDefault      = { fg = p.special, bold = true   },
+
         CmpItemKindModule       = { fg = p.preproc, bold = true   },
         CmpItemKindClass        = { fg = p.type,    bold = true   },
         CmpItemKindStruct       = { fg = p.type,    bold = true   },
@@ -65,6 +66,17 @@ function M.highlights(p)
         CmpItemKindConstructor  = { fg = p.lcyan,   bold = true   },
         CmpItemKindKeyword      = { fg = p.lyellow, bold = true   },
         CmpItemKindOperator     = { fg = p.lyellow, bold = true   },
+        CmpItemKindText         = { fg = p.special, bold = true   },
+        CmpItemKindValue        = { fg = p.special, bold = true   },
+        CmpItemKindUnit         = { fg = p.special, bold = true   },
+        CmpItemKindSnippet      = { fg = p.special, bold = true   },
+        CmpItemKindColor        = { fg = p.special, bold = true   },
+        CmpItemKindFile         = { fg = p.special, bold = true   },
+        CmpItemKindFolder       = { fg = p.special, bold = true   },
+        CmpItemKindReference    = { fg = p.special, bold = true   },
+        CmpItemKindEvent        = { fg = p.special, bold = true   },
+
+        CmpItemAbbrDeprecated   = { fg = p.text3,   strikethrough = true },
 
         -- git
         diffAdded       = {               bg = p.diff_a_bg,              },
