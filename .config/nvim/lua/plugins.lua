@@ -150,6 +150,7 @@ function M.setup()
         },
         {
             "j-hui/fidget.nvim",
+            tag = "legacy",
             config = function()
                 require("config.fidget").setup()
             end,
