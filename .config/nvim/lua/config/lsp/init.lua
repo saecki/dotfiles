@@ -159,7 +159,7 @@ function M.setup()
             name = "Lsp",
             ["s"] = { ":LspStart<cr>", "Start" },
             ["r"] = { ":LspRestart<cr>", "Restart" },
-            ["t"] = { ":LspStop<cr>", "Stop" },
+            ["t"] = { ":LspStop<cr>", "Stop (terminate)" },
             ["i"] = { ":LspInfo<cr>", "Info" },
             ["I"] = { mason_ui.open, "Install Info" },
             ["l"] = { ":LspInstallLog<cr>", "Install Log" },
