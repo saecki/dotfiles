@@ -1,6 +1,7 @@
 local M = {}
 
 local cmp = require("cmp")
+local cmp_compare = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local shared = require("shared")
 
@@ -89,6 +90,19 @@ function M.setup()
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = false,
             }),
+        },
+        sorting = {
+            comparators = {
+                cmp_compare.offset,
+                cmp_compare.exact,
+                cmp_compare.score,
+                cmp_compare.recently_used,
+                cmp_compare.locality,
+                cmp_compare.kind,
+                cmp_compare.sort_text,
+                cmp_compare.length,
+                cmp_compare.order,
+            }
         },
         sources = {
             { name = "nvim_lsp" },
