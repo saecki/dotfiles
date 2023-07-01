@@ -42,7 +42,6 @@ function M.setup()
 		numhl = false,
 		linehl = false,
 		word_diff = false,
-		keymaps = {},
 		current_line_blame = false,
 		current_line_blame_formatter = current_line_blame_formatter,
 		current_line_blame_formatter_opts = {
