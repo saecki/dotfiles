@@ -165,6 +165,9 @@ function M.highlights(p)
         LspReferenceRead  = { bg = p.ref_read  },
         LspReferenceWrite = { bg = p.ref_write },
 
+        -- lsp config border
+        LspInfoBorder = { fg = p.surface3 },
+
         -- dap
         DapBreakpoint = { fg = p.lred    },
         DapLogPoint   = { fg = p.lyellow },

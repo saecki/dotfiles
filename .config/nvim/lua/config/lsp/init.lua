@@ -124,11 +124,12 @@ function M.setup()
         local server = require("config.lsp.server." .. s)
         server.setup(lspconfig[s], M.on_init, M.on_attach, capabilities)
     end
+    require('lspconfig.ui.windows').default_options.border = shared.window.border
 
     -- Setup lsp installer
     mason.setup({
         ui = {
-            border = shared.border,
+            border = shared.window.border,
         },
     })
 
