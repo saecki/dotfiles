@@ -134,6 +134,12 @@ function M.highlights(p)
         IndentBlanklineChar      = { fg = p.whitespace },
         IndentBlanklineSpaceChar = { fg = p.whitespace },
 
+        -- lualine
+        LuaLineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
+        LuaLineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
+        LuaLineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        LuaLineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+
         -- diagnostics
         InlineDiagnosticTextError  = { fg = p.lred,    bg = p.lred_bg    },
         InlineDiagnosticTextWarn   = { fg = p.lyellow, bg = p.lyellow_bg },
