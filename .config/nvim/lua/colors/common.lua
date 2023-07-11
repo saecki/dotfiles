@@ -135,10 +135,20 @@ function M.highlights(p)
         IndentBlanklineSpaceChar = { fg = p.whitespace },
 
         -- lualine
-        LuaLineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
-        LuaLineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
-        LuaLineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
-        LuaLineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        LualineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
+        LualineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
+        LualineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        LualineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+
+        LualineNormalA   = { bg = p.surface1, fg = p.lyellow, bold = true },
+        LualineInsertA   = { bg = p.surface1, fg = p.lgreen,  bold = true },
+        LualineVisualA   = { bg = p.surface1, fg = p.lpurple, bold = true },
+        LualineReplaceA  = { bg = p.surface1, fg = p.lred,    bold = true },
+        LualineCommandA  = { bg = p.surface1, fg = p.lblue,   bold = true },
+        LualineInactiveA = { bg = p.surface3, fg = p.text3,               },
+
+        LualineB = { bg = p.surface2, fg = p.text2, },
+        LualineC = { bg = p.surface3, fg = p.text3, },
 
         -- diagnostics
         InlineDiagnosticTextError  = { fg = p.lred,    bg = p.lred_bg    },
@@ -178,43 +188,6 @@ function M.highlights(p)
         DapBreakpoint = { fg = p.lred    },
         DapLogPoint   = { fg = p.lyellow },
         DapStopped    = { fg = p.lgreen  },
-    }
-    -- stylua: ignore end
-end
-
-function M.lualine(pal)
-    -- stylua: ignore start
-    return {
-        normal = {
-            a = { bg=pal.surface1, fg=pal.lyellow, gui="bold" },
-            b = { bg=pal.surface2, fg=pal.text2,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        },
-        insert = {
-            a = { bg=pal.surface1, fg=pal.lgreen,  gui="bold" },
-            b = { bg=pal.surface2, fg=pal.text2,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        },
-        visual = {
-            a = { bg=pal.surface1, fg=pal.lpurple, gui="bold" },
-            b = { bg=pal.surface2, fg=pal.text2,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        },
-        replace = {
-            a = { bg=pal.surface1, fg=pal.lred,    gui="bold" },
-            b = { bg=pal.surface2, fg=pal.text2,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        },
-        command = {
-            a = { bg=pal.surface1, fg=pal.lblue,   gui="bold" },
-            b = { bg=pal.surface2, fg=pal.text2,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        },
-        inactive = {
-            a = { bg=pal.surface3, fg=pal.text3,              },
-            b = { bg=pal.surface3, fg=pal.text3,              },
-            c = { bg=pal.surface3, fg=pal.text3,              },
-        }
     }
     -- stylua: ignore end
 end

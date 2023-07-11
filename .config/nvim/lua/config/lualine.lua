@@ -58,8 +58,6 @@ local function position()
 end
 
 function M.setup()
-    local colors = require("colors.mineauto")
-    local theme = colors.lualine
     local filename_symbols = {
         modified = " ",
         readonly = " ",
@@ -69,7 +67,38 @@ function M.setup()
     lualine.setup({
         options = {
             icons_enabled = true,
-            theme = theme,
+            theme = {
+                normal = {
+                    a = "LualineNormalA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+                insert = {
+                    a = "LualineInsertA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+                visual = {
+                    a = "LualineVisualA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+                replace = {
+                    a = "LualineReplaceA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+                command = {
+                    a = "LualineCommandA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+                inactive = {
+                    a = "LualineInactiveA",
+                    b = "LualineB",
+                    c = "LualineC",
+                },
+            },
             section_separators = { left = "", right = "" },
             component_separators = { left = "", right = "" },
             globalstatus = true,
@@ -95,10 +124,10 @@ function M.setup()
                     sections = { "error", "warn", "info", "hint" },
                     symbols = { error = " ", warn = " ", info = " ", hint = " " },
                     diagnostics_color = {
-                        error = "LuaLineDiagnosticSignError",
-                        warn = "LuaLineDiagnosticSignWarn",
-                        info = "LuaLineDiagnosticSignInfo",
-                        hint = "LuaLineDiagnosticSignHint",
+                        error = "LualineDiagnosticSignError",
+                        warn = "LualineDiagnosticSignWarn",
+                        info = "LualineDiagnosticSignInfo",
+                        hint = "LualineDiagnosticSignHint",
                     },
                 },
             },

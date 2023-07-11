@@ -65,7 +65,6 @@ M.palette = {
 -- stylua: ignore end
 
 M.highlights = common.highlights(M.palette)
-M.lualine = common.lualine(M.palette)
 
 function M.setup()
     vim.g.colors_name = "minelight"

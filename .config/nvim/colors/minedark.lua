@@ -1,0 +1,2 @@
+require("colors.minedark").setup()
+
