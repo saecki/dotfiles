@@ -86,9 +86,9 @@ function M.setup()
                     symbols = filename_symbols,
                 },
             },
-            lualine_x = { fileformat, "encoding", { "filetype" } },
+            lualine_x = { fileformat, "encoding", "filetype" },
             lualine_y = {
-                { "branch" },
+                "branch",
                 {
                     "diagnostics",
                     sources = { "nvim_diagnostic" },
