@@ -6,10 +6,17 @@ local wk = require("which-key")
 local util = require("util")
 local dap_rust = require("config.dap.rust")
 
-function M.debuggables(prompt)
+function M.debuggables_history(opts)
     local filetype = vim.bo.filetype
     if filetype == "rust" then
-        dap_rust.debuggables(prompt)
+        dap_rust.debuggables_history(opts)
+    end
+end
+
+function M.debuggables(opts)
+    local filetype = vim.bo.filetype
+    if filetype == "rust" then
+        dap_rust.debuggables(opts)
     end
 end
 
@@ -62,6 +69,8 @@ function M.setup()
         ["<leader>d"] = {
             name = "Debug",
             ["e"] = { dap_ui.toggle, "Toggle UI" },
+            ["h"] = { util.wrap(M.debuggables_history, { run_first = false }), "Debug history", silent = false },
+            ["H"] = { util.wrap(M.debuggables_history, { run_first = true }), "Debug last", silent = false },
             ["d"] = { util.wrap(M.debuggables, { current_pos = false }), "Debug", silent = false },
             ["D"] = { util.wrap(M.debuggables, { current_pos = true }), "Debug at position", silent = false },
             ["R"] = { dap.run_last, "Rerun", silent = false },

@@ -1,4 +1,6 @@
-local M = {}
+local M = {
+    history = {},
+}
 
 local dap = require("dap")
 local Job = require("plenary.job")
@@ -8,10 +10,24 @@ local telescope_sorters = require("telescope.sorters")
 local telescope_actions = require("telescope.actions")
 local telescope_action_state = require("telescope.actions.state")
 
+local function push_history_entry(entry)
+    for i, e in ipairs(M.history) do
+        local exists = (e.workspace_root == entry.workspace_root)
+            and (e.cargo_args == entry.cargo_args)
+            and (e.cmd_args == entry.cmd_args)
+
+        if exists then
+            table.remove(M.history, i)
+            break
+        end
+    end
+
+    table.insert(M.history, entry)
+end
+
 local function input_cmd_args(suggestion)
-    local suggestion = suggestion or M.last_cmd_args_str or ""
-    M.last_cmd_args_str = vim.fn.input("Args: ", suggestion)
-    return vim.split(M.last_cmd_args_str, " ", { plain = true, trimempty = true })
+    local cmd_args_str = vim.fn.input("Args: ", suggestion)
+    return vim.split(cmd_args_str, " ", { plain = true, trimempty = true })
 end
 
 M.configurations = {
@@ -26,7 +42,9 @@ M.configurations = {
         end,
         cwd = "${workspaceFolder}",
         stopOnEntry = false,
-        args = input_cmd_args,
+        args = function()
+            return input_cmd_args("")
+        end,
         runInTerminal = false,
 
         initCommands = function()
@@ -65,31 +83,69 @@ local function sanitize_results_for_debugging(results)
     end, results)
 end
 
-local function get_choice_strs(result, withTitle, withIndex)
-    local option_strings = withTitle and { "Debuggables: " } or {}
+local function get_choice_strs(runnable_entries)
+    local option_strings = {}
 
-    for i, debuggable in ipairs(result) do
-        local args = debuggable.args
+    for i, runnable_entry in ipairs(runnable_entries) do
         local label = ""
-        for _, a in ipairs(args.cargoArgs) do
-            label = label .. a .. " "
-        end
-        for _, a in ipairs(args.cargoExtraArgs) do
+        for _, a in ipairs(runnable_entry.cargo_args) do
             label = label .. a .. " "
         end
 
-        if not vim.tbl_isempty(args.executableArgs) then
+        if not vim.tbl_isempty(runnable_entry.cmd_args) then
             label = label .. "-- "
-            for _, value in ipairs(args.executableArgs) do
+            for _, value in ipairs(runnable_entry.cmd_args) do
                 label = label .. value .. " "
             end
         end
 
-        local str = withIndex and string.format("%d: %s", i, label) or label
-        table.insert(option_strings, str)
+        table.insert(option_strings, label)
     end
 
     return option_strings
+end
+
+local function show_debuggable_menu(entries)
+    local choices = get_choice_strs(entries)
+    local function attach_mappings(bufnr, map)
+        local function on_select()
+            local choice = telescope_action_state.get_selected_entry().index
+
+            telescope_actions.close(bufnr)
+
+            M.debug(entries[choice])
+        end
+
+        map("n", "<cr>", on_select)
+        map("i", "<cr>", on_select)
+
+        -- Additional mappings don't push the item to the tagstack.
+        return true
+    end
+
+    telescope_pickers
+        .new({}, {
+            prompt_title = "Debuggables",
+            finder = telescope_finders.new_table({ results = choices }),
+            sorter = telescope_sorters.get_generic_fuzzy_sorter(),
+            previewer = nil,
+            attach_mappings = attach_mappings,
+        })
+        :find()
+end
+
+function M.debuggables_history(opts)
+    local _, first_entry = next(M.history)
+    if not first_entry then
+        vim.notify("History is empty")
+        return
+    end
+
+    if opts.run_first then
+        M.debug(first_entry)
+    else
+        show_debuggable_menu(M.history)
+    end
 end
 
 function M.debuggables(opts)
@@ -100,9 +156,7 @@ function M.debuggables(opts)
     end
 
     local current_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-    local debuggables_handler = function(err, results)
-        print(vim.inspect(err))
-        print(vim.inspect(results))
+    local debuggables_handler = function(_, results)
         if results == nil then
             vim.notify("No debuggables found")
             return
@@ -130,32 +184,22 @@ function M.debuggables(opts)
             end
         end
 
-        local choices = get_choice_strs(results, false, false)
+        print(vim.inspect(results))
 
-        local function attach_mappings(bufnr, map)
-            local function on_select()
-                local choice = telescope_action_state.get_selected_entry().index
+        local entries = vim.tbl_map(function(r)
+            local runnable_args = r.args
+            local entry = {
+                workspace_root = runnable_args.workspaceRoot,
+                cargo_args = runnable_args.cargoArgs,
+                cmd_args = runnable_args.executableArgs,
+            }
+            table.insert(entry.cargo_args, "--message-format=json")
+            return entry
+        end, results)
 
-                telescope_actions.close(bufnr)
-                M.debug(results[choice])
-            end
+        print(vim.inspect(entries))
 
-            map("n", "<cr>", on_select)
-            map("i", "<cr>", on_select)
-
-            -- Additional mappings don't push the item to the tagstack.
-            return true
-        end
-
-        telescope_pickers
-            .new({}, {
-                prompt_title = "Debuggables",
-                finder = telescope_finders.new_table({ results = choices }),
-                sorter = telescope_sorters.get_generic_fuzzy_sorter(),
-                previewer = nil,
-                attach_mappings = attach_mappings,
-            })
-            :find()
+        show_debuggable_menu(entries)
     end
 
     local params = {
@@ -165,18 +209,11 @@ function M.debuggables(opts)
     vim.lsp.buf_request(0, "experimental/runnables", params, debuggables_handler)
 end
 
-function M.debug(runnable)
-    local cargo_args = runnable.args.cargoArgs
-    table.insert(cargo_args, "--message-format=json")
-    for _, value in ipairs(runnable.args.cargoExtraArgs) do
-        table.insert(cargo_args, value)
-    end
-
+function M.debug(runnable_entry)
     vim.notify("Compiling - This might take some time...")
 
-    local cmd_args = runnable.args.executableArgs or {}
-    local cmd_args_str = table.concat(cmd_args, " ")
-    local cmd_args = input_cmd_args(cmd_args_str)
+    local cmd_args_str = table.concat(runnable_entry.cmd_args, " ")
+    runnable_entry.cmd_args = input_cmd_args(cmd_args_str)
 
     local on_exit = function(j, code)
         if code and code > 0 then
@@ -184,20 +221,20 @@ function M.debug(runnable)
                 vim.notify("An error occured while compiling.", vim.log.levels.ERROR)
             end)
         end
-        
+
         vim.schedule(function()
             for _, value in pairs(j:result()) do
                 local json = vim.fn.json_decode(value)
                 if type(json) == "table" and json.executable ~= vim.NIL and json.executable ~= nil then
-                    M.last_program = json.executable
+                    push_history_entry(runnable_entry)
 
                     local config = {
                         name = "Launch",
                         type = "lldb",
                         request = "launch",
                         program = json.executable,
-                        args = cmd_args,
-                        cwd = runnable.args.workspaceRoot,
+                        args = runnable_entry.cmd_args,
+                        cwd = runnable_entry.workspace_root,
                         stopOnEntry = false,
                         runInTerminal = false,
                     }
@@ -210,8 +247,8 @@ function M.debug(runnable)
 
     Job:new({
         command = "cargo",
-        args = cargo_args,
-        cwd = runnable.args.workspaceRoot,
+        args = runnable_entry.cargo_args,
+        cwd = runnable_entry.workspaceRoot,
         on_exit = on_exit,
     }):start()
 end
