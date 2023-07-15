@@ -4,20 +4,23 @@ local dap = require("dap")
 local dap_ui = require("dapui")
 local wk = require("which-key")
 local util = require("util")
+local dap_rust = require("config.dap.rust")
 
 function M.debuggables(prompt)
     local filetype = vim.bo.filetype
     if filetype == "rust" then
-        require("config.dap.rust").debuggables(prompt)
+        dap_rust.debuggables(prompt)
     end
 end
 
 function M.setup()
     dap.adapters.lldb = {
         type = "executable",
-        command = "lldb-vscode",
+        command = "/usr/bin/lldb-vscode",
         name = "lldb",
     }
+
+    dap.configurations.rust = dap_rust.configurations
 
     vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
     vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", linehl = "", numhl = "" })
@@ -59,8 +62,8 @@ function M.setup()
         ["<leader>d"] = {
             name = "Debug",
             ["e"] = { dap_ui.toggle, "Toggle UI" },
-            ["d"] = { util.wrap(M.debuggables, false), "Debug", silent = false },
-            ["D"] = { util.wrap(M.debuggables, true), "Debug with args", silent = false },
+            ["d"] = { util.wrap(M.debuggables, { current_pos = false }), "Debug", silent = false },
+            ["D"] = { util.wrap(M.debuggables, { current_pos = true }), "Debug at position", silent = false },
             ["R"] = { dap.run_last, "Rerun", silent = false },
             ["r"] = { dap.restart, "Restart", silent = false },
             ["q"] = { dap.close, "Close" },
