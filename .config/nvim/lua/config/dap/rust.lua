@@ -218,7 +218,7 @@ function M.debug(runnable_entry)
     local on_exit = function(j, code)
         if code and code > 0 then
             vim.schedule(function()
-                vim.notify("An error occured while compiling.", vim.log.levels.ERROR)
+                vim.notify("An error occured while compiling:\n" .. vim.inspect(j), vim.log.levels.ERROR)
             end)
         end
 

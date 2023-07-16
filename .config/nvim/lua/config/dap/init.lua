@@ -1,7 +1,7 @@
 local M = {}
 
 local dap = require("dap")
-local dap_ui = require("dapui")
+local dapui = require("dapui")
 local wk = require("which-key")
 local util = require("util")
 local dap_rust = require("config.dap.rust")
@@ -33,7 +33,7 @@ function M.setup()
     vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", linehl = "", numhl = "" })
     vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "", numhl = "" })
 
-    dap_ui.setup({
+    dapui.setup({
         icons = { expanded = "▾", collapsed = "▸" },
         layouts = {
             {
@@ -60,6 +60,16 @@ function M.setup()
         },
         windows = { indent = 1 },
     })
+    -- automatically open ui
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open()
+    end
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close()
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close()
+    end
 
     wk.register({
         ["<f9>"] = { dap.continue, "Debug continue" },
@@ -68,7 +78,7 @@ function M.setup()
         ["<f12>"] = { dap.step_out, "Debug step out" },
         ["<leader>d"] = {
             name = "Debug",
-            ["e"] = { dap_ui.toggle, "Toggle UI" },
+            ["e"] = { dapui.toggle, "Toggle UI" },
             ["h"] = { util.wrap(M.debuggables_history, { run_first = false }), "Debug history", silent = false },
             ["H"] = { util.wrap(M.debuggables_history, { run_first = true }), "Debug last", silent = false },
             ["d"] = { util.wrap(M.debuggables, { current_pos = false }), "Debug", silent = false },
