@@ -102,7 +102,7 @@ function M.show_documentation()
     elseif vim.fn.expand("%:t") == "Cargo.toml" then
         require("crates").show_popup()
     elseif dap.session() and not dap.session().closed then
-        require("dap.ui.widgets").hover()
+        require("dap.ui.widgets").hover(nil, { border = shared.window.border })
     else
         vim.lsp.buf.hover()
     end
@@ -127,7 +127,7 @@ function M.setup()
         local server = require("config.lsp.server." .. s)
         server.setup(lspconfig[s], M.on_init, M.on_attach, capabilities)
     end
-    require('lspconfig.ui.windows').default_options.border = shared.window.border
+    require("lspconfig.ui.windows").default_options.border = shared.window.border
 
     -- Setup lsp installer
     mason.setup({

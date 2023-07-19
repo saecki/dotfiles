@@ -184,8 +184,6 @@ function M.debuggables(opts)
             end
         end
 
-        print(vim.inspect(results))
-
         local entries = vim.tbl_map(function(r)
             local runnable_args = r.args
             local entry = {
@@ -196,8 +194,6 @@ function M.debuggables(opts)
             table.insert(entry.cargo_args, "--message-format=json")
             return entry
         end, results)
-
-        print(vim.inspect(entries))
 
         show_debuggable_menu(entries)
     end
