@@ -48,6 +48,7 @@ function M.setup()
         ["<leader>"] = {
             ["s"] = {
                 name = "Search/Replace",
+                ["e"] = { spectre.toggle, "Toggle UI" },
                 ["p"] = { spectre.open, "Project" },
                 ["f"] = { spectre.open_file_search, "File" },
             },
@@ -58,8 +59,8 @@ function M.setup()
         ["<leader>"] = {
             ["s"] = {
                 name = "Search/Replace",
-                ["p"] = { ":lua require('spectre').open_visual()<cr>", "Project" },
-                ["f"] = { ":lua require('spectre').open_visual({ path = vim.fn.expand('%') })<cr>", "File" },
+                ["p"] = { "<cmd>lua require('spectre').open_visual()<cr>", "Project" },
+                ["f"] = { "<cmd>lua require('spectre').open_visual({ path = vim.fn.expand('%') })<cr>", "File" },
             },
         },
     }, {
