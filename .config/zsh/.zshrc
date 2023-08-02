@@ -254,6 +254,16 @@ music-dl() {
     youtube-dl --get-id "$@" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
 }
 
+dotfiles-fix() {
+    TMP_DIR=$(mktemp -d)
+    cd "$TMP_DIR"
+    git clone ~/.config/dotfiles
+    cd dotfiles
+    git remote add upstream git@github.com:saecki/dotfiles
+    git fetch upstream main
+    git branch main -u upstream/main
+}
+
 # Clean latex files
 latex-clean() {
     rm -f *.aux
