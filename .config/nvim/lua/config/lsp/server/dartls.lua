@@ -1,10 +1,16 @@
 local M = {}
 
+-- TODO: local super = require("config.lsp")
+
 -- https://github.com/akinsho/flutter-tools.nvim
 -- slightly modified
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.dartls")
 
 local function closing_labels_handler(err, result, ctx)
+    if not super.enable_inlay_hints then
+        return
+    end
+
     if err then
         return
     end
@@ -14,7 +20,7 @@ local function closing_labels_handler(err, result, ctx)
         return
     end
 
-    vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
+    M.clear_inlay_hints(bufnr)
 
     local prefix = "// "
     local highlight = "NonText"
@@ -31,6 +37,10 @@ local function closing_labels_handler(err, result, ctx)
             hl_mode = "combine",
         })
     end
+end
+
+function M.clear_inlay_hints(bufnr)
+    vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
 end
 
 function M.setup(server, on_init, on_attach, capabilities)

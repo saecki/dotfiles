@@ -1,5 +1,6 @@
--- TODO: fix inlay hints
 local M = {}
+
+local shared = require("shared")
 
 local KIND = {
     OTHER = 1,
@@ -7,13 +8,17 @@ local KIND = {
 }
 
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer")
+local enable_inlay_hints = true
 
 local function inlay_hints_handler(err, result, ctx)
     if err then
         return
     end
+    if not shared.lsp.enable_inlay_hints then
+        return
+    end
 
-    vim.api.nvim_buf_clear_namespace(ctx.bufnr, namespace, 0, -1)
+    M.clear_inlay_hints(ctx.bufnr)
 
     local prefix = " "
     local highlight = "NonText"
@@ -45,7 +50,11 @@ local function inlay_hints_handler(err, result, ctx)
     end
 end
 
-local function inlay_hints()
+function M.inlay_hints()
+    if not shared.lsp.enable_inlay_hints then
+        return
+    end
+
     local bufnr = vim.api.nvim_get_current_buf()
     local line_count = vim.api.nvim_buf_line_count(bufnr) - 1
     local last_line = vim.api.nvim_buf_get_lines(bufnr, line_count, line_count + 1, true)
@@ -67,10 +76,16 @@ local function inlay_hints()
     vim.lsp.buf_request(0, "textDocument/inlayHint", params, inlay_hints_handler)
 end
 
+function M.clear_inlay_hints(bufnr)
+    vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
+end
+
 function M.setup(server, on_init, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
 
+        -- hook into the progress handler so we can show inlay hints
+        -- when the language server has started up.
         local old_progress_handler = vim.lsp.handlers["$/progress"]
         vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
             if old_progress_handler then
@@ -78,7 +93,7 @@ function M.setup(server, on_init, on_attach, capabilities)
             end
 
             if result.value and result.value.kind == "end" then
-                inlay_hints()
+                M.inlay_hints()
             end
         end
 
@@ -88,11 +103,11 @@ function M.setup(server, on_init, on_attach, capabilities)
             {
                 group = group,
                 buffer = buf,
-                callback = inlay_hints,
+                callback = M.inlay_hints,
             }
         )
 
-        inlay_hints()
+        M.inlay_hints()
     end
 
     server.setup({

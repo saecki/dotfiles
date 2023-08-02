@@ -7,9 +7,31 @@ local wk = require("which-key")
 local dap = require("dap")
 local shared = require("shared")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+-- servers
+local arduino_language_server = require("config.lsp.server.arduino_language_server")
+local clangd = require("config.lsp.server.clangd")
+local dartls = require("config.lsp.server.dartls")
+local lua_ls = require("config.lsp.server.lua_ls")
+local rust_analyzer = require("config.lsp.server.rust_analyzer")
+local texlab = require("config.lsp.server.texlab")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
-local document_highlight = true
+
+function M.inlay_hints()
+    local filetype = vim.bo.filetype
+    if filetype == "rust" then
+        rust_analyzer.inlay_hints()
+    end
+end
+
+function M.clear_inlay_hints()
+    local filetype = vim.bo.filetype
+    if filetype == "rust" then
+        rust_analyzer.clear_inlay_hints()
+    elseif filetype == "dart" then
+        dartls.clear_inlay_hints()
+    end
+end
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -32,7 +54,7 @@ function M.on_attach(client, buf)
             group = group,
             buffer = buf,
             callback = function()
-                if document_highlight then
+                if shared.lsp.enable_document_highlight then
                     vim.lsp.buf.document_highlight()
                 end
             end,
@@ -53,14 +75,25 @@ function M.on_attach(client, buf)
             ["a"] = { vim.lsp.buf.code_action, "Code action" },
             ["eh"] = {
                 function()
-                    document_highlight = not document_highlight
-                    if not document_highlight then
+                    shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
+                    if not shared.lsp.enable_document_highlight then
                         vim.lsp.buf.clear_references()
                     else
                         vim.lsp.buf.document_highlight()
                     end
                 end,
                 "Document highlight",
+            },
+            ["ei"] = {
+                function()
+                    shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
+                    if not shared.lsp.enable_inlay_hints then
+                        M.clear_inlay_hints()
+                    else
+                        M.inlay_hints()
+                    end
+                end,
+                "Inlay hints",
             },
             ["r"] = {
                 function()
@@ -115,18 +148,14 @@ function M.setup()
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
-    local servers = {
-        "arduino_language_server",
-        "clangd",
-        "dartls",
-        "rust_analyzer",
-        "lua_ls",
-        "texlab",
-    }
-    for _, s in ipairs(servers) do
-        local server = require("config.lsp.server." .. s)
-        server.setup(lspconfig[s], M.on_init, M.on_attach, capabilities)
-    end
+    arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_init, M.on_attach, capabilities)
+    clangd.setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
+    dartls.setup(lspconfig["dartls"], M.on_init, M.on_attach, capabilities)
+    lua_ls.setup(lspconfig["lua_ls"], M.on_init, M.on_attach, capabilities)
+    rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_init, M.on_attach, capabilities)
+    texlab.setup(lspconfig["texlab"], M.on_init, M.on_attach, capabilities)
+
+    -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border
 
     -- Setup lsp installer

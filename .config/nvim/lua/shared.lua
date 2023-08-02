@@ -11,6 +11,10 @@ local chars = {
 }
 
 return {
+    lsp = {
+        enable_inlay_hints = true,
+        enable_document_highlight = true,
+    },
     window = {
         border = {
             chars.corner_nw,
