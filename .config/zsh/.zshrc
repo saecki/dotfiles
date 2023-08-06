@@ -251,7 +251,7 @@ print-color-table() {
 
 # Youtube-dl
 music-dl() {
-    youtube-dl --get-id "$@" | xargs -P 5 -i yaydl -xf m4a 'https://youtube.com/watch?v={}'
+    yt-dlp --get-id "$@" | xargs -P 8 -i yt-dlp -xf 140 -o "%(title)s.%(ext)s" "https://youtube.com/watch?v={}"
 }
 
 dotfiles-fix() {
