@@ -30,6 +30,25 @@ local function input_cmd_args(suggestion)
     return vim.split(cmd_args_str, " ", { plain = true, trimempty = true })
 end
 
+local function init_commands()
+    local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
+
+    local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
+    local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
+
+    local commands = {}
+    local file = io.open(commands_file, "r")
+    if file then
+        for line in file:lines() do
+            table.insert(commands, line)
+        end
+        file:close()
+    end
+    table.insert(commands, 1, script_import)
+
+    return commands
+end
+
 M.configurations = {
     {
         name = "Launch",
@@ -46,25 +65,7 @@ M.configurations = {
             return input_cmd_args("")
         end,
         runInTerminal = false,
-
-        initCommands = function()
-            local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
-
-            local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
-            local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
-
-            local commands = {}
-            local file = io.open(commands_file, "r")
-            if file then
-                for line in file:lines() do
-                    table.insert(commands, line)
-                end
-                file:close()
-            end
-            table.insert(commands, 1, script_import)
-
-            return commands
-        end,
+        initCommands = init_commands,
     },
 }
 
@@ -233,6 +234,7 @@ function M.debug(runnable_entry)
                         cwd = runnable_entry.workspace_root,
                         stopOnEntry = false,
                         runInTerminal = false,
+                        initCommands = init_commands,
                     }
                     dap.run(config)
                     break
