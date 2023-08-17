@@ -128,6 +128,7 @@ alias lg='ls -lah --git --git-ignore'
 alias ll='exa -lh --git'
 alias ls='exa --git'
 alias tree='exa --tree --sort type'
+alias tree-git='exa --tree --sort type --git-ignore'
 
 # Editor
 alias v='$EDITOR'
