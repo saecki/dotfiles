@@ -134,8 +134,6 @@ function M.show_documentation()
         vim.cmd("Man " .. vim.fn.expand("<cword>"))
     elseif vim.fn.expand("%:t") == "Cargo.toml" then
         require("crates").show_popup()
-    elseif dap.session() and not dap.session().closed then
-        require("dap.ui.widgets").hover(nil, { border = shared.window.border })
     else
         vim.lsp.buf.hover()
     end

@@ -1,6 +1,7 @@
 local M = {}
 
 local dap = require("dap")
+local dap_ui_widgets = require("dap.ui.widgets")
 local dapui = require("dapui")
 local wk = require("which-key")
 local util = require("util")
@@ -98,6 +99,10 @@ function M.setup()
                     dap.set_breakpoint(nil, nil, vim.fn.input("Print message: "))
                 end,
                 "Logpoint",
+            },
+            ["v"] = {
+                function() dap_ui_widgets.hover(nil, { border = shared.window.border }) end,
+                "Evaluate expression",
             },
         },
     })
