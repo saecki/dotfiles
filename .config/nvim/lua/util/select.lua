@@ -111,13 +111,13 @@ function M.select(items, opts, on_choice)
 
     -- key mappings
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", {
-        callback = util.wrap(M.confirm),
+        callback = function() M.confirm() end,
         noremap = true,
         silent = true,
     })
     for i = 1, math.min(#formatted_items, 9) do
         vim.api.nvim_buf_set_keymap(M.buf, "n", tostring(i), "", {
-            callback = util.wrap(M.confirm, i),
+            callback = function() M.confirm(i) end,
             noremap = true,
             silent = true,
         })

@@ -4,7 +4,6 @@ local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local project = require("project_nvim")
 local wk = require("which-key")
-local util = require("util")
 
 local function find_files(no_ignore)
     local fd_cmd = { "fd", "--type", "f", "--exclude", ".git", "--hidden" }
@@ -69,8 +68,18 @@ function M.setup()
     telescope.load_extension("projects")
 
     wk.register({
-        ["<a-p>"] = { util.wrap(find_files, true), "Find ignored files" },
-        ["<c-p>"] = { util.wrap(find_files, false), "Find files" },
+        ["<a-p>"] = {
+            function()
+                find_files(true)
+            end,
+            "Find ignored files",
+        },
+        ["<c-p>"] = {
+            function()
+                find_files(false)
+            end,
+            "Find files",
+        },
         ["<leader>"] = {
             ["f"] = {
                 name = "Find",
@@ -82,12 +91,19 @@ function M.setup()
                 ["m"] = { telescope_builtin.keymaps, "Key mappings" },
                 ["i"] = { telescope_builtin.highlights, "Highlight groups" },
                 ["g"] = { telescope_builtin.git_status, "Git status" },
-                ["d"] = { util.wrap(telescope_builtin.diagnostics, { bufnr = 0 }), "Document diagnostics" },
+                ["d"] = {
+                    function()
+                        telescope_builtin.diagnostics({ bufnr = 0 })
+                    end,
+                    "Document diagnostics",
+                },
                 ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
                 ["s"] = { telescope_builtin.lsp_document_symbols, "LSP document symbols" },
                 ["S"] = { telescope_builtin.lsp_workspace_symbols, "LSP workspace symbols" },
                 ["w"] = {
-                    util.wrap(telescope_builtin.grep_string, { search = "\\s+$", use_regex = true }),
+                    function()
+                        telescope_builtin.grep_string({ search = "\\s+$", use_regex = true })
+                    end,
                     "Whitespace",
                 },
                 ["r"] = { telescope_builtin.resume, "Resume" },

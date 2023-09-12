@@ -3,7 +3,6 @@ local M = {}
 local trouble = require("trouble")
 local todo_comments = require("todo-comments")
 local wk = require("which-key")
-local util = require("util")
 
 function M.setup()
     trouble.setup({
@@ -59,17 +58,20 @@ function M.setup()
 
         ["g"] = {
             name = "Go",
-            ["r"] = { util.wrap(trouble.open, "lsp_references"), "LSP references" },
-            ["i"] = { util.wrap(trouble.open, "lsp_implementations"), "LSP implementations" },
-            ["y"] = { util.wrap(trouble.open, "lsp_type_definitions"), "LSP type definitions" },
+            ["r"] = { function() trouble.open("lsp_references") end, "LSP references" },
+            ["i"] = { function() trouble.open("lsp_implementations") end, "LSP implementations" },
+            ["y"] = { function() trouble.open("lsp_type_definitions") end, "LSP type definitions" },
         },
         ["<leader>l"] = {
             name = "List",
             ["e"] = { ":TroubleToggle<cr>", "Toggle UI" },
-            ["d"] = { util.wrap(trouble.open, "document_diagnostics"), "Document diagnostics" },
-            ["D"] = { util.wrap(trouble.open, "workspace_diagnostics"), "Workspace diagnostics" },
-            ["t"] = { util.wrap(trouble.open, "todo"), "TODO comments" },
+            ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
+            ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
+            ["t"] = { function() trouble.open("todo") end, "TODO comments" },
+
         },
+        ["]]"] = { function() trouble.next({skip_groups = true, jump = true}) end, "List next item" },
+        ["[["] = { function() trouble.previous({skip_groups = true, jump = true}) end, "List previous item" },
     })
 end
 

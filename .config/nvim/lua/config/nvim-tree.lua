@@ -100,7 +100,12 @@ function M.setup()
 
     wk.register({
         ["<leader>x"] = { api.tree.toggle, "Filetree toggle" },
-        ["<leader>X"] = { util.wrap(api.tree.toggle, { find_file = true }), "Filetree current file" },
+        ["<leader>X"] = {
+            function()
+                api.tree.toggle({ find_file = true })
+            end,
+            "Filetree current file",
+        },
     })
 end
 

@@ -4,7 +4,6 @@ local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
-local dap = require("dap")
 local shared = require("shared")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- servers

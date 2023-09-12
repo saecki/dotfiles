@@ -9,7 +9,6 @@ function M.setup(server, on_init, on_attach, capabilities)
             Lua = {
                 runtime = {
                     version = "LuaJIT",
-                    path = runtime_path,
                 },
                 diagnostics = {
                     globals = { "vim", "P" },

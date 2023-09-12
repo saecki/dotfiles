@@ -3,7 +3,6 @@ local M = {}
 local harpoon = require("harpoon")
 local harpoon_mark = require("harpoon.mark")
 local harpoon_ui = require("harpoon.ui")
-local util = require("util")
 local wk = require("which-key")
 local shared = require("shared")
 
@@ -15,9 +14,24 @@ function M.setup()
     })
 
     wk.register({
-        ["<c-h>"] = { util.wrap(harpoon_ui.nav_file, 1), "Harpoon file 1" },
-        ["<c-j>"] = { util.wrap(harpoon_ui.nav_file, 2), "Harpoon file 2" },
-        ["<c-k>"] = { util.wrap(harpoon_ui.nav_file, 3), "Harpoon file 3" },
+        ["<c-h>"] = {
+            function()
+                harpoon_ui.nav_file(1)
+            end,
+            "Harpoon file 1",
+        },
+        ["<c-j>"] = {
+            function()
+                harpoon_ui.nav_file(2)
+            end,
+            "Harpoon file 2",
+        },
+        ["<c-k>"] = {
+            function()
+                harpoon_ui.nav_file(3)
+            end,
+            "Harpoon file 3",
+        },
         ["<leader>h"] = {
             name = "Harpoon",
             ["a"] = { harpoon_mark.add_file, "Add file" },

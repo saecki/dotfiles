@@ -61,7 +61,7 @@ function M.setup()
     vim.opt.swapfile = false
 
     -- Spell checking
-    vim.opt.spell = false
+    vim.opt.spell = true
     vim.opt.spelllang = { "en", "de", "es", "nl" }
 
     -- Miscellaneous
@@ -70,35 +70,41 @@ function M.setup()
     vim.opt.hidden = true
 
     -- Highlight yanked text
-    local group = vim.api.nvim_create_augroup("HighlightYank", {})
-    vim.api.nvim_create_autocmd("TextYankPost", {
-        group = group,
-        callback = function()
-            vim.highlight.on_yank({ on_visual = false, timeout = 150 })
-        end,
-    })
+    do
+        local group = vim.api.nvim_create_augroup("HighlightYank", {})
+        vim.api.nvim_create_autocmd("TextYankPost", {
+            group = group,
+            callback = function()
+                vim.highlight.on_yank({ on_visual = false, timeout = 150 })
+            end,
+        })
+    end
 
     -- Split windows to the right
-    local group = vim.api.nvim_create_augroup("SplitHelpWindow", {})
-    vim.api.nvim_create_autocmd("FileType", {
-        group = group,
-        pattern = "help",
-        callback = function()
-            vim.opt_local.bufhidden = "unload"
-            vim.cmd("wincmd L")
-            vim.api.nvim_win_set_width(0, 90)
-        end,
-    })
+    do
+        local group = vim.api.nvim_create_augroup("SplitHelpWindow", {})
+        vim.api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = "help",
+            callback = function()
+                vim.opt_local.bufhidden = "unload"
+                vim.cmd("wincmd L")
+                vim.api.nvim_win_set_width(0, 90)
+            end,
+        })
+    end
 
     -- Git commit spell checking
-    local group = vim.api.nvim_create_augroup("GitCommitSpellChecking", {})
-    vim.api.nvim_create_autocmd("FileType", {
-        pattern = "gitcommit",
-        group = group,
-        callback = function()
-            vim.opt_local.spell = true
-        end,
-    })
+    do
+        local group = vim.api.nvim_create_augroup("GitCommitSpellChecking", {})
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "gitcommit",
+            group = group,
+            callback = function()
+                vim.opt_local.spell = true
+            end,
+        })
+    end
 end
 
 return M

@@ -4,7 +4,7 @@ local dap = require("dap")
 local dap_ui_widgets = require("dap.ui.widgets")
 local dapui = require("dapui")
 local wk = require("which-key")
-local util = require("util")
+local shared = require("shared")
 local dap_rust = require("config.dap.rust")
 
 function M.debuggables_history(opts)
@@ -39,9 +39,9 @@ function M.setup()
         layouts = {
             {
                 elements = {
-                    { id = "scopes", size = 0.4 },
+                    { id = "scopes",      size = 0.4 },
                     { id = "breakpoints", size = 0.3 },
-                    { id = "stacks", size = 0.3 },
+                    { id = "stacks",      size = 0.3 },
                 },
                 size = 80,
                 position = "left",
@@ -80,10 +80,34 @@ function M.setup()
         ["<leader>d"] = {
             name = "Debug",
             ["e"] = { dapui.toggle, "Toggle UI" },
-            ["h"] = { util.wrap(M.debuggables_history, { run_first = false }), "Debug history", silent = false },
-            ["H"] = { util.wrap(M.debuggables_history, { run_first = true }), "Debug last", silent = false },
-            ["d"] = { util.wrap(M.debuggables, { current_pos = false }), "Debug", silent = false },
-            ["D"] = { util.wrap(M.debuggables, { current_pos = true }), "Debug at position", silent = false },
+            ["h"] = {
+                function()
+                    M.debuggables_history({ run_first = false })
+                end,
+                "Debug history",
+                silent = false,
+            },
+            ["H"] = {
+                function()
+                    M.debuggables_history({ run_first = true })
+                end,
+                "Debug last",
+                silent = false,
+            },
+            ["d"] = {
+                function()
+                    M.debuggables({ current_pos = false })
+                end,
+                "Debug",
+                silent = false,
+            },
+            ["D"] = {
+                function()
+                    M.debuggables({ current_pos = true })
+                end,
+                "Debug at position",
+                silent = false,
+            },
             ["R"] = { dap.run_last, "Rerun", silent = false },
             ["r"] = { dap.restart, "Restart", silent = false },
             ["q"] = { dap.close, "Close" },
@@ -101,7 +125,9 @@ function M.setup()
                 "Logpoint",
             },
             ["v"] = {
-                function() dap_ui_widgets.hover(nil, { border = shared.window.border }) end,
+                function()
+                    dap_ui_widgets.hover(nil, { border = shared.window.border })
+                end,
                 "Evaluate expression",
             },
         },
