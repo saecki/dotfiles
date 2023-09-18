@@ -117,10 +117,16 @@ function M.on_attach(client, buf)
 
     wk.register({
         ["<leader>"] = {
-            ["a"] = { ":lua vim.lsp.buf.range_code_action()<cr>", "Range code action" },
+            ["a"] = {
+                function()
+                    vim.lsp.buf.code_action()
+                    vim.api.nvim_input("<ESC>")
+                end,
+                "Range code action",
+            },
         },
     }, {
-        mode = "x",
+        mode = "v",
         buffer = buf,
     })
 end
