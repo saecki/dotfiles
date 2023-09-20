@@ -1,6 +1,7 @@
 local M = {}
 
 local shared = require("shared")
+local wk = require("which-key")
 
 local KIND = {
     OTHER = 1,
@@ -8,6 +9,17 @@ local KIND = {
 }
 
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer")
+
+local use_clippy = false
+local function toggle_check_command()
+    use_clippy = not use_clippy
+    M.setup(M.server, M.on_init, M.on_attach, M.capabilities, { use_clippy = use_clippy })
+    if use_clippy then
+        vim.notify("cargo clippy", vim.log.levels.INFO)
+    else
+        vim.notify("cargo check", vim.log.levels.INFO)
+    end
+end
 
 local function inlay_hints_handler(err, result, ctx)
     if err then
@@ -29,7 +41,9 @@ local function inlay_hints_handler(err, result, ctx)
 
             local text = ""
             if type(item.label) == "table" then
-                local labels = vim.tbl_map(function(i) return i.value end, item.label)
+                local labels = vim.tbl_map(function(i)
+                    return i.value
+                end, item.label)
                 text = table.concat(labels)
             else -- string
                 text = item.label
@@ -79,7 +93,13 @@ function M.clear_inlay_hints(bufnr)
     vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
 end
 
-function M.setup(server, on_init, on_attach, capabilities)
+function M.setup(server, on_init, on_attach, capabilities, opts)
+    M.server = server
+    M.on_init = on_init
+    M.on_attach = on_attach
+    M.capabilities = capabilities
+
+    opts = opts or {}
     local function m_on_attach(client, buf)
         on_attach(client, buf)
 
@@ -107,6 +127,15 @@ function M.setup(server, on_init, on_attach, capabilities)
         )
 
         M.inlay_hints()
+
+        wk.register({
+            ["<leader>i"] = {
+                name = "Lsp",
+                ["c"] = { toggle_check_command, "Rust check command" },
+            },
+        }, {
+            buffer = buf,
+        })
     end
 
     server.setup({
@@ -115,6 +144,9 @@ function M.setup(server, on_init, on_attach, capabilities)
         capabilities = capabilities,
         settings = {
             ["rust-analyzer"] = {
+                check = {
+                    command = opts.use_clippy and "clippy" or "check",
+                },
                 assist = {
                     importEnforceGranularity = true,
                     importGranularity = "module",
