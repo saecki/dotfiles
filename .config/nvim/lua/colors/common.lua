@@ -131,8 +131,9 @@ function M.highlights(p)
         WhichKey = { fg = p.special },
 
         -- indent-blankline
-        IndentBlanklineChar      = { fg = p.whitespace },
-        IndentBlanklineSpaceChar = { fg = p.whitespace },
+        IblIndent     = { fg = p.whitespace },
+        IblWhitespace = { fg = p.whitespace },
+        IblScope      = { fg = p.whitespace },
 
         -- lualine
         LualineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },

@@ -1,18 +1,23 @@
 local M = {}
 
-local indent_blankline = require("indent_blankline")
+local ibl = require("ibl")
 
 function M.setup()
-    indent_blankline.setup({
-        char = "⎸",
-        show_trailing_blankline_indent = false,
-        use_treesitter = true,
-        filetype_exclude = {
-            "man",
-            "help",
-            "NvimTree",
-            "lsp-installer",
-            "packer",
+    ibl.setup({
+        indent = {
+            char = "▏",
+        },
+        scope = {
+            enabled = false,
+        },
+        exclude = {
+            filetypes = {
+                "man",
+                "help",
+                "NvimTree",
+                "lsp-installer",
+                "packer",
+            },
         },
     })
 end
