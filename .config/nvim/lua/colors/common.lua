@@ -76,6 +76,9 @@ function M.highlights(p)
         CmpItemKindReference    = { fg = p.special, bold = true   },
         CmpItemKindEvent        = { fg = p.special, bold = true   },
 
+        CmpItemKindVersion      = { fg = p.special, bold = true   },
+        CmpItemKindFeature      = { fg = p.special, bold = true   },
+
         CmpItemAbbrDeprecated   = { fg = p.text3,   strikethrough = true },
 
         -- git

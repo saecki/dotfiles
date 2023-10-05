@@ -31,6 +31,10 @@ local kind_icons = {
     ["Color"] = "🅒 ",
     ["Event"] = "🅔 ",
     ["Text"] = "🅣 ",
+
+    -- crates.nvim extensions
+    ["Version"] = "🅥 ",
+    ["Feature"] = "🅕 ",
 }
 
 function M.setup()
@@ -49,6 +53,7 @@ function M.setup()
             fields = { "kind", "abbr", "menu" },
             format = function(_, vim_item)
                 vim_item.menu = vim_item.kind
+                vim_item.menu_hl_group = "CmpItemKind"..vim_item.kind
                 vim_item.kind = kind_icons[vim_item.kind] or "  "
                 return vim_item
             end,
