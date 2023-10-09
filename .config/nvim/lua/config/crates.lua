@@ -10,6 +10,11 @@ function M.setup()
             border = shared.window.border,
             show_version_date = true,
         },
+        src = {
+            cmp = {
+                enabled = true,
+            }
+        },
         null_ls = {
             enabled = true,
         },
