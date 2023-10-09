@@ -150,7 +150,7 @@ function M.setup(server, on_init, on_attach, capabilities, opts)
                 assist = {
                     importEnforceGranularity = true,
                     importGranularity = "module",
-                    importPrefix = "plain",
+                    importPrefix = "crate",
                 },
                 inlayHints = {
                     maxLength = 40,
