@@ -29,6 +29,7 @@ function M.setup()
             FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
             STOPSHIP = { icon = " ", color = "error" },
             HACK = { icon = " ", color = "warning", alt = { "XXX" } },
+            SAFETY = { icon = " ", color = "warning"},
             TODO = { icon = " ", color = "info", alt = { "todo!" } },
             PERF = { icon = " ", color = "info" },
             NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
