@@ -264,6 +264,8 @@ function M.setup()
         },
     })
 
+    require("config.lang.zig").setup()
+
     local wk = require("which-key")
     wk.register({
         ["<leader>p"] = { ":Lazy<cr>", "Toggle Plugins UI" },
