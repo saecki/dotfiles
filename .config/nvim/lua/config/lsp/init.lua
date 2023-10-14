@@ -13,6 +13,7 @@ local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
 local texlab = require("config.lsp.server.texlab")
+local zls = require("config.lsp.server.zls")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
 
@@ -157,6 +158,7 @@ function M.setup()
     lua_ls.setup(lspconfig["lua_ls"], M.on_init, M.on_attach, capabilities)
     rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_init, M.on_attach, capabilities)
     texlab.setup(lspconfig["texlab"], M.on_init, M.on_attach, capabilities)
+    zls.setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
 
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border
