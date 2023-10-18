@@ -264,6 +264,7 @@ function M.setup()
         },
     })
 
+    -- zig.vim is installed by the system package manager on fedora
     require("config.lang.zig").setup()
 
     local wk = require("which-key")
