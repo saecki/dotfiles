@@ -56,12 +56,10 @@ function M.setup()
         max_lines = 2,
         categories = {
             default = {
-                ["if"] = false,
-                ["switch"] = false,
-                ["case"] = false,
+                ["conditional"] = false,
                 ["loop"] = false,
                 ["block"] = false,
-                ["lambda"] = false,
+                ["closure"] = false,
             },
             lua = {
                 ["table"] = false,
