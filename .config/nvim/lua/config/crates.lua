@@ -35,6 +35,9 @@ function M.setup()
             ["a"] = { crates.update_all_crates, "Update all crates" },
             ["A"] = { crates.upgrade_all_crates, "Upgrade all crates" },
 
+            ["x"] = { crates.expand_plain_crate_to_inline_table, "Expand to inline table" },
+            ["X"] = { crates.extract_crate_into_table, "Extract into table" },
+
             ["H"] = { crates.open_homepage, "Open homepage" },
             ["R"] = { crates.open_repository, "Open repository" },
             ["D"] = { crates.open_documentation, "Open documentation" },
