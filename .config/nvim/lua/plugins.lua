@@ -250,7 +250,12 @@ function M.setup()
         },
 
         -- Discord rich presence
-        "andweeb/presence.nvim",
+        {
+            "andweeb/presence.nvim",
+            config = function()
+                require("config.presence").setup()
+            end,
+        },
 
         -- Browser Integration
         {
