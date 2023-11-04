@@ -115,7 +115,7 @@ function M.setup()
             { name = "crates" },
             { name = "luasnip" },
             { name = "path" },
-            { name = "buffer", keyword_length = 4 },
+            { name = "buffer", keyword_length = 4, option = { keyword_pattern = [[\k\+]] } },
         },
         experimental = {
             native_menu = false,
