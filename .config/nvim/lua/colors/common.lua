@@ -43,6 +43,16 @@ function M.highlights(p)
         TSInclude       = { fg = p.lyellow,                                  },
         TSNamespace     = { fg = p.preproc,                                  },
 
+        -- lsp semantic tokens
+        -- ["@lsp.type.generic"] = { link = "Normal" },
+        ["@lsp.type.keyword"] = { link = "Keyword" },
+        ["@lsp.type.punctuation"] = { link = "Special" },
+        ["@lsp.type.string"] = { link = "String" },
+        ["@lsp.type.character"] = { link = "Character" },
+        ["@lsp.type.number"] = { link = "Character" },
+        ["@lsp.type.boolean"] = { link = "Character" },
+        ["@lsp.type.builtinType"] = { link = "Type" },
+
         -- treesitter context
         TreesitterContextLineNumber = { link = "Pmenu" },
 
