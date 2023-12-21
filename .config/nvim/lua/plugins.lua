@@ -42,9 +42,9 @@ function M.setup()
             end,
         },
         {
-            "norcalli/nvim-colorizer.lua",
+            "echasnovski/mini.hipatterns",
             config = function()
-                require("config.colorizer").setup()
+                require("config.mini_hipatterns").setup()
             end,
         },
         {
