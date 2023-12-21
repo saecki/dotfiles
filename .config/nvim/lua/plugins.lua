@@ -256,17 +256,6 @@ function M.setup()
                 require("config.presence").setup()
             end,
         },
-
-        -- Browser Integration
-        {
-            "glacambre/firenvim",
-            build = function()
-                vim.call("firenvim#install", 0)
-            end,
-            config = function()
-                require("config.firenvim").setup()
-            end,
-        },
     })
 
     -- zig.vim is installed by the system package manager on fedora
