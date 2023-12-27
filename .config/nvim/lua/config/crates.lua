@@ -6,7 +6,6 @@ local shared = require("shared")
 
 function M.setup()
     crates.setup({
-        max_parallel_requests = 5,
         popup = {
             border = shared.window.border,
             show_version_date = true,
