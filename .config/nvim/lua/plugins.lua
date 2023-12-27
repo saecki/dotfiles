@@ -142,7 +142,7 @@ function M.setup()
             end,
         },
         {
-            "jose-elias-alvarez/null-ls.nvim",
+            "nvimtools/none-ls.nvim",
             dependencies = { "nvim-lspconfig" },
             config = function()
                 require("config.null-ls").setup()
