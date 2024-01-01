@@ -30,7 +30,7 @@ function M.setup()
     wk.register({
         ["<leader>e"] = {
             name = "Toggle (enable)",
-            ["c"] = { ":ColorizerToggle<cr>", "Colorizer" },
+            ["c"] = { hipatterns.toggle, "Colorizer" },
         },
     })
 end
