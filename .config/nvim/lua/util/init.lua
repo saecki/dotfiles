@@ -6,6 +6,13 @@ else
     M.is_windows = package.config:sub(1, 1) == "\\"
 end
 
+function M.bash_eval(command)
+    local file = io.popen(command, "r")
+    local res = file:read("*all")
+    file:close()
+    return res
+end
+
 function M.path_separator()
     if M.is_windows then
         return "\\"

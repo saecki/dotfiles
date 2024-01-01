@@ -3,16 +3,14 @@ local M = {}
 local util = require("util")
 
 function M.setup()
-    vim.g.zig_fmt_autosave = 0
-    vim.g.zig_fmt_parse_errors = 0
-
     -- make library files readonly
-    local zig_env = vim.json.decode(util.bash_eval("zig env"))
-    local lib_dir = zig_env.lib_dir.."/**.zig"
-    local group = vim.api.nvim_create_augroup("ZigLibsReadonly", {})
+    local registry_path = vim.fn.expand("$HOME/.cargo/registry/src/**.rs")
+    local rustc_sysroot = vim.trim(util.bash_eval("rustc --print sysroot"))
+    local stdlib_path = rustc_sysroot.."/lib/rustlib/src/**.rs"
+    local group = vim.api.nvim_create_augroup("RustLibsReadonly", {})
     vim.api.nvim_create_autocmd("BufReadPre", {
         group = group,
-        pattern = { lib_dir },
+        pattern = { registry_path, stdlib_path },
         callback = function(ev)
             vim.api.nvim_buf_set_option(ev.buf, "readonly", true)
             vim.api.nvim_buf_set_option(ev.buf, "modifiable", false)

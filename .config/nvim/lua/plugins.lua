@@ -261,6 +261,9 @@ function M.setup()
     -- zig.vim is installed by the system package manager on fedora
     require("config.lang.zig").setup()
 
+    -- some rust things
+    require("config.lang.rust").setup()
+
     local wk = require("which-key")
     wk.register({
         ["<leader>p"] = { ":Lazy<cr>", "Toggle Plugins UI" },
