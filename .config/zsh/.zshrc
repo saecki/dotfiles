@@ -28,7 +28,8 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Completion
 fpath=("$ZDOTDIR/functions" "/usr/share/zsh/vendor-completions" $fpath)
 autoload -Uz compinit; compinit
-autoload -Uz manydots-magic; manydots-magic
+# TODO: fix autosuggestions breaking manydots magic
+# autoload -Uz manydots-magic; manydots-magic
 _comp_options+=(globdots)
 
 # Completion style
