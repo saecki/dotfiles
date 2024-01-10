@@ -10,6 +10,12 @@ function M.setup()
         ["<leader>n"] = {
             name = "Notification",
             ["d"] = { notify.dismiss, "Dismiss" },
+            ["D"] = {
+                function()
+                    notify.dismiss({ pending = true })
+                end,
+                "Dismiss",
+            },
             ["h"] = { notify._print_history, "History" },
         },
     })
