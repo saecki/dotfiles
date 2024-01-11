@@ -19,7 +19,7 @@ local function read_current_colorscheme(path)
     return current
 end
 
-local function update_colorscheme()
+function M.update_colorscheme()
     local dir = vim.env.HOME .. "/.config/alco/alco.yml"
     local current = read_current_colorscheme(dir)
     if current == "dark" then
@@ -32,14 +32,14 @@ local function update_colorscheme()
 end
 
 function M.setup()
-    update_colorscheme()
+    M.update_colorscheme()
 end
 
 function M.reload()
     package.loaded["colors.common"] = nil
     package.loaded["colors.minedark"] = nil
     package.loaded["colors.minelight"] = nil
-    update_colorscheme()
+    M.update_colorscheme()
 end
 
 return M
