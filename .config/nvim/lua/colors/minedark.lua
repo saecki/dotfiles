@@ -43,8 +43,8 @@ M.palette = {
     scrollfg   = "#a8a8a8",
 
     title      = "#ffd7ff",
-    preproc    = "#00afff",
-    type       = "#5fd7af",
+    preproc    = "#589fff",
+    type       = "#5fccaf",
     special    = "#afafff",
     todo       = "#afff00",
     nontext    = "#5b676a",
