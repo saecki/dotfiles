@@ -11,9 +11,9 @@ function M.setup()
         icons = false,
         fold_open = "",
         fold_closed = "",
-        auto_jump = { -- TODO: fix
-            -- "lsp_definitions",
-            -- "lsp_type_definitions",
+        auto_jump = {
+            "lsp_definitions",
+            "lsp_type_definitions",
         },
         signs = {
             other = "",
@@ -59,6 +59,7 @@ function M.setup()
 
         ["g"] = {
             name = "Go",
+            ["d"] = { function() trouble.open("lsp_definitions") end, "LSP definition" },
             ["r"] = { function() trouble.open("lsp_references") end, "LSP references" },
             ["i"] = { function() trouble.open("lsp_implementations") end, "LSP implementations" },
             ["y"] = { function() trouble.open("lsp_type_definitions") end, "LSP type definitions" },
@@ -71,8 +72,8 @@ function M.setup()
             ["t"] = { function() trouble.open("todo") end, "TODO comments" },
 
         },
-        ["]]"] = { function() trouble.next({skip_groups = true, jump = true}) end, "List next item" },
-        ["[["] = { function() trouble.previous({skip_groups = true, jump = true}) end, "List previous item" },
+        ["]t"] = { function() trouble.next({skip_groups = true, jump = true}) end, "List next item" },
+        ["[t"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "List previous item" },
     })
 end
 

@@ -68,11 +68,8 @@ function M.setup()
 	})
     -- stylua: ignore end
     wk.register({
-        ["g"] = {
-            name = "Go",
-            ["}"] = { gitsigns_actions.next_hunk, "Next hunk" },
-            ["{"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
-        },
+        ["[g"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
+        ["]g"] = { gitsigns_actions.next_hunk, "Next hunk" },
         ["<leader>g"] = {
             name = "Git",
             ["u"] = { gitsigns.reset_hunk, "Undo hunk" },

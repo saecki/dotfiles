@@ -68,7 +68,6 @@ function M.on_attach(client, buf)
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
-            ["d"] = { vim.lsp.buf.definition, "LSP definition" },
             ["D"] = { vim.lsp.buf.declaration, "LSP declaration" },
         },
         ["<leader>"] = {
