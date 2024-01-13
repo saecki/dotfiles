@@ -37,6 +37,8 @@ function M.setup()
         },
         {
             "nvim-lualine/lualine.nvim",
+            -- for multicursors.nvim
+            dependencies = { "smoka7/hydra.nvim" },
             config = function()
                 require("config.lualine").setup()
             end,
@@ -61,7 +63,13 @@ function M.setup()
         },
 
         -- Multicursor
-        "mg979/vim-visual-multi",
+        {
+            "smoka7/multicursors.nvim",
+            dependencies = { "smoka7/hydra.nvim" },
+            config = function()
+                require("config.multicursors").setup()
+            end,
+        },
 
         -- Filetree
         {

@@ -1,7 +1,8 @@
 local M = {}
 
 local lualine = require("lualine")
--- local lsp_status = require("lsp-status")
+local hydra_status = require("hydra.statusline")
+local multicursors_utils = require("multicursors.utils")
 
 -- stylua: ignore start
 local modemap = {
@@ -57,6 +58,20 @@ local function position()
     return string.format(template, cursor[1], cursor[2])
 end
 
+local function multicursors_status()
+    local name = hydra_status.get_name()
+    local selections = multicursors_utils.get_all_selections()
+    local main_selection = multicursors_utils.get_main_selection()
+    local sel_idx = 1
+    for _,s in ipairs(selections) do
+        if s.row < main_selection.row or s.row == main_selection.row and s.col < main_selection.col then
+            sel_idx = sel_idx + 1
+        end
+    end
+    local num_selections = #selections + 1
+    return string.format("%s [%s/%s]", name, sel_idx, num_selections)
+end
+
 function M.setup()
     local filename_symbols = {
         modified = " ",
@@ -107,7 +122,9 @@ function M.setup()
             lualine_a = {
                 { mode, separator = { left = " ", right = "" } },
             },
-            lualine_b = {},
+            lualine_b = {
+                { multicursors_status, cond = hydra_status.is_active },
+            },
             lualine_c = {
                 {
                     "filename",
