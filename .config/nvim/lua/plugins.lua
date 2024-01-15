@@ -276,6 +276,9 @@ function M.setup()
     -- some rust things
     require("config.lang.rust").setup()
 
+    -- some lua things
+    require("config.lang.lua").setup()
+
     local wk = require("which-key")
     wk.register({
         ["<leader>p"] = { ":Lazy<cr>", "Toggle Plugins UI" },
