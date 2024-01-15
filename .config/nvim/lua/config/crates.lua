@@ -3,6 +3,7 @@ local M = {}
 local crates = require("crates")
 local wk = require("which-key")
 local shared = require("shared")
+local lsp_config = require("config.lsp")
 
 function M.setup()
     crates.setup({
@@ -13,11 +14,14 @@ function M.setup()
         },
         src = {
             cmp = {
-                enabled = true,
-            }
+                use_custom_kind = true,
+            },
         },
-        null_ls = {
+        lsp = {
             enabled = true,
+            on_attach = lsp_config.on_attach,
+            actions = true,
+            completion = true,
         },
     })
 

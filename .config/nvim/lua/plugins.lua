@@ -245,7 +245,11 @@ function M.setup()
         -- Rust
         {
             dir = "~/Projects/crates.nvim",
-            dependencies = { "nvim-lua/plenary.nvim" },
+            dependencies = {
+                "nvim-lua/plenary.nvim",
+                -- for the attach function
+                "neovim/nvim-lspconfig",
+            },
             config = function()
                 require("config.crates").setup()
             end,
