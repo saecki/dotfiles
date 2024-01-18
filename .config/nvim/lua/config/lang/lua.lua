@@ -12,9 +12,9 @@ function M.setup()
     )
     vim.api.nvim_create_user_command(
         "TealEnumToEmmyluaAnnotation",
-        [['<,'>s/\s*enum \(.*\)/---@enum\rlocal \1 = {/r]]
+        [['<,'>s/\s*enum \(.*\)/---@enum \1\rM.\1 = {/r]]
             .. [[ | '<,'>s/\s*"\(.*\)"/    \1 = "\1",/r ]]
-            .. [[ |  '<,'>s/\s*end/}/r]],
+            .. [[ |  '<,'>s/\s*end$/}/r]],
         {
             range = true,
         }
