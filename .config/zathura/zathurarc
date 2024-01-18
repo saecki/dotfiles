@@ -1,5 +1,5 @@
 set incremental-search true
-set font "JetBrainsMonoNerdFontComplete-Regular normal 10"
+set font "JetBrainsMonoNerdFontComplete-Regular normal 11"
 
 map <C-l> nohlsearch
 
