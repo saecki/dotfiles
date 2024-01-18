@@ -1,9 +1,17 @@
-set incremental-search
+set incremental-search true
+set font "JetBrainsMonoNerdFontComplete-Regular normal 10"
 
 map <C-l> nohlsearch
 
 map <C-=> zoom in
 map <C--> zoom out
+
+# Search and Links
+set highlight-active-color "#ff7555"
+set highlight-color "#fabd2f"
+set highlight-fg "#121212"
+# Opacity
+set highlight-transparency 0.8
 
 # Dracula color theme for Zathura
 # Swaps Foreground for Background to get a light version if the user prefers
