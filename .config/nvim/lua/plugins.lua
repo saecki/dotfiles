@@ -246,7 +246,6 @@ function M.setup()
         {
             dir = "~/Projects/crates.nvim",
             dependencies = {
-                "nvim-lua/plenary.nvim",
                 -- for the attach function
                 "neovim/nvim-lspconfig",
             },
