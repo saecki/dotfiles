@@ -33,6 +33,7 @@ function M.highlights(p)
         Todo            = { fg = p.todo,     bg = "none",       bold = true  },
         Directory       = { fg = p.lgreen,                                   },
         Search          = { fg = p.invtext,  bg = p.lyellow,                 },
+        CurSearch       = { fg = p.invtext,  bg = p.texthl2,                 },
         MatchParen      = {                  bg = p.ref_text,                },
         NonText         = { fg = p.nontext,                                  },
         Whitespace      = { fg = p.whitespace,                               },
