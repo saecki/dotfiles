@@ -17,10 +17,22 @@ function M.setup()
         severity_sort = true,
         float = {
             border = shared.window.border,
-        }
+        },
     })
 
     wk.register({
+        ["[e"] = {
+            function()
+                vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+            end,
+            "Previous error",
+        },
+        ["]e"] = {
+            function()
+                vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+            end,
+            "Next error",
+        },
         ["[d"] = { vim.diagnostic.goto_prev, "Previous diagnostic" },
         ["]d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
     })
