@@ -7,6 +7,7 @@ local lsp_config = require("config.lsp")
 
 function M.setup()
     crates.setup({
+        autoupdate_throttle = 50,
         max_parallel_requests = 32,
         popup = {
             border = shared.window.border,
