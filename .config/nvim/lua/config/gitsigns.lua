@@ -30,7 +30,7 @@ local function current_line_blame_formatter(name, blame_info, opts)
 end
 
 function M.setup()
-    -- stylua: ignore start
+    ---@format disable-next
 	gitsigns.setup({
 		signs = {
 			add          = { hl = "GitSignsAdd",    text = "▌", numhl = "GitSignsAddNr",    linehl = "GitSignsAddLn"    },
@@ -39,7 +39,7 @@ function M.setup()
 			topdelete    = { hl = "GitSignsDelete", text = "▌", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
 			changedelete = { hl = "GitSignsChgDel", text = "▌", numhl = "GitSignsChgDelNr", linehl = "GitSignsChgDelLn" },
 		},
-		numhl = false,
+        numhl = false,
 		linehl = false,
 		word_diff = false,
 		current_line_blame = false,
@@ -66,7 +66,6 @@ function M.setup()
 			col = 1,
 		},
 	})
-    -- stylua: ignore end
     wk.register({
         ["[g"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
         ["]g"] = { gitsigns_actions.next_hunk, "Next hunk" },

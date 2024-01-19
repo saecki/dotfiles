@@ -1,7 +1,7 @@
 local M = {}
 
 function M.highlights(p)
-    -- stylua: ignore start
+    ---@format disable-next
     return {
         -- editor
         Normal          = { fg = p.fg,       bg = p.bg,                      },
@@ -208,7 +208,6 @@ function M.highlights(p)
         DapLogPoint   = { fg = p.lyellow },
         DapStopped    = { fg = p.lgreen  },
     }
-    -- stylua: ignore end
 end
 
 function M.apply_term_colors(pal)

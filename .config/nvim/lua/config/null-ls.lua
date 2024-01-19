@@ -20,15 +20,11 @@ end
 function M.setup()
     null_ls.setup({
         on_attach = lsp_config.on_attach,
-        sources = {
-            null_ls.builtins.diagnostics.teal,
-            null_ls.builtins.formatting.stylua,
-        },
     })
 
     local DIAGNOSTICS = methods.internal.DIAGNOSTICS
 
-    local source = h.make_builtin({
+    local cods_source = h.make_builtin({
         name = "cods",
         method = DIAGNOSTICS,
         filetypes = { "cods" },
@@ -66,8 +62,7 @@ function M.setup()
 
         factory = h.generator_factory,
     })
-
-    null_ls.register(source)
+    null_ls.register(cods_source)
 end
 
 return M

@@ -6,7 +6,6 @@ local wk = require("which-key")
 local util = require("util")
 
 function M.setup()
-    -- stylua: ignore start
     nvim_tree.setup {
         diagnostics = {
             enable = true,
@@ -96,7 +95,6 @@ function M.setup()
             })
         end
     }
-    -- stylua: ignore end
 
     wk.register({
         ["<leader>x"] = { api.tree.toggle, "Filetree toggle" },

@@ -2,7 +2,6 @@ local M = {}
 
 local common = require("colors.common")
 
--- stylua: ignore start
 M.palette = {
     bg         = "#ffffff",
     fg         = "#313131",
@@ -63,7 +62,6 @@ M.palette = {
     diff_d_fg  = "#ff8080",
     diff_cd_fg = "#c982ff",
 }
--- stylua: ignore end
 
 M.highlights = common.highlights(M.palette)
 

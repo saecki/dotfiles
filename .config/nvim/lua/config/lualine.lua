@@ -4,39 +4,39 @@ local lualine = require("lualine")
 local hydra_status = require("hydra.statusline")
 local multicursors_utils = require("multicursors.utils")
 
--- stylua: ignore start
+---@format disable-next
 local modemap = {
-    ["n"]   = "N ",
-    ["no"]  = "O ",
-    ["nov"] = "O ",
-    ["noV"] = "O ",
+    ["n"]    = "N ",
+    ["no"]   = "O ",
+    ["nov"]  = "O ",
+    ["noV"]  = "O ",
     ["no"] = "O ",
-    ["niI"] = "N ",
-    ["niR"] = "N ",
-    ["niV"] = "N ",
-    ["v"]   = "V ",
-    ["V"]   = "VL",
+    ["niI"]  = "N ",
+    ["niR"]  = "N ",
+    ["niV"]  = "N ",
+    ["v"]    = "V ",
+    ["V"]    = "VL",
     [""]   = "VB",
-    ["s"]   = "S ",
-    ["S"]   = "SL",
+    ["s"]    = "S ",
+    ["S"]    = "SL",
     [""]   = "SB",
-    ["i"]   = "I ",
-    ["ic"]  = "I ",
-    ["ix"]  = "I ",
-    ["R"]   = "R ",
-    ["Rc"]  = "R ",
-    ["Rv"]  = "VR",
-    ["Rx"]  = "R ",
-    ["c"]   = "C ",
-    ["cv"]  = "EX",
-    ["ce"]  = "EX",
-    ["r"]   = "R ",
-    ["rm"]  = "MORE",
-    ["r?"]  = "CONFIRM",
-    ["!"]   = "SHELL",
-    ["t"]   = "TERMINAL",
+    ["i"]    = "I ",
+    ["ic"]   = "I ",
+    ["ix"]   = "I ",
+    ["R"]    = "R ",
+    ["Rc"]   = "R ",
+    ["Rv"]   = "VR",
+    ["Rx"]   = "R ",
+    ["c"]    = "C ",
+    ["cv"]   = "EX",
+    ["ce"]   = "EX",
+    ["r"]    = "R ",
+    ["rm"]   = "MORE",
+    ["r?"]   = "CONFIRM",
+    ["!"]    = "SHELL",
+    ["t"]    = "TERMINAL",
 }
--- stylua: ignore end
+
 local function mode()
     local mode_code = vim.api.nvim_get_mode().mode
     if modemap[mode_code] == nil then
@@ -63,7 +63,7 @@ local function multicursors_status()
     local selections = multicursors_utils.get_all_selections()
     local main_selection = multicursors_utils.get_main_selection()
     local sel_idx = 1
-    for _,s in ipairs(selections) do
+    for _, s in ipairs(selections) do
         if s.row < main_selection.row or s.row == main_selection.row and s.col < main_selection.col then
             sel_idx = sel_idx + 1
         end
