@@ -260,6 +260,12 @@ function M.setup()
             ft = { "teal" },
         },
 
+        -- Typst
+        {
+            "kaarmu/typst.vim",
+            ft = { "typst" },
+        },
+
         -- Discord rich presence
         {
             "andweeb/presence.nvim",
