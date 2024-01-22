@@ -211,6 +211,7 @@ function M.setup()
             dependencies = {
                 { dir = "~/Projects/nvim-treesitter-context" },
                 { "nvim-treesitter/playground" },
+                { "nvim-treesitter/nvim-treesitter-textobjects" },
             },
             build = function()
                 vim.cmd(":TSUpdate")
