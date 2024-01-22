@@ -44,8 +44,6 @@ function M.setup()
 
     wk.register({
         ["<c-c>"] = { '"+y', "Copy to system clipboard" },
-        ["J"] = { ":m '>+1<cr>gv=gv", "Move selection down" },
-        ["K"] = { ":m '<-2<cr>gv=gv", "Move selection up" },
     }, {
         mode = "v",
     })
