@@ -352,6 +352,28 @@
                     <string>#fb4934</string>
                 </dict>
             </dict>
+            <dict>
+                <key>name</key>
+                <string>Function Calls</string>
+                <key>scope</key>
+                <string>entity.name.function.jade, entity.name.function.pug, keyword.other.special-method, meta.function-call variable.function, meta.function-call variable.other.dollar.only punctuation.dollar, support.function</string>
+                <key>settings</key>
+                <dict>
+                    <key>foreground</key>
+                    <string>#8ec07c</string>
+                </dict>
+            </dict>
+            <dict>
+                <key>name</key>
+                <string>Method Calls</string>
+                <key>scope</key>
+                <string>meta.function-call.method support.function, meta.function-call.method variable.function, meta.function-call.static variable.function, meta.method-call support.function, meta.method-call variable.function, support.function.mutator</string>
+                <key>settings</key>
+                <dict>
+                    <key>foreground</key>
+                    <string>#8ec07c</string>
+                </dict>
+            </dict>
         </array>
     </dict>
 </plist>
