@@ -1,0 +1,3 @@
+dark: "minedark"
+light: "minelight"
+else: "minedark"
