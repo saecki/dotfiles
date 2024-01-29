@@ -95,7 +95,8 @@ function M.highlights(p)
         -- git
         diffAdded       = {               bg = p.diff_a_bg,              },
         diffRemoved     = {               bg = p.diff_d_bg,              },
-
+        ["@diff.plus.diff"]  = {          bg = p.diff_a_bg,              },
+        ["@diff.minus.diff"] = {          bg = p.diff_d_bg,              },
         DiffAdd         = {               bg = p.diff_a_bg,              },
         DiffChange      = {               bg = p.diff_c_bg,              },
         DiffDelete      = { fg = p.text2, bg = p.diff_d_bg,              },
