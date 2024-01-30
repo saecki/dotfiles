@@ -6,6 +6,7 @@ local shared = require("shared")
 
 function M.setup()
     multicursors.setup({
+        updatetime = 5,
         hint_config = {
             border = shared.window.border,
         },
