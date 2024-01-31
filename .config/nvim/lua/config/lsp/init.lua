@@ -8,14 +8,20 @@ local shared = require("shared")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- servers
 local arduino_language_server = require("config.lsp.server.arduino_language_server")
-local clangd = require("config.lsp.server.clangd")
 local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
 local texlab = require("config.lsp.server.texlab")
-local zls = require("config.lsp.server.zls")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
+
+local function default_setup(server, on_init, on_attach, capabilities)
+    server:setup ({
+        on_init = on_init,
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
+end
 
 function M.inlay_hints()
     local filetype = vim.bo.filetype
@@ -151,13 +157,15 @@ function M.setup()
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
+    default_setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
+    default_setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
+    default_setup(lspconfig["wgsl_analyzer"], M.on_init, M.on_attach, capabilities)
+
     arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_init, M.on_attach, capabilities)
-    clangd.setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
     dartls.setup(lspconfig["dartls"], M.on_init, M.on_attach, capabilities)
     lua_ls.setup(lspconfig["lua_ls"], M.on_init, M.on_attach, capabilities)
     rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_init, M.on_attach, capabilities)
     texlab.setup(lspconfig["texlab"], M.on_init, M.on_attach, capabilities)
-    zls.setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
 
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border
