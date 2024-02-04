@@ -44,6 +44,9 @@ function M.highlights(p)
         TSInclude       = { fg = p.lyellow,                                  },
         TSNamespace     = { fg = p.preproc,                                  },
 
+        ["@markup.link"] = { link = "Identifier" },
+        ["@markup.raw"]  = { link = "Comment"    },
+
         -- lsp semantic tokens
         -- ["@lsp.type.generic"] = { link = "Normal" },
         ["@lsp.type.keyword"] = { link = "Keyword" },
