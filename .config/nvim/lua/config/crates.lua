@@ -23,6 +23,7 @@ function M.setup()
             on_attach = lsp_config.on_attach,
             actions = true,
             completion = true,
+            hover = true,
         },
     })
 
