@@ -13,7 +13,7 @@ local namespace = vim.api.nvim_create_namespace("config.lsp.server.rust_analyzer
 local use_clippy = false
 local function toggle_check_command()
     use_clippy = not use_clippy
-    M.setup(M.server, M.on_init, M.on_attach, M.capabilities, { use_clippy = use_clippy })
+    M.setup(M.server, M.on_attach, M.capabilities, { use_clippy = use_clippy })
     if use_clippy then
         vim.notify("cargo clippy", vim.log.levels.INFO)
     else
@@ -93,54 +93,41 @@ function M.clear_inlay_hints(bufnr)
     vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
 end
 
-function M.setup(server, on_init, on_attach, capabilities, opts)
+local function wrap_on_attach(client, buf)
+    M.on_attach(client, buf)
+
+    local group = vim.api.nvim_create_augroup("LspInlayHints", {})
+    vim.api.nvim_create_autocmd(
+        { "TextChanged", "TextChangedI", "TextChangedP", "BufEnter", "BufWritePost" },
+        {
+            group = group,
+            buffer = buf,
+            callback = M.inlay_hints,
+        }
+    )
+
+    M.inlay_hints()
+
+    wk.register({
+        ["<leader>i"] = {
+            name = "Lsp",
+            ["c"] = { toggle_check_command, "Rust check command" },
+        },
+    }, {
+        buffer = buf,
+    })
+end
+
+
+function M.setup(server, on_attach, capabilities, opts)
     M.server = server
-    M.on_init = on_init
     M.on_attach = on_attach
     M.capabilities = capabilities
 
     opts = opts or {}
-    local function m_on_attach(client, buf)
-        on_attach(client, buf)
-
-        -- hook into the progress handler so we can show inlay hints
-        -- when the language server has started up.
-        local old_progress_handler = vim.lsp.handlers["$/progress"]
-        vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
-            if old_progress_handler then
-                old_progress_handler(err, result, ctx, config)
-            end
-
-            if result.value and result.value.kind == "end" then
-                M.inlay_hints()
-            end
-        end
-
-        local group = vim.api.nvim_create_augroup("LspInlayHints", {})
-        vim.api.nvim_create_autocmd(
-            { "TextChanged", "TextChangedI", "TextChangedP", "BufEnter", "BufWinEnter", "TabEnter", "BufWritePost" },
-            {
-                group = group,
-                buffer = buf,
-                callback = M.inlay_hints,
-            }
-        )
-
-        M.inlay_hints()
-
-        wk.register({
-            ["<leader>i"] = {
-                name = "Lsp",
-                ["c"] = { toggle_check_command, "Rust check command" },
-            },
-        }, {
-            buffer = buf,
-        })
-    end
 
     server.setup({
-        on_init = on_init,
-        on_attach = m_on_attach,
+        on_attach = wrap_on_attach,
         capabilities = capabilities,
         settings = {
             ["rust-analyzer"] = {
@@ -156,6 +143,22 @@ function M.setup(server, on_init, on_attach, capabilities, opts)
                     maxLength = 40,
                 },
             },
+        },
+        handlers = {
+            -- hook into the progress handler so we can show inlay hints
+            -- when the language server has started up.
+            ["$/progress"] = function(err, result, ctx, config)
+                local progress_handler = vim.lsp.handlers["$/progress"]
+                if progress_handler then
+                    progress_handler(err, result, ctx, config)
+                end
+
+                local indexing = result.token == "rustAnalyzer/Indexing"
+                local finished = result.value.kind == "end"
+                if result.value and indexing and finished then
+                    M.inlay_hints()
+                end
+            end,
         },
     })
 end

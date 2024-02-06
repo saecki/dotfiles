@@ -43,9 +43,8 @@ function M.clear_inlay_hints(bufnr)
     vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
 end
 
-function M.setup(server, on_init, on_attach, capabilities)
+function M.setup(server, on_attach, capabilities)
     server.setup({
-        on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,
         handlers = {

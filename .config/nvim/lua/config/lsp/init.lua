@@ -13,11 +13,10 @@ local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
 local texlab = require("config.lsp.server.texlab")
 
-local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
+local group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
 
-local function default_server_setup(server, on_init, on_attach, capabilities)
+local function default_server_setup(server, on_attach, capabilities)
     server.setup ({
-        on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,
     })
@@ -47,15 +46,9 @@ function M.get_capabilities()
     return capabilities
 end
 
-function M.on_init(client)
-    client.config.flags = client.config.flags or {}
-    client.config.flags.allow_incremental_sync = true
-end
-
 function M.on_attach(client, buf)
     -- Occurences
     if client.server_capabilities.documentHighlightProvider then
-        local group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
         vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
             group = group,
             buffer = buf,
@@ -149,21 +142,23 @@ function M.show_documentation()
 end
 
 function M.setup()
+    group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
+
     -- Client capabilities
     local capabilities = M.get_capabilities()
 
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
-    default_server_setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
-    default_server_setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
-    default_server_setup(lspconfig["wgsl_analyzer"], M.on_init, M.on_attach, capabilities)
+    default_server_setup(lspconfig["clangd"], M.on_attach, capabilities)
+    default_server_setup(lspconfig["zls"], M.on_attach, capabilities)
+    default_server_setup(lspconfig["wgsl_analyzer"], M.on_attach, capabilities)
 
-    arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_init, M.on_attach, capabilities)
-    dartls.setup(lspconfig["dartls"], M.on_init, M.on_attach, capabilities)
-    lua_ls.setup(lspconfig["lua_ls"], M.on_init, M.on_attach, capabilities)
-    rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_init, M.on_attach, capabilities)
-    texlab.setup(lspconfig["texlab"], M.on_init, M.on_attach, capabilities)
+    arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_attach, capabilities)
+    dartls.setup(lspconfig["dartls"], M.on_attach, capabilities)
+    lua_ls.setup(lspconfig["lua_ls"], M.on_attach, capabilities)
+    rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_attach, capabilities)
+    texlab.setup(lspconfig["texlab"], M.on_attach, capabilities)
 
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border
@@ -185,9 +180,17 @@ function M.setup()
     })
 
     -- Occurences
-    vim.lsp.handlers["textDocument/documentHighlight"] = function(...)
-        vim.lsp.buf.clear_references()
-        DOCUMENT_HIGHLIGHT_HANDLER(...)
+    vim.lsp.handlers["textDocument/documentHighlight"] = function(err, result, ctx, config)
+        -- only clear highlights when the new locations are known to avoid jitter
+        vim.lsp.util.buf_clear_references(ctx.bufnr)
+        if not result then
+            return
+        end
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        if not client then
+            return
+        end
+        vim.lsp.util.buf_highlight_references(ctx.bufnr, result, client.offset_encoding)
     end
 
     -- Documentation window border
