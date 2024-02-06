@@ -15,8 +15,8 @@ local texlab = require("config.lsp.server.texlab")
 
 local DOCUMENT_HIGHLIGHT_HANDLER = vim.lsp.handlers["textDocument/documentHighlight"]
 
-local function default_setup(server, on_init, on_attach, capabilities)
-    server:setup ({
+local function default_server_setup(server, on_init, on_attach, capabilities)
+    server.setup ({
         on_init = on_init,
         on_attach = on_attach,
         capabilities = capabilities,
@@ -155,9 +155,9 @@ function M.setup()
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
-    default_setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
-    default_setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
-    default_setup(lspconfig["wgsl_analyzer"], M.on_init, M.on_attach, capabilities)
+    default_server_setup(lspconfig["clangd"], M.on_init, M.on_attach, capabilities)
+    default_server_setup(lspconfig["zls"], M.on_init, M.on_attach, capabilities)
+    default_server_setup(lspconfig["wgsl_analyzer"], M.on_init, M.on_attach, capabilities)
 
     arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_init, M.on_attach, capabilities)
     dartls.setup(lspconfig["dartls"], M.on_init, M.on_attach, capabilities)
