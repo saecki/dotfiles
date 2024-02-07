@@ -14,9 +14,9 @@ M.palette = {
     dcyan      = "#427b58",
 
     lred       = "#ec5444",
-    lgreen     = "#b8b73a",
+    lgreen     = "#a8c72a",
     lyellow    = "#f7b051",
-    lblue      = "#55a5a8",
+    lblue      = "#78ced8",
     lpurple    = "#d882a0",
     lcyan      = "#88bd8a",
 
@@ -34,16 +34,16 @@ M.palette = {
     text2      = "#585858",
     text3      = "#808080",
 
-    surface1   = "#d8d8d8",
-    surface2   = "#e4e4e4",
-    surface3   = "#f2f2f2",
-    surface4   = "#f6f6f6",
+    surface1   = "#e0e0e0",
+    surface2   = "#efefef",
+    surface3   = "#f6f6f6",
 
     scrollbg   = "#dadada",
     scrollfg   = "#a8a8a8",
 
     title      = "#b059b0",
     preproc    = "#0087ff",
+    ident      = "#55a5a8",
     type       = "#00b997",
     special    = "#875fd7",
     todo       = "#00d700",
