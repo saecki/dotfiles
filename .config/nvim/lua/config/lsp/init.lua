@@ -22,22 +22,6 @@ local function default_server_setup(server, on_attach, capabilities)
     })
 end
 
-function M.inlay_hints()
-    local filetype = vim.bo.filetype
-    if filetype == "rust" then
-        rust_analyzer.inlay_hints()
-    end
-end
-
-function M.clear_inlay_hints()
-    local filetype = vim.bo.filetype
-    if filetype == "rust" then
-        rust_analyzer.clear_inlay_hints()
-    elseif filetype == "dart" then
-        dartls.clear_inlay_hints()
-    end
-end
-
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
@@ -58,6 +42,11 @@ function M.on_attach(client, buf)
                 end
             end,
         })
+    end
+
+    -- Inlay hints
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(buf, shared.lsp.enable_inlay_hints)
     end
 
     wk.register({
@@ -84,12 +73,8 @@ function M.on_attach(client, buf)
             },
             ["ei"] = {
                 function()
-                    shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
-                    if not shared.lsp.enable_inlay_hints then
-                        M.clear_inlay_hints()
-                    else
-                        M.inlay_hints()
-                    end
+                    -- TODO: this will only update the current buffer
+                    vim.lsp.inlay_hint.enable(buf, not shared.lsp.enable_inlay_hints)
                 end,
                 "Inlay hints",
             },

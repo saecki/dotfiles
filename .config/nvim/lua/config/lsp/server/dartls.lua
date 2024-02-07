@@ -1,16 +1,10 @@
 local M = {}
 
-local shared = require("shared")
-
 -- https://github.com/akinsho/flutter-tools.nvim
 -- slightly modified
 local namespace = vim.api.nvim_create_namespace("config.lsp.server.dartls")
 
 local function closing_labels_handler(err, result, ctx)
-    if not shared.lsp.enable_inlay_hints then
-        return
-    end
-
     if err then
         return
     end
