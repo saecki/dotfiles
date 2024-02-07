@@ -74,7 +74,8 @@ function M.on_attach(client, buf)
             ["ei"] = {
                 function()
                     -- TODO: this will only update the current buffer
-                    vim.lsp.inlay_hint.enable(buf, not shared.lsp.enable_inlay_hints)
+                    shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
+                    vim.lsp.inlay_hint.enable(buf, shared.lsp.enable_inlay_hints)
                 end,
                 "Inlay hints",
             },
