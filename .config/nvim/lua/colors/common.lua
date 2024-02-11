@@ -46,12 +46,14 @@ function M.highlights(p)
         -- treesitter
         ["@variable"]         = { link = "Identifier" },
         ["@variable.builtin"] = { link = "Special"    },
-        ["@string"]           = { link = "String"     },
-        ["@character"]        = { link = "String"     },
+        ["@constant"]         = { link = "Constant"   },
         ["@number"]           = { link = "Constant"   },
         ["@boolean"]          = { link = "Constant"   },
+        ["@string"]           = { link = "String"     },
+        ["@character"]        = { link = "String"     },
         ["@punctuation"]      = { link = "Special"    },
         ["@operator"]         = { link = "Statement"  },
+        ["@function"]         = { link = "Function"   },
         ["@type"]             = { link = "Type"       },
         ["@type.builtin"]     = { link = "Type"       },
         ["@module"]           = { link = "PreProc"    },
@@ -70,6 +72,9 @@ function M.highlights(p)
         ["@lsp.type.operator"]    = { link = "@operator"     },
         ["@lsp.type.struct"]      = { link = "@type"         },
         ["@lsp.type.enum"]        = { link = "@type"         },
+        ["@lsp.type.macro"]       = { link = "@constant"     },
+
+        ["@lsp.type.macro.rust"]         = { link = "@function" },
 
         -- treesitter context
         TreesitterContextLineNumber = { link = "Pmenu" },
