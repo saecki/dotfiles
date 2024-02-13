@@ -41,7 +41,10 @@ function M.highlights(p)
         PreProc         = { fg = p.preproc,                                      },
         Type            = { fg = p.type,                                         },
         Special         = { fg = p.special,                                      },
+
+        -- custom
         Link            = { fg = p.preproc,                     underline = true },
+        Selection       = { fg = p.special,                     underline = true },
 
         -- treesitter
         ["@variable"]         = { link = "Identifier" },

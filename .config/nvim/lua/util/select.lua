@@ -49,7 +49,7 @@ end
 local function highlight()
     local row = vim.api.nvim_win_get_cursor(M.win)[1] - 1
     vim.api.nvim_buf_clear_namespace(M.buf, M.namespace, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Underlined", row, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Selection", row, 0, -1)
 end
 
 -- 1 based index

@@ -1,5 +1,6 @@
 local M = {
-    namespace = vim.api.nvim_create_namespace("util.input"),
+    win_hl_ns = vim.api.nvim_create_namespace("util.input.win_hl"),
+    buf_hl_ns = vim.api.nvim_create_namespace("util.input.buf_hl"),
 }
 
 function M.input(opts, on_confirm)
@@ -21,7 +22,7 @@ function M.input(opts, on_confirm)
 
     -- get word start
     local old_pos = vim.api.nvim_win_get_cursor(0)
-    vim.fn.search(vim.fn.expand("<cword>"), "bc")
+    vim.fn.search(cword, "bc")
     local new_pos = vim.api.nvim_win_get_cursor(0)
     vim.api.nvim_win_set_cursor(0, { old_pos[1], old_pos[2] })
     local col = 0
@@ -40,6 +41,14 @@ function M.input(opts, on_confirm)
         border = "none",
     }
     M.win = vim.api.nvim_open_win(M.buf, false, win_opts)
+
+    -- highlights and transparency
+    -- vim.api.nvim_set_option_value("winblend", 100, {
+    --     scope = "local",
+    --     win = M.win,
+    -- })
+    vim.api.nvim_set_hl(M.win_hl_ns, "Normal", { fg = nil, bg = nil })
+    vim.api.nvim_win_set_hl_ns(M.win, M.win_hl_ns)
 
     -- key mappings
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
@@ -69,9 +78,10 @@ function M.resize()
     local new_text_width = vim.fn.strdisplaywidth(new_text)
     local width = math.max(new_text_width + 1, M.min_width)
 
+    vim.api.nvim_buf_clear_namespace(M.buf, M.buf_hl_ns, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, M.buf_hl_ns, "Selection", 0, 0, -1)
+
     vim.api.nvim_win_set_width(M.win, width)
-    vim.api.nvim_buf_clear_namespace(M.buf, M.namespace, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Underlined", 0, 0, -1)
 end
 
 function M.submit()
