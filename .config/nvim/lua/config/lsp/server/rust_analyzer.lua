@@ -2,6 +2,17 @@ local M = {}
 
 local wk = require("which-key")
 
+local use_clippy = false
+local function toggle_check_command()
+    use_clippy = not use_clippy
+    M.setup(M.server, M.on_attach, M.capabilities, { use_clippy = use_clippy })
+    if use_clippy then
+        vim.notify("cargo clippy", vim.log.levels.INFO)
+    else
+        vim.notify("cargo check", vim.log.levels.INFO)
+    end
+end
+
 local function wrap_on_attach(client, buf)
     M.on_attach(client, buf)
 
