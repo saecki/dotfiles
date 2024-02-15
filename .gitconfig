@@ -6,13 +6,19 @@
 
 [user]
     email = tobiasschmitz2001@gmail.com
-    name = Saecki
+    name = Tobias Schmitz
+
+[gpg]
+    format = ssh
+
+[commit]
+    gpgsign = true
 
 [pull]
     ff = only
 
 [merge]
-	ff = only
+    ff = only
 
 [delta]
     features = mine
@@ -20,6 +26,9 @@
     line-numbers = true
     line-numbers-left-format = "{nm:>4}│ "
     line-numbers-right-format = "{np:>4}│ "
+
+[include]
+    path = "~/.config/git/local.gitconfig"
 
 [include]
     path = "~/.config/delta/colors/current.gitconfig"
