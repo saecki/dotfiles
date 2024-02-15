@@ -161,7 +161,7 @@ function M.setup()
         underline = true,
         virtual_text = {
             spacing = 2,
-            severity_limit = "Warning",
+            severity = { min = "Warn" },
         },
     })
 
