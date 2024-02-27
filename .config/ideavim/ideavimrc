@@ -30,10 +30,13 @@ nmap gd <Action>(GotoDeclaration)
 nmap gi <Action>(GotoImplementation)
 nmap gr <Action>(FindUsages)
 nmap gy <Action>(GotoTypeDeclaration)
-nmap g[ <Action>(GotoPreviousError)
-nmap g] <Action>(GotoNextError)
-nmap g{ <Action>(VcsShowPrevChangeMarker)
-nmap g} <Action>(VcsShowNextChangeMarker)
+
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
+nmap [g <Action>(VcsShowPrevChangeMarker)
+nmap ]g <Action>(VcsShowNextChangeMarker)
+nmap [s <Action>(MotionMisspelledWordPreviousAction)
+nmap ]s <Action>(MotionMisspelledWordNextAction)
 
 " Vcs
 nmap <leader>gu <Action>(Vcs.RollbackChangedLines)
