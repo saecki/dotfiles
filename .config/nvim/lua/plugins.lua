@@ -100,7 +100,6 @@ function M.setup()
             dependencies = {
                 { "nvim-lua/plenary.nvim" },
                 { "nvim-tree/nvim-web-devicons" },
-                { "ahmedkhalf/project.nvim" },
             },
             config = function()
                 require("config.telescope").setup()

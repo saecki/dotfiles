@@ -2,15 +2,16 @@ local M = {}
 
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
-local project = require("project_nvim")
 local wk = require("which-key")
 
-local function find_files(no_ignore)
-    local fd_cmd = { "fd", "--type", "f", "--exclude", ".git", "--hidden" }
-    telescope_builtin.find_files({
-        find_command = fd_cmd,
-        no_ignore = no_ignore,
-    })
+local function find_files(opts)
+    return function()
+        local fd_cmd = { "fd", "--type", "f", "--exclude", ".git", "--hidden" }
+        telescope_builtin.find_files({
+            find_command = fd_cmd,
+            no_ignore = opts.no_ignore,
+        })
+    end
 end
 
 function M.setup()
@@ -64,26 +65,12 @@ function M.setup()
         },
     })
 
-    project.setup({})
-    telescope.load_extension("projects")
-
     wk.register({
-        ["<a-p>"] = {
-            function()
-                find_files(true)
-            end,
-            "Find ignored files",
-        },
-        ["<c-p>"] = {
-            function()
-                find_files(false)
-            end,
-            "Find files",
-        },
         ["<leader>"] = {
             ["f"] = {
                 name = "Find",
-                ["p"] = { telescope.extensions.projects.projects, "Projects" },
+                ["p"] = { find_files({ no_ignore = false }), "Files" },
+                ["P"] = { find_files({ no_ignore = true }), "Ignored Files" },
                 ["f"] = { telescope_builtin.live_grep, "Live grep" },
                 ["b"] = { telescope_builtin.buffers, "Buffers" },
                 ["h"] = { telescope_builtin.help_tags, "Help" },
