@@ -76,7 +76,7 @@ bindkey -M vicmd '^N' history-beginning-search-forward
 bindkey -M viins '^P' history-beginning-search-backward
 bindkey -M viins '^N' history-beginning-search-forward
 
-bindkey -M viins '^ ' autosuggest-accept
+bindkey -M viins '^Y' autosuggest-accept
 
 # Edit command in editor
 autoload -Uz edit-command-line
