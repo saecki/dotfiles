@@ -141,7 +141,6 @@ function M.setup()
             "neovim/nvim-lspconfig",
             dependencies = {
                 { "williamboman/mason.nvim" },
-                { "nanotee/sqls.nvim" },
                 { "hrsh7th/cmp-nvim-lsp" },
             },
             config = function()
