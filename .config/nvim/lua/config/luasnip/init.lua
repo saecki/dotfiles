@@ -32,7 +32,13 @@ function M.setup()
     vim.api.nvim_create_autocmd("InsertLeave", {
         group = group,
         callback = function()
-            luasnip.unlink_current()
+            -- unlink when explicitly leaving insert mode
+            -- jumping to the next/prev node also leaves insert mode
+            -- but then the `m` state flag is set
+            local state = vim.fn.state()
+            if not state:match("m") then
+                luasnip.unlink_current()
+            end
         end,
     })
 
