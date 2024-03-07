@@ -18,7 +18,7 @@ export MANPAGER='nvim +Man!'
 # ===================================================
 
 # Syntax highlighting
-# !! has to be souced before manydots-magic
+# !! has to be sourced before manydots-magic
 source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Auto suggestions
@@ -87,6 +87,13 @@ bindkey -M viins '^F' edit-command-line
 # ===================================================
 # Miscellaneous
 # ===================================================
+
+# Starship prompt
+if [ -x "$(which starship)" ]; then
+    eval "$(starship init zsh)"
+else
+    echo "starship prompt is not installed"
+fi
 
 # Change cursor shape for different vi modes.
 zle-keymap-select() {
@@ -278,10 +285,3 @@ latex-clean() {
     rm -f *.synctex.gz
     rm -f *.pdf
 }
-
-# Starship prompt
-if [ -x "$(which starship)" ]; then
-    eval "$(starship init zsh)"
-else
-    echo "starship prompt is not installed"
-fi
