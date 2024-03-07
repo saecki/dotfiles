@@ -53,6 +53,7 @@ function M.on_attach(client, buf)
         ["<c-LeftMouse>"] = { "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>", "LSP definition" },
 
         ["<c-a-l>"] = { vim.lsp.buf.format, "Formating" },
+        ["K"] = { vim.lsp.buf.hover, "Show documentation" },
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
@@ -116,17 +117,6 @@ function M.on_attach(client, buf)
     })
 end
 
-function M.show_documentation()
-    local filetype = vim.bo.filetype
-    if filetype == "vim" or filetype ==  "help" then
-        vim.cmd("h " .. vim.fn.expand("<cword>"))
-    elseif filetype == "man" then
-        vim.cmd("Man " .. vim.fn.expand("<cword>"))
-    else
-        vim.lsp.buf.hover()
-    end
-end
-
 function M.setup()
     group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
 
@@ -187,7 +177,6 @@ function M.setup()
 
     -- Keymappings
     wk.register({
-        ["K"] = { M.show_documentation, "Show documentation" },
         ["<leader>i"] = {
             name = "Lsp",
             ["s"] = { ":LspStart<cr>", "Start" },
