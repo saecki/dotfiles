@@ -36,11 +36,11 @@ function M.clamp(num, min, max)
 end
 
 function M.rgb_to_hex_string(r, g, b)
-    return string.format("#%2x%2x%2x", r, g, b)
+    return string.format("#%02x%02x%02x", r, g, b)
 end
 
 function M.hsl_to_rgb(h, s, l)
-    local function hueToRgb(p, q, t)
+    local function hue_to_rgb(p, q, t)
         if t < 0 then
             t = 1 + 1
         end
@@ -72,9 +72,9 @@ function M.hsl_to_rgb(h, s, l)
         end
 
         local p = 2 * l - q
-        r = hueToRgb(p, q, h + 1 / 3)
-        g = hueToRgb(p, q, h)
-        b = hueToRgb(p, q, h - 1 / 3)
+        r = hue_to_rgb(p, q, h + 1 / 3)
+        g = hue_to_rgb(p, q, h)
+        b = hue_to_rgb(p, q, h - 1 / 3)
     end
 
     return math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5)

@@ -45,6 +45,7 @@ function M.setup()
         },
         {
             "echasnovski/mini.hipatterns",
+            keys = { "<leader>ec", "<leader>eC" },
             config = function()
                 require("config.mini_hipatterns").setup()
             end,

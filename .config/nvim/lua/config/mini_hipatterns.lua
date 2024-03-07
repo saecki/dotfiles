@@ -37,6 +37,26 @@ function M.setup()
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
             },
+            egui_color32_from_gray = {
+                pattern = "Color32::from_gray%(%s*%d+%s*%)",
+                group = function(_, match)
+                    local ng = match:match("Color32::from_gray%(%s*(%d+)%s*%)")
+                    local g = util.clamp(tonumber(ng), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(g, g, g)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+            },
+            egui_color32_from_rgb = {
+                pattern = "Color32::from_rgb%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)",
+                group = function(_, match)
+                    local nr, ng, nb = match:match("Color32::from_rgb%(%s*(%d+)%s*,?%s*(%d+)%s*,?%s*(%d+)%s*%)")
+                    local r = util.clamp(tonumber(nr), 0, 255)
+                    local g = util.clamp(tonumber(ng), 0, 255)
+                    local b = util.clamp(tonumber(nb), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(r, g, b)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+            },
         },
         delay = {
             text_change = 10,
