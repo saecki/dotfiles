@@ -12,7 +12,7 @@ local chars = {
 
 return {
     lsp = {
-        enable_inlay_hints = true,
+        enable_inlay_hints = false,
         enable_document_highlight = true,
     },
     window = {
