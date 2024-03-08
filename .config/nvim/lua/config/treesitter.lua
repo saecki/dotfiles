@@ -136,6 +136,8 @@ function M.setup()
                 ["conditional"] = false,
                 ["loop"] = false,
                 ["block"] = false,
+                ["assignment"] = false,
+                ["invocation"] = false,
                 ["closure"] = false,
             },
             lua = {
