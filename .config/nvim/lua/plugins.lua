@@ -198,9 +198,9 @@ function M.setup()
 
         -- Comments
         {
-            "numToStr/Comment.nvim",
+            "echasnovski/mini.comment",
             config = function()
-                require("config.comment").setup()
+                require("config.mini_comment").setup()
             end,
         },
 
