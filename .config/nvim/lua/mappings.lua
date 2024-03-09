@@ -6,19 +6,18 @@ function M.setup()
     -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.
     -- vim.keymap.set("", "<tab>", "<c-i>", {})
 
-    if not wk_ok then
-        vim.notify("which-key isn't installed", vim.log.levels.ERROR)
-        return
-    end
-
     vim.keymap.set("", "j", "gj")
     vim.keymap.set("", "gj", "j")
     vim.keymap.set("", "k", "gk")
     vim.keymap.set("", "gk", "k")
 
+    if not wk_ok then
+        vim.notify("which-key isn't installed", vim.log.levels.ERROR)
+        return
+    end
+
     wk.register({
         ["<f1>"] = { "<esc>" },
-        ["<c-l>"] = { ":nohlsearch<cr>", "Stop searching" },
         ["<c-left>"] = { ":vertical resize -5<cr>", "Decrease width" },
         ["<c-right>"] = { ":vertical resize +5<cr>", "Increase width" },
         ["<c-up>"] = { ":resize -5<cr>", "Decrease height" },
