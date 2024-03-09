@@ -46,8 +46,6 @@ function M.setup()
     }, {
         mode = "v",
     })
-
-    vim.keymap.set("x", "<leader>p", '"_dP')
 end
 
 return M

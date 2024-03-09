@@ -204,6 +204,14 @@ function M.setup()
             end,
         },
 
+        -- Substitute
+        {
+            "gbprod/substitute.nvim",
+            config = function()
+                require("config.substitute").setup()
+            end,
+        },
+
         -- Treesitter
         {
             "nvim-treesitter/nvim-treesitter",
