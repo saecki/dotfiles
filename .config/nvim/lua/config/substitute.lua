@@ -13,10 +13,10 @@ function M.setup()
     })
 
     local opts = { noremap = true }
-    vim.keymap.set("n", "s", substitute.operator, opts)
-    vim.keymap.set("n", "ss", substitute.line, opts)
-    vim.keymap.set("n", "S", substitute.eol, opts)
-    vim.keymap.set("x", "s", substitute.visual, opts)
+    vim.keymap.set("n", "S", substitute.operator, opts)
+    -- vim.keymap.set("n", "ss", substitute.line, opts)
+    -- vim.keymap.set("n", "S", substitute.eol, opts)
+    vim.keymap.set("x", "S", substitute.visual, opts)
 end
 
 return M
