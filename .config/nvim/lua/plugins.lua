@@ -45,7 +45,10 @@ function M.setup()
         },
         {
             "echasnovski/mini.hipatterns",
-            keys = { "<leader>ec", "<leader>eC" },
+            keys = {
+                { "<leader>ec", desc = "Colorizer" },
+                { "<leader>eC", desc = "Colorizer style" },
+            },
             config = function()
                 require("config.mini_hipatterns").setup()
             end,
