@@ -47,7 +47,12 @@ function M.setup()
     })
 
     wk.register({
-        ["<leader>k"] = { ":WhichKey<cr>", "Which key?" },
+        ["<leader>"] = {
+            ["k"] = { ":WhichKey<cr>", "Which key?" },
+            ["e"] = {
+                name = "Toggle (enable)",
+            },
+        },
     })
 end
 

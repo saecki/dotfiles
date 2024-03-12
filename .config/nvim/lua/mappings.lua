@@ -1,5 +1,3 @@
-local wk_ok, wk = pcall(require, "which-key")
-
 local M = {}
 
 function M.setup()
@@ -11,41 +9,20 @@ function M.setup()
     vim.keymap.set("", "k", "gk")
     vim.keymap.set("", "gk", "k")
 
-    if not wk_ok then
-        vim.notify("which-key isn't installed", vim.log.levels.ERROR)
-        return
-    end
+    vim.keymap.set({ "n", "i" }, "<f1>", "<esc>")
+    vim.keymap.set("n", "<leader><leader>", "<c-^>", { desc = "Goto previous buffer" })
+    vim.keymap.set("n", "<leader>w", ":w<cr>", { desc = "Write" })
 
-    wk.register({
-        ["<f1>"] = { "<esc>" },
-        ["<c-left>"] = { ":vertical resize -5<cr>", "Decrease width" },
-        ["<c-right>"] = { ":vertical resize +5<cr>", "Increase width" },
-        ["<c-up>"] = { ":resize -5<cr>", "Decrease height" },
-        ["<c-down>"] = { ":resize +5<cr>", "Increase height" },
-        ["<leader>"] = {
-            ["<leader>"] = { "<c-^>", "Goto previous buffer" },
-            ["w"] = { ":w<cr>", "Write" },
-            ["e"] = {
-                name = "Toggle (enable)",
-                ["r"] = { ":set rnu!<cr>", "Relative line numbers" },
-                ["l"] = { ":set list!<cr>", "Listchars" },
-                ["s"] = { ":set spell!<cr>", "Spellchecking" },
-            },
-        },
-    })
+    vim.keymap.set("n", "<c-left>", ":vertical resize -5<cr>", { desc = "Decrease width" })
+    vim.keymap.set("n", "<c-right>", ":vertical resize +5<cr>", { desc = "Increase width" })
+    vim.keymap.set("n", "<c-up>", ":resize -5<cr>", { desc = "Decrease height" })
+    vim.keymap.set("n", "<c-down>", ":resize +5<cr>", { desc = "Increase height" })
 
-    wk.register({
-        ["<f1>"] = { "<esc>" },
-        ["<c-v>"] = { "<c-r>+", "Paste system clipboard" },
-    }, {
-        mode = "i",
-    })
+    vim.keymap.set("n", "<leader>er", ":set rnu!<cr>", { desc = "Relative line numbers" })
+    vim.keymap.set("n", "<leader>el", ":set list!<cr>", { desc = "Listchars" })
+    vim.keymap.set("n", "<leader>es", ":set spell!<cr>", { desc = "Spellchecking" })
 
-    wk.register({
-        ["<c-c>"] = { '"+y', "Copy to system clipboard" },
-    }, {
-        mode = "v",
-    })
+    vim.keymap.set("v", "<c-c>", '"+y', { desc = "Copy to system clipboard" })
 end
 
 return M
