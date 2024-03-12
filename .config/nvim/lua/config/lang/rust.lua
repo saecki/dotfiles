@@ -7,7 +7,7 @@ function M.setup()
     local registry_path = vim.fn.expand("$HOME/.cargo/registry/src/**.rs")
     local rustc_sysroot = vim.trim(util.bash_eval("rustc --print sysroot"))
     local stdlib_path = rustc_sysroot.."/lib/rustlib/src/**.rs"
-    local group = vim.api.nvim_create_augroup("RustLibsReadonly", {})
+    local group = vim.api.nvim_create_augroup("user.config.lang.rust", {})
     vim.api.nvim_create_autocmd("BufReadPre", {
         group = group,
         pattern = { registry_path, stdlib_path },

@@ -41,7 +41,7 @@ function M.setup(server, on_attach, capabilities, opts)
 
     setup_server(server, on_attach, capabilities)
 
-    local group = vim.api.nvim_create_augroup("config.lsp.server.rust-analyzer", {})
+    local group = vim.api.nvim_create_augroup("user.config.lsp.server.rust-analyzer", {})
     vim.api.nvim_create_autocmd("BufRead", {
         group = group,
         pattern = "*.rs",

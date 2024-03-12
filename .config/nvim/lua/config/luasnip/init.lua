@@ -28,7 +28,7 @@ function M.setup()
         delete_check_events = { "TextChanged" },
     })
 
-    local group = vim.api.nvim_create_augroup("config.luasnip.unlink", {})
+    local group = vim.api.nvim_create_augroup("user.config.luasnip", {})
     vim.api.nvim_create_autocmd("InsertLeave", {
         group = group,
         callback = function()

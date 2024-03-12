@@ -1,7 +1,7 @@
-local M = {
-    win_hl_ns = vim.api.nvim_create_namespace("util.input.win_hl"),
-    buf_hl_ns = vim.api.nvim_create_namespace("util.input.buf_hl"),
-}
+local M = {}
+
+local win_hl_ns = vim.api.nvim_create_namespace("user.util.input.win_hl")
+local buf_hl_ns = vim.api.nvim_create_namespace("user.util.input.buf_hl")
 
 function M.input(opts, on_confirm)
     local cword = vim.fn.expand("<cword>")
@@ -47,8 +47,8 @@ function M.input(opts, on_confirm)
     --     scope = "local",
     --     win = M.win,
     -- })
-    vim.api.nvim_set_hl(M.win_hl_ns, "Normal", { fg = nil, bg = nil })
-    vim.api.nvim_win_set_hl_ns(M.win, M.win_hl_ns)
+    vim.api.nvim_set_hl(win_hl_ns, "Normal", { fg = nil, bg = nil })
+    vim.api.nvim_win_set_hl_ns(M.win, win_hl_ns)
 
     -- key mappings
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", { callback = M.submit, noremap = true, silent = true })
@@ -58,7 +58,7 @@ function M.input(opts, on_confirm)
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.hide, noremap = true, silent = true })
 
     -- automatically resize
-    local group = vim.api.nvim_create_augroup("UtilInputWindow", {})
+    local group = vim.api.nvim_create_augroup("user.util.input", {})
     vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
         group = group,
         buffer = M.buf,
@@ -78,8 +78,8 @@ function M.resize()
     local new_text_width = vim.fn.strdisplaywidth(new_text)
     local width = math.max(new_text_width + 1, M.min_width)
 
-    vim.api.nvim_buf_clear_namespace(M.buf, M.buf_hl_ns, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, M.buf_hl_ns, "Selection", 0, 0, -1)
+    vim.api.nvim_buf_clear_namespace(M.buf, buf_hl_ns, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, buf_hl_ns, "Selection", 0, 0, -1)
 
     vim.api.nvim_win_set_width(M.win, width)
 end

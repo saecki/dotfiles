@@ -118,7 +118,7 @@ function M.on_attach(client, buf)
 end
 
 function M.setup()
-    group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
+    group = vim.api.nvim_create_augroup("user.config.lsp", {})
 
     -- Client capabilities
     local capabilities = M.get_capabilities()

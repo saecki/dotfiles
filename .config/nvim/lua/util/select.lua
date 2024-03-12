@@ -1,8 +1,8 @@
 local shared = require("shared")
 
-local M = {
-    namespace = vim.api.nvim_create_namespace("util.select"),
-}
+local M = {}
+
+local namespace = vim.api.nvim_create_namespace("user.util.select")
 
 local calculate_popup_width = function(entries)
     local result = 0
@@ -47,8 +47,8 @@ end
 
 local function highlight()
     local row = vim.api.nvim_win_get_cursor(M.win)[1] - 1
-    vim.api.nvim_buf_clear_namespace(M.buf, M.namespace, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, M.namespace, "Selection", row, 0, -1)
+    vim.api.nvim_buf_clear_namespace(M.buf, namespace, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, namespace, "Selection", row, 0, -1)
 end
 
 -- 1 based index
@@ -125,7 +125,7 @@ function M.select(items, opts, on_choice)
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.cancel, noremap = true, silent = true })
 
     -- highlight current line
-    local group = vim.api.nvim_create_augroup("UtilSelectWindow", {})
+    local group = vim.api.nvim_create_augroup("user.util.select", {})
     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
         group = group,
         buffer = M.buf,

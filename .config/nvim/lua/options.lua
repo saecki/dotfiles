@@ -69,42 +69,35 @@ function M.setup()
     vim.opt.mouse = "a"
     vim.opt.hidden = true
 
-    -- Highlight yanked text
-    do
-        local group = vim.api.nvim_create_augroup("HighlightYank", {})
-        vim.api.nvim_create_autocmd("TextYankPost", {
-            group = group,
-            callback = function()
-                vim.highlight.on_yank({ on_visual = false, timeout = 150 })
-            end,
-        })
-    end
+    local group = vim.api.nvim_create_augroup("user.options", {})
 
-    -- Split windows to the right
-    do
-        local group = vim.api.nvim_create_augroup("SplitHelpWindow", {})
-        vim.api.nvim_create_autocmd("FileType", {
-            group = group,
-            pattern = "help",
-            callback = function()
-                vim.opt_local.bufhidden = "unload"
-                vim.cmd("wincmd L")
-                vim.api.nvim_win_set_width(0, 90)
-            end,
-        })
-    end
+    -- Highlight yanked text
+    vim.api.nvim_create_autocmd("TextYankPost", {
+        group = group,
+        callback = function()
+            vim.highlight.on_yank({ on_visual = false, timeout = 150 })
+        end,
+    })
+
+    -- Split help window to the right
+    vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        pattern = "help",
+        callback = function()
+            vim.opt_local.bufhidden = "unload"
+            vim.cmd("wincmd L")
+            vim.api.nvim_win_set_width(0, 90)
+        end,
+    })
 
     -- Git commit spell checking
-    do
-        local group = vim.api.nvim_create_augroup("GitCommitSpellChecking", {})
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "gitcommit",
-            group = group,
-            callback = function()
-                vim.opt_local.spell = true
-            end,
-        })
-    end
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "gitcommit",
+        group = group,
+        callback = function()
+            vim.opt_local.spell = true
+        end,
+    })
 end
 
 return M

@@ -2,7 +2,7 @@ local M = {}
 
 -- https://github.com/akinsho/flutter-tools.nvim
 -- slightly modified
-local namespace = vim.api.nvim_create_namespace("config.lsp.server.dartls")
+local namespace = vim.api.nvim_create_namespace("user.config.lsp.server.dartls")
 
 local function closing_labels_handler(err, result, ctx)
     if err then
