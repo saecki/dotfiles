@@ -3,44 +3,17 @@ local M = {}
 local wk = require("which-key")
 
 local use_clippy = false
-local function toggle_check_command()
-    use_clippy = not use_clippy
-    M.setup(M.server, M.on_attach, M.capabilities, { use_clippy = use_clippy })
-    if use_clippy then
-        vim.notify("cargo clippy", vim.log.levels.INFO)
-    else
-        vim.notify("cargo check", vim.log.levels.INFO)
-    end
-end
 
-local function wrap_on_attach(client, buf)
-    M.on_attach(client, buf)
-
-    wk.register({
-        ["<leader>i"] = {
-            name = "Lsp",
-            ["c"] = { toggle_check_command, "Rust check command" },
-        },
-    }, {
-        buffer = buf,
-    })
-end
-
-
-function M.setup(server, on_attach, capabilities, opts)
-    M.server = server
-    M.on_attach = on_attach
-    M.capabilities = capabilities
-
+local function setup_server(server, on_attach, capabilities, opts)
     opts = opts or {}
-
+    local check_command = opts.check_command or CARGO_CHECK
     server.setup({
-        on_attach = wrap_on_attach,
+        on_attach = on_attach,
         capabilities = capabilities,
         settings = {
             ["rust-analyzer"] = {
                 check = {
-                    command = opts.use_clippy and "clippy" or "check",
+                    command = check_command,
                 },
                 assist = {
                     importEnforceGranularity = true,
@@ -52,6 +25,36 @@ function M.setup(server, on_attach, capabilities, opts)
                 },
             },
         },
+    })
+end
+
+local function toggle_check_command()
+    local cmd = use_clippy and "clippy" or "check"
+    setup_server(M.server, M.on_attach, M.capabilities, { check_command = cmd })
+    vim.notify("cargo " .. cmd, vim.log.levels.INFO)
+end
+
+function M.setup(server, on_attach, capabilities, opts)
+    M.server = server
+    M.on_attach = on_attach
+    M.capabilities = capabilities
+
+    setup_server(server, on_attach, capabilities)
+
+    local group = vim.api.nvim_create_augroup("config.lsp.server.rust-analyzer", {})
+    vim.api.nvim_create_autocmd("BufRead", {
+        group = group,
+        pattern = "*.rs",
+        callback = function(ev)
+            wk.register({
+                ["<leader>i"] = {
+                    name = "Lsp",
+                    ["c"] = { toggle_check_command, "Rust check command" },
+                },
+            }, {
+                buffer = ev.buf,
+            })
+        end
     })
 end
 
