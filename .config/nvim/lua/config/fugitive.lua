@@ -1,6 +1,6 @@
-local M = {}
-
 local wk = require("which-key")
+
+local M = {}
 
 local function toggle_diff()
     if vim.o.diff then

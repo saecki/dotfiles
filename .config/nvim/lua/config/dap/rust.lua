@@ -1,7 +1,3 @@
-local M = {
-    history = {},
-}
-
 local dap = require("dap")
 local Job = require("plenary.job")
 local telescope_pickers = require("telescope.pickers")
@@ -10,19 +6,23 @@ local telescope_sorters = require("telescope.sorters")
 local telescope_actions = require("telescope.actions")
 local telescope_action_state = require("telescope.actions.state")
 
+local M = {}
+
+local history = {}
+
 local function push_history_entry(entry)
-    for i, e in ipairs(M.history) do
+    for i, e in ipairs(history) do
         local exists = (e.workspace_root == entry.workspace_root)
             and (e.cargo_args == entry.cargo_args)
             and (e.cmd_args == entry.cmd_args)
 
         if exists then
-            table.remove(M.history, i)
+            table.remove(history, i)
             break
         end
     end
 
-    table.insert(M.history, entry)
+    table.insert(history, entry)
 end
 
 local function input_cmd_args(suggestion)
@@ -136,7 +136,7 @@ local function show_debuggable_menu(entries)
 end
 
 function M.debuggables_history(opts)
-    local _, first_entry = next(M.history)
+    local _, first_entry = next(history)
     if not first_entry then
         vim.notify("History is empty")
         return
@@ -145,7 +145,7 @@ function M.debuggables_history(opts)
     if opts.run_first then
         M.debug(first_entry)
     else
-        show_debuggable_menu(M.history)
+        show_debuggable_menu(history)
     end
 end
 

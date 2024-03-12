@@ -1,7 +1,7 @@
-local M = {}
-
 local notify = require("notify")
 local wk = require("which-key")
+
+local M = {}
 
 function M.setup()
     vim.notify = notify
@@ -14,7 +14,7 @@ function M.setup()
                 function()
                     notify.dismiss({ pending = true })
                 end,
-                "Dismiss",
+                "Dismiss all",
             },
             ["h"] = { notify._print_history, "History" },
         },

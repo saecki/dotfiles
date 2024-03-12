@@ -1,6 +1,6 @@
-local M = {}
-
 local devicons = require("nvim-web-devicons")
+
+local M = {}
 
 function M.setup()
     devicons.set_default_icon("", "#6d8086")

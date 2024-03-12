@@ -1,6 +1,6 @@
-local M = {}
-
 local util = require("util")
+
+local M = {}
 
 function M.setup()
     -- make library files readonly

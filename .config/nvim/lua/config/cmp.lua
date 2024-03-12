@@ -1,9 +1,9 @@
-local M = {}
-
 local cmp = require("cmp")
 local cmp_compare = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local shared = require("shared")
+
+local M = {}
 
 local kind_icons = {
     ["Class"] = "🅒 ",

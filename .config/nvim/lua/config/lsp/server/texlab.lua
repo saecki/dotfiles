@@ -1,6 +1,6 @@
-local M = {}
-
 local wk = require("which-key")
+
+local M = {}
 
 function M.setup(server, on_attach, capabilities)
     local function m_on_attach(client, buf)

@@ -1,9 +1,8 @@
-local M = {}
-
 local nvim_tree = require("nvim-tree")
 local api = require("nvim-tree.api")
 local wk = require("which-key")
-local util = require("util")
+
+local M = {}
 
 function M.setup()
     nvim_tree.setup {

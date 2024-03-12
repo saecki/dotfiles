@@ -278,12 +278,7 @@ function M.setup()
         },
 
         -- Discord rich presence
-        {
-            "andweeb/presence.nvim",
-            config = function()
-                require("config.presence").setup()
-            end,
-        },
+        "andweeb/presence.nvim",
     })
 
     -- zig.vim is installed by the system package manager on fedora

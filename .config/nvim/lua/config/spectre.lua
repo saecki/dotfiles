@@ -1,7 +1,7 @@
-local M = {}
-
 local spectre = require("spectre")
 local wk = require("which-key")
+
+local M = {}
 
 function M.setup()
     spectre.setup({

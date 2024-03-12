@@ -1,6 +1,6 @@
-local M = {}
-
 local luasnip = require("luasnip")
+
+local M = {}
 
 ---@param key string
 ---@param expr string

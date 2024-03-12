@@ -1,6 +1,6 @@
-local M = {}
-
 local ibl = require("ibl")
+
+local M = {}
 
 function M.setup()
     ibl.setup({

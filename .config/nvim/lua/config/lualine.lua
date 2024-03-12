@@ -1,8 +1,8 @@
-local M = {}
-
 local lualine = require("lualine")
 local hydra_status = require("hydra.statusline")
 local multicursors_utils = require("multicursors.utils")
+
+local M = {}
 
 ---@format disable-next
 local modemap = {

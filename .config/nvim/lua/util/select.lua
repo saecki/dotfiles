@@ -1,9 +1,8 @@
+local shared = require("shared")
+
 local M = {
     namespace = vim.api.nvim_create_namespace("util.select"),
 }
-
-local util = require("util")
-local shared = require("shared")
 
 local calculate_popup_width = function(entries)
     local result = 0

@@ -1,8 +1,8 @@
-local M = {}
-
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
 local wk = require("which-key")
+
+local M = {}
 
 local function find_files(opts)
     return function()

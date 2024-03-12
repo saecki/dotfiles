@@ -1,9 +1,9 @@
-local M = {}
-
 local hipatterns = require("mini.hipatterns")
 local wk = require("which-key")
 local util = require("util")
 local colors = require("colors")
+
+local M = {}
 
 local highlight_foreground = false
 

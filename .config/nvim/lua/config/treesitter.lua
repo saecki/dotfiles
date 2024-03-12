@@ -1,9 +1,8 @@
-local M = {}
-
 local ts_config = require("nvim-treesitter.configs")
 local ts_context = require("treesitter-context")
-local CATEGORY = ts_context.CATEGORY or {}
 local wk = require("which-key")
+
+local M = {}
 
 function M.setup()
     vim.opt.foldmethod = "expr"

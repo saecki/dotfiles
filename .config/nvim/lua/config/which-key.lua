@@ -1,7 +1,7 @@
-local M = {}
-
 local wk = require("which-key")
 local shared = require("shared")
+
+local M = {}
 
 function M.setup()
     vim.opt.timeoutlen = 400

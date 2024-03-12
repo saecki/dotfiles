@@ -1,6 +1,6 @@
-local M = {}
-
 local util = require("util")
+
+local M = {}
 
 function M.setup()
     vim.g.mapleader = " "

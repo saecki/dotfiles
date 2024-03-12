@@ -1,6 +1,6 @@
-local M = {}
-
 local fidget = require("fidget")
+
+local M = {}
 
 function M.setup()
     fidget.setup({

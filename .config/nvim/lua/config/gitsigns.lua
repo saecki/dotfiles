@@ -1,9 +1,9 @@
-local M = {}
-
 local gitsigns = require("gitsigns")
 local gitsigns_actions = require("gitsigns.actions")
 local wk = require("which-key")
 local shared = require("shared")
+
+local M = {}
 
 -- Slightly modified version of default function
 local function current_line_blame_formatter(name, blame_info, opts)

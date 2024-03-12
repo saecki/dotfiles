@@ -1,9 +1,9 @@
-local M = {}
-
 local crates = require("crates")
 local wk = require("which-key")
 local shared = require("shared")
 local lsp_config = require("config.lsp")
+
+local M = {}
 
 function M.setup()
     crates.setup({

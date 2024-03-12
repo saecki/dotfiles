@@ -1,9 +1,9 @@
-local M = {}
-
 local null_ls = require("null-ls")
 local h = require("null-ls.helpers")
 local methods = require("null-ls.methods")
 local lsp_config = require("config.lsp")
+
+local M = {}
 
 local function parse_diagnostic(diagnostic, span, severity)
     return {

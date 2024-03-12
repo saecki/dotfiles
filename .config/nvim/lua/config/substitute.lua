@@ -1,6 +1,6 @@
-local M = {}
-
 local substitute = require("substitute")
+
+local M = {}
 
 function M.setup()
     substitute.setup({

@@ -1,6 +1,6 @@
-local M = {}
-
 local wk = require("which-key")
+
+local M = {}
 
 local use_clippy = false
 

@@ -1,6 +1,6 @@
-local M = {}
-
 local wk_ok, wk = pcall(require, "which-key")
+
+local M = {}
 
 function M.setup()
     -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.

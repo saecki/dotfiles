@@ -1,6 +1,6 @@
-local M = {}
-
 local mini_comment = require("mini.comment")
+
+local M = {}
 
 function M.setup()
     -- comment_ft.set("cods", { '//%s', '/*%s*/' })

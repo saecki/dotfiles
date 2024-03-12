@@ -1,6 +1,6 @@
-local M = {}
-
 local common = require("colors.common")
+
+local M = {}
 
 M.palette = {
     bg         = "#ffffff",

@@ -1,11 +1,9 @@
-local M = {}
-
 local lspconfig = require("lspconfig")
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
 local shared = require("shared")
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- servers
 local arduino_language_server = require("config.lsp.server.arduino_language_server")
 local dartls = require("config.lsp.server.dartls")
@@ -13,7 +11,9 @@ local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
 local texlab = require("config.lsp.server.texlab")
 
-local group = vim.api.nvim_create_augroup("ConfigLspOccurences", {})
+local M = {}
+
+local group
 
 local function default_server_setup(server, on_attach, capabilities)
     server.setup ({
