@@ -14,6 +14,11 @@ local function make_mapping(prefix, textobject)
     }
 end
 
+local function jump_to_context()
+    ts_context.go_to_context(1)
+    vim.cmd("normal! zt")
+end
+
 function M.setup()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -157,7 +162,7 @@ function M.setup()
 
     wk.register({
         ["<leader>et"] = { ":TSPlaygroundToggle<cr>", "Treesitter playground" },
-        ["g%"] = { ts_context.go_to_context, "Jump to context" },
+        ["g%"] = { jump_to_context, "Jump to context" },
     })
 end
 
