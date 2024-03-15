@@ -75,17 +75,21 @@ function M.setup()
             }),
             ["<c-y>"] = cmp.mapping.confirm({
                 behavior = cmp.ConfirmBehavior.Replace,
-                select = false,
+                select = true,
+            }),
+            ["<a-y>"] = cmp.mapping.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = true,
             }),
         },
         sorting = {
             comparators = {
-                cmp_compare.offset,
+                -- cmp_compare.offset,
                 cmp_compare.exact,
                 cmp_compare.score,
                 cmp_compare.recently_used,
                 cmp_compare.locality,
-                cmp_compare.kind,
+                -- cmp_compare.kind,
                 cmp_compare.sort_text,
                 cmp_compare.length,
                 cmp_compare.order,
@@ -94,7 +98,6 @@ function M.setup()
         sources = {
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
-            { name = "crates" },
             { name = "luasnip" },
             { name = "path" },
             { name = "buffer", keyword_length = 4, option = { keyword_pattern = [[\k\+]] } },
