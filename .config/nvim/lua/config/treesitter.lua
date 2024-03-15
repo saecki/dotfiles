@@ -4,6 +4,16 @@ local wk = require("which-key")
 
 local M = {}
 
+---@param prefix string
+---@param textobject string
+---@return table
+local function make_mapping(prefix, textobject)
+    return {
+        query = textobject,
+        desc = string.format("%s %s", prefix, textobject),
+    }
+end
+
 function M.setup()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -78,26 +88,26 @@ function M.setup()
                 enable = true,
                 lookahead = true,
                 keymaps = {
-                    ["ia"] = "@parameter.inner",
-                    ["aa"] = "@parameter.outer",
-                    ["if"] = "@function.inner",
-                    ["af"] = "@function.outer",
-                    ["ic"] = "@class.inner",
-                    ["ac"] = "@class.outer",
+                    ["ia"] = make_mapping("Textobject", "@parameter.inner"),
+                    ["aa"] = make_mapping("Textobject", "@parameter.outer"),
+                    ["if"] = make_mapping("Textobject", "@function.inner"),
+                    ["af"] = make_mapping("Textobject", "@function.outer"),
+                    ["ic"] = make_mapping("Textobject", "@class.inner"),
+                    ["ac"] = make_mapping("Textobject", "@class.outer"),
                 },
             },
             move = {
                 enable = true,
                 set_jumps = true,
                 goto_next_start = {
-                    ["]a"] = "@parameter.outer",
-                    ["]f"] = "@function.outer",
-                    ["]c"] = "@class.outer",
+                    ["]a"] = make_mapping("Next", "@parameter.inner"),
+                    ["]f"] = make_mapping("Next", "@function.outer"),
+                    ["]c"] = make_mapping("Next", "@class.outer"),
                 },
                 goto_previous_start = {
-                    ["[a"] = "@parameter.outer",
-                    ["[f"] = "@function.outer",
-                    ["[c"] = "@class.outer",
+                    ["[a"] = make_mapping("Previous", "@parameter.inner"),
+                    ["[f"] = make_mapping("Previous", "@function.outer"),
+                    ["[c"] = make_mapping("Previous", "@class.outer"),
                 },
             },
             swap = {
