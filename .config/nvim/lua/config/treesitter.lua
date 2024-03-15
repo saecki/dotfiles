@@ -157,6 +157,7 @@ function M.setup()
 
     wk.register({
         ["<leader>et"] = { ":TSPlaygroundToggle<cr>", "Treesitter playground" },
+        ["g%"] = { ts_context.go_to_context, "Jump to context" },
     })
 end
 
