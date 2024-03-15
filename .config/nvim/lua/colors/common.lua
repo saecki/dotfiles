@@ -238,6 +238,9 @@ function M.highlights(p)
         DapBreakpoint = { fg = p.lred    },
         DapLogPoint   = { fg = p.lyellow },
         DapStopped    = { fg = p.lgreen  },
+
+        -- crates
+        CratesNvimPopupUrl = { link = "Link" },
     }
 end
 
