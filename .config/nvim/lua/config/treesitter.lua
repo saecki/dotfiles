@@ -118,14 +118,14 @@ function M.setup()
             swap = {
                 enable = true,
                 swap_next = {
-                    ["<m-space><m-a>"] = "@parameter.inner",
-                    ["<m-space><m-f>"] = "@function.outer",
-                    ["<m-space><m-e>"] = "@element",
+                    ["<a-space><a-a>"] = "@parameter.inner",
+                    ["<a-space><a-f>"] = "@function.outer",
+                    ["<a-space><a-e>"] = "@element",
                 },
                 swap_previous = {
-                    ["<m-backspace><m-a>"] = "@parameter.inner",
-                    ["<m-backspace><m-f>"] = "@function.outer",
-                    ["<m-backspace><m-e>"] = "@element",
+                    ["<a-backspace><a-a>"] = "@parameter.inner",
+                    ["<a-backspace><a-f>"] = "@function.outer",
+                    ["<a-backspace><a-e>"] = "@element",
                 },
             }
         },
