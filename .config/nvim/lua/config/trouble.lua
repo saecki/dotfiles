@@ -72,8 +72,8 @@ function M.setup()
             ["t"] = { function() trouble.open("todo") end, "TODO comments" },
 
         },
-        ["]t"] = { function() trouble.next({skip_groups = true, jump = true}) end, "List next item" },
-        ["[t"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "List previous item" },
+        ["]l"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Next list item" },
+        ["[l"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Previous list item" },
     })
 end
 
