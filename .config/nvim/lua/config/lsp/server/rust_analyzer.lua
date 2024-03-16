@@ -29,6 +29,7 @@ local function setup_server(server, on_attach, capabilities, opts)
 end
 
 local function toggle_check_command()
+    use_clippy = not use_clippy
     local cmd = use_clippy and "clippy" or "check"
     setup_server(M.server, M.on_attach, M.capabilities, { check_command = cmd })
     vim.notify("cargo " .. cmd, vim.log.levels.INFO)
