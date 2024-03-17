@@ -1,5 +1,6 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local trouble = require("trouble")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
@@ -51,6 +52,7 @@ function M.on_attach(client, buf)
 
     wk.register({
         ["<c-LeftMouse>"] = { "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>", "LSP definition" },
+        ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
 
         ["<c-a-l>"] = { vim.lsp.buf.format, "Formating" },
         ["K"] = { vim.lsp.buf.hover, "Show documentation" },
@@ -58,6 +60,10 @@ function M.on_attach(client, buf)
         ["g"] = {
             name = "Go",
             ["D"] = { vim.lsp.buf.declaration, "LSP declaration" },
+            ["d"] = { function() trouble.open("lsp_definitions") end, "LSP definition" },
+            ["r"] = { function() trouble.open("lsp_references") end, "LSP references" },
+            ["i"] = { function() trouble.open("lsp_implementations") end, "LSP implementations" },
+            ["y"] = { function() trouble.open("lsp_type_definitions") end, "LSP type definitions" },
         },
         ["<leader>"] = {
             ["a"] = { vim.lsp.buf.code_action, "Code action" },
@@ -95,6 +101,12 @@ function M.on_attach(client, buf)
                     end)
                 end,
                 "Refactor clear name",
+            },
+            ["l"] = {
+                name = "List",
+                ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
+                ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
+
             },
         },
     }, {

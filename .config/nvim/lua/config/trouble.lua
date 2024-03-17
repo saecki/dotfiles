@@ -55,20 +55,9 @@ function M.setup()
     })
 
     wk.register({
-        ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
-
-        ["g"] = {
-            name = "Go",
-            ["d"] = { function() trouble.open("lsp_definitions") end, "LSP definition" },
-            ["r"] = { function() trouble.open("lsp_references") end, "LSP references" },
-            ["i"] = { function() trouble.open("lsp_implementations") end, "LSP implementations" },
-            ["y"] = { function() trouble.open("lsp_type_definitions") end, "LSP type definitions" },
-        },
         ["<leader>l"] = {
             name = "List",
             ["e"] = { ":TroubleToggle<cr>", "Toggle UI" },
-            ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
-            ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
             ["t"] = { function() trouble.open("todo") end, "TODO comments" },
 
         },

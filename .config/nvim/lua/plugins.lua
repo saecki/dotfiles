@@ -146,6 +146,7 @@ function M.setup()
             dependencies = {
                 { "williamboman/mason.nvim" },
                 { "hrsh7th/cmp-nvim-lsp" },
+                { "folke/trouble.nvim" },
             },
             config = function()
                 require("config.lsp").setup()
