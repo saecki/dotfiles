@@ -153,6 +153,7 @@ alias cdal='cd ~/.config/alacritty'
 alias cdkt='cd ~/.config/kitty'
 alias cdtm='cd ~/.config/tmux'
 alias cdst='cd ~/.config/starship'
+alias cdyz='cd ~/.config/yazi'
 alias cdzt='cd ~/.config/zathura'
 
 # Config
@@ -163,6 +164,7 @@ alias cfal='(cd ~/.config/alacritty && $EDITOR ~/.config/alacritty/alacritty.yml
 alias cfkt='(cd ~/.config/kitty && $EDITOR ~/.config/kitty/kitty.conf)'
 alias cftm='(cd ~/.config/tmux && $EDITOR ~/.tmux.conf)'
 alias cfst='(cd ~/.config/starship && $EDITOR ~/.config/starship/starship.toml.in)'
+alias cfyz='(cd ~/.config/yazi && $EDITOR ~/.config/yazi/yazi.toml)'
 alias cfzt='(cd ~/.config/zathura && $EDITOR ~/.config/zathura/zathurarc)'
 
 # Git
