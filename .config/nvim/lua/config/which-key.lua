@@ -12,10 +12,6 @@ function M.setup()
                 suggestions = 40,
             },
         },
-        operators = {
-            gc = "Comment",
-            gb = "Block comment",
-        },
         icons = {
             breadcrumb = "»",
             separator = "➜",
