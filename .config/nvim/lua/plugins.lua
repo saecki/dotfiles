@@ -170,7 +170,10 @@ function M.setup()
         -- Debugging
         {
             "mfussenegger/nvim-dap",
-            dependencies = { "rcarriga/nvim-dap-ui" },
+            dependencies = {
+                "rcarriga/nvim-dap-ui",
+                "nvim-neotest/nvim-nio",
+            },
             config = function()
                 require("config.dap").setup()
             end,
