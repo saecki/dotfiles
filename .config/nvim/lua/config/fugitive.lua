@@ -4,14 +4,14 @@ local M = {}
 
 local function toggle_diff()
     if vim.o.diff then
-        vim.cmd("diffoff")
+        vim.cmd.diffoff()
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
             if vim.api.nvim_buf_get_name(bufnr):match("fugitive://.*") then
                 vim.api.nvim_buf_delete(bufnr, { force = true })
             end
         end
     else
-        vim.cmd("Gvdiffsplit!")
+        vim.cmd.Gvdiffsplit({ bang = true })
     end
 end
 

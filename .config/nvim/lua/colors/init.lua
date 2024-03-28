@@ -23,11 +23,11 @@ function M.update_colorscheme()
     local dir = vim.env.HOME .. "/.config/alco/alco.yml"
     local current = read_current_colorscheme(dir)
     if current == "dark" then
-        vim.cmd("colorscheme minedark")
+        vim.cmd.colorscheme("minedark")
     elseif current == "light" then
-        vim.cmd("colorscheme minelight")
+        vim.cmd.colorscheme("minelight")
     else
-        vim.cmd("colorscheme minedark")
+        vim.cmd.colorscheme("minedark")
     end
 end
 

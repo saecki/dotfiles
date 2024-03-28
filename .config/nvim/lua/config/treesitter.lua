@@ -16,7 +16,7 @@ end
 
 local function jump_to_context()
     ts_context.go_to_context(1)
-    vim.cmd("normal! zt")
+    vim.cmd.normal({ args = "zt", bang = true })
 end
 
 function M.setup()

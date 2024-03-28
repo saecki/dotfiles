@@ -220,7 +220,7 @@ function M.setup()
                 { "nvim-treesitter/nvim-treesitter-textobjects" },
             },
             build = function()
-                vim.cmd(":TSUpdate")
+                vim.cmd.TSUpdate()
             end,
             config = function()
                 require("config.treesitter").setup()
