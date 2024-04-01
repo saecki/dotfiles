@@ -13,6 +13,14 @@ toggle() {
     esac
 }
 
+reload() {
+    case "$1" in
+        "'$SYSTEM_LIGHT_THEME'" ) light ;;
+        "'$SYSTEM_DARK_THEME'" ) dark ;;
+        * ) dark ;;
+    esac
+}
+
 dark() {
     gsettings set org.gnome.desktop.interface color-scheme "'$SYSTEM_DARK_THEME'"
     gsettings set org.gnome.desktop.interface gtk-theme "'$GTK_DARK_THEME'"
@@ -28,6 +36,7 @@ light() {
 current=$(gsettings get org.gnome.desktop.interface color-scheme)
 case "$1" in
     "toggle" ) toggle "$current" ;;
+    "reload" ) reload "$current" ;;
     "dark" ) dark ;;
     "light" ) light ;;
 esac
