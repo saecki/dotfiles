@@ -237,13 +237,6 @@ function M.setup()
 
         -- Markdown
         {
-            "plasticboy/vim-markdown",
-            ft = { "markdown" },
-            config = function()
-                require("config.lang.markdown").setup()
-            end,
-        },
-        {
             "iamcco/markdown-preview.nvim",
             ft = { "markdown" },
             build = function()
