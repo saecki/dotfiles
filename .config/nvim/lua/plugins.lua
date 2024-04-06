@@ -203,14 +203,6 @@ function M.setup()
             end,
         },
 
-        -- Comments
-        {
-            "echasnovski/mini.comment",
-            config = function()
-                require("config.mini_comment").setup()
-            end,
-        },
-
         -- Substitute
         {
             "gbprod/substitute.nvim",
