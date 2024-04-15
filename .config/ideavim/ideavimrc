@@ -13,8 +13,8 @@ set ignorecase
 nmap <leader>w :w<cr>
 
 " Stop searching
-vmap S :nohlsearch<cr>
-nmap S :nohlsearch<cr>
+vmap <c-l> :nohlsearch<cr>
+nmap <c-l> :nohlsearch<cr>
 
 " Copy paste
 nnoremap Y     y$
@@ -49,7 +49,7 @@ nmap <leader>a <Action>(ShowIntentionActions)
 nmap <leader>ff <Action>(FindInPath)
 
 " Open files
-nmap <c-p> <Action>(SearchEverywhere)
+nmap <leader>fp <Action>(SearchEverywhere)
 nnoremap <leader><leader> <c-s-6>
 
 " Select occurences
