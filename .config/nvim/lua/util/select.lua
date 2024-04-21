@@ -14,11 +14,15 @@ local calculate_popup_width = function(entries)
         end
     end
 
-    if #entries < 10 then
-        return result + 2
-    else
-        return result + 3
+    result = result + 2
+
+    local num_entries = #entries
+    while num_entries >= 10 do
+        num_entries = num_entries / 10
+        result = result + 1
     end
+
+    return result
 end
 
 local format_entries = function(entries, formatter)
