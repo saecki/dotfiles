@@ -88,8 +88,8 @@ function M.select(items, opts, on_choice)
     -- create buf
     M.buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(M.buf, 0, 1, false, formatted_items)
-    vim.api.nvim_buf_set_option(M.buf, "filetype", "markdown")
-    vim.api.nvim_buf_set_option(M.buf, "modifiable", false)
+    vim.api.nvim_set_option_value("filetype", "markdown", { buf = M.buf })
+    vim.api.nvim_set_option_value("modifiable", false, { buf = M.buf })
 
     -- get word start
     local old_pos = vim.api.nvim_win_get_cursor(0)
