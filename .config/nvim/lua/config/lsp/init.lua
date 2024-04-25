@@ -47,7 +47,7 @@ function M.on_attach(client, buf)
 
     -- Inlay hints
     if client.server_capabilities.inlayHintProvider then
-        vim.lsp.inlay_hint.enable(buf, shared.lsp.enable_inlay_hints)
+        vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
     end
 
     wk.register({
@@ -82,7 +82,7 @@ function M.on_attach(client, buf)
                 function()
                     -- TODO: this will only update the current buffer
                     shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
-                    vim.lsp.inlay_hint.enable(buf, shared.lsp.enable_inlay_hints)
+                    vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
                 end,
                 "Inlay hints",
             },
