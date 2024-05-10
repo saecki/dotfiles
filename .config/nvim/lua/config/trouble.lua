@@ -59,7 +59,8 @@ function M.setup()
             name = "List",
             ["e"] = { ":TroubleToggle<cr>", "Toggle UI" },
             ["t"] = { function() trouble.open("todo") end, "TODO comments" },
-
+            ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
+            ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
         },
         ["]l"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Next list item" },
         ["[l"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Previous list item" },

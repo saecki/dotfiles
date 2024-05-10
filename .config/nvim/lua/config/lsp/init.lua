@@ -102,12 +102,6 @@ function M.on_attach(client, buf)
                 end,
                 "Refactor clear name",
             },
-            ["l"] = {
-                name = "List",
-                ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
-                ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
-
-            },
         },
     }, {
         buffer = buf,
