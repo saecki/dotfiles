@@ -35,11 +35,11 @@ function M.highlights(p)
         Comment         = { fg = p.text3,                                        },
         Constant        = { fg = p.lpurple,                                      },
         String          = { fg = p.lpurple,                                      },
-        Identifier      = { fg = p.ident,                       bold = true      },
+        Identifier      = { fg = p.ident,                                        },
         Function        = { fg = p.lcyan,                       bold = true      },
         Statement       = { fg = p.lyellow,                                      },
         PreProc         = { fg = p.preproc,                                      },
-        Type            = { fg = p.type,                                         },
+        Type            = { fg = p.type,                        bold = true      },
         Special         = { fg = p.special,                                      },
 
         -- custom

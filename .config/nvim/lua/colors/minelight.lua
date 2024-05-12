@@ -15,10 +15,10 @@ M.palette = {
 
     lred       = "#ec5444",
     lgreen     = "#a8c72a",
-    lyellow    = "#f7b051",
+    lyellow    = "#f2ad38",
     lblue      = "#78ced8",
-    lpurple    = "#d882a0",
-    lcyan      = "#86bd7a",
+    lpurple    = "#d868a0",
+    lcyan      = "#56d44a",
 
     lred_bg    = "#ffefeb",
     lyellow_bg = "#fdf8eb",
@@ -43,8 +43,8 @@ M.palette = {
 
     title      = "#b059b0",
     preproc    = "#0087ff",
-    ident      = "#55a5a8",
-    type       = "#00b997",
+    ident      = "#359598",
+    type       = "#00cea0",
     special    = "#875fd7",
     todo       = "#00d700",
     nontext    = "#b1c9c8",
