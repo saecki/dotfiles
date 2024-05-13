@@ -4,6 +4,9 @@ function M.setup()
     -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.
     -- vim.keymap.set("", "<tab>", "<c-i>", {})
 
+    vim.keymap.set("", "<c-RightMouse>", "<c-o>", { desc = "Jump back" })
+    vim.keymap.set("", "<a-RightMouse>", "<c-o>", { desc = "Jump back" })
+
     vim.keymap.set("", "j", "gj", { silent = true })
     vim.keymap.set("", "gj", "j", { silent = true })
     vim.keymap.set("", "k", "gk", { silent = true })
