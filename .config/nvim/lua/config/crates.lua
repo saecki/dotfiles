@@ -13,7 +13,11 @@ function M.setup()
             border = shared.window.border,
             show_version_date = true,
         },
-        src = {
+        completion = {
+            crates = {
+                enabled = true,
+                max_results = 30,
+            },
             cmp = {
                 use_custom_kind = true,
             },
@@ -49,6 +53,7 @@ function M.setup()
             ["R"] = { crates.open_repository, "Open repository" },
             ["D"] = { crates.open_documentation, "Open documentation" },
             ["C"] = { crates.open_crates_io, "Open crates.io" },
+            ["L"] = { crates.open_lib_rs, "Open lib.rs" },
         },
     })
     wk.register({
