@@ -130,12 +130,14 @@ style = "bold fg:purple bg:<bg>"
 ##################################################
 
 [package]
+symbol = " "
 style = "bold fg:208 bg:<bg>"
 
 [cmake]
 style = "bold fg:blue bg:<bg>"
 
 [dart]
+symbol = " "
 style = "bold fg:blue bg:<bg>"
 
 [deno]
@@ -160,13 +162,15 @@ style = "bold fg:cyan bg:<bg>"
 style = "bold fg:white bg:<bg>"
 
 [java]
-symbol = " "
+symbol = " "
 style = "bold fg:red dimmed bg:<bg>"
 
 [julia]
+symbol = " "
 style = "bold fg:purple dimmed bg:<bg>"
 
 [kotlin]
+symbol = " "
 style = "bold fg:#843eff dimmed bg:<bg>"
 
 [lua]
@@ -180,9 +184,11 @@ style = "bold fg:yellow bg:<bg>"
 style = "bold fg:red bg:<bg>"
 
 [ocaml]
+symbol = " "
 style = "bold fg:yellow bg:<bg>"
 
 [perl]
+symbol = " "
 style = "bold fg:149 bg:<bg>"
 
 [php]
@@ -192,7 +198,7 @@ style = "bold fg:147 bg:<bg>"
 style = "bold fg:white bg:<bg>"
 
 [python]
-symbol = " "
+symbol = " "
 style = "bold fg:yellow bg:<bg>"
 format = "via [$symbol$pyenv_prefix($version )($virtualenv )]($style)"
 
@@ -203,12 +209,14 @@ style = "bold fg:red bg:<bg>"
 style = "bold fg:red bg:<bg>"
 
 [rust]
+symbol = " "
 style = "bold fg:red bg:<bg>"
 
 [scala]
 style = "bold fg:red dimmed bg:<bg>"
 
 [swift]
+symbol = " "
 style = "bold fg:202 bg:<bg>"
 
 [terraform]
@@ -221,6 +229,7 @@ style = "bold fg:cyan bg:<bg>"
 style = "bold fg:blue bg:<bg>"
 
 [zig]
+symbol = " "
 style = "bold fg:yellow bg:<bg>"
 
 [nix_shell]
