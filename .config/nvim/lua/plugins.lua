@@ -218,6 +218,7 @@ function M.setup()
                 { dir = "~/Projects/nvim-treesitter-context" },
                 { "nvim-treesitter/playground" },
                 { "nvim-treesitter/nvim-treesitter-textobjects" },
+                { "yorickpeterse/nvim-tree-pairs" },
             },
             build = function()
                 vim.cmd.TSUpdate()

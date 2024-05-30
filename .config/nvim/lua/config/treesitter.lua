@@ -1,5 +1,6 @@
 local ts_config = require("nvim-treesitter.configs")
 local ts_context = require("treesitter-context")
+local ts_pairs = require("tree-pairs")
 local wk = require("which-key")
 
 local M = {}
@@ -159,6 +160,8 @@ function M.setup()
             },
         },
     })
+
+    ts_pairs.setup()
 
     wk.register({
         ["<leader>et"] = { ":TSPlaygroundToggle<cr>", "Treesitter playground" },
