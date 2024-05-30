@@ -167,6 +167,10 @@ function M.highlights(p)
         TelescopePreviewBorder = { link = "FloatBorder"          },
         TelescopePreviewTitle  = { link = "FloatTitle"           },
 
+        -- trouble
+        TroubleNormal = { link = "Normal" },
+        TroubleNormalNC = { link = "NormalNC" },
+
         -- which-key
         WhichKey = { fg = p.special },
 

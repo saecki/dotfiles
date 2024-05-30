@@ -59,11 +59,11 @@ function M.on_attach(client, buf)
         ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
         ["g"] = {
             name = "Go",
-            ["D"] = { vim.lsp.buf.declaration, "LSP declaration" },
-            ["d"] = { function() trouble.open("lsp_definitions") end, "LSP definition" },
-            ["r"] = { function() trouble.open("lsp_references") end, "LSP references" },
-            ["i"] = { function() trouble.open("lsp_implementations") end, "LSP implementations" },
-            ["y"] = { function() trouble.open("lsp_type_definitions") end, "LSP type definitions" },
+            ["D"] = { function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end, "LSP declaration" },
+            ["d"] = { function() trouble.open({ mode = "lsp_definitions", auto_jump = true }) end, "LSP definition" },
+            ["y"] = { function() trouble.open({ mode = "lsp_type_definitions", auto_jump = true }) end, "LSP type definitions" },
+            ["i"] = { function() trouble.open({ mode = "lsp_implementations" }) end, "LSP implementations" },
+            ["r"] = { function() trouble.open({ mode = "lsp_references" }) end, "LSP references" },
         },
         ["<leader>"] = {
             ["a"] = { vim.lsp.buf.code_action, "Code action" },

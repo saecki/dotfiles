@@ -6,33 +6,27 @@ local M = {}
 
 function M.setup()
     trouble.setup({
-        position = "right",
-        width = 60,
-        icons = false,
-        fold_open = "",
-        fold_closed = "",
-        auto_jump = {
-            "lsp_definitions",
-            "lsp_type_definitions",
+        focus = true,
+        follow = true,
+        auto_jump = false,
+        win = {
+            type = "split",
+            position = "right",
+            size = { width = 0.35 },
         },
-        signs = {
-            other = "",
-            error = "",
-            warning = "",
-            information = "",
-            hint = "",
-        },
+        -- TODO: use the same lsp-kind icons as with nvim-cmp
+        icons = {},
     })
     todo_comments.setup({
         signs = false,
         keywords = {
             FIX = { icon = " ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-            STOPSHIP = { icon = " ", color = "error" },
+            STOPSHIP = { icon = " ", color = "error" },
             HACK = { icon = " ", color = "warning", alt = { "XXX" } },
-            SAFETY = { icon = " ", color = "warning"},
+            SAFETY = { icon = " ", color = "warning" },
             TODO = { icon = " ", color = "info", alt = { "todo!" } },
-            PERF = { icon = " ", color = "info" },
-            NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+            PERF = { icon = "󰅒 ", color = "info" },
+            NOTE = { icon = "󰎚 ", color = "hint", alt = { "INFO" } },
         },
         merge_keywords = false,
         highlight = {
@@ -40,7 +34,7 @@ function M.setup()
             keyword = "fg",
             after = "",
             pattern = [[.*<(KEYWORDS)]], -- pattern or table of patterns, used for highlightng (vim regex)
-            comments_only = true, -- uses treesitter to match keywords in comments only
+            comments_only = true,        -- uses treesitter to match keywords in comments only
         },
         colors = {
             error = { "DiagnosticError" },
@@ -57,13 +51,13 @@ function M.setup()
     wk.register({
         ["<leader>l"] = {
             name = "List",
-            ["e"] = { ":TroubleToggle<cr>", "Toggle UI" },
-            ["t"] = { function() trouble.open("todo") end, "TODO comments" },
-            ["d"] = { function() trouble.open("document_diagnostics") end, "Document diagnostics" },
-            ["D"] = { function() trouble.open("workspace_diagnostics") end, "Workspace diagnostics" },
+            ["e"] = { function() trouble.close() end, "Toggle UI" },
+            ["t"] = { function() trouble.open({ mode = "todo" }) end, "TODO comments" },
+            ["d"] = { function() trouble.open({ mode = "diagnostics", filter = { buf = 0 } }) end, "Document diagnostics" },
+            ["D"] = { function() trouble.open({ mode = "diagnostics" }) end, "Workspace diagnostics" },
         },
-        ["]l"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Next list item" },
-        ["[l"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Previous list item" },
+        ["]t"] = { function() trouble.next({ mode = "todo", focus = false, jump = true }) end, "Next todo" },
+        ["[t"] = { function() trouble.prev({ mode = "todo", focus = false, jump = true }) end, "Previous todo" },
     })
 end
 
