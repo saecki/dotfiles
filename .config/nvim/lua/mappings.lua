@@ -25,6 +25,9 @@ function M.setup()
     vim.keymap.set("n", "<leader>el", ":set list!<cr>", { desc = "Listchars" })
     vim.keymap.set("n", "<leader>es", ":set spell!<cr>", { desc = "Spellchecking" })
 
+    vim.keymap.set("n", "[q", ":cprev<cr>", { desc = "Previous quickfix" } )
+    vim.keymap.set("n", "]q", ":cnext<cr>", { desc = "Next quickfix" } )
+
     vim.keymap.set("v", "<c-c>", '"+y', { desc = "Copy to system clipboard" })
 end
 
