@@ -4,14 +4,16 @@ local shared = require("shared")
 local M = {}
 
 function M.setup()
-    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
-    for n, s in pairs(signs) do
-        local hl = "DiagnosticSign" .. n
-        vim.fn.sign_define(hl, { text = s, texthl = hl, linehl = "", numhl = "" })
-    end
     vim.diagnostic.config({
         virtual_text = true,
-        signs = true,
+        signs = {
+            text = {
+                [vim.diagnostic.severity.ERROR] = "",
+                [vim.diagnostic.severity.WARN] = "",
+                [vim.diagnostic.severity.INFO] = "",
+                [vim.diagnostic.severity.HINT] = "",
+            },
+        },
         underline = true,
         update_in_insert = true,
         severity_sort = true,
