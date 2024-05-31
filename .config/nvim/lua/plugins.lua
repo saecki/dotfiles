@@ -2,6 +2,14 @@ local M = {}
 
 local util = require("util")
 
+---@param plugin string
+---@return function
+local function config(plugin)
+    return function()
+        require("config." .. plugin).setup()
+    end
+end
+
 function M.setup()
     -- bootstrap lazy.nvim
     local lazypath = util.join_paths(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
@@ -22,26 +30,20 @@ function M.setup()
         -- Key mappings
         {
             "folke/which-key.nvim",
-            config = function()
-                require("config.which-key").setup()
-            end,
+            config = config("which-key"),
         },
 
         -- Gui enhancements
         {
             "rcarriga/nvim-notify",
             priority = 100,
-            config = function()
-                require("config.notify").setup()
-            end,
+            config = config("notify"),
         },
         {
             "nvim-lualine/lualine.nvim",
             -- for multicursors.nvim
             dependencies = { "smoka7/hydra.nvim" },
-            config = function()
-                require("config.lualine").setup()
-            end,
+            config = config("lualine"),
         },
         {
             "echasnovski/mini.hipatterns",
@@ -49,30 +51,22 @@ function M.setup()
                 { "<leader>ec", desc = "Colorizer" },
                 { "<leader>eC", desc = "Colorizer style" },
             },
-            config = function()
-                require("config.mini_hipatterns").setup()
-            end,
+            config = config("mini_hipatterns"),
         },
         {
             "lukas-reineke/indent-blankline.nvim",
-            config = function()
-                require("config.indent-blankline").setup()
-            end,
+            config = config("indent-blankline"),
         },
         {
             "nvim-tree/nvim-web-devicons",
-            config = function()
-                require("config.devicons").setup()
-            end,
+            config = config("devicons"),
         },
 
         -- Multicursor
         {
             "smoka7/multicursors.nvim",
             dependencies = { "smoka7/hydra.nvim" },
-            config = function()
-                require("config.multicursors").setup()
-            end,
+            config = config("multicursors"),
         },
 
         -- Filetree
@@ -80,9 +74,7 @@ function M.setup()
             "kyazdani42/nvim-tree.lua",
             dependencies = { "nvim-tree/nvim-web-devicons" },
             keys = { "<leader>x", "<leader>X" },
-            config = function()
-                require("config.nvim-tree").setup()
-            end,
+            config = config("nvim-tree"),
         },
 
         -- File Search/Replace
@@ -92,9 +84,7 @@ function M.setup()
                 { "nvim-lua/plenary.nvim" },
                 { "nvim-tree/nvim-web-devicons" },
             },
-            config = function()
-                require("config.spectre").setup()
-            end,
+            config = config("spectre"),
         },
 
         -- File navigation
@@ -105,39 +95,29 @@ function M.setup()
                 { "nvim-lua/plenary.nvim" },
                 { "nvim-tree/nvim-web-devicons" },
             },
-            config = function()
-                require("config.telescope").setup()
-            end,
+            config = config("telescope"),
         },
         {
             "ThePrimeagen/harpoon",
             dependencies = { "nvim-lua/plenary.nvim" },
-            config = function()
-                require("config.harpoon").setup()
-            end,
+            config = config("harpoon"),
         },
 
         -- Lists
         {
             "folke/trouble.nvim",
             dependencies = { "folke/todo-comments.nvim" },
-            config = function()
-                require("config.trouble").setup()
-            end,
+            config = config("trouble"),
         },
 
         -- Git
         {
             "tpope/vim-fugitive",
-            config = function()
-                require("config.fugitive").setup()
-            end,
+            config = config("fugitive"),
         },
         {
             "lewis6991/gitsigns.nvim",
-            config = function()
-                require("config.gitsigns").setup()
-            end,
+            config = config("gitsigns"),
         },
 
         -- Lsp
@@ -148,23 +128,17 @@ function M.setup()
                 { "hrsh7th/cmp-nvim-lsp" },
                 { "folke/trouble.nvim" },
             },
-            config = function()
-                require("config.lsp").setup()
-            end,
+            config = config("lsp"),
         },
         {
             "nvimtools/none-ls.nvim",
             dependencies = { "nvim-lspconfig" },
-            config = function()
-                require("config.null-ls").setup()
-            end,
+            config = config("null-ls"),
         },
         {
             "j-hui/fidget.nvim",
             tag = "legacy",
-            config = function()
-                require("config.fidget").setup()
-            end,
+            config = config("fidget"),
         },
 
         -- Debugging
@@ -174,9 +148,7 @@ function M.setup()
                 "rcarriga/nvim-dap-ui",
                 "nvim-neotest/nvim-nio",
             },
-            config = function()
-                require("config.dap").setup()
-            end,
+            config = config("dap"),
         },
 
         -- Completion
@@ -190,25 +162,19 @@ function M.setup()
                 { "saadparwaiz1/cmp_luasnip" },
                 { "L3MON4D3/LuaSnip" },
             },
-            config = function()
-                require("config.cmp").setup()
-            end,
+            config = config("cmp"),
         },
 
         -- Snippets
         {
             "L3MON4D3/LuaSnip",
-            config = function()
-                require("config.luasnip").setup()
-            end,
+            config = config("luasnip"),
         },
 
         -- Substitute
         {
             "gbprod/substitute.nvim",
-            config = function()
-                require("config.substitute").setup()
-            end,
+            config = config("substitute"),
         },
 
         -- Treesitter
@@ -223,9 +189,7 @@ function M.setup()
             build = function()
                 vim.cmd.TSUpdate()
             end,
-            config = function()
-                require("config.treesitter").setup()
-            end,
+            config = config("treesitter"),
         },
 
         -- Markdown
@@ -238,9 +202,7 @@ function M.setup()
         },
         {
             "dhruvasagar/vim-table-mode",
-            config = function()
-                require("config.table-mode").setup()
-            end,
+            config = config("table-mode"),
         },
 
         -- Rust
@@ -250,9 +212,7 @@ function M.setup()
                 -- for the attach function
                 "neovim/nvim-lspconfig",
             },
-            config = function()
-                require("config.crates").setup()
-            end,
+            config = config("crates"),
         },
 
         -- Lua/Teal
