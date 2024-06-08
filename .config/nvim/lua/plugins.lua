@@ -25,6 +25,11 @@ function M.setup()
     end
     vim.opt.rtp:prepend(lazypath)
 
+    -- vimscript things
+    vim.g.table_mode_toggle_map = "e"
+    vim.g.table_mode_tableize_d_map = "<leader>tT"
+
+
     local lazy = require("lazy")
     lazy.setup({
         -- Key mappings

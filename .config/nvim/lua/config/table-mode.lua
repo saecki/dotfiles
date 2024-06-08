@@ -3,11 +3,10 @@ local wk = require("which-key")
 local M = {}
 
 function M.setup()
-    vim.g.table_mode_tableize_d_map = "<leader>tT"
     wk.register({
         ["<leader>t"] = {
             name = "Tablemode",
-            ["m"] = { nil, "Toggle" },
+            ["e"] = { nil, "Toggle" },
             ["t"] = { nil, "Tableize" },
             ["r"] = { nil, "Realign" },
             ["s"] = { nil, "Sort" },
