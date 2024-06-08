@@ -29,6 +29,8 @@ function M.setup()
     vim.g.table_mode_toggle_map = "e"
     vim.g.table_mode_tableize_d_map = "<leader>tT"
 
+    vim.g.presence_has_setup = 1
+
 
     local lazy = require("lazy")
     lazy.setup({
@@ -233,7 +235,10 @@ function M.setup()
         },
 
         -- Discord rich presence
-        "andweeb/presence.nvim",
+        {
+            "andweeb/presence.nvim",
+            config = config("presence"),
+        },
     })
 
     -- zig.vim is installed by the system package manager on fedora
