@@ -14,6 +14,18 @@ function M.setup()
             position = "right",
             size = { width = 0.35 },
         },
+        modes = {
+            lsp_references = {
+                params = {
+                    include_current = true,
+                },
+            },
+            lsp_implementations = {
+                params = {
+                    include_current = true,
+                },
+            },
+        },
         -- TODO: use the same lsp-kind icons as with nvim-cmp
         icons = {},
     })
