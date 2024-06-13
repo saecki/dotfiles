@@ -30,42 +30,43 @@ local function current_line_blame_formatter(name, blame_info, opts)
 end
 
 function M.setup()
-    ---@format disable-next
-	gitsigns.setup({
-		signs = {
-			add          = { hl = "GitSignsAdd",    text = "▌", numhl = "GitSignsAddNr",    linehl = "GitSignsAddLn"    },
-			change       = { hl = "GitSignsChange", text = "▌", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-			delete       = { hl = "GitSignsDelete", text = "▌", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-			topdelete    = { hl = "GitSignsDelete", text = "▌", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-			changedelete = { hl = "GitSignsChgDel", text = "▌", numhl = "GitSignsChgDelNr", linehl = "GitSignsChgDelLn" },
-		},
+    gitsigns.setup({
+        ---@format disable-next
+        signs = {
+            add          = { hl = "GitSignsAdd",    text = "▌", numhl = "GitSignsAddNr",    linehl = "GitSignsAddLn"    },
+            change       = { hl = "GitSignsChange", text = "▌", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+            delete       = { hl = "GitSignsDelete", text = "🬏", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+            topdelete    = { hl = "GitSignsDelete", text = "🬀", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+            changedelete = { hl = "GitSignsChgDel", text = "▌", numhl = "GitSignsChgDelNr", linehl = "GitSignsChgDelLn" },
+        },
+        signs_staged_enable = false,
         numhl = false,
-		linehl = false,
-		word_diff = false,
-		current_line_blame = false,
-		current_line_blame_formatter = current_line_blame_formatter,
-		current_line_blame_formatter_opts = {
-			relative_time = true,
-		},
-		current_line_blame_opts = {
-			virt_text = true,
-			virt_text_pos = "eol",
-			delay = 0,
-		},
-		sign_priority = 100,
-		update_debounce = 100,
-		diff_opts = {
-			internal = true,
-		},
-		base = "HEAD",
-		preview_config = {
-			border = shared.window.border,
-			style = "minimal",
-			relative = "cursor",
-			row = 0,
-			col = 1,
-		},
-	})
+        linehl = false,
+        word_diff = false,
+        current_line_blame = false,
+        current_line_blame_formatter = current_line_blame_formatter,
+        current_line_blame_formatter_opts = {
+            relative_time = true,
+        },
+        current_line_blame_opts = {
+            virt_text = true,
+            virt_text_pos = "eol",
+            delay = 0,
+        },
+        sign_priority = 100,
+        update_debounce = 100,
+        diff_opts = {
+            internal = true,
+        },
+        base = "HEAD",
+        preview_config = {
+            border = shared.window.border,
+            style = "minimal",
+            relative = "cursor",
+            row = 0,
+            col = 1,
+        },
+    })
     wk.register({
         ["[g"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
         ["]g"] = { gitsigns_actions.next_hunk, "Next hunk" },
