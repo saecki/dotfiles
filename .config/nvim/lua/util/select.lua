@@ -9,9 +9,7 @@ local calculate_popup_width = function(entries)
 
     for _, entry in ipairs(entries) do
         local width = vim.fn.strdisplaywidth(entry)
-        if width > result then
-            result = #entry
-        end
+        result = math.max(result, width)
     end
 
     result = result + 2
