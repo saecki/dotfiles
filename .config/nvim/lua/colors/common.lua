@@ -128,20 +128,25 @@ function M.highlights(p)
         DiffText        = { fg = p.text2, bg = p.diff_cd_bg, bold = true },
 
         -- gitsigns
-        GitSignsAdd       = { fg = p.diff_a_fg  },
-        GitSignsChange    = { fg = p.diff_c_fg  },
-        GitSignsDelete    = { fg = p.diff_d_fg  },
-        GitSignsChgDel    = { fg = p.diff_cd_fg },
+        GitSignsCurrentLineBlame = { link = "Comment" },
 
-        GitSignsAddLn     = { bg = p.diff_a_bg  },
-        GitSignsChangeLn  = { bg = p.diff_c_bg  },
-        GitSignsDeleteLn  = { bg = p.diff_d_bg  },
-        GitSignsChgDelLn  = { bg = p.diff_cd_bg },
+        GitSignsAdd            = { fg = p.diff_a_fg  },
+        GitSignsChange         = { fg = p.diff_c_fg  },
+        GitSignsDelete         = { fg = p.diff_d_fg  },
+        GitSignsTopdelete      = { fg = p.diff_d_fg  },
+        GitSignsChangeDelete   = { fg = p.diff_cd_fg },
 
-        GitSignsAddNr     = { bg = p.diff_a_bg  },
-        GitSignsChangeNr  = { bg = p.diff_c_bg  },
-        GitSignsDeleteNr  = { bg = p.diff_d_bg  },
-        GitSignsChgDelNr  = { bg = p.diff_cd_bg },
+        GitSignsAddLn          = { bg = p.diff_a_bg  },
+        GitSignsChangeLn       = { bg = p.diff_c_bg  },
+        GitSignsDeleteLn       = { bg = p.diff_d_bg  },
+        GitSignsTopdeleteLn    = { bg = p.diff_d_bg  },
+        GitSignsChangeDeleteLn = { bg = p.diff_cd_bg },
+
+        GitSignsAddNr          = { bg = p.diff_a_bg  },
+        GitSignsChangeNr       = { bg = p.diff_c_bg  },
+        GitSignsDeleteNr       = { bg = p.diff_d_bg  },
+        GitSignsTopdeleteNr    = { bg = p.diff_d_bg  },
+        GitSignsChangeDeleteNr = { bg = p.diff_cd_bg },
 
         -- nvim-tree
         NvimTreeGitDirty   = { fg = p.dblue   },
