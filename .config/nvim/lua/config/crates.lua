@@ -48,6 +48,7 @@ function M.setup()
 
             ["x"] = { crates.expand_plain_crate_to_inline_table, "Expand to inline table" },
             ["X"] = { crates.extract_crate_into_table, "Extract into table" },
+            ["g"] = { crates.use_git_source, "Use git source" },
 
             ["H"] = { crates.open_homepage, "Open homepage" },
             ["R"] = { crates.open_repository, "Open repository" },
