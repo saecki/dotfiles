@@ -208,6 +208,11 @@ function M.setup()
             end,
         },
         {
+            "OXY2DEV/markview.nvim",
+            branch = "dev",
+            config = config("markview"),
+        },
+        {
             "dhruvasagar/vim-table-mode",
             config = config("table-mode"),
         },

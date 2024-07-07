@@ -250,6 +250,12 @@ function M.highlights(p)
 
         -- crates
         CratesNvimPopupUrl = { link = "Link" },
+
+        -- markview
+        Markview_code_block         = { bg = p.surface3                  },
+        Markview_inline_code        = { bg = p.surface3, fg = p.special  },
+        Markview_inline_code_corner = { bg = p.bg,       fg = p.surface3 },
+        Markview_link               = { link = "Link"                    },
     }
 end
 
