@@ -54,6 +54,7 @@ function M.setup()
             "html",
             "java",
             "json",
+            "jsonc",
             "kotlin",
             "latex",
             "lua",
