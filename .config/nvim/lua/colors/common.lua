@@ -77,7 +77,9 @@ function M.highlights(p)
         ["@lsp.type.enum"]        = { link = "@type"         },
         ["@lsp.type.macro"]       = { link = "@constant"     },
 
-        ["@lsp.type.macro.rust"]         = { link = "@function" },
+        ["@lsp.type.macro.rust"]  = { link = "@function" },
+
+        ["@rust.attr.rustfmt_skip"] = { link = "NonText" },
 
         -- treesitter context
         TreesitterContextLineNumber = { link = "Pmenu" },
