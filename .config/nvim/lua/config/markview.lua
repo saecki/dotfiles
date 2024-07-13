@@ -49,8 +49,8 @@ function M.setup()
         },
     })
 
-    wk.register({ 
-        ["<leader>em"] = { markview.commands.toggleAll, "Markview" },
+    wk.add({
+        { "<leader>em", markview.commands.toggleAll, desc = "Markview" },
     })
 end
 

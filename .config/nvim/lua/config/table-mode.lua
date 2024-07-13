@@ -3,39 +3,28 @@ local wk = require("which-key")
 local M = {}
 
 function M.setup()
-    wk.register({
-        ["<leader>t"] = {
-            name = "Tablemode",
-            ["e"] = { nil, "Toggle" },
-            ["t"] = { nil, "Tableize" },
-            ["r"] = { nil, "Realign" },
-            ["s"] = { nil, "Sort" },
-            ["?"] = { nil, "Echo cell" },
-            ["i"] = {
-                name = "Insert",
-                ["c"] = { nil, "Column after" },
-                ["C"] = { nil, "Column Before" },
-            },
-            ["d"] = {
-                name = "Delete",
-                ["c"] = { nil, "Column" },
-                ["d"] = { nil, "Row" },
-            },
-            ["f"] = {
-                name = "Formula",
-                ["a"] = { nil, "Add" },
-                ["e"] = { nil, "Eval" },
-            },
-        },
-    })
-    wk.register({
-        ["<leader>t"] = {
-            name = "Tablemode",
-            ["t"] = { nil, "Tableize" },
-            ["T"] = { nil, "Tableize with delimiter" },
-        },
-    }, {
-        mode = "v",
+    wk.add({
+        { "<leader>t",   group = "Tablemode" },
+        { "<leader>te",  desc = "Toggle" },
+        { "<leader>tt",  desc = "Tableize" },
+        { "<leader>tr",  desc = "Realign" },
+        { "<leader>ts",  desc = "Sort" },
+        { "<leader>t?",  desc = "Echo cell" },
+
+        { "<leader>ti",  group = "Insert" },
+        { "<leader>tic", desc = "Column after" },
+        { "<leader>tiC", desc = "Column Before" },
+
+        { "<leader>td",  group = "Delete" },
+        { "<leader>tdc", desc = "Column" },
+        { "<leader>tdd", desc = "Row" },
+
+        { "<leader>tf",  group = "Formula" },
+        { "<leader>tfa", desc = "Add" },
+        { "<leader>tfe", desc = "Eval" },
+
+        { "<leader>tt",  desc = "Tableize",                mode = "v" },
+        { "<leader>tT",  desc = "Tableize with delimiter", mode = "v" },
     })
 end
 

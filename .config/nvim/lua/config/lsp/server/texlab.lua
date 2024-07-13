@@ -6,11 +6,8 @@ function M.setup(server, on_attach, capabilities)
     local function m_on_attach(client, buf)
         on_attach(client, buf)
 
-        wk.register({
-            ["<leader>f"] = {
-                name = "Find",
-                ["w"] = { ":TexlabForward<cr>", "Forward search" },
-            },
+        wk.add({
+            { "<leader>if", ":TexlabForward<cr>", desc = "Forward search", buffer = buf },
         })
     end
 

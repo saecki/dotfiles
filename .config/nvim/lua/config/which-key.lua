@@ -16,6 +16,7 @@ function M.setup()
             breadcrumb = "»",
             separator = "➜",
             group = "+",
+            rules = false,
         },
         window = {
             border = shared.window.border,
@@ -42,13 +43,9 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["<leader>"] = {
-            ["k"] = { ":WhichKey<cr>", "Which key?" },
-            ["e"] = {
-                name = "Toggle (enable)",
-            },
-        },
+    wk.add({
+        { "<leader>e", group = "Toggle (enable)" },
+        { "<leader>k", ":WhichKey<cr>", desc = "Which key?" },
     })
 end
 

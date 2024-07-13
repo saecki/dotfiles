@@ -64,12 +64,10 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["<leader>e"] = {
-            name = "Toggle (enable)",
-            ["c"] = { hipatterns.toggle, "Colorizer" },
-            ["C"] = { toggle_style, "Colorizer style" },
-        },
+    wk.add({
+        { "<leader>e",  group = "Toggle (enable)" },
+        { "<leader>ec", hipatterns.toggle,        desc = "Colorizer" },
+        { "<leader>eC", toggle_style,             desc = "Colorizer style" },
     })
 end
 

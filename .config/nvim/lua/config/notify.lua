@@ -6,18 +6,11 @@ local M = {}
 function M.setup()
     vim.notify = notify
 
-    wk.register({
-        ["<leader>n"] = {
-            name = "Notification",
-            ["d"] = { notify.dismiss, "Dismiss" },
-            ["D"] = {
-                function()
-                    notify.dismiss({ pending = true })
-                end,
-                "Dismiss all",
-            },
-            ["h"] = { notify._print_history, "History" },
-        },
+    wk.add({
+        { "<leader>n",  group = "Notification" },
+        { "<leader>nd", notify.dismiss,                                    desc = "Dismiss" },
+        { "<leader>nD", function() notify.dismiss({ pending = true }) end, desc = "Dismiss all", },
+        { "<leader>nh", notify._print_history,                             desc = "History" },
     })
 end
 

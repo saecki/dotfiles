@@ -17,10 +17,44 @@ local M = {}
 local group
 
 local function default_server_setup(server, on_attach, capabilities)
-    server.setup ({
+    server.setup({
         on_attach = on_attach,
         capabilities = capabilities,
     })
+end
+
+local function trouble_open(mode, opts)
+    return function()
+        trouble.open({ mode = mode, unpack(opts or {}) })
+    end
+end
+
+local function toggle_document_highlight()
+    shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
+    if not shared.lsp.enable_document_highlight then
+        vim.lsp.buf.clear_references()
+    else
+        vim.lsp.buf.document_highlight()
+    end
+end
+
+local function toggle_inlay_hints()
+    -- TODO: this will only update the current buffer
+    shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
+    vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
+end
+
+local function refactor(opts)
+    return function()
+        require("util.input").input(opts, function(new_name)
+            vim.lsp.buf.rename(new_name)
+        end)
+    end
+end
+
+local function range_code_action()
+    vim.lsp.buf.code_action()
+    vim.api.nvim_input("<ESC>")
 end
 
 function M.get_capabilities()
@@ -50,75 +84,28 @@ function M.on_attach(client, buf)
         vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
     end
 
-    wk.register({
-        ["<c-LeftMouse>"] = { "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>", "LSP definition" },
-        ["<A-LeftMouse>"] = { "<LeftMouse>:Trouble lsp_type_definitions<cr>", "LSP type definition" },
+    wk.add({
+        { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",         desc = "LSP definition" },
+        { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",             desc = "LSP type definition" },
 
-        ["<c-a-l>"] = { vim.lsp.buf.format, "Formating" },
-        ["K"] = { vim.lsp.buf.hover, "Show documentation" },
-        ["<a-k>"] = { vim.lsp.buf.signature_help, "Signature help" },
-        ["g"] = {
-            name = "Go",
-            ["D"] = { function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end, "LSP declaration" },
-            ["d"] = { function() trouble.open({ mode = "lsp_definitions", auto_jump = true }) end, "LSP definition" },
-            ["y"] = { function() trouble.open({ mode = "lsp_type_definitions", auto_jump = true }) end, "LSP type definitions" },
-            ["i"] = { function() trouble.open({ mode = "lsp_implementations" }) end, "LSP implementations" },
-            ["r"] = { function() trouble.open({ mode = "lsp_references" }) end, "LSP references" },
-        },
-        ["<leader>"] = {
-            ["a"] = { vim.lsp.buf.code_action, "Code action" },
-            ["eh"] = {
-                function()
-                    shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
-                    if not shared.lsp.enable_document_highlight then
-                        vim.lsp.buf.clear_references()
-                    else
-                        vim.lsp.buf.document_highlight()
-                    end
-                end,
-                "Document highlight",
-            },
-            ["ei"] = {
-                function()
-                    -- TODO: this will only update the current buffer
-                    shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
-                    vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
-                end,
-                "Inlay hints",
-            },
-            ["r"] = {
-                function()
-                    require("util.input").input({}, function(new_name)
-                        vim.lsp.buf.rename(new_name)
-                    end)
-                end,
-                "Refactor keep name",
-            },
-            ["R"] = {
-                function()
-                    require("util.input").input({ text = "", insert = true }, function(new_name)
-                        vim.lsp.buf.rename(new_name)
-                    end)
-                end,
-                "Refactor clear name",
-            },
-        },
-    }, {
-        buffer = buf,
-    })
+        { "<c-a-l>",       vim.lsp.buf.format,                                         desc = "LSP format" },
+        { "K",             vim.lsp.buf.hover,                                          desc = "Show documentation" },
+        { "<a-k>",         vim.lsp.buf.signature_help,                                 desc = "Signature help" },
 
-    wk.register({
-        ["<leader>"] = {
-            ["a"] = {
-                function()
-                    vim.lsp.buf.code_action()
-                    vim.api.nvim_input("<ESC>")
-                end,
-                "Range code action",
-            },
-        },
+        { "g",             group = "Go" },
+        { "gD",            trouble_open("lsp_declarations", { auto_jump = true }),     desc = "LSP declaration" },
+        { "gd",            trouble_open("lsp_definitions", { auto_jump = true }),      desc = "LSP definition" },
+        { "gy",            trouble_open("lsp_type_definitions", { auto_jump = true }), desc = "LSP type definitions" },
+        { "gi",            trouble_open("lsp_implementations"),                        desc = "LSP implementations" },
+        { "gr",            trouble_open("lsp_references"),                             desc = "LSP references" },
+
+        { "<leader>a",     vim.lsp.buf.code_action,                                    desc = "Code action" },
+        { "<leader>a",     range_code_action,                                          desc = "Range code action",   mode = "v" },
+        { "<leader>eh",    toggle_document_highlight,                                  desc = "Document highlight" },
+        { "<leader>ei",    toggle_inlay_hints,                                         desc = "Inlay hints" },
+        { "<leader>r",     refactor({}),                                               desc = "Refactor keep name" },
+        { "R",             refactor({ text = "", insert = true }),                     desc = "Refactor clear name" },
     }, {
-        mode = "v",
         buffer = buf,
     })
 end
@@ -183,16 +170,14 @@ function M.setup()
     })
 
     -- Keymappings
-    wk.register({
-        ["<leader>i"] = {
-            name = "Lsp",
-            ["s"] = { ":LspStart<cr>", "Start" },
-            ["r"] = { ":LspRestart<cr>", "Restart" },
-            ["t"] = { ":LspStop<cr>", "Stop (terminate)" },
-            ["i"] = { ":LspInfo<cr>", "Info" },
-            ["I"] = { mason_ui.open, "Install Info" },
-            ["l"] = { ":MasonLog<cr>", "Install Log" },
-        },
+    wk.add({
+        { "<leader>i",  group = "Lsp" },
+        { "<leader>is", ":LspStart<cr>",   desc = "Start" },
+        { "<leader>ir", ":LspRestart<cr>", desc = "Restart" },
+        { "<leader>it", ":LspStop<cr>",    desc = "Stop (terminate)" },
+        { "<leader>ii", ":LspInfo<cr>",    desc = "Info" },
+        { "<leader>iI", mason_ui.open,     desc = "Install Info" },
+        { "<leader>il", ":MasonLog<cr>",   desc = "Install Log" },
     })
 end
 

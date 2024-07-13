@@ -39,17 +39,16 @@ function M.setup()
             col = 1,
         },
     })
-    wk.register({
-        ["[g"] = { gitsigns_actions.prev_hunk, "Previous hunk" },
-        ["]g"] = { gitsigns_actions.next_hunk, "Next hunk" },
-        ["<leader>g"] = {
-            name = "Git",
-            ["u"] = { gitsigns.reset_hunk, "Undo hunk" },
-            ["s"] = { gitsigns.preview_hunk, "Show hunk" },
-            ["b"] = { gitsigns.toggle_current_line_blame, "Toggle inline blame" },
-            ["B"] = { gitsigns.blame_line, "Blame line" },
-            ["r"] = { gitsigns.refresh, "Refresh" },
-        },
+
+    wk.add({
+        { "[g",         function() gitsigns_actions.nav_hunk("prev") end, desc = "Previous hunk" },
+        { "]g",         function() gitsigns_actions.nav_hunk("next") end, desc = "Next hunk" },
+        { "<leader>g",  group = "Git" },
+        { "<leader>gu", gitsigns.reset_hunk,                              desc = "Undo hunk" },
+        { "<leader>gs", gitsigns.preview_hunk,                            desc = "Show hunk" },
+        { "<leader>gb", gitsigns.toggle_current_line_blame,               desc = "Toggle inline blame" },
+        { "<leader>gB", gitsigns.blame_line,                              desc = "Blame line" },
+        { "<leader>gr", gitsigns.refresh,                                 desc = "Refresh" },
     })
 end
 

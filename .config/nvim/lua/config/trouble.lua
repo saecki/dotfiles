@@ -61,16 +61,14 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["<leader>l"] = {
-            name = "List",
-            ["e"] = { function() trouble.close() end, "Toggle UI" },
-            ["t"] = { function() trouble.open({ mode = "todo" }) end, "TODO comments" },
-            ["d"] = { function() trouble.open({ mode = "diagnostics", filter = { buf = 0 } }) end, "Document diagnostics" },
-            ["D"] = { function() trouble.open({ mode = "diagnostics" }) end, "Workspace diagnostics" },
-        },
-        ["]t"] = { function() trouble.next({ mode = "todo", focus = false, jump = true }) end, "Next todo" },
-        ["[t"] = { function() trouble.prev({ mode = "todo", focus = false, jump = true }) end, "Previous todo" },
+    wk.add({
+        { "<leader>l",  group = "List" },
+        { "<leader>le", function() trouble.close() end,                                              desc = "Toggle UI" },
+        { "<leader>lt", function() trouble.open({ mode = "todo" }) end,                              desc = "TODO comments" },
+        { "<leader>ld", function() trouble.open({ mode = "diagnostics", filter = { buf = 0 } }) end, desc = "Document diagnostics" },
+        { "<leader>lD", function() trouble.open({ mode = "diagnostics" }) end,                       desc = "Workspace diagnostics" },
+        { "]t",         function() trouble.next({ mode = "todo", focus = false, jump = true }) end,  desc = "Next todo" },
+        { "[t",         function() trouble.prev({ mode = "todo", focus = false, jump = true }) end,  desc = "Previous todo" },
     })
 end
 

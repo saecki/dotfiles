@@ -22,21 +22,23 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["[e"] = {
+    wk.add({
+        {
+            "[e",
             function()
                 vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
             end,
-            "Previous error",
+            desc = "Previous error",
         },
-        ["]e"] = {
+        {
+            "]e",
             function()
                 vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
             end,
-            "Next error",
+            desc = "Next error",
         },
-        ["[d"] = { vim.diagnostic.goto_prev, "Previous diagnostic" },
-        ["]d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
+        { "[d", vim.diagnostic.goto_prev, desc = "Previous diagnostic" },
+        { "]d", vim.diagnostic.goto_next, desc = "Next diagnostic" },
     })
 end
 

@@ -72,64 +72,70 @@ function M.setup()
     --     dapui.close()
     -- end
 
-    wk.register({
-        ["<f9>"] = { dap.continue, "Debug continue" },
-        ["<f10>"] = { dap.step_over, "Debug step over" },
-        ["<f11>"] = { dap.step_into, "Debug step into" },
-        ["<f12>"] = { dap.step_out, "Debug step out" },
-        ["<leader>d"] = {
-            name = "Debug",
-            ["e"] = { dapui.toggle, "Toggle UI" },
-            ["h"] = {
-                function()
-                    M.debuggables_history({ run_first = false })
-                end,
-                "Debug history",
-                silent = false,
-            },
-            ["H"] = {
-                function()
-                    M.debuggables_history({ run_first = true })
-                end,
-                "Debug last",
-                silent = false,
-            },
-            ["d"] = {
-                function()
-                    M.debuggables({ current_pos = false })
-                end,
-                "Debug",
-                silent = false,
-            },
-            ["D"] = {
-                function()
-                    M.debuggables({ current_pos = true })
-                end,
-                "Debug at position",
-                silent = false,
-            },
-            ["R"] = { dap.run_last, "Rerun", silent = false },
-            ["r"] = { dap.restart, "Restart", silent = false },
-            ["q"] = { dap.close, "Close" },
-            ["b"] = { dap.toggle_breakpoint, "Breakpoint" },
-            ["c"] = {
-                function()
-                    dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-                end,
-                "Conditional breakpoint",
-            },
-            ["l"] = {
-                function()
-                    dap.set_breakpoint(nil, nil, vim.fn.input("Print message: "))
-                end,
-                "Logpoint",
-            },
-            ["v"] = {
-                function()
-                    dap_ui_widgets.hover(nil, { border = shared.window.border })
-                end,
-                "Evaluate expression",
-            },
+    wk.add({
+        { "<f9>",       dap.continue,   desc = "Debug continue" },
+        { "<f10>",      dap.step_over,  desc = "Debug step over" },
+        { "<f11>",      dap.step_into,  desc = "Debug step into" },
+        { "<f12>",      dap.step_out,   desc = "Debug step out" },
+
+        { "<leader>d",  group = "Debug" },
+        { "<leader>de", dapui.toggle,   desc = "Toggle UI" },
+        {
+            "<leader>dh",
+            function()
+                M.debuggables_history({ run_first = false })
+            end,
+            desc = "Debug history",
+            silent = false,
+        },
+        {
+            "<leader>dH",
+            function()
+                M.debuggables_history({ run_first = true })
+            end,
+            desc = "Debug last",
+            silent = false,
+        },
+        {
+            "<leader>dd",
+            function()
+                M.debuggables({ current_pos = false })
+            end,
+            desc = "Debug",
+            silent = false,
+        },
+        {
+            "<leader>dD",
+            function()
+                M.debuggables({ current_pos = true })
+            end,
+            desc = "Debug at position",
+            silent = false,
+        },
+        { "<leader>dR", dap.run_last,          desc = "Rerun",     silent = false },
+        { "<leader>dr", dap.restart,           desc = "Restart",   silent = false },
+        { "<leader>dq", dap.close,             desc = "Close" },
+        { "<leader>db", dap.toggle_breakpoint, desc = "Breakpoint" },
+        {
+            "<leader>dc",
+            function()
+                dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+            end,
+            desc = "Conditional breakpoint",
+        },
+        {
+            "<leader>dl",
+            function()
+                dap.set_breakpoint(nil, nil, vim.fn.input("Print message: "))
+            end,
+            desc = "Logpoint",
+        },
+        {
+            "<leader>dv",
+            function()
+                dap_ui_widgets.hover(nil, { border = shared.window.border })
+            end,
+            desc = "Evaluate expression",
         },
     })
 end

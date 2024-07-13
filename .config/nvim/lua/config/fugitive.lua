@@ -16,13 +16,11 @@ local function toggle_diff()
 end
 
 function M.setup()
-    wk.register({
-        ["<leader>g"] = {
-            name = "Git",
-            ["d"] = { toggle_diff, "Toggle diff" },
-            ["h"] = { ":diffget //2<cr>", "Get left diff" },
-            ["l"] = { ":diffget //3<cr>", "Get right diff" },
-        },
+    wk.add({
+        { "<leader>g",  group = "Git" },
+        { "<leader>gd", toggle_diff,        desc = "Toggle diff" },
+        { "<leader>gh", ":diffget //2<cr>", desc = "Get left diff" },
+        { "<leader>gl", ":diffget //3<cr>", desc = "Get right diff" },
     })
 end
 

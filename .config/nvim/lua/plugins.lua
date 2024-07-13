@@ -256,8 +256,8 @@ function M.setup()
     require("config.lang.lua").setup()
 
     local wk = require("which-key")
-    wk.register({
-        ["<leader>p"] = { ":Lazy<cr>", "Toggle Plugins UI" },
+    wk.add({
+        { "<leader>p", ":Lazy<cr>", desc = "Toggle Plugins UI" },
     })
 end
 

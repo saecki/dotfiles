@@ -47,13 +47,8 @@ function M.setup(server, on_attach, capabilities, opts)
         group = group,
         pattern = "*.rs",
         callback = function(ev)
-            wk.register({
-                ["<leader>i"] = {
-                    name = "Lsp",
-                    ["c"] = { toggle_check_command, "Rust check command" },
-                },
-            }, {
-                buffer = ev.buf,
+            wk.add({
+                { "<leader>ic", toggle_check_command, desc = "Rust check command", buffer = ev.buf },
             })
         end
     })

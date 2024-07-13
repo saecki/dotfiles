@@ -44,27 +44,14 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["<leader>"] = {
-            ["s"] = {
-                name = "Search/Replace",
-                ["e"] = { spectre.toggle, "Toggle UI" },
-                ["p"] = { spectre.open, "Project" },
-                ["f"] = { spectre.open_file_search, "File" },
-            },
-        },
-    })
+    wk.add({
+        { "<leader>s",  group = "Search/Replace" },
+        { "<leader>se", spectre.toggle,                                                               desc = "Toggle UI" },
+        { "<leader>sp", spectre.open,                                                                 desc = "Project" },
+        { "<leader>sf", spectre.open_file_search,                                                     desc = "File" },
 
-    wk.register({
-        ["<leader>"] = {
-            ["s"] = {
-                name = "Search/Replace",
-                ["p"] = { "<cmd>lua require('spectre').open_visual()<cr>", "Project" },
-                ["f"] = { "<cmd>lua require('spectre').open_visual({ path = vim.fn.expand('%') })<cr>", "File" },
-            },
-        },
-    }, {
-        mode = "v",
+        { "<leader>sp", "<cmd>lua require('spectre').open_visual()<cr>",                              desc = "Project",  mode = "v" },
+        { "<leader>sf", "<cmd>lua require('spectre').open_visual({ path = vim.fn.expand('%') })<cr>", desc = "File",     mode = "v" },
     })
 end
 

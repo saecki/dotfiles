@@ -14,6 +14,14 @@ local function find_files(opts)
     end
 end
 
+local function buf_diagnostics()
+    telescope_builtin.diagnostics({ bufnr = 0 })
+end
+
+local function trailing_whitespace()
+    telescope_builtin.grep_string({ search = "\\s+$", use_regex = true })
+end
+
 function M.setup()
     telescope.setup({
         defaults = {
@@ -65,37 +73,23 @@ function M.setup()
         },
     })
 
-    wk.register({
-        ["<leader>"] = {
-            ["f"] = {
-                name = "Find",
-                ["p"] = { find_files({ no_ignore = false }), "Files" },
-                ["P"] = { find_files({ no_ignore = true }), "Ignored Files" },
-                ["f"] = { telescope_builtin.live_grep, "Live grep" },
-                ["b"] = { telescope_builtin.buffers, "Buffers" },
-                ["h"] = { telescope_builtin.help_tags, "Help" },
-                ["c"] = { telescope_builtin.commands, "Commands" },
-                ["m"] = { telescope_builtin.keymaps, "Key mappings" },
-                ["i"] = { telescope_builtin.highlights, "Highlight groups" },
-                ["g"] = { telescope_builtin.git_status, "Git status" },
-                ["d"] = {
-                    function()
-                        telescope_builtin.diagnostics({ bufnr = 0 })
-                    end,
-                    "Document diagnostics",
-                },
-                ["D"] = { telescope_builtin.diagnostics, "Workspace diagnostics" },
-                ["s"] = { telescope_builtin.lsp_document_symbols, "LSP document symbols" },
-                ["S"] = { telescope_builtin.lsp_workspace_symbols, "LSP workspace symbols" },
-                ["w"] = {
-                    function()
-                        telescope_builtin.grep_string({ search = "\\s+$", use_regex = true })
-                    end,
-                    "Whitespace",
-                },
-                ["r"] = { telescope_builtin.resume, "Resume" },
-            },
-        },
+    wk.add({
+        { "<leader>f",  group = "Find" },
+        { "<leader>fp", find_files({ no_ignore = false }),       desc = "Files" },
+        { "<leader>fP", find_files({ no_ignore = true }),        desc = "Ignored Files" },
+        { "<leader>ff", telescope_builtin.live_grep,             desc = "Live grep" },
+        { "<leader>fb", telescope_builtin.buffers,               desc = "Buffers" },
+        { "<leader>fh", telescope_builtin.help_tags,             desc = "Help" },
+        { "<leader>fc", telescope_builtin.commands,              desc = "Commands" },
+        { "<leader>fm", telescope_builtin.keymaps,               desc = "Key mappings" },
+        { "<leader>fi", telescope_builtin.highlights,            desc = "Highlight groups" },
+        { "<leader>fg", telescope_builtin.git_status,            desc = "Git status" },
+        { "<leader>fd", buf_diagnostics,                         desc = "Document diagnostics" },
+        { "<leader>fD", telescope_builtin.diagnostics,           desc = "Workspace diagnostics" },
+        { "<leader>fs", telescope_builtin.lsp_document_symbols,  desc = "LSP document symbols" },
+        { "<leader>fS", telescope_builtin.lsp_workspace_symbols, desc = "LSP workspace symbols" },
+        { "<leader>fw", trailing_whitespace,                     desc = "Whitespace", },
+        { "<leader>fr", telescope_builtin.resume,                desc = "Resume" },
     })
 end
 
