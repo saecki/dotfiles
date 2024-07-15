@@ -18,12 +18,12 @@ function M.setup()
             group = "+",
             rules = false,
         },
-        window = {
+        win = {
             border = shared.window.border,
-            position = "bottom",
-            margin = { 2, 2, 2, 4 },
             padding = { 0, 0, 0, 0 },
-            winblend = 0,
+            wo = {
+                winblend = 0,
+            }
         },
         hidden = {
             "<silent>",
