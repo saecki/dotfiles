@@ -37,10 +37,6 @@ function M.setup()
             "^:",
             "^ ",
         },
-        triggers_blacklist = {
-            n = { "v", "<a-j>", "<a-s-j>", "<a-k>" },
-            v = { "v", "<a-j>", "<a-s-j>", "<a-k>" },
-        },
     })
 
     wk.add({
