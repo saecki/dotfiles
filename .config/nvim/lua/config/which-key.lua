@@ -25,18 +25,6 @@ function M.setup()
                 winblend = 0,
             }
         },
-        hidden = {
-            "<silent>",
-            "<cmd>",
-            "<Cmd>",
-            "<plug>",
-            "<Plug>",
-            "<CR>",
-            "call",
-            "lua",
-            "^:",
-            "^ ",
-        },
         keys = {
             scroll_down = "<down>", -- scroll down in popup
             scroll_up = "<up>",   -- scroll up in popup
