@@ -219,6 +219,7 @@ alias gsd='git stash drop'
 alias gsl='git stash list'
 alias gsp='git stash pop'
 alias gss='git stash push'
+alias gsss='git stash push --staged'
 alias gsw='git switch'
 
 alias ggc='git reflog expire --expire=now --all && git gc --prune=now --aggressive'
