@@ -68,12 +68,16 @@ end
 function M.on_attach(client, buf)
     -- Occurences
     if client.server_capabilities.documentHighlightProvider then
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
             group = group,
             buffer = buf,
             callback = function()
                 if shared.lsp.enable_document_highlight then
-                    vim.lsp.buf.document_highlight()
+                    if vim.fn.mode() == "n" then
+                        vim.lsp.buf.document_highlight()
+                    else
+                        vim.lsp.buf.clear_references()
+                    end
                 end
             end,
         })
