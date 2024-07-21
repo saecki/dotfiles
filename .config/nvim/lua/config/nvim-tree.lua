@@ -54,6 +54,8 @@ function M.setup()
         },
         on_attach = function(buf)
             wk.add({
+                buffer = buf,
+
                 { "<cr>",           api.node.open.edit,                 desc = "Open" },
                 { "o",              api.node.open.edit,                 desc = "Open" },
                 { "<2-leftmouse>",  api.node.open.edit,                 desc = "Open" },
@@ -89,8 +91,6 @@ function M.setup()
                 { "s",              api.node.run.system,                desc = "Open system" },
                 { "q",              api.tree.close,                     desc = "Close" },
                 { "g?",             api.toggle_help,                    desc = "Toggle help" },
-            }, {
-                buffer = buf,
             })
         end
     }

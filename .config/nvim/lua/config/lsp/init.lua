@@ -89,6 +89,8 @@ function M.on_attach(client, buf)
     end
 
     wk.add({
+        buffer = buf,
+
         { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",         desc = "LSP definition" },
         { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",             desc = "LSP type definition" },
 
@@ -109,8 +111,6 @@ function M.on_attach(client, buf)
         { "<leader>ei",    toggle_inlay_hints,                                         desc = "Inlay hints" },
         { "<leader>r",     refactor({}),                                               desc = "Refactor keep name" },
         { "R",             refactor({ text = "", insert = true }),                     desc = "Refactor clear name" },
-    }, {
-        buffer = buf,
     })
 end
 
