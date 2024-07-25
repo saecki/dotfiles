@@ -138,11 +138,6 @@ function M.setup()
             config = config("lsp"),
         },
         {
-            "nvimtools/none-ls.nvim",
-            dependencies = { "nvim-lspconfig" },
-            config = config("null-ls"),
-        },
-        {
             "j-hui/fidget.nvim",
             tag = "legacy",
             config = config("fidget"),
