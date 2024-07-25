@@ -19,8 +19,9 @@ function M.setup()
             rules = false,
         },
         win = {
+            title = false,
             border = shared.window.border,
-            padding = { 0, 0, 0, 0 },
+            padding = { 0, 0 },
             wo = {
                 winblend = 0,
             }
@@ -28,7 +29,9 @@ function M.setup()
         keys = {
             scroll_down = "<down>", -- scroll down in popup
             scroll_up = "<up>",   -- scroll up in popup
-        }
+        },
+        show_help = false,
+        show_keys = false,
     })
 
     wk.add({
