@@ -2,28 +2,6 @@
 
 local M = {}
 
--- TODO: is this still needed with nvim_set_option_value?
---
--- Workaround for nvim bug where nvim_win_set_option "leaks" local
--- options to windows created afterwards (thanks @sindrets!)
--- SEE:
--- https://github.com/b0o/incline.nvim/issues/4
--- https://github.com/neovim/neovim/issues/18283
--- https://github.com/neovim/neovim/issues/14670
-local win_set_local_options = function(win, opts)
-    vim.api.nvim_win_call(win, function()
-        for opt, val in pairs(opts) do
-            local arg
-            if type(val) == "boolean" then
-                arg = (val and "" or "no") .. opt
-            else
-                arg = opt .. "=" .. val
-            end
-            vim.cmd("setlocal " .. arg)
-        end
-    end)
-end
-
 local options = {
     text = {
         spinner = {
@@ -44,11 +22,9 @@ local options = {
     },
     window = {
         blend = 100,
-        zindex = nil,
-        border = "none",
     },
     timer = {
-        throttle = 50,
+        throttle_rate = 50,
         spinner_rate = 50,
         fidget_decay = 1500,
         task_decay = 800,
@@ -74,6 +50,7 @@ local function fmt_task(task_name, message, percentage)
     return message
 end
 
+---@type table<integer,Fidget>
 local fidgets = {}
 
 --- Suppress errors that may occur while render windows.
@@ -124,41 +101,32 @@ local render_fidgets = guard(function()
     end
 end)
 
-local function get_window_position(offset)
-    local statusline_height = 1
-    local height = vim.opt.lines:get() - (statusline_height + vim.opt.cmdheight:get())
-    -- Does not account for &signcolumn or &foldcolumn, but there is no amazing way to get the
-    -- actual "viewable" width of the editor
-    --
-    -- However, I cannot imagine that many people will render fidgets on the left side of their
-    -- editor as it will more often overlay text
-    local width = vim.opt.columns:get()
+---@class Task
+---@field title string?
+---@field message string?
+---@field percentage integer?
 
-    -- returns row, col
-    return (height - offset), width
-end
-
-local base_fidget = {
-    key = nil,
-    name = nil,
-    bufid = nil,
-    winid = nil,
-    tasks = {},
-    lines = {},
-    spinner_idx = 0,
-    max_line_len = 0,
-    closed = false,
-}
+---@class Fidget
+---@field key string
+---@field name string
+---@field bufid integer?
+---@field winid integer?
+---@field tasks Task[]
+---@field lines string[]
+---@field spinner_idx integer
+---@field max_line_len integer
+---@field closed boolean
+local Fidget = {}
 
 local last_call = 0;
 local timer = nil
-function base_fidget:throttled_fmt()
+function Fidget:throttled_draw()
     -- Make sure to stop any scheduled timers
     if timer then
-        timer:stop()
+        return
     end
 
-    local rem = options.timer.throttle - (vim.loop.now() - last_call)
+    local rem = options.timer.throttle_rate - (vim.loop.now() - last_call)
     -- Schedule a tail call
     if rem > 0 then
         -- Reuse timer
@@ -171,24 +139,20 @@ function base_fidget:throttled_fmt()
             timer:close()
             timer = nil
 
-            -- Reset here to ensure timeout between the execution of the
-            -- tail call, and not the last call to throttle
-            -- If it was reset in the throttle call, it could be a shorter
-            -- interval between calls to f
             last_call = vim.loop.now()
             vim.schedule(function()
-                self:fmt()
+                self:draw()
             end)
         end))
     else
         last_call = vim.loop.now()
         vim.schedule(function()
-            self:fmt()
+            self:draw()
         end)
     end
 end
 
-function base_fidget:fmt()
+function Fidget:draw()
     -- Substitute tabs into spaces, to make strlen easier to count.
     local function subtab(s)
         return s and s:gsub("\t", "  ") or nil
@@ -242,7 +206,7 @@ local function splits_on_newlines(lines)
     return result
 end
 
-function base_fidget:show(offset)
+function Fidget:show(offset)
     local height = #self.lines
     local width = self.max_line_len
 
@@ -252,7 +216,9 @@ function base_fidget:show(offset)
         return offset
     end
 
-    local row, col = get_window_position(offset)
+    local statusline_height = 1
+    local row = vim.opt.lines:get() - (statusline_height + vim.opt.cmdheight:get() + offset)
+    local col = vim.opt.columns:get()
 
     if self.bufid == nil or not vim.api.nvim_buf_is_valid(self.bufid) then
         self.bufid = vim.api.nvim_create_buf(false, true)
@@ -261,56 +227,47 @@ function base_fidget:show(offset)
     if self.winid == nil or not vim.api.nvim_win_is_valid(self.winid) then
         self.winid = vim.api.nvim_open_win(self.bufid, false, {
             relative = "editor",
-            width = width,
-            height = height,
+            anchor = "SE",
             row = row,
             col = col,
-            anchor = "SE",
+            width = width,
+            height = height,
             focusable = false,
             style = "minimal",
-            zindex = options.window.zindex,
             noautocmd = true,
-            border = options.window.border,
+            border = "none",
         })
+        vim.api.nvim_set_option_value("winblend", options.window.blend, { win = self.winid })
+        vim.api.nvim_set_option_value("winhighlight", "Normal:FidgetTask", { win = self.winid })
     else
         vim.api.nvim_win_set_config(self.winid, {
-            win = options.window.relative == "win" and vim.api.nvim_get_current_win()
-                or nil,
             relative = "editor",
-            width = width,
-            height = height,
+            anchor = "SE",
             row = row,
             col = col,
-            anchor = "SE",
-            zindex = options.window.zindex,
+            width = width,
+            height = height,
         })
     end
 
-    win_set_local_options(self.winid, {
-        winblend = options.window.blend,
-        winhighlight = "Normal:FidgetTask",
-    })
     self.lines = splits_on_newlines(self.lines) -- handle lines that might contain a "\n" character
     pcall(vim.api.nvim_buf_set_lines, self.bufid, 0, height, false, self.lines)
     vim.api.nvim_buf_add_highlight(self.bufid, -1, "FidgetTitle", height - 1, 0, -1)
 
     local next_offset = #self.lines + offset
-    if options.window.border ~= "none" then
-        next_offset = next_offset + 2
-    end
     return next_offset
 end
 
-function base_fidget:kill_task(task)
+function Fidget:kill_task(task)
     self.tasks[task] = nil
-    self:fmt()
+    self:draw()
 end
 
-function base_fidget:has_tasks()
+function Fidget:has_tasks()
     return next(self.tasks)
 end
 
-function base_fidget:close()
+function Fidget:close()
     -- NOTE: this function is not reentrant, and may be the source of silly races.
     -- Time will tell.
 
@@ -336,10 +293,10 @@ function base_fidget:close()
     self.closed = true
 end
 
-function base_fidget:spin()
+function Fidget:spin()
     local function do_spin(idx, continuation, delay)
         self.spinner_idx = idx
-        self:fmt()
+        self:draw()
         vim.defer_fn(continuation, delay)
     end
 
@@ -378,12 +335,17 @@ function base_fidget:spin()
     end
 end
 
-local function new_fidget(key, name)
-    local fidget = vim.tbl_extend(
-        "force",
-        vim.deepcopy(base_fidget),
-        { key = key, name = name }
-    )
+function Fidget.new(key, name)
+    local fidget = {
+        key = key,
+        name = name,
+        tasks = {},
+        lines = {},
+        spinner_idx = 0,
+        max_line_len = 0,
+        closed = false,
+    }
+    setmetatable(fidget, { __index = Fidget })
     if options.timer.spinner_rate > 0 then
         vim.defer_fn(function()
             fidget:spin()
@@ -392,23 +354,18 @@ local function new_fidget(key, name)
     return fidget
 end
 
-local function new_task()
-    return { title = nil, message = nil, percentage = nil }
-end
-
 local vim_closing = false
 
 local function handle_progress(_, msg, info)
-    vim.print(msg.token)
     -- See: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#progress
     if vim_closing then
         return
     end
 
-    local task = msg.token
+    local token = msg.token
     local val = msg.value
 
-    if not task then
+    if not token then
         -- Notification missing required token??
         return
     end
@@ -422,44 +379,43 @@ local function handle_progress(_, msg, info)
 
     -- Create entry if missing
     if fidgets[client_id] == nil then
-        fidgets[client_id] = new_fidget(client_id, client_name)
+        fidgets[client_id] = Fidget.new(client_id, client_name)
     end
     local fidget = fidgets[client_id]
-    if fidget.tasks[task] == nil then
-        fidget.tasks[task] = new_task()
+    if fidget.tasks[token] == nil then
+        fidget.tasks[token] = {}
     end
-
-    local progress = fidget.tasks[task]
+    local task = fidget.tasks[token]
 
     -- Update progress state
     if val.kind == "begin" then
-        progress.title = val.title
-        progress.message = options.text.commenced
+        task.title = val.title
+        task.message = options.text.commenced
     elseif val.kind == "report" then
         if val.percentage then
-            progress.percentage = val.percentage
+            task.percentage = val.percentage
         end
         if val.message then
-            progress.message = val.message
+            task.message = val.message
         end
     elseif val.kind == "end" then
-        if progress.percentage then
-            progress.percentage = 100
+        if task.percentage then
+            task.percentage = 100
         end
-        progress.message = options.text.completed
+        task.message = options.text.completed
         if options.timer.task_decay > 0 then
             vim.defer_fn(function()
-                fidget:kill_task(task)
+                fidget:kill_task(token)
             end, options.timer.task_decay)
         elseif options.timer.task_decay == 0 then
-            fidget:kill_task(task)
+            fidget:kill_task(token)
         end
     else
         -- Invalid progress notification from, unrecognized kind
-        fidget:kill_task(task)
+        fidget:kill_task(token)
     end
 
-    fidget:throttled_fmt()
+    fidget:throttled_draw()
 end
 
 function M.close(...)
