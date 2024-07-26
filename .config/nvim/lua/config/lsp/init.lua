@@ -5,6 +5,7 @@ local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key")
 local shared = require("shared")
+local fidget = require("config.lsp.fidget")
 -- servers
 local arduino_language_server = require("config.lsp.server.arduino_language_server")
 local dartls = require("config.lsp.server.dartls")
@@ -138,12 +139,15 @@ function M.setup()
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border
 
-    -- Setup lsp installer
+    -- Setup mason
     mason.setup({
         ui = {
             border = shared.window.border,
         },
     })
+
+    -- Progress handler
+    fidget.setup()
 
     -- Diagnostics
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

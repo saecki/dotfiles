@@ -137,11 +137,6 @@ function M.setup()
             },
             config = config("lsp"),
         },
-        {
-            "j-hui/fidget.nvim",
-            tag = "legacy",
-            config = config("fidget"),
-        },
 
         -- Debugging
         {
