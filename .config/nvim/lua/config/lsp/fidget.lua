@@ -501,7 +501,7 @@ function M.setup()
         end
     })
 
-    vim.api.nvim_set_hl(0, "FidgetTitle", { default = true, link = "Title" })
+    vim.api.nvim_set_hl(0, "FidgetTitle", { default = true, link = "Statement" })
     vim.api.nvim_set_hl(0, "FidgetTask", { default = true, link = "NonText" })
 end
 
