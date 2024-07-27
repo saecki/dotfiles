@@ -4,21 +4,10 @@ local M = {}
 
 local options = {
     text = {
-        spinner = {
-            "⠋",
-            "⠙",
-            "⠹",
-            "⠸",
-            "⠼",
-            "⠴",
-            "⠦",
-            "⠧",
-            "⠇",
-            "⠏",
-        },
-        done = "",
-        commenced = "",
-        completed = "",
+        spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+        spinner_done = "",
+        begin = "",
+        done = "",
     },
     window = {
         blend = 100,
@@ -35,10 +24,16 @@ local options = {
     },
 }
 
+---@param fidget_name string
+---@param spinner string
 local function fmt_fidget(fidget_name, spinner)
     return string.format("%s %s", spinner, fidget_name)
 end
 
+---@param task_name string?
+---@param message string?
+---@param percentage integer?
+---@return string
 local function fmt_task(task_name, message, percentage)
     message = message or ""
     if percentage then
@@ -52,6 +47,9 @@ end
 
 ---@type table<integer,Fidget>
 local fidgets = {}
+local vim_closing = false
+local last_call = 0;
+local timer = nil
 
 local function render_fidgets()
     local offset = 0
@@ -70,7 +68,7 @@ end
 ---@field percentage integer?
 
 ---@class Fidget
----@field key string
+---@field client_id integer
 ---@field name string
 ---@field bufid integer?
 ---@field winid integer?
@@ -81,8 +79,6 @@ end
 ---@field closed boolean
 local Fidget = {}
 
-local last_call = 0;
-local timer = nil
 function Fidget:throttled_draw()
     -- Make sure to stop any scheduled timers
     if timer then
@@ -122,7 +118,7 @@ function Fidget:draw()
     end
     local strlen = vim.fn.strdisplaywidth
 
-    local spinner = self.spinner_idx == -1 and options.text.done
+    local spinner = self.spinner_idx == -1 and options.text.spinner_done
         or options.text.spinner[self.spinner_idx + 1]
     local line = fmt_fidget(self.name, spinner)
     self.lines = { line }
@@ -252,7 +248,7 @@ function Fidget:close()
     end
 
     -- Remove a fidget after window/buffer deletion is successful (see #68)
-    fidgets[self.key] = nil
+    fidgets[self.client_id] = nil
     self.closed = true
 end
 
@@ -296,9 +292,13 @@ function Fidget:spin()
     end
 end
 
-function Fidget.new(key, name)
+---@param client_id integer
+---@param name string
+---@return Fidget
+function Fidget.new(client_id, name)
+    ---@type Fidget
     local fidget = {
-        key = key,
+        client_id = client_id,
         name = name,
         tasks = {},
         lines = {},
@@ -315,32 +315,38 @@ function Fidget.new(key, name)
     return fidget
 end
 
-local vim_closing = false
+-- See: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#progress
+---@class LspProgress
+---@field token lsp.ProgressToken
+---@field value LspProgressValue
 
-local function handle_progress(_, msg, info)
-    -- See: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#progress
+---@class LspProgressValue
+---@field kind "begin"|"report"|"end"
+---@field title string
+---@field message string?
+---@field percentage integer?
+
+---@param ev { data: { client_id: integer, params: LspProgress } }
+local function handle_progress(ev)
     if vim_closing then
         return
     end
 
-    local token = msg.token
-    local val = msg.value
-
+    local token = ev.data.params.token
     if not token then
         -- Notification missing required token??
         return
     end
 
-    local client_id = info.client_id
-    local client = vim.lsp.get_client_by_id(info.client_id)
+    local client_id = ev.data.client_id
+    local client = vim.lsp.get_client_by_id(client_id)
     if not client then
         return
     end
-    local client_name = client.name
 
     -- Create entry if missing
     if fidgets[client_id] == nil then
-        fidgets[client_id] = Fidget.new(client_id, client_name)
+        fidgets[client_id] = Fidget.new(client_id, client.name)
     end
     local fidget = fidgets[client_id]
     if fidget.tasks[token] == nil then
@@ -349,9 +355,12 @@ local function handle_progress(_, msg, info)
     local task = fidget.tasks[token]
 
     -- Update progress state
+    local val = ev.data.params.value
     if val.kind == "begin" then
         task.title = val.title
-        task.message = options.text.commenced
+        task.message = options.text.begin
+
+        fidget:throttled_draw()
     elseif val.kind == "report" then
         if val.percentage then
             task.percentage = val.percentage
@@ -359,59 +368,44 @@ local function handle_progress(_, msg, info)
         if val.message then
             task.message = val.message
         end
+
+        fidget:throttled_draw()
     elseif val.kind == "end" then
         if task.percentage then
             task.percentage = 100
         end
-        task.message = options.text.completed
+        task.message = options.text.done
         if options.timer.task_decay > 0 then
             vim.defer_fn(function()
                 fidget:kill_task(token)
             end, options.timer.task_decay)
-        elseif options.timer.task_decay == 0 then
+
+            fidget:throttled_draw()
+        else -- if options.timer.task_decay == 0 then
             fidget:kill_task(token)
         end
     else
-        -- Invalid progress notification from, unrecognized kind
+        -- Invalid progress notification from unrecognized kind
         fidget:kill_task(token)
     end
-
-    fidget:throttled_draw()
 end
 
-function M.close(...)
-    local args = { n = select("#", ...), ... }
-    local function do_close(client_id)
-        if fidgets[client_id] ~= nil then
-            fidgets[client_id]:close()
-        end
-    end
-
-    if args.n == 0 then
-        for client_id, _ in pairs(fidgets) do
-            do_close(client_id)
-        end
-    else
-        for i = 1, args.n do
-            do_close(args[i])
-        end
+function M.close()
+    for _, fidget in pairs(fidgets) do
+        fidget:close()
     end
 
     render_fidgets()
 end
 
 function M.setup()
-    if vim.lsp.handlers["$/progress"] then
-        local old_handler = vim.lsp.handlers["$/progress"]
-        vim.lsp.handlers["$/progress"] = function(...)
-            old_handler(...)
-            handle_progress(...)
-        end
-    else
-        vim.lsp.handlers["$/progress"] = handle_progress
-    end
-
+    local group = vim.api.nvim_create_augroup("user.config.lsp.fidget", {})
+    vim.api.nvim_create_autocmd("LspProgress", {
+        group = group,
+        callback = handle_progress,
+    })
     vim.api.nvim_create_autocmd("VimLeavePre", {
+        group = group,
         callback = function()
             vim_closing = true
             M.close()
