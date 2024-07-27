@@ -53,44 +53,7 @@ end
 ---@type table<integer,Fidget>
 local fidgets = {}
 
---- Suppress errors that may occur while render windows.
----
---- The E523 error (Not allowed here) happens when 'secure' operations
---- (including buffer or window management) are invoked while textlock is held
---- or the Neovim UI is blocking. See #68.
----
---- Also ignore E11 (Invalid in command-line window), which is thrown when
---- Fidget tries to close the window while a command-line window is focused.
---- See #136.
----
---- This utility provides a workaround to simply supress the error.
---- All other errors will be re-thrown.
-local function guard(callable)
-    return function()
-        local whitelist = {
-            "E11: Invalid in command%-line window",
-            "E523: Not allowed here",
-            "E565: Not allowed to change",
-        }
-        local ok, err = pcall(callable)
-        if ok then
-            return
-        end
-        if type(err) ~= "string" then
-            error(err)
-        end
-
-        for _, w in ipairs(whitelist) do
-            if string.find(err, w) then
-                return
-            end
-        end
-
-        error(err)
-    end
-end
-
-local render_fidgets = guard(function()
+local function render_fidgets()
     local offset = 0
     for client_id, fidget in pairs(fidgets) do
         if vim.lsp.buf_is_attached(0, client_id) then
@@ -99,7 +62,7 @@ local render_fidgets = guard(function()
             fidget:close()
         end
     end
-end)
+end
 
 ---@class Task
 ---@field title string?
@@ -301,10 +264,8 @@ function Fidget:spin()
     end
 
     local function do_kill()
-        guard(function()
-            self:close()
-            render_fidgets()
-        end)()
+        self:close()
+        render_fidgets()
     end
 
     local function spin_again()
