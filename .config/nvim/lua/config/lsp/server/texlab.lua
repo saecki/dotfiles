@@ -7,7 +7,7 @@ function M.setup(server, on_attach, capabilities)
         on_attach(client, buf)
 
         wk.add({
-            { "<leader>if", ":TexlabForward<cr>", desc = "Forward search", buffer = buf },
+            { "<leader>if", "<cmd>TexlabForward<cr>", desc = "Forward search", buffer = buf },
         })
     end
 

@@ -19,8 +19,8 @@ function M.setup()
     wk.add({
         { "<leader>g",  group = "Git" },
         { "<leader>gd", toggle_diff,        desc = "Toggle diff" },
-        { "<leader>gh", ":diffget //2<cr>", desc = "Get left diff" },
-        { "<leader>gl", ":diffget //3<cr>", desc = "Get right diff" },
+        { "<leader>gh", "<cmd>diffget //2<cr>", desc = "Get left diff" },
+        { "<leader>gl", "<cmd>diffget //3<cr>", desc = "Get right diff" },
     })
 end
 

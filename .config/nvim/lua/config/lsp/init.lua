@@ -180,12 +180,13 @@ function M.setup()
     -- Keymappings
     wk.add({
         { "<leader>i",  group = "Lsp" },
-        { "<leader>is", ":LspStart<cr>",   desc = "Start" },
-        { "<leader>ir", ":LspRestart<cr>", desc = "Restart" },
-        { "<leader>it", ":LspStop<cr>",    desc = "Stop (terminate)" },
-        { "<leader>ii", ":LspInfo<cr>",    desc = "Info" },
-        { "<leader>iI", mason_ui.open,     desc = "Install Info" },
-        { "<leader>il", ":MasonLog<cr>",   desc = "Install Log" },
+        { "<leader>is", "<cmd>LspStart<cr>",   desc = "Start" },
+        { "<leader>ir", "<cmd>LspRestart<cr>", desc = "Restart" },
+        { "<leader>it", "<cmd>LspStop<cr>",    desc = "Stop (terminate)" },
+        { "<leader>ii", "<cmd>LspInfo<cr>",    desc = "Info" },
+        { "<leader>il", "<cmd>LspLog<cr>",     desc = "Log" },
+        { "<leader>iI", mason_ui.open,         desc = "Install Info" },
+        { "<leader>iL", "<cmd>MasonLog<cr>",   desc = "Install Log" },
     })
 end
 

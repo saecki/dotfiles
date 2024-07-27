@@ -165,7 +165,7 @@ function M.setup()
     ts_pairs.setup()
 
     wk.add({
-        { "<leader>et", ":TSPlaygroundToggle<cr>", desc = "Treesitter playground" },
+        { "<leader>et", "<cmd>TSPlaygroundToggle<cr>", desc = "Treesitter playground" },
         { "g%",         jump_to_context,           desc = "Jump to context" },
     })
 end

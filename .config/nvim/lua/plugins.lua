@@ -247,7 +247,7 @@ function M.setup()
 
     local wk = require("which-key")
     wk.add({
-        { "<leader>p", ":Lazy<cr>", desc = "Toggle Plugins UI" },
+        { "<leader>p", "<cmd>Lazy<cr>", desc = "Toggle Plugins UI" },
     })
 end
 
