@@ -104,11 +104,6 @@ function M.setup()
             },
             config = config("telescope"),
         },
-        {
-            "ThePrimeagen/harpoon",
-            dependencies = { "nvim-lua/plenary.nvim" },
-            config = config("harpoon"),
-        },
 
         -- Lists
         {
@@ -199,7 +194,6 @@ function M.setup()
         {
             "OXY2DEV/markview.nvim",
             ft = { "markdown" },
-            branch = "dev",
             config = config("markview"),
         },
         {
