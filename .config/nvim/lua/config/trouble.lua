@@ -39,6 +39,7 @@ function M.setup()
             TODO = { icon = " ", color = "info" },
             TODO_IMPL = { icon = " ", color = "info", alt = { "todo!" } },
             PERF = { icon = "󰅒 ", color = "info" },
+            IMPORTANT = { icon = " ", color = "info" },
             NOTE = { icon = "󰎚 ", color = "hint", alt = { "INFO" } },
         },
         merge_keywords = false,
