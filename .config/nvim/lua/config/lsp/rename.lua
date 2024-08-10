@@ -7,6 +7,10 @@ local win_hl_ns = vim.api.nvim_create_namespace("user.util.input.win_hl")
 local buf_hl_ns = vim.api.nvim_create_namespace("user.util.input.buf_hl")
 
 local request_timeout = 1500
+local hl = {
+    current = "CurSearch",
+    others = "Search",
+}
 
 function M.rename(opts)
     local cword = vim.fn.expand("<cword>")
@@ -80,7 +84,7 @@ function M.rename(opts)
     M.extmark_id = vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, M.line, M.col, {
         end_col = M.end_col,
         virt_text_pos = "inline",
-        virt_text = { { string.rep(" ", text_width), "LspReferenceWrite" } },
+        virt_text = { { string.rep(" ", text_width), hl.current } },
         conceal = "",
     })
 
@@ -95,7 +99,7 @@ function M.rename(opts)
             local extmark_id = vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, line, start_col, {
                 end_col = end_col,
                 virt_text_pos = "inline",
-                virt_text = { { text, "LspReferenceRead" } },
+                virt_text = { { text, hl.others } },
                 conceal = "",
             })
 
@@ -170,7 +174,7 @@ function M.update()
         id = M.extmark_id,
         end_col = M.end_col,
         virt_text_pos = "inline",
-        virt_text = { { string.rep(" ", text_width), "LspReferenceWrite" } },
+        virt_text = { { string.rep(" ", text_width), hl.current } },
         conceal = "",
     })
 
@@ -181,14 +185,14 @@ function M.update()
                 id = e.extmark_id,
                 end_col = e.end_col,
                 virt_text_pos = "inline",
-                virt_text = { { new_text, "LspReferenceRead" } },
+                virt_text = { { new_text, hl.others } },
                 conceal = "",
             })
         end
     end
 
     vim.api.nvim_buf_clear_namespace(M.buf, buf_hl_ns, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, buf_hl_ns, "Function", 0, 0, -1)
+    vim.api.nvim_buf_add_highlight(M.buf, buf_hl_ns, hl.current, 0, 0, -1)
 
     -- avoid line wrapping due to the window being to small
     vim.api.nvim_win_set_width(M.win, text_width + 2)
