@@ -10,7 +10,6 @@ function M.input(opts, on_confirm)
 
     M.confirm_opts = {}
     M.on_confirm = on_confirm
-    M.mode = vim.fn.mode()
     M.min_width = 1
     if cword then
         M.min_width = vim.fn.strdisplaywidth(cword)
@@ -95,6 +94,11 @@ function M.submit()
 end
 
 function M.hide()
+    local mode = vim.api.nvim_get_mode().mode;
+    if mode == "i" then
+        vim.cmd.stopinsert()
+    end
+
     if M.win and vim.api.nvim_win_is_valid(M.win) then
         vim.api.nvim_win_close(M.win, false)
     end
@@ -104,15 +108,6 @@ function M.hide()
         vim.api.nvim_buf_delete(M.buf, {})
     end
     M.buf = nil
-
-    if M.mode == "i" and vim.fn.mode() ~= "i" then
-        vim.cmd.startinsert()
-    elseif M.mode ~= "i" and vim.fn.mode() == "i" then
-        local pos = vim.api.nvim_win_get_cursor(0)
-        pos[2] = pos[2] + 1
-        vim.api.nvim_win_set_cursor(0, pos)
-        vim.cmd.stopinsert()
-    end
 end
 
 return M
