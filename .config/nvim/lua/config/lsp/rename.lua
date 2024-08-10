@@ -142,8 +142,8 @@ function M.rename(opts)
     vim.api.nvim_set_current_win(M.win)
     if opts.insert then
         vim.cmd.startinsert()
+        vim.api.nvim_win_set_cursor(M.win, { 1, text_width })
     end
-    vim.api.nvim_win_set_cursor(M.win, { 1, text_width })
 end
 
 function M.update()
