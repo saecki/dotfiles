@@ -132,7 +132,7 @@ function M.rename(opts)
 
     -- update when input changes
     local group = vim.api.nvim_create_augroup("user.util.input", {})
-    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP", "CursorMoved" }, {
         group = group,
         buffer = M.buf,
         callback = M.update,
