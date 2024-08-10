@@ -51,10 +51,10 @@ end
 
 local function position()
     local cursor = vim.api.nvim_win_get_cursor(0)
-    local linecount = vim.api.nvim_buf_line_count(0)
+    local linecount = math.max(2, vim.api.nvim_buf_line_count(0))
     local linedigits = math.floor(math.log10(linecount)) + 1
 
-    local template = "%" .. linedigits .. "d:%-2d"
+    local template = " %" .. linedigits .. "d:%-3d"
     return string.format(template, cursor[1], cursor[2])
 end
 
@@ -149,7 +149,7 @@ function M.setup()
                 },
             },
             lualine_z = {
-                { position, separator = { left = "", right = " " } },
+                { position, separator = { left = "", right = " " }, padding = 0 },
             },
         },
         inactive_sections = {
