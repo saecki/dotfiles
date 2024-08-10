@@ -114,6 +114,7 @@ function M.rename(opts)
         border = "none",
     }
     M.win = vim.api.nvim_open_win(M.buf, false, win_opts)
+    vim.wo[M.win].wrap = true
 
     -- highlights and transparency
     vim.api.nvim_set_option_value("winblend", 100, {
