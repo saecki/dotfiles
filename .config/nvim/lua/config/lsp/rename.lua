@@ -24,11 +24,9 @@ function M.rename(opts)
     vim.api.nvim_win_set_cursor(0, old_pos)
     M.col = old_pos[2]
     M.end_col = M.col
-    local col_offset = 0
     if new_pos[1] == old_pos[1] then
         M.col = new_pos[2]
         M.end_col = M.col + #cword
-        col_offset = new_pos[2] - old_pos[2]
     end
 
     local clients = vim.lsp.get_clients({
@@ -42,6 +40,7 @@ function M.rename(opts)
 
     ---@type lsp.Range[]?
     local editing_ranges = nil
+    local on_same_line = 0
     for _, client in ipairs(clients) do
         if client.supports_method(lsp_methods.textDocument_references) then
             local params = vim.lsp.util.make_position_params(M.doc_win, client.offset_encoding)
@@ -52,8 +51,19 @@ function M.rename(opts)
                 local locations = resp.result
                 editing_ranges = {}
                 for _, loc in ipairs(locations) do
-                    if vim.uri_to_bufnr(loc.uri) == M.doc_buf and loc.range.start.line ~= M.line then
-                        table.insert(editing_ranges, loc.range)
+                    if vim.uri_to_bufnr(loc.uri) == M.doc_buf then
+                        local range = loc.range
+                        local pos = params.position
+                        if range.start.line ~= pos.line or range["end"].line ~= pos.line then
+                            table.insert(editing_ranges, loc.range)
+                        elseif pos.character >= range.start.character and pos.character < range["end"].character then
+                            -- ignore the range that is edited directly
+                        else
+                            if pos.character >= range["end"].character then
+                                on_same_line = on_same_line + 1
+                            end
+                            table.insert(editing_ranges, loc.range)
+                        end
                     end
                 end
                 M.client = client
@@ -105,10 +115,15 @@ function M.rename(opts)
 
     -- create win
     local win_opts = {
-        relative = "cursor",
-        col = col_offset,
+        -- relative to buffer text
+        relative = "win",
+        win = M.doc_win,
+        bufpos = { M.line, M.col },
         row = 0,
-        width = text_width + 1,
+        -- correct for extmarks on the same line
+        col = -on_same_line * #text,
+
+        width = text_width + 2,
         height = 1,
         style = "minimal",
         border = "none",
@@ -189,7 +204,12 @@ end
 local function lsp_request_sync(client, method, params, timeout_ms, bufnr)
     local request_result = nil
     local function sync_handler(err, result, context, config)
-        request_result = { err = err, result = result, context = context, config = config }
+        request_result = {
+            err = err,
+            result = result,
+            context = context,
+            config = config
+        }
     end
 
     local success, request_id = client.request(method, params, sync_handler, bufnr)
@@ -197,7 +217,7 @@ local function lsp_request_sync(client, method, params, timeout_ms, bufnr)
         return nil
     end
 
-    local wait_result = vim.wait(timeout_ms or 1000, function()
+    local wait_result = vim.wait(timeout_ms, function()
         return request_result ~= nil
     end, 10)
 
