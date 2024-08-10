@@ -1,16 +1,22 @@
+local lsp_methods = require("vim.lsp.protocol").Methods
+
 local M = {}
 
 local extmark_ns = vim.api.nvim_create_namespace("user.util.input.extmark")
 local win_hl_ns = vim.api.nvim_create_namespace("user.util.input.win_hl")
 local buf_hl_ns = vim.api.nvim_create_namespace("user.util.input.buf_hl")
 
-function M.input(opts, on_confirm)
+local request_timeout = 1500
+
+function M.rename(opts, on_confirm)
+    M.on_confirm = on_confirm
+
     local cword = vim.fn.expand("<cword>")
     local text = opts.text or cword or ""
     local text_width = vim.fn.strdisplaywidth(text)
 
-    M.confirm_opts = {}
-    M.on_confirm = on_confirm
+    M.doc_buf = vim.api.nvim_get_current_buf()
+    M.doc_win = vim.api.nvim_get_current_win()
 
     -- get word start
     local old_pos = vim.api.nvim_win_get_cursor(0)
@@ -27,21 +33,74 @@ function M.input(opts, on_confirm)
         col_offset = new_pos[2] - old_pos[2]
     end
 
+    local clients = vim.lsp.get_clients({
+        bufnr = M.doc_buf,
+        method = lsp_methods.rename,
+    })
+    if #clients == 0 then
+        vim.notify("[LSP] rename, no matching server attached")
+        return
+    end
+
+    ---@type lsp.Range[]?
+    local editing_ranges = nil
+    for _, client in ipairs(clients) do
+        if client.supports_method(lsp_methods.textDocument_references) then
+            local params = vim.lsp.util.make_position_params(M.doc_win, client.offset_encoding)
+            params.context = { includeDeclaration = true }
+            local resp = client.request_sync(lsp_methods.textDocument_references, params, request_timeout, M.doc_buf)
+            if resp and resp.err == nil and resp.result then
+                ---@type lsp.Location[]
+                local locations = resp.result
+                editing_ranges = {}
+                for _, loc in ipairs(locations) do
+                    if vim.uri_to_bufnr(loc.uri) == M.doc_buf and loc.range.start.line ~= M.line then
+                        table.insert(editing_ranges, loc.range)
+                    end
+                end
+                break
+            end
+        end
+    end
+
     -- conceal word in document with spaces, requires at least concealleval=2
-    M.doc_win = vim.api.nvim_get_current_win()
     M.prev_conceallevel = vim.wo[M.doc_win].conceallevel
     vim.wo[M.doc_win].conceallevel = 2
 
-    M.doc_buf = vim.api.nvim_get_current_buf()
     M.extmark_id = vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, M.line, M.col, {
         end_col = M.end_col,
         virt_text_pos = "inline",
-        virt_text = { { string.rep(" ", text_width), "Normal" } },
+        virt_text = { { string.rep(" ", text_width), "LspReferenceWrite" } },
         conceal = "",
     })
 
+    -- also show edit in other occurrences
+    if editing_ranges then
+        M.editing_ranges = {}
+        for _, range in ipairs(editing_ranges) do
+            local line = range.start.line
+            local start_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range.start)
+            local end_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range["end"])
+
+            local extmark_id = vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, line, start_col, {
+                end_col = end_col,
+                virt_text_pos = "inline",
+                virt_text = { { text, "LspReferenceRead" } },
+                conceal = "",
+            })
+
+            table.insert(M.editing_ranges, {
+                extmark_id = extmark_id,
+                line = line,
+                start_col = start_col,
+                end_col = end_col,
+            })
+        end
+    end
+
     -- create buf
     M.buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_name(M.buf, "lsp:rename")
     vim.api.nvim_buf_set_lines(M.buf, 0, 1, false, { text })
 
     -- create win
@@ -71,12 +130,12 @@ function M.input(opts, on_confirm)
     vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", "", { callback = M.hide, noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.hide, noremap = true, silent = true })
 
-    -- automatically resize
+    -- update when input changes
     local group = vim.api.nvim_create_augroup("user.util.input", {})
     vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
         group = group,
         buffer = M.buf,
-        callback = M.resize,
+        callback = M.update,
     })
 
     -- focus and enter insert mode
@@ -87,7 +146,7 @@ function M.input(opts, on_confirm)
     vim.api.nvim_win_set_cursor(M.win, { 1, text_width })
 end
 
-function M.resize()
+function M.update()
     local new_text = vim.api.nvim_buf_get_lines(M.buf, 0, 1, false)[1]
     local text_width = vim.fn.strdisplaywidth(new_text)
 
@@ -98,6 +157,19 @@ function M.resize()
         virt_text = { { string.rep(" ", text_width), "LspReferenceWrite" } },
         conceal = "",
     })
+
+    -- also show edit in other occurrences
+    if M.editing_ranges then
+        for _, e in ipairs(M.editing_ranges) do
+            vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, e.line, e.start_col, {
+                id = e.extmark_id,
+                end_col = e.end_col,
+                virt_text_pos = "inline",
+                virt_text = { { new_text, "LspReferenceRead" } },
+                conceal = "",
+            })
+        end
+    end
 
     vim.api.nvim_buf_clear_namespace(M.buf, buf_hl_ns, 0, -1)
     vim.api.nvim_buf_add_highlight(M.buf, buf_hl_ns, "Function", 0, 0, -1)
@@ -124,7 +196,7 @@ end
 
 function M.hide()
     vim.wo[M.doc_win].conceallevel = M.prev_conceallevel
-    vim.api.nvim_buf_del_extmark(M.doc_buf, extmark_ns, M.extmark_id)
+    vim.api.nvim_buf_clear_namespace(M.doc_buf, extmark_ns, 0, -1)
 
     if M.win and vim.api.nvim_win_is_valid(M.win) then
         vim.api.nvim_win_close(M.win, false)

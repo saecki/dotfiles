@@ -47,7 +47,7 @@ end
 
 local function refactor(opts)
     return function()
-        require("util.input").input(opts, function(new_name)
+        require("config.lsp.rename").rename(opts, function(new_name)
             vim.lsp.buf.rename(new_name)
         end)
     end
