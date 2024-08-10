@@ -8,9 +8,7 @@ local buf_hl_ns = vim.api.nvim_create_namespace("user.util.input.buf_hl")
 
 local request_timeout = 1500
 
-function M.rename(opts, on_confirm)
-    M.on_confirm = on_confirm
-
+function M.rename(opts)
     local cword = vim.fn.expand("<cword>")
     local text = opts.text or cword or ""
     local text_width = vim.fn.strdisplaywidth(text)
@@ -19,10 +17,10 @@ function M.rename(opts, on_confirm)
     M.doc_win = vim.api.nvim_get_current_win()
 
     -- get word start
-    local old_pos = vim.api.nvim_win_get_cursor(0)
+    local old_pos = vim.api.nvim_win_get_cursor(M.doc_win)
     M.line = old_pos[1] - 1
     vim.fn.search(cword, "bc")
-    local new_pos = vim.api.nvim_win_get_cursor(0)
+    local new_pos = vim.api.nvim_win_get_cursor(M.doc_win)
     vim.api.nvim_win_set_cursor(0, old_pos)
     M.col = old_pos[2]
     M.end_col = M.col
@@ -58,6 +56,8 @@ function M.rename(opts, on_confirm)
                         table.insert(editing_ranges, loc.range)
                     end
                 end
+                M.client = client
+                M.pos_params = params
                 break
             end
         end
@@ -79,8 +79,8 @@ function M.rename(opts, on_confirm)
         M.editing_ranges = {}
         for _, range in ipairs(editing_ranges) do
             local line = range.start.line
-            local start_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range.start)
-            local end_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range["end"])
+            local start_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range.start, M.client.offset_encoding)
+            local end_col = vim.lsp.util._get_line_byte_from_position(M.doc_buf, range["end"], M.client.offset_encoding)
 
             local extmark_id = vim.api.nvim_buf_set_extmark(M.doc_buf, extmark_ns, line, start_col, {
                 end_col = end_col,
@@ -178,6 +178,18 @@ function M.update()
     vim.api.nvim_win_set_width(M.win, text_width + 2)
 end
 
+---@param text string
+function M.do_rename(text)
+    local params = {
+        textDocument = M.pos_params.textDocument,
+        position = M.pos_params.position,
+        newName = text,
+    }
+    local handler = M.client.handlers[lsp_methods.textDocument_rename]
+        or vim.lsp.handlers[lsp_methods.textDocument_rename]
+    M.client.request(lsp_methods.textDocument_rename, params, handler, M.doc_buf)
+end
+
 function M.submit()
     local new_text = vim.api.nvim_buf_get_lines(M.buf, 0, 1, false)[1]
     local mode = vim.api.nvim_get_mode().mode;
@@ -185,12 +197,10 @@ function M.submit()
         vim.cmd.stopinsert()
     end
 
+    M.do_rename(new_text)
+
     vim.schedule(function()
         M.hide()
-        if M.on_confirm then
-            M.on_confirm(new_text)
-            M.on_confirm = nil
-        end
     end)
 end
 
