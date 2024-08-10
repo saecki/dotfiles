@@ -217,6 +217,8 @@ function M.hide()
         vim.api.nvim_buf_delete(M.buf, {})
     end
     M.buf = nil
+
+    M.editing_ranges = nil
 end
 
 return M
