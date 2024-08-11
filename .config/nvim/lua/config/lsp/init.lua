@@ -6,6 +6,7 @@ local mason_ui = require("mason.ui")
 local wk = require("which-key")
 local shared = require("shared")
 local fidget = require("config.lsp.fidget")
+local live_rename = require("live-rename")
 -- servers
 local arduino_language_server = require("config.lsp.server.arduino_language_server")
 local dartls = require("config.lsp.server.dartls")
@@ -47,7 +48,7 @@ end
 
 local function refactor(opts)
     return function()
-        require("config.lsp.rename").rename(opts)
+        require("live-rename").rename(opts)
     end
 end
 

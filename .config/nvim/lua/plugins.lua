@@ -126,6 +126,7 @@ function M.setup()
         {
             "neovim/nvim-lspconfig",
             dependencies = {
+                { dir = "~/Projects/live-rename.nvim" },
                 { "williamboman/mason.nvim" },
                 { "hrsh7th/cmp-nvim-lsp" },
                 { "folke/trouble.nvim" },
