@@ -46,12 +46,6 @@ local function toggle_inlay_hints()
     vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
 end
 
-local function refactor(opts)
-    return function()
-        require("live-rename").rename(opts)
-    end
-end
-
 local function range_code_action()
     vim.lsp.buf.code_action()
     vim.api.nvim_input("<ESC>")
@@ -109,8 +103,8 @@ function M.on_attach(client, buf)
         { "<leader>a",     range_code_action,                                          desc = "Range code action",   mode = "v" },
         { "<leader>eh",    toggle_document_highlight,                                  desc = "Document highlight" },
         { "<leader>ei",    toggle_inlay_hints,                                         desc = "Inlay hints" },
-        { "<leader>r",     refactor({}),                                               desc = "Refactor keep name" },
-        { "R",             refactor({ text = "", insert = true }),                     desc = "Refactor clear name" },
+        { "<leader>r",     live_rename.rename,                                         desc = "Refactor keep name" },
+        { "<leader>R",     live_rename.map({ text = "", insert = true }),              desc = "Refactor clear name" },
     })
 end
 
