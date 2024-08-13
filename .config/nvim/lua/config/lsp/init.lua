@@ -55,6 +55,9 @@ function M.get_capabilities()
     local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
     local fidget_capabilities = { capabilities = { window = { workDoneProgress = true } } }
     capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities, fidget_capabilities)
+    capabilities.general = {
+        positionEncodings = { "utf-8", "utf-32", "utf-16" },
+    }
     return capabilities
 end
 
