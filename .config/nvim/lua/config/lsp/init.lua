@@ -41,7 +41,6 @@ local function toggle_document_highlight()
 end
 
 local function toggle_inlay_hints()
-    -- TODO: this will only update the current buffer
     shared.lsp.enable_inlay_hints = not shared.lsp.enable_inlay_hints
     vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
 end
