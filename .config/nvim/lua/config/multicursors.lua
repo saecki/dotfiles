@@ -1,5 +1,5 @@
 local multicursors = require("multicursors")
-local wk = require("which-key")
+local wk = require("which-key.config")
 local shared = require("shared")
 
 local M = {}

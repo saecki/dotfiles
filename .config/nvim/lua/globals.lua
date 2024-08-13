@@ -9,7 +9,7 @@ function M.setup()
     end
 
     function TRACE(title)
-        local now = vim.loop.hrtime()
+        local now = vim.uv.hrtime()
         if title then
             local diff = math.floor((now - M.start) / 1000)
             print(string.format("%10dus %s", diff, title))

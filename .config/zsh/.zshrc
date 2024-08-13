@@ -148,7 +148,7 @@ alias cdn='cd ~/Documents/notes'
 
 alias cdz='cd ~/.config/zsh'
 alias cdnv='cd ~/.config/nvim'
-alias cdnp='cd ~/.local/share/nvim/lazy'
+alias cdnp='cd ~/.local/share/nvim/site/pack/deps/opt'
 alias cdal='cd ~/.config/alacritty'
 alias cdkt='cd ~/.config/kitty'
 alias cdtm='cd ~/.config/tmux'

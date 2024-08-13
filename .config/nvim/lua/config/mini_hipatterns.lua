@@ -1,5 +1,5 @@
 local hipatterns = require("mini.hipatterns")
-local wk = require("which-key")
+local wk = require("which-key.config")
 local util = require("util")
 local colors = require("colors")
 
@@ -17,7 +17,7 @@ local function style()
 end
 
 function M.setup()
-    hipatterns.setup({
+    local config = {
         highlighters = {
             hex_color = {
                 pattern = "#%x%x%x%x%x%x%f[%X]",
@@ -73,12 +73,12 @@ function M.setup()
             text_change = 10,
             scroll = 10,
         },
-    })
+    }
 
     wk.add({
         { "<leader>e",  group = "Toggle (enable)" },
-        { "<leader>ec", hipatterns.toggle,        desc = "Colorizer" },
-        { "<leader>eC", toggle_style,             desc = "Colorizer style" },
+        { "<leader>ec", function() hipatterns.toggle(nil, config) end, desc = "Colorizer" },
+        { "<leader>eC", toggle_style,                                  desc = "Colorizer style" },
     })
 end
 

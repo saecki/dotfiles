@@ -1,6 +1,6 @@
 local trouble = require("trouble")
 local todo_comments = require("todo-comments")
-local wk = require("which-key")
+local wk = require("which-key.config")
 
 local M = {}
 

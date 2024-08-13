@@ -21,10 +21,12 @@ local function prequire(name, setup)
     return mod
 end
 
+vim.loader.enable()
+
 prequire("globals")
 prequire("util.select")
 prequire("options")
 prequire("colors")
-prequire("plugins")
-prequire("diagnostic")
 prequire("mappings")
+prequire("diagnostic")
+prequire("plugins")

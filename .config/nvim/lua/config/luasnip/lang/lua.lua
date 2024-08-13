@@ -4,7 +4,7 @@ local t = luasnip.text_node
 local i = luasnip.insert_node
 
 return {
-    s("which-key", t('local wk = require("which-key")')),
+    s("which-key", t('local wk = require("which-key.config")')),
     s("require", {
         t({ 'require("' }),
         i(0, { "mod" }),

@@ -1,235 +1,216 @@
 local M = {}
 
-local util = require("util")
+---@param p string
+---@return string
+local function path(p)
+    return "file://" .. vim.fn.expand(p)
+end
 
----@param plugin string
----@return function
-local function config(plugin)
-    return function()
-        require("config." .. plugin).setup()
+---@param name string?
+---@param keys string[]
+local function setup_on_keys(name, keys)
+    local loaded = false
+    local function load_and_feedkeys(key)
+        return function()
+            if loaded then
+                return
+            end
+            loaded = true
+
+            -- delete lazy loading keymaps
+            for _, lhs in ipairs(keys) do
+                vim.keymap.del("n", lhs)
+            end
+
+            require("config." .. name).setup()
+
+            local feed = vim.api.nvim_replace_termcodes("<ignore>" .. key, true, true, true)
+            vim.api.nvim_feedkeys(feed, "i", false)
+        end
+    end
+
+    for _, lhs in ipairs(keys) do
+        vim.keymap.set("n", lhs, load_and_feedkeys(lhs), {})
     end
 end
 
 function M.setup()
-    -- bootstrap lazy.nvim
-    local lazypath = util.join_paths(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
-    if not vim.loop.fs_stat(lazypath) then
-        vim.fn.system({
-            "git",
-            "clone",
-            "--filter=blob:none",
-            "https://github.com/folke/lazy.nvim.git",
-            "--branch=stable", -- latest stable release
-            lazypath,
-        })
+    -- bootstrap mini.deps
+    local mini_package_path = vim.fn.stdpath("data") .. "/site/"
+    local mini_package_start_path = mini_package_path .. "pack/deps/start/"
+    local mini_deps_path = mini_package_start_path .. "mini.deps"
+    if not vim.uv.fs_stat(mini_deps_path) then
+        vim.cmd("echo 'installing `mini.deps`' | redraw")
+        local clone_cmd = {
+            "git", "clone", "--filter=blob:none",
+            "https://github.com/echasnovski/mini.deps", mini_deps_path
+        }
+        vim.fn.system(clone_cmd)
+        vim.cmd("packadd mini.deps | helptags ALL")
+        vim.notify("echo 'installed `mini.deps`' | redraw")
     end
-    vim.opt.rtp:prepend(lazypath)
 
-    -- vimscript things
-    vim.g.table_mode_toggle_map = "e"
-    vim.g.table_mode_tableize_d_map = "<leader>tT"
-
-    vim.g.presence_has_setup = 1
-
-
-    local lazy = require("lazy")
-    lazy.setup({
-        -- Key mappings
-        {
-            "folke/which-key.nvim",
-            config = config("which-key"),
-        },
-
-        -- Gui enhancements
-        {
-            "rcarriga/nvim-notify",
-            priority = 100,
-            config = config("notify"),
-        },
-        {
-            "nvim-lualine/lualine.nvim",
-            -- for multicursors.nvim
-            dependencies = { "smoka7/hydra.nvim" },
-            config = config("lualine"),
-        },
-        {
-            "echasnovski/mini.hipatterns",
-            keys = {
-                { "<leader>ec", desc = "Colorizer" },
-                { "<leader>eC", desc = "Colorizer style" },
-            },
-            config = config("mini_hipatterns"),
-        },
-        {
-            "lukas-reineke/indent-blankline.nvim",
-            config = config("indent-blankline"),
-        },
-        {
-            "nvim-tree/nvim-web-devicons",
-            config = config("devicons"),
-        },
-
-        -- Multicursor
-        {
-            "smoka7/multicursors.nvim",
-            dependencies = { "smoka7/hydra.nvim" },
-            config = config("multicursors"),
-        },
-
-        -- Filetree
-        {
-            "kyazdani42/nvim-tree.lua",
-            dependencies = { "nvim-tree/nvim-web-devicons" },
-            keys = { "<leader>x", "<leader>X" },
-            config = config("nvim-tree"),
-        },
-
-        -- File Search/Replace
-        {
-            "nvim-pack/nvim-spectre",
-            dependencies = {
-                { "nvim-lua/plenary.nvim" },
-                { "nvim-tree/nvim-web-devicons" },
-            },
-            config = config("spectre"),
-        },
-
-        -- File navigation
-        "farmergreg/vim-lastplace",
-        {
-            "nvim-telescope/telescope.nvim",
-            dependencies = {
-                { "nvim-lua/plenary.nvim" },
-                { "nvim-tree/nvim-web-devicons" },
-            },
-            config = config("telescope"),
-        },
-
-        -- Lists
-        {
-            "folke/trouble.nvim",
-            dependencies = { "folke/todo-comments.nvim" },
-            config = config("trouble"),
-        },
-
-        -- Git
-        {
-            "tpope/vim-fugitive",
-            config = config("fugitive"),
-        },
-        {
-            "lewis6991/gitsigns.nvim",
-            config = config("gitsigns"),
-        },
-
-        -- Lsp
-        {
-            "neovim/nvim-lspconfig",
-            dependencies = {
-                { dir = "~/Projects/live-rename.nvim" },
-                { "williamboman/mason.nvim" },
-                { "hrsh7th/cmp-nvim-lsp" },
-                { "folke/trouble.nvim" },
-            },
-            config = config("lsp"),
-        },
-
-        -- Debugging
-        {
-            "mfussenegger/nvim-dap",
-            dependencies = {
-                "rcarriga/nvim-dap-ui",
-                "nvim-neotest/nvim-nio",
-            },
-            config = config("dap"),
-        },
-
-        -- Completion
-        {
-            "hrsh7th/nvim-cmp",
-            dependencies = {
-                { "hrsh7th/cmp-path" },
-                { "hrsh7th/cmp-buffer" },
-                { "hrsh7th/cmp-nvim-lsp" },
-                { "saadparwaiz1/cmp_luasnip" },
-                { "L3MON4D3/LuaSnip" },
-            },
-            config = config("cmp"),
-        },
-
-        -- Snippets
-        {
-            "L3MON4D3/LuaSnip",
-            config = config("luasnip"),
-        },
-
-        -- Substitute
-        {
-            "gbprod/substitute.nvim",
-            config = config("substitute"),
-        },
-
-        -- Treesitter
-        {
-            "nvim-treesitter/nvim-treesitter",
-            dependencies = {
-                { dir = "~/Projects/nvim-treesitter-context" },
-                { "nvim-treesitter/playground" },
-                { "nvim-treesitter/nvim-treesitter-textobjects" },
-                { "yorickpeterse/nvim-tree-pairs" },
-            },
-            build = function()
-                vim.cmd.TSUpdate()
-            end,
-            config = config("treesitter"),
-        },
-
-        -- Markdown
-        {
-            "iamcco/markdown-preview.nvim",
-            ft = { "markdown" },
-            build = function()
-                vim.call("mkdp#util#install")
-            end,
-        },
-        {
-            "OXY2DEV/markview.nvim",
-            ft = { "markdown" },
-            config = config("markview"),
-        },
-        {
-            "dhruvasagar/vim-table-mode",
-            config = config("table-mode"),
-        },
-
-        -- Rust
-        {
-            dir = "~/Projects/crates.nvim",
-            dependencies = {
-                -- for the attach function
-                "neovim/nvim-lspconfig",
-            },
-            config = config("crates"),
-        },
-
-        -- Lua/Teal
-        {
-            "teal-language/vim-teal",
-            ft = { "teal" },
-        },
-
-        -- Typst
-        {
-            "kaarmu/typst.vim",
-            ft = { "typst" },
-        },
-
-        -- Discord rich presence
-        {
-            "andweeb/presence.nvim",
-            config = config("presence"),
+    local mini_deps = require('mini.deps')
+    mini_deps.setup({
+        path = {
+            package = mini_package_path,
+            snapshot = vim.fn.stdpath("config") .. "/mini-deps.lock",
         },
     })
+
+    ---@param name string?
+    ---@param spec table|string
+    local function add(name, spec)
+        if type(spec) == "string" then
+            spec = { source = spec }
+        end
+        mini_deps.add(spec)
+
+        if name then
+            require("config." .. name).setup()
+        end
+    end
+
+    -- key mappings
+    add("which-key", "folke/which-key.nvim")
+
+    -- load nvim-notify first so errors are pretty
+    add("notify", "rcarriga/nvim-notify")
+
+    -- gui enhancements
+    add("lualine", {
+        source = "nvim-lualine/lualine.nvim",
+        depends = {
+            "smoka7/multicursors.nvim",
+            "smoka7/hydra.nvim",
+        },
+    })
+    add("mini_hipatterns", "echasnovski/mini.hipatterns")
+    add("indent-blankline", "lukas-reineke/indent-blankline.nvim")
+    add("devicons", "nvim-tree/nvim-web-devicons")
+
+    -- multicursor
+    add("multicursors", {
+        source = "smoka7/multicursors.nvim",
+        depends = { "smoka7/hydra.nvim" },
+    })
+
+    -- filetree
+    add(nil, {
+        source = "kyazdani42/nvim-tree.lua",
+        depends = { "nvim-tree/nvim-web-devicons" },
+    })
+    setup_on_keys("nvim-tree", { "<leader>x", "<leader>X" })
+
+    -- file search/replace
+    add("spectre", {
+        source = "nvim-pack/nvim-spectre",
+        depends = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+        },
+    })
+
+    -- substitute
+    add("substitute", "gbprod/substitute.nvim")
+
+    -- file navigation
+    add(nil, "farmergreg/vim-lastplace")
+    add("telescope", {
+        source = "nvim-telescope/telescope.nvim",
+        depends = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+        },
+    })
+
+    -- lists
+    add("trouble", {
+        source = "folke/trouble.nvim",
+        depends = { "folke/todo-comments.nvim" },
+    })
+
+    -- completion
+    add("cmp", {
+        source = "hrsh7th/nvim-cmp",
+        depends = {
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-nvim-lsp",
+            "saadparwaiz1/cmp_luasnip",
+            "L3MON4D3/LuaSnip",
+        },
+    })
+
+    -- snippets
+    add("luasnip", "L3MON4D3/LuaSnip")
+
+    -- git
+    add("fugitive", "tpope/vim-fugitive")
+    add("gitsigns", "lewis6991/gitsigns.nvim")
+
+    -- lsp
+    add("lsp", {
+        source = "neovim/nvim-lspconfig",
+        depends = {
+            path("~/Projects/live-rename.nvim"),
+            "williamboman/mason.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+            "folke/trouble.nvim",
+        },
+    })
+
+    -- debugging
+    add("dap", {
+        source = "mfussenegger/nvim-dap",
+        depends = {
+            "rcarriga/nvim-dap-ui",
+            "nvim-neotest/nvim-nio"
+        },
+    })
+
+    -- treesitter
+    add(nil, {
+        source = "nvim-treesitter/nvim-treesitter",
+        hooks = {
+            post_checkout = function()
+                vim.cmd.TSUpdate()
+            end,
+        },
+    })
+    add(nil, path("~/Projects/nvim-treesitter-context"))
+    add(nil, "nvim-treesitter/nvim-treesitter-textobjects")
+    add(nil, "yorickpeterse/nvim-tree-pairs")
+    require("config.treesitter").setup()
+
+    -- markdown
+    add(nil, {
+        source = "iamcco/markdown-preview.nvim",
+        hooks = {
+            post_checkout = function()
+                vim.call("mkdp#util#install")
+            end
+        },
+    })
+    add("markview", "OXY2DEV/markview.nvim")
+
+    vim.g.table_mode_toggle_map = "e"
+    vim.g.table_mode_tableize_d_map = "<leader>tT"
+    add("table-mode", "dhruvasagar/vim-table-mode")
+
+    -- rust
+    add("crates", path("~/Projects/crates.nvim"))
+
+    -- lua/teal
+    add(nil, "teal-language/vim-teal")
+
+    -- typst
+    add(nil, "kaarmu/typst.vim")
+
+    -- discord rich presence
+    vim.g.presence_has_setup = 1
+    add("presence", "andweeb/presence.nvim")
+
 
     -- zig.vim is installed by the system package manager on fedora
     require("config.lang.zig").setup()
@@ -240,9 +221,14 @@ function M.setup()
     -- some lua things
     require("config.lang.lua").setup()
 
-    local wk = require("which-key")
+
+    local wk = require("which-key.config")
     wk.add({
-        { "<leader>p", "<cmd>Lazy<cr>", desc = "Toggle Plugins UI" },
+        { "<leader>p",  group = "Plugins" },
+        { "<leader>pu", mini_deps.update,        desc = "Update" },
+        { "<leader>ps", "<cmd>DepsSnapSave<cr>", desc = "Save snapshot" },
+        { "<leader>pr", "<cmd>DepsSnapLoad<cr>", desc = "Restore snapshot" },
+        { "<leader>pl", "<cmd>DepsShowLog<cr>",  desc = "Log" },
     })
 end
 

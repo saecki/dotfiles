@@ -85,12 +85,12 @@ function Fidget:throttled_draw()
         return
     end
 
-    local rem = options.timer.throttle_rate - (vim.loop.now() - last_call)
+    local rem = options.timer.throttle_rate - (vim.uv.now() - last_call)
     -- Schedule a tail call
     if rem > 0 then
         -- Reuse timer
         if timer == nil then
-            timer = vim.loop.new_timer()
+            timer = vim.uv.new_timer()
         end
 
         timer:start(rem, 0, vim.schedule_wrap(function()
@@ -98,13 +98,13 @@ function Fidget:throttled_draw()
             timer:close()
             timer = nil
 
-            last_call = vim.loop.now()
+            last_call = vim.uv.now()
             vim.schedule(function()
                 self:draw()
             end)
         end))
     else
-        last_call = vim.loop.now()
+        last_call = vim.uv.now()
         vim.schedule(function()
             self:draw()
         end)

@@ -1,7 +1,7 @@
 local ts_config = require("nvim-treesitter.configs")
 local ts_context = require("treesitter-context")
 local ts_pairs = require("tree-pairs")
-local wk = require("which-key")
+local wk = require("which-key.config")
 
 local M = {}
 
@@ -131,16 +131,16 @@ function M.setup()
                 },
             }
         },
-        playground = {
-            enable = true,
-            keybindins = {
-                toggle_query_editor = "o",
-                toggle_highlight_groups = "i",
-                toggle_injected_languages = "t",
-
-                goto_node = "<cr>",
-            }
-        },
+        -- playground = {
+        --     enable = true,
+        --     keybindins = {
+        --         toggle_query_editor = "o",
+        --         toggle_highlight_groups = "i",
+        --         toggle_injected_languages = "t",
+        --
+        --         goto_node = "<cr>",
+        --     }
+        -- },
     })
 
     ts_context.setup({
@@ -165,7 +165,7 @@ function M.setup()
     ts_pairs.setup()
 
     wk.add({
-        { "<leader>et", "<cmd>TSPlaygroundToggle<cr>", desc = "Treesitter playground" },
+        -- { "<leader>et", "<cmd>TSPlaygroundToggle<cr>", desc = "Treesitter playground" },
         { "g%",         jump_to_context,           desc = "Jump to context" },
     })
 end

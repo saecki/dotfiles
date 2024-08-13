@@ -1,5 +1,5 @@
 local notify = require("notify")
-local wk = require("which-key")
+local wk = require("which-key.config")
 
 local M = {}
 

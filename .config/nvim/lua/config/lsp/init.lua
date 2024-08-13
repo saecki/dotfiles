@@ -3,7 +3,7 @@ local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local trouble = require("trouble")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
-local wk = require("which-key")
+local wk = require("which-key.config")
 local shared = require("shared")
 local fidget = require("config.lsp.fidget")
 local live_rename = require("live-rename")
@@ -130,6 +130,24 @@ function M.setup()
     lua_ls.setup(lspconfig["lua_ls"], M.on_attach, capabilities)
     rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_attach, capabilities)
     texlab.setup(lspconfig["texlab"], M.on_attach, capabilities)
+
+    do
+        local configs = require("lspconfig.configs")
+        configs["language_server_test"] = {
+            default_config = {
+                cmd = { "/home/tobi/Projects/language_server_test/target/release/native_frontend" },
+                filetypes = { "cods" },
+                root_dir = function(fname)
+                    return lspconfig.util.find_git_ancestor(fname)
+                end,
+                settings = {},
+            },
+        }
+        lspconfig["language_server_test"].setup({
+            on_attach = M.on_attach,
+            capabilities = capabilities,
+        })
+    end
 
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border

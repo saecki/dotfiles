@@ -1,7 +1,7 @@
 local dap = require("dap")
 local dap_ui_widgets = require("dap.ui.widgets")
 local dapui = require("dapui")
-local wk = require("which-key")
+local wk = require("which-key.config")
 local shared = require("shared")
 local dap_rust = require("config.dap.rust")
 

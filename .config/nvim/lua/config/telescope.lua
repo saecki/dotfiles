@@ -1,6 +1,6 @@
 local telescope = require("telescope")
 local telescope_builtin = require("telescope.builtin")
-local wk = require("which-key")
+local wk = require("which-key.config")
 
 local M = {}
 

@@ -1,6 +1,6 @@
 local gitsigns = require("gitsigns")
 local gitsigns_actions = require("gitsigns.actions")
-local wk = require("which-key")
+local wk = require("which-key.config")
 local shared = require("shared")
 
 local M = {}
