@@ -121,6 +121,7 @@ function M.setup()
 
     default_server_setup(lspconfig["clangd"], M.on_attach, capabilities)
     default_server_setup(lspconfig["zls"], M.on_attach, capabilities)
+    default_server_setup(lspconfig["gopls"], M.on_attach, capabilities)
     default_server_setup(lspconfig["wgsl_analyzer"], M.on_attach, capabilities)
     default_server_setup(lspconfig["pyright"], M.on_attach, capabilities)
     default_server_setup(lspconfig["vhdl_ls"], M.on_attach, capabilities)
