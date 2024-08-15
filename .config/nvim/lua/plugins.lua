@@ -1,9 +1,32 @@
 local M = {}
 
----@param p string
+local mini_package_path = vim.fn.stdpath("data") .. "/site/"
+local mini_package_start_path = mini_package_path .. "pack/deps/start/"
+local mini_deps_path = mini_package_start_path .. "mini.deps"
+
+local function create_symlink(dir_path)
+    dir_path = vim.fn.expand(dir_path)
+    local last_component = string.match(dir_path, "(/?[^/]+)$")
+    local package_path = mini_package_path .. "opt/" .. last_component
+    if not vim.uv.fs_stat(package_path) then
+        local symlink_created = false
+        local res = vim.uv.fs_symlink(dir_path, package_path, { dir = true }, function()
+            symlink_created = true
+        end)
+
+        vim.wait(100, function()
+            return symlink_created
+        end, 1)
+
+        vim.notify(string.format("created symlink: `%s` to `%s`", dir_path, package_path))
+    end
+end
+
+---@param dir_path string
 ---@return string
-local function path(p)
-    return "file://" .. vim.fn.expand(p)
+local function local_dir(dir_path)
+    create_symlink(dir_path)
+    return "file://" .. vim.fn.expand(dir_path)
 end
 
 ---@param name string?
@@ -36,9 +59,6 @@ end
 
 function M.setup()
     -- bootstrap mini.deps
-    local mini_package_path = vim.fn.stdpath("data") .. "/site/"
-    local mini_package_start_path = mini_package_path .. "pack/deps/start/"
-    local mini_deps_path = mini_package_start_path .. "mini.deps"
     if not vim.uv.fs_stat(mini_deps_path) then
         vim.cmd("echo 'installing `mini.deps`' | redraw")
         local clone_cmd = {
@@ -153,7 +173,7 @@ function M.setup()
     add("lsp", {
         source = "neovim/nvim-lspconfig",
         depends = {
-            path("~/Projects/live-rename.nvim"),
+            local_dir("~/Projects/live-rename.nvim"),
             "williamboman/mason.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "folke/trouble.nvim",
@@ -178,7 +198,7 @@ function M.setup()
             end,
         },
     })
-    add(nil, path("~/Projects/nvim-treesitter-context"))
+    add(nil, local_dir("~/Projects/nvim-treesitter-context"))
     add(nil, "nvim-treesitter/nvim-treesitter-textobjects")
     add(nil, "yorickpeterse/nvim-tree-pairs")
     require("config.treesitter").setup()
@@ -199,7 +219,7 @@ function M.setup()
     add("table-mode", "dhruvasagar/vim-table-mode")
 
     -- rust
-    add("crates", path("~/Projects/crates.nvim"))
+    add("crates", local_dir("~/Projects/crates.nvim"))
 
     -- lua/teal
     add(nil, "teal-language/vim-teal")
