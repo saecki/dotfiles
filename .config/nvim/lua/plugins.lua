@@ -4,29 +4,116 @@ local mini_package_path = vim.fn.stdpath("data") .. "/site/"
 local mini_package_start_path = mini_package_path .. "pack/deps/start/"
 local mini_deps_path = mini_package_start_path .. "mini.deps"
 
-local function create_symlink(dir_path)
-    dir_path = vim.fn.expand(dir_path)
-    local last_component = string.match(dir_path, "(/?[^/]+)$")
-    local package_path = mini_package_path .. "opt/" .. last_component
-    if not vim.uv.fs_stat(package_path) then
-        local symlink_created = false
-        local res = vim.uv.fs_symlink(dir_path, package_path, { dir = true }, function()
-            symlink_created = true
-        end)
+local native_notify = vim.notify
 
-        vim.wait(100, function()
-            return symlink_created
-        end, 1)
+local function print_info(pattern, ...)
+    native_notify(string.format(pattern, ...), vim.log.levels.INFO)
+    vim.cmd.redraw()
+end
 
-        vim.notify(string.format("created symlink: `%s` to `%s`", dir_path, package_path))
+local function print_error(pattern, ...)
+    native_notify(string.format(pattern, ...), vim.log.levels.ERROR)
+    vim.cmd.redraw()
+end
+
+local function rmdir(dir)
+    local ok, err = vim.uv.fs_rmdir(dir)
+    if ok then
+        print_info("removed dir `%s`", dir)
+    else
+        print_error("error removing dir `%s`: %s", dir, err)
+        error()
     end
 end
 
----@param dir_path string
+local function unlink(path, prev_link)
+    local ok, err = vim.uv.fs_unlink(path)
+    if ok then
+        print_info("unlinked `%s` -> `%s`", path, prev_link)
+    else
+        print_error("error unlinking `%s` -> `%s`: %s", path, prev_link, err)
+        error()
+    end
+end
+
+local function symlink(link, link_target)
+    local ok, err = vim.uv.fs_symlink(link_target, link, { dir = true })
+    if ok then
+        print_info("created symlink `%s` -> `%s`", link, link_target)
+    else
+        print_error("error creating symlink from `%s` -> `%s`: %s", link, link_target, err)
+        error()
+    end
+end
+
+---@param command string[]
+---@param cwd string?
+local function run_command(command, cwd)
+    local command_str = table.concat(command, " ")
+    print_info("running `%s`", command_str)
+    vim.cmd.redraw()
+
+    local res = nil
+    local timeout = 30000
+    local opts = {
+        timeout = timeout,
+        cwd = cwd,
+    }
+    vim.system(command, opts, function(r)
+        res = r
+    end)
+    vim.wait(timeout, function()
+        return res ~= nil
+    end, 100)
+
+    if res and res.code == 0 then
+        print_info("success `%s`", command_str)
+    else
+        print_error("error running `%s`: `%s`", command_str, res.stderr)
+        error()
+    end
+end
+
+---@param spec table|string
 ---@return string
-local function local_dir(dir_path)
-    create_symlink(dir_path)
-    return "file://" .. vim.fn.expand(dir_path)
+local function dev_repo(spec)
+    if type(spec) == "string" then
+        spec = { source = spec }
+    end
+    repo_url = "git@github.com:" .. spec.source
+
+    local last_component = string.match(repo_url, "/?([^/]+)$")
+    local project_path = vim.fn.expand("~/Projects/" .. last_component)
+    local package_path = mini_package_path .. "pack/deps/opt/" .. last_component
+
+    local function ensure_installed()
+        if not vim.uv.fs_stat(project_path) then
+            run_command({ "git", "clone", "--quiet", repo_url, project_path })
+            if spec.checkout then
+                run_command({ "git", "checkout", "--quiet", spec.checkout }, project_path)
+            end
+        end
+
+        if vim.uv.fs_stat(package_path) then
+            local link_path = vim.uv.fs_readlink(package_path)
+            if link_path == project_path then
+                -- correct symlink already exists
+            elseif link_path then
+                -- incorrect symlink
+                unlink(package_path, project_path)
+                symlink(package_path, project_path)
+            else
+                -- dir instead of symlink
+                rmdir(package_path)
+                symlink(package_path, project_path)
+            end
+        else
+            symlink(package_path, project_path)
+        end
+    end
+    pcall(ensure_installed)
+
+    return "file://" .. project_path
 end
 
 ---@param name string?
@@ -60,14 +147,14 @@ end
 function M.setup()
     -- bootstrap mini.deps
     if not vim.uv.fs_stat(mini_deps_path) then
-        vim.cmd("echo 'installing `mini.deps`' | redraw")
+        print_info("installing `mini.deps`")
         local clone_cmd = {
             "git", "clone", "--filter=blob:none",
             "https://github.com/echasnovski/mini.deps", mini_deps_path
         }
         vim.fn.system(clone_cmd)
         vim.cmd("packadd mini.deps | helptags ALL")
-        vim.notify("echo 'installed `mini.deps`' | redraw")
+        print_info("installed `mini.deps`")
     end
 
     local mini_deps = require('mini.deps')
@@ -78,6 +165,8 @@ function M.setup()
         },
     })
 
+    local setup_queue = {}
+
     ---@param name string?
     ---@param spec table|string
     local function add(name, spec)
@@ -87,7 +176,7 @@ function M.setup()
         mini_deps.add(spec)
 
         if name then
-            require("config." .. name).setup()
+            table.insert(setup_queue, "config." .. name)
         end
     end
 
@@ -173,7 +262,7 @@ function M.setup()
     add("lsp", {
         source = "neovim/nvim-lspconfig",
         depends = {
-            local_dir("~/Projects/live-rename.nvim"),
+            dev_repo("saecki/live-rename.nvim"),
             "williamboman/mason.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "folke/trouble.nvim",
@@ -190,7 +279,7 @@ function M.setup()
     })
 
     -- treesitter
-    add(nil, {
+    add("treesitter", {
         source = "nvim-treesitter/nvim-treesitter",
         hooks = {
             post_checkout = function()
@@ -198,10 +287,9 @@ function M.setup()
             end,
         },
     })
-    add(nil, local_dir("~/Projects/nvim-treesitter-context"))
+    add(nil, dev_repo({ source = "saecki/nvim-treesitter-context", checkout = "categories" }))
     add(nil, "nvim-treesitter/nvim-treesitter-textobjects")
     add(nil, "yorickpeterse/nvim-tree-pairs")
-    require("config.treesitter").setup()
 
     -- markdown
     add(nil, {
@@ -219,7 +307,7 @@ function M.setup()
     add("table-mode", "dhruvasagar/vim-table-mode")
 
     -- rust
-    add("crates", local_dir("~/Projects/crates.nvim"))
+    add("crates", dev_repo("saecki/crates.nvim"))
 
     -- lua/teal
     add(nil, "teal-language/vim-teal")
@@ -231,16 +319,15 @@ function M.setup()
     vim.g.presence_has_setup = 1
     add("presence", "andweeb/presence.nvim")
 
+    -- run all queued setups
+    for _, name in ipairs(setup_queue) do
+        require(name).setup()
+    end
 
-    -- zig.vim is installed by the system package manager on fedora
+    -- some language specific things
     require("config.lang.zig").setup()
-
-    -- some rust things
     require("config.lang.rust").setup()
-
-    -- some lua things
     require("config.lang.lua").setup()
-
 
     local wk = require("which-key.config")
     wk.add({
