@@ -16,12 +16,18 @@ local function print_error(pattern, ...)
     vim.cmd.redraw()
 end
 
-local function rmdir(dir)
-    local ok, err = vim.uv.fs_rmdir(dir)
-    if ok then
-        print_info("removed dir `%s`", dir)
+local function rm_rf(path)
+    local res = nil
+    vim.system({"rm", "-rf", path}, {}, function(r)
+        res = r
+    end)
+    vim.wait(100, function()
+        return res ~= nil
+    end, 1)
+    if res and res.code == 0 then
+        print_info("removed `%s`", path)
     else
-        print_error("error removing dir `%s`: %s", dir, err)
+        print_error("error removing `%s`: %s", path, res.stderr)
         error()
     end
 end
@@ -103,8 +109,8 @@ local function dev_repo(spec)
                 unlink(package_path, project_path)
                 symlink(package_path, project_path)
             else
-                -- dir instead of symlink
-                rmdir(package_path)
+                -- not a symlink
+                rm_rf(package_path)
                 symlink(package_path, project_path)
             end
         else
