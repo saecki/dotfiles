@@ -4,8 +4,10 @@ local shared = require("shared")
 local M = {}
 
 function M.setup()
-    vim.opt.timeoutlen = 400
     wk.setup({
+        delay = function(ctx)
+            return ctx.plugin and 0 or 400
+        end,
         plugins = {
             spelling = {
                 enabled = true,
@@ -28,7 +30,7 @@ function M.setup()
         },
         keys = {
             scroll_down = "<down>", -- scroll down in popup
-            scroll_up = "<up>",   -- scroll up in popup
+            scroll_up = "<up>",     -- scroll up in popup
         },
         show_help = false,
         show_keys = false,
@@ -36,7 +38,7 @@ function M.setup()
 
     wk.add({
         { "<leader>e", group = "Toggle (enable)" },
-        { "<leader>k", "<cmd>WhichKey<cr>",          desc = "Which key?" },
+        { "<leader>k", "<cmd>WhichKey<cr>",      desc = "Which key?" },
     })
 end
 
