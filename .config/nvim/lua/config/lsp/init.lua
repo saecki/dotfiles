@@ -191,6 +191,37 @@ function M.setup()
         border = shared.window.border,
     })
 
+    -- Write buffers that were edited
+    local rename_handler = vim.lsp.handlers["textDocument/rename"]
+    ---@param result lsp.WorkspaceEdit?
+    vim.lsp.handlers["textDocument/rename"] = function(err, result, ctx, config)
+        rename_handler(err, result, ctx, config)
+
+        if err or not result then
+            return
+        end
+
+        ---@param buf integer?
+        local function write_buf(buf)
+            if buf and vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+                vim.api.nvim_buf_call(buf, function()
+                    vim.cmd("w")
+                end)
+            end
+        end
+        if result.changes then
+            for uri, edits in pairs(result.changes) do
+                local buf = vim.uri_to_bufnr(uri)
+                write_buf(buf)
+            end
+        elseif result.documentChanges then
+            for _, change in ipairs(result.documentChanges) do
+                local buf = vim.uri_to_bufnr(change.textDocument.uri)
+                write_buf(buf)
+            end
+        end
+    end
+
     -- Keymappings
     wk.add({
         { "<leader>i",  group = "Lsp" },
