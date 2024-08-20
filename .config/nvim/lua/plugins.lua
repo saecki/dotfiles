@@ -132,7 +132,7 @@ function M.setup()
     pm.add("presence", "andweeb/presence.nvim")
 
     -- run all queued setups
-    pm.run_queued_setups()
+    pm.finish_setup()
 
     -- some language specific things
     require("config.lang.zig").setup()

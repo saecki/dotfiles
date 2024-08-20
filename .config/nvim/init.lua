@@ -1,5 +1,5 @@
 local function load_and_setup(name)
-    local ok, mod, err = pcall(require, name)
+    local ok, mod = pcall(require, name)
     if not ok then
         vim.notify(string.format("failed to load `%s`:\n%s", name, mod))
         return

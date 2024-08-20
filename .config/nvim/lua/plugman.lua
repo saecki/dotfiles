@@ -1,19 +1,66 @@
+local shared = require("shared")
+
 local M = {}
 
 local lock_file_path = vim.fn.stdpath("config") .. "/plugs.lock"
 local plugs_path = vim.fn.stdpath("data") .. "/site/pack/plugs/opt/"
 local projects_path = vim.fn.expand("~/Projects/")
 
-local native_notify = vim.notify
+local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
+local popup_ctx = nil
+local function init_win()
+    -- create buf
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, 0, true, { "   PLUGMAN LOGS   " })
+    vim.api.nvim_buf_add_highlight(buf, popup_ns, "Statement", 0, 0, -1)
+    vim.bo[buf].filetype = "markdown"
+    vim.bo[buf].modifiable = false
 
-local function print_info(pattern, ...)
-    native_notify(string.format(pattern, ...), vim.log.levels.INFO)
+    -- create win
+    local margin_x = 8
+    local margin_y = 4
+    local border = 2
+    local width = vim.opt.columns:get() - 2 * margin_x - border
+    local height = vim.opt.lines:get() - 2 * margin_y - border
+    local win_opts = {
+        relative = "editor",
+        col = margin_x,
+        row = margin_y,
+        width = width,
+        height = height,
+        style = "minimal",
+        border = shared.window.border,
+    }
+    local win = vim.api.nvim_open_win(buf, false, win_opts)
+    vim.api.nvim_set_current_win(win)
+
+    vim.wo[win].wrap = false
+
+    return {
+        win = win,
+        buf = buf,
+    }
+end
+
+local function append_to_win(line, hl)
+    popup_ctx = popup_ctx or init_win()
+    local ctx = popup_ctx
+
+    vim.bo[ctx.buf].modifiable = true
+    local n = vim.api.nvim_buf_line_count(ctx.buf)
+    vim.api.nvim_buf_set_lines(ctx.buf, n, n, true, { line })
+    vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, hl, n, 0, -1)
+    vim.bo[ctx.buf].modifiable = false
+
     vim.cmd.redraw()
 end
 
+local function print_info(pattern, ...)
+    append_to_win(string.format(pattern, ...), "NormalFloat")
+end
+
 local function print_error(pattern, ...)
-    native_notify(string.format(pattern, ...), vim.log.levels.ERROR)
-    vim.cmd.redraw()
+    append_to_win(string.format(pattern, ...), "ErrorMsg")
 end
 
 local function rm_rf(path)
@@ -292,7 +339,7 @@ function M.setup_on_keys(name, keys)
     end
 end
 
-function M.run_queued_setups()
+function M.finish_setup()
     for _, name in ipairs(setup_queue) do
         local ok, config, err = pcall(require, name)
         if not ok then
@@ -307,6 +354,8 @@ function M.run_queued_setups()
 
         ::continue::
     end
+
+    vim.cmd.helptags("ALL")
 end
 
 return M
