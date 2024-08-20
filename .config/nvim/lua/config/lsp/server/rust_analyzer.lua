@@ -6,7 +6,7 @@ local use_clippy = false
 
 local function setup_server(server, on_attach, capabilities, opts)
     opts = opts or {}
-    local check_command = opts.check_command or CARGO_CHECK
+    local check_command = opts.check_command or nil -- defaults to cargo check
     server.setup({
         on_attach = on_attach,
         capabilities = capabilities,
