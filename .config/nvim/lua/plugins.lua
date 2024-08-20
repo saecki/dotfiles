@@ -205,10 +205,7 @@ function M.setup()
     add("devicons", "nvim-tree/nvim-web-devicons")
 
     -- multicursor
-    add("multicursors", {
-        source = "smoka7/multicursors.nvim",
-        depends = { "smoka7/hydra.nvim" },
-    })
+    add(nil, "mg979/vim-visual-multi")
 
     -- filetree
     add(nil, {

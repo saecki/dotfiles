@@ -186,10 +186,6 @@ function M.highlights(p)
         IblWhitespace = { fg = p.whitespace },
         IblScope      = { fg = p.whitespace },
 
-        -- multicursors
-        MultiCursor     = {                 bg = p.texthl1 },
-        MultiCursorMain = { fg = p.invtext, bg = p.texthl2 },
-
         -- lualine
         LualineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
         LualineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
