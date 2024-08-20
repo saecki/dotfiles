@@ -12,8 +12,8 @@ function M.setup()
         group = group,
         pattern = { registry_path, stdlib_path },
         callback = function(ev)
-            vim.api.nvim_buf_set_option(ev.buf, "readonly", true)
-            vim.api.nvim_buf_set_option(ev.buf, "modifiable", false)
+            vim.bo[ev.buf].readonly = true
+            vim.bo[ev.buf].modifiable = false
         end
     })
 end
