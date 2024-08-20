@@ -15,12 +15,14 @@ local calculate_popup_width = function(entries)
     result = result + 2
 
     local num_entries = #entries
+    local num_width = 2
     while num_entries >= 10 do
         num_entries = num_entries / 10
-        result = result + 1
+        num_width = num_width + 1
     end
 
-    return result
+    local win_width = result + num_width
+    return win_width, num_width
 end
 
 local format_entries = function(entries, formatter)
@@ -81,7 +83,7 @@ function M.select(items, opts, on_choice)
     M.on_choice = on_choice
 
     local formatted_items = format_entries(items, opts.format_item)
-    local width = calculate_popup_width(formatted_items)
+    local width, num_width = calculate_popup_width(formatted_items)
 
     -- create buf
     M.buf = vim.api.nvim_create_buf(false, true)
@@ -102,7 +104,7 @@ function M.select(items, opts, on_choice)
     -- create win
     local win_opts = {
         relative = "cursor",
-        col = col - 3,
+        col = col - (num_width + 1),
         row = 1,
         width = width,
         height = #items,
@@ -112,20 +114,13 @@ function M.select(items, opts, on_choice)
     M.win = vim.api.nvim_open_win(M.buf, false, win_opts)
 
     -- key mappings
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<cr>", "", {
-        callback = function() M.confirm() end,
-        noremap = true,
-        silent = true,
-    })
+    local keymap_opts = { buffer = M.buf, silent = true }
+    vim.keymap.set("n", "<cr>", function() M.confirm() end, keymap_opts)
     for i = 1, math.min(#formatted_items, 9) do
-        vim.api.nvim_buf_set_keymap(M.buf, "n", tostring(i), "", {
-            callback = function() M.confirm(i) end,
-            noremap = true,
-            silent = true,
-        })
+        vim.keymap.set("n", tostring(i), function() M.confirm(i) end, keymap_opts)
     end
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "<esc>", "", { callback = M.cancel, noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(M.buf, "n", "q", "", { callback = M.cancel, noremap = true, silent = true })
+    vim.keymap.set("n", "<esc>", M.cancel, keymap_opts)
+    vim.keymap.set("n", "q", M.cancel, keymap_opts)
 
     -- highlight current line
     local group = vim.api.nvim_create_augroup("user.util.select", {})
@@ -139,12 +134,8 @@ function M.select(items, opts, on_choice)
     vim.api.nvim_set_current_win(M.win)
     highlight()
 
-    vim.opt_local.number = true
-    if #formatted_items < 10 then
-        vim.opt_local.numberwidth = 2
-    else
-        vim.opt_local.numberwidth = 3
-    end
+    vim.wo[M.win].number = true
+    vim.wo[M.win].numberwidth = num_width
 end
 
 function M.setup()
