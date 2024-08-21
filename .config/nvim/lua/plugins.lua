@@ -143,11 +143,6 @@ function M.setup()
         --     { "<leader>pl", pm.log,     desc = "Log"     },
         -- })
     end)
-
-    -- some language specific things
-    require("config.lang.zig").setup()
-    require("config.lang.rust").setup()
-    require("config.lang.lua").setup()
 end
 
 return M
