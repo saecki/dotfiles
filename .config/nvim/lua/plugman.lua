@@ -850,10 +850,13 @@ local function finish_setup(post_setup)
 
     for _, plug in ipairs(plugins) do
         local dir_name = vim.fs.basename(plug.spec.source)
-        vim.cmd.packadd(dir_name)
-
-        if plug.run_post_checkout and plug.spec.post_checkout then
-            plug.spec.post_checkout()
+        local ok, err = pcall(vim.cmd.packadd, dir_name)
+        if not ok then
+            vim.notify(string.format("error running packadd `%s`:\n`%s`", name, err))
+        else
+            if plug.run_post_checkout and plug.spec.post_checkout then
+                plug.spec.post_checkout()
+            end
         end
     end
 
