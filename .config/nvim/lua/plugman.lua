@@ -66,58 +66,66 @@ local function init_popup()
     vim.wo[win].wrap = false
     vim.api.nvim_set_current_win(win)
 
-    vim.cmd.redraw()
-
     return {
         win = win,
         buf = buf,
     }
 end
 
+local function render_win()
+    ---@type string[]
+    local lines = {}
+    ---@type {hl: string, start_col: integer, end_col: integer}[][]
+    local hls = {}
 
-local function append_to_win(reg_idx, line, hl)
+    for _, msg in ipairs(global_log) do
+        table.insert(lines, msg[1])
+        table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
+    end
+
+    table.insert(lines, "------------------------------")
+    table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
+
+    for _, p in ipairs(plugins) do
+        local last_msg = p.log[#p.log]
+        local dir_name = vim.fs.basename(p.spec.source)
+        if last_msg then
+            table.insert(lines, string.format("%-30s %s", dir_name, last_msg[1]))
+            table.insert(hls, {
+                { hl = "Function",  start_col = 0,  end_col = 30 },
+                { hl = last_msg[2], start_col = 31, end_col = -1 },
+            })
+        else
+            table.insert(lines, string.format("%-30s %s", dir_name, "ok"))
+            table.insert(hls, {
+                { hl = "Function", start_col = 0,  end_col = 30 },
+                { hl = "Comment",  start_col = 31, end_col = -1 },
+            })
+        end
+    end
+
     local ctx = popup_ctx or init_popup()
     popup_ctx = ctx
 
+    vim.bo[ctx.buf].modifiable = true
+    vim.api.nvim_buf_set_lines(ctx.buf, 1, -1, true, lines)
+    for i, line_hls in ipairs(hls) do
+        for _, line_hl in ipairs(line_hls) do
+            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, line_hl.hl, i, line_hl.start_col, line_hl.end_col)
+        end
+    end
+    vim.bo[ctx.buf].modifiable = false
+end
+
+
+local function append_to_win(reg_idx, line, hl)
     if reg_idx == -1 then
         table.insert(global_log, { line, hl })
     else
         table.insert(plugins[reg_idx].log, { line, hl })
     end
 
-    ---@type string[]
-    local lines = {}
-    ---@type string[]
-    local hls = {}
-
-    for _,msg in ipairs(global_log) do
-        table.insert(lines, msg[1])
-        table.insert(hls, msg[2])
-    end
-
-    table.insert(lines, "------------------------------")
-    table.insert(hls, "PreProc")
-
-    for _,p in ipairs(plugins) do
-        local last = p.log[#p.log]
-        if last then
-            table.insert(lines, string.format("%s: %s", p.spec.source, last[1]))
-            table.insert(hls, last[2])
-        else
-            table.insert(lines, p.spec.source)
-            table.insert(hls, "NormalFloat")
-        end
-    end
-
-    vim.schedule(function()
-        vim.bo[ctx.buf].modifiable = true
-        vim.api.nvim_buf_set_lines(ctx.buf, 1, -1, true, lines)
-        for i, hl in ipairs(hls) do
-            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, hl, i, 0, -1)
-        end
-        vim.bo[ctx.buf].modifiable = false
-        vim.cmd.redraw()
-    end)
+    vim.schedule(render_win)
 end
 
 ---@param reg_idx integer
@@ -214,7 +222,9 @@ local function rm_rf(reg_idx, path)
     vim.wait(100, function()
         return res ~= nil
     end, 1)
-    if res and res.code == 0 then
+    assert(res)
+
+    if res.code == 0 then
         print_info(reg_idx, "removed `%s`", path)
     else
         print_error(reg_idx, "error removing `%s`: %s", path, res.stderr)
@@ -248,21 +258,21 @@ local function run_command(reg_idx, command, opts, on_exit)
             print_error(reg_idx, "error running `%s`: `%s`", command_str, res.stderr)
         end
 
-        if on_exit then
-            on_exit(success)
-        end
+        on_exit(success)
     end)
 end
 
+---@param reg_idx integer
 ---@param commands {args: string[], opts: CommandOpts?}[]|{on_exit: fun(success: boolean)}
 local function chain_commands(reg_idx, commands)
-    local next = commands.on_exit
+    local callback = commands.on_exit
     for i = #commands, 2, -1 do
         local command = commands[i]
-        next = function(success)
+        local next_callback = callback
+        callback = function(success)
             if success then
                 -- continue on success
-                run_command(reg_idx, command.args, command.opts, next)
+                run_command(reg_idx, command.args, command.opts, next_callback)
             else
                 -- short circuit on error
                 commands.on_exit(success)
@@ -271,13 +281,7 @@ local function chain_commands(reg_idx, commands)
     end
 
     local command = commands[1]
-    run_command(reg_idx, command.args, command.opts, next)
-end
-
----@param path string
----@return string
-local function plugin_dir_name(path)
-    return string.match(path, "/?([^/]+)$")
+    run_command(reg_idx, command.args, command.opts, callback)
 end
 
 ---@param plug Plugin
@@ -307,7 +311,7 @@ local function ensure_installed_git_repo(spec)
         return
     end
 
-    local dir_name = plugin_dir_name(spec.source)
+    local dir_name = vim.fs.basename(spec.source)
     local package_path = plugs_path .. dir_name
     local repo_url = spec.source
     if string.match(repo_url, "^[^/]+/[^/]+$") then
@@ -315,8 +319,8 @@ local function ensure_installed_git_repo(spec)
     end
 
     if not vim.uv.fs_stat(package_path) then
-        in_progress = in_progress + 1
         plugins[reg_idx].run_post_checkout = true
+        in_progress = in_progress + 1
 
         chain_commands(reg_idx, {
             -- clone
@@ -335,11 +339,11 @@ local function ensure_installed_git_repo(spec)
             },
             on_exit = function(success)
                 if success then
-                    print_info(reg_idx, "just installed")
+                    print_info(reg_idx, "installed")
                 end
 
                 in_progress = in_progress - 1
-            end
+            end,
         })
     end
 end
@@ -370,6 +374,8 @@ function M.add(cfg_file, spec)
     if cfg_file then
         table.insert(setup_queue, "config." .. cfg_file)
     end
+
+    vim.cmd.redraw()
 end
 
 ---@param cfg_file string?
@@ -394,7 +400,7 @@ function M.dev_repo(cfg_file, spec)
     end
 
     local repo_url = "git@github.com:" .. spec.source
-    local dir_name = plugin_dir_name(spec.source)
+    local dir_name = vim.fs.basename(spec.source)
     local project_path = projects_path .. dir_name
     local package_path = plugs_path .. dir_name
 
@@ -402,7 +408,7 @@ function M.dev_repo(cfg_file, spec)
         if vim.uv.fs_stat(package_path) then
             local link_path = vim.uv.fs_readlink(package_path)
             if link_path == project_path then
-                -- correct symlink already exists
+                return false
             elseif link_path then
                 -- incorrect symlink
                 unlink(reg_idx, package_path, project_path)
@@ -415,6 +421,7 @@ function M.dev_repo(cfg_file, spec)
         else
             symlink(reg_idx, package_path, project_path)
         end
+        return true
     end
 
     -- clone repository into `~/Projects` dir
@@ -434,15 +441,20 @@ function M.dev_repo(cfg_file, spec)
             },
             on_exit = function(success)
                 if success and pcall(symlink_into_package_dir) then
-                    print_info(reg_idx, "just installed")
+                    print_info(reg_idx, "installed and linked")
                 end
 
                 in_progress = in_progress - 1
-            end
+            end,
         })
     else
-        pcall(symlink_into_package_dir)
+        local ok, res = pcall(symlink_into_package_dir)
+        if ok and res then
+            print_info(reg_idx, "linked")
+        end
     end
+
+    vim.cmd.redraw()
 end
 
 ---@param name string?
@@ -479,17 +491,9 @@ function M.start_setup()
 end
 
 ---@param post_setup fun()?
-function M.finish_setup(post_setup)
-    local timeout = 120000
-    local wait_ok = vim.wait(timeout, function()
-        return in_progress == 0
-    end, 1000)
-    if not wait_ok then
-        error("setup timed out")
-    end
-
+local function finish_setup(post_setup)
     for _, plug in ipairs(plugins) do
-        local dir_name = plugin_dir_name(plug.spec.source)
+        local dir_name = vim.fs.basename(plug.spec.source)
         vim.cmd.packadd(dir_name)
 
         if plug.run_post_checkout and plug.spec.post_checkout then
@@ -517,6 +521,24 @@ function M.finish_setup(post_setup)
     if post_setup then
         post_setup()
     end
+end
+
+---@param post_setup fun()?
+function M.finish_setup(post_setup)
+    if in_progress == 0 then
+        finish_setup(post_setup)
+        return
+    end
+
+    local timer = vim.uv.new_timer()
+    timer:start(100, 100, function()
+        if in_progress == 0 then
+            vim.schedule(function()
+                finish_setup(post_setup)
+            end)
+            timer:close()
+        end
+    end)
 end
 
 return M
