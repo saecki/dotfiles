@@ -350,7 +350,8 @@ local function rm_rf(reg_idx, path)
     if res.code == 0 then
         print_info(reg_idx, "removed `%s`", path)
     else
-        print_error(reg_idx, "error removing `%s`: %s", path, res.stderr)
+        local error = res.code == 124 and "timeout" or res.stderr
+        print_error(reg_idx, "error removing `%s`: %s", path, error)
         error()
     end
 end
@@ -385,7 +386,7 @@ local function run_command(reg_idx, command, opts, on_exit)
     ---@type boolean?, string
     local success, stdout = nil, nil
     vim.system(command, command_opts, function(res)
-        success = res and res.code == 0
+        success = res.code == 0
         stdout = res.stdout
         if success then
             -- only log success for execution with callback
@@ -393,7 +394,8 @@ local function run_command(reg_idx, command, opts, on_exit)
                 print_info(reg_idx, "success %s", command_str)
             end
         else
-            print_error(reg_idx, "error running %s: `%s`", command_str, res.stderr)
+            local error = res.code == 124 and "timeout" or res.stderr
+            print_error(reg_idx, "error running %s: `%s`", command_str, error)
         end
 
         if on_exit then
@@ -786,9 +788,8 @@ local function update_plugins()
                     { cwd = package_path }
                 )
                 if success then
-                    local commits = vim.split(stdout, "\n", { trimempty = true })
-                    for _, commit in ipairs(commits) do
-                        print_plain_dimmed(reg_idx, commit)
+                    for commit in vim.gsplit(stdout, "\n", { trimempty = true }) do
+                        print_plain_dimmed(reg_idx, "%s", commit)
                     end
                 end
 
@@ -858,7 +859,7 @@ local function finish_setup(post_setup)
         local dir_name = vim.fs.basename(plug.spec.source)
         local ok, err = pcall(vim.cmd.packadd, dir_name)
         if not ok then
-            vim.notify(string.format("error running packadd `%s`:\n`%s`", name, err))
+            vim.notify(string.format("error running packadd `%s`:\n`%s`", dir_name, err))
         else
             if plug.run_post_checkout and plug.spec.post_checkout then
                 plug.spec.post_checkout()
@@ -869,7 +870,7 @@ local function finish_setup(post_setup)
     for _, name in ipairs(setup_queue) do
         local ok, config = pcall(require, name)
         if not ok then
-            vim.notify(string.format("failed to load `%s`:\n%s", name, config))
+            vim.notify(string.format("failed to load `%s`:\n`%s`", name, config))
             goto continue
         end
 
