@@ -133,15 +133,14 @@ function M.setup()
 
     pm.finish_setup(function()
         local wk = require("which-key.config")
-        -- TODO: implement update
-        -- TODO: automatically store a lock file
         -- TODO: allow restoring to a lock file
-        -- wk.add({
-        --     { "<leader>p",  group = "Plugins" },
-        --     { "<leader>pu", pm.update,  desc = "Update"  },
-        --     { "<leader>pr", pm.restore, desc = "Restore" },
-        --     { "<leader>pl", pm.log,     desc = "Log"     },
-        -- })
+        wk.add({
+            { "<leader>p",  group = "Plugins" },
+            { "<leader>pu", pm.update,         desc = "Update" },
+            { "<leader>ps", pm.save_lock_file, desc = "Save lock" },
+            -- { "<leader>pr", pm.restore, desc = "Restore lock" },
+            { "<leader>pl", pm.log,            desc = "Log" },
+        })
     end)
 end
 

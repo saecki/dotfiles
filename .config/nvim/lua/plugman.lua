@@ -19,12 +19,21 @@ local projects_path = vim.fn.expand("~/Projects/")
 ---@class Plugin
 ---@field spec PlugSpec|DepSpec
 ---@field run_post_checkout boolean
----@field lock boolean
+---@field managed boolean
 ---@field log string[]
 
+-- whether to update the lock-file
+local dirty = false
 local in_progress = 0
----@type {[1]: string, [2]: string}[]
-local global_log = {}
+local global_log = {
+    ---@type {[1]: string, [2]: string}[]
+    pre = {},
+    ---@type {[1]: string, [2]: string}[]
+    post = {},
+
+    PRE = -1,
+    POST = -2,
+}
 ---@type Plugin[]
 local plugins = {}
 ---@type string[]
@@ -44,12 +53,11 @@ local function init_popup()
     local buf = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(buf, 0, 1, true, { "PLUGMAN" })
     vim.api.nvim_buf_add_highlight(buf, popup_ns, "Statement", 0, 0, -1)
-    vim.bo[buf].filetype = "markdown"
-    -- vim.bo[buf].modifiable = false
+    vim.bo[buf].modifiable = false
 
     -- create win
-    local margin_x = 8
-    local margin_y = 4
+    local margin_x = 4
+    local margin_y = 2
     local border = 2
     local width = vim.opt.columns:get() - 2 * margin_x - border
     local height = vim.opt.lines:get() - 2 * margin_y - border
@@ -78,11 +86,10 @@ local function render_win()
     ---@type {hl: string, start_col: integer, end_col: integer}[][]
     local hls = {}
 
-    for _, msg in ipairs(global_log) do
+    for _, msg in ipairs(global_log.pre) do
         table.insert(lines, msg[1])
         table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
     end
-
     table.insert(lines, "------------------------------")
     table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
 
@@ -104,6 +111,14 @@ local function render_win()
         end
     end
 
+    table.insert(lines, "------------------------------")
+    table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
+    for _, msg in ipairs(global_log.post) do
+        table.insert(lines, msg[1])
+        table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
+    end
+
+
     local ctx = popup_ctx or init_popup()
     popup_ctx = ctx
 
@@ -119,8 +134,11 @@ end
 
 
 local function append_to_win(reg_idx, line, hl)
-    if reg_idx == -1 then
-        table.insert(global_log, { line, hl })
+    line = os.date("[%H:%M:%S] ") .. line
+    if reg_idx == global_log.PRE then
+        table.insert(global_log.pre, { line, hl })
+    elseif reg_idx == global_log.POST then
+        table.insert(global_log.post, { line, hl })
     else
         table.insert(plugins[reg_idx].log, { line, hl })
     end
@@ -133,6 +151,13 @@ end
 ---@param ... any
 local function print_info(reg_idx, pattern, ...)
     append_to_win(reg_idx, string.format(pattern, ...), "NormalFloat")
+end
+
+---@param reg_idx integer
+---@param pattern string
+---@param ... any
+local function print_important(reg_idx, pattern, ...)
+    append_to_win(reg_idx, string.format(pattern, ...), "MoreMsg")
 end
 
 ---@param reg_idx integer
@@ -183,6 +208,26 @@ end
 
 ---@param reg_idx integer
 ---@param path string
+---@param text string
+local function write_file(reg_idx, path, text)
+    local mode = (6 * 8 * 8) + (4 * 8) + 4 -- 644
+    local fd, err = vim.uv.fs_open(path, "w", mode)
+    if err then
+        print_info(reg_idx, "error opening file`%s`: `%s`", path, fd)
+        error()
+    end
+
+    local len, err = vim.uv.fs_write(fd, { text })
+    if len then
+        print_info(reg_idx, "wrote file `%s`", path)
+    else
+        print_info(reg_idx, "error writing file `%s`: `%s`", path, err)
+        error()
+    end
+end
+
+---@param reg_idx integer
+---@param path string
 local function create_all_dirs(reg_idx, path)
     if vim.uv.fs_stat(path) then
         return
@@ -207,7 +252,7 @@ local function create_all_dirs(reg_idx, path)
     for i = from, #components do
         local pos = components[i]
         local sub_path = string.sub(path, 0, pos)
-        local mode = 7 * 8 * 8 + 5 * 8 + 5 -- 755
+        local mode = (7 * 8 * 8) + (5 * 8) + 5 -- 755
         mkdir(reg_idx, sub_path, mode)
     end
 end
@@ -234,32 +279,57 @@ end
 
 ---@class CommandOpts
 ---@field cwd string?
+---@field quiet boolean?
 
+--- when on_exit is ommited, the command is run synchronously
 ---@param reg_idx integer
 ---@param command string[]
 ---@param opts CommandOpts?
----@param on_exit fun(boolean)
+---@param on_exit fun(success: boolean, stdout: string)?
+---@return boolean, string
 local function run_command(reg_idx, command, opts, on_exit)
     opts = opts or {}
+    local quiet = opts.quiet or not on_exit
 
     local command_str = table.concat(command, " ")
-    print_info(reg_idx, "running `%s`", command_str)
+    if opts.cwd then
+        command_str = string.format("`%s` in `%s` ", command_str, opts.cwd)
+    end
+    local verb = quiet and "run" or "running"
+    print_info(reg_idx, "%s %s", verb, command_str)
 
     local timeout = 30000
     local command_opts = {
         timeout = timeout,
         cwd = opts.cwd,
     }
+
+    ---@type boolean?, string
+    local success, stdout = nil, nil
     vim.system(command, command_opts, function(res)
-        local success = res and res.code == 0
+        success = res and res.code == 0
+        stdout = res.stdout
         if success then
-            print_info(reg_idx, "success `%s`", command_str)
+            -- only log success for execution with callback
+            if not quiet then
+                print_info(reg_idx, "success %s", command_str)
+            end
         else
-            print_error(reg_idx, "error running `%s`: `%s`", command_str, res.stderr)
+            print_error(reg_idx, "error running %s: `%s`", command_str, res.stderr)
         end
 
-        on_exit(success)
+        if on_exit then
+            on_exit(success, res.stdout)
+        end
     end)
+
+    if not on_exit then
+        vim.wait(timeout, function()
+            return success ~= nil
+        end, 1)
+        assert(success ~= nil)
+        return success, stdout
+    end
 end
 
 ---@param reg_idx integer
@@ -303,7 +373,7 @@ local function ensure_installed_git_repo(spec)
     local already_registerd, reg_idx = register_plug({
         spec = spec,
         run_post_checkout = false,
-        lock = true,
+        managed = true,
         log = {},
     })
 
@@ -321,6 +391,7 @@ local function ensure_installed_git_repo(spec)
     if not vim.uv.fs_stat(package_path) then
         plugins[reg_idx].run_post_checkout = true
         in_progress = in_progress + 1
+        dirty = true
 
         chain_commands(reg_idx, {
             -- clone
@@ -335,7 +406,7 @@ local function ensure_installed_git_repo(spec)
             -- checkout
             spec.checkout and {
                 args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = package_path },
+                opts = { cwd = package_path, quiet = true },
             },
             on_exit = function(success)
                 if success then
@@ -391,7 +462,7 @@ function M.dev_repo(cfg_file, spec)
     local _, reg_idx = register_plug({
         spec = spec,
         run_post_checkout = false,
-        lock = false,
+        managed = false,
         log = {},
     })
 
@@ -437,7 +508,7 @@ function M.dev_repo(cfg_file, spec)
             -- checkout
             spec.checkout and {
                 args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = project_path },
+                opts = { cwd = project_path, quiet = true },
             },
             on_exit = function(success)
                 if success and pcall(symlink_into_package_dir) then
@@ -448,13 +519,84 @@ function M.dev_repo(cfg_file, spec)
             end,
         })
     else
-        local ok, res = pcall(symlink_into_package_dir)
-        if ok and res then
+        local ok, linked = pcall(symlink_into_package_dir)
+        if ok and linked then
             print_info(reg_idx, "linked")
         end
     end
 
     vim.cmd.redraw()
+end
+
+local function update_lock_file()
+    print_important(global_log.POST, "generating lock-file")
+    local lines = { "{\n" }
+    for _, plug in ipairs(plugins) do
+        if plug.managed then
+            local dir_name = vim.fs.basename(plug.spec.source)
+            local package_path = plugs_path .. dir_name
+            local cmd_args = { "git", "rev-list", "-1", "HEAD" }
+            local cmd_opts = { cwd = package_path }
+
+            local success, stdout = run_command(global_log.POST, cmd_args, cmd_opts)
+            if not success then
+                break
+            end
+
+            local commit = vim.trim(stdout)
+            table.insert(lines, vim.inspect({ plug.spec.source, commit }) .. ",\n")
+        end
+    end
+    table.insert(lines, "}\n")
+
+    local text = table.concat(lines)
+    write_file(global_log.POST, lock_file_path, text)
+end
+
+local function update_plugins()
+    local all_started = false
+    local updating = 0
+
+    local function when_done_update_lock_file()
+        updating = updating - 1
+
+        print(all_started, updating)
+        if all_started and updating == 0 then
+            vim.schedule(update_lock_file)
+        end
+    end
+
+    for reg_idx, plug in ipairs(plugins) do
+        if plug.managed then
+            updating = updating + 1
+
+            local dir_name = vim.fs.basename(plug.spec.source)
+            local package_path = plugs_path .. dir_name
+
+            local checkout = plug.spec.checkout and "origin/" .. plug.spec.checkout or "FETCH_HEAD"
+            chain_commands(reg_idx, {
+                -- fetch
+                {
+                    args = { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
+                    opts = { cwd = package_path },
+                },
+                -- checkout
+                {
+                    args = { "git", "checkout", "--quiet", checkout },
+                    opts = { cwd = package_path },
+                },
+                on_exit = function(success)
+                    if success then
+                        print_info(reg_idx, "updated")
+                    end
+
+                    when_done_update_lock_file()
+                end,
+            })
+        end
+    end
+
+    all_started = true
 end
 
 ---@param name string?
@@ -486,12 +628,16 @@ function M.setup_on_keys(name, keys)
 end
 
 function M.start_setup()
-    create_all_dirs(-1, plugs_path)
-    create_all_dirs(-1, projects_path)
+    create_all_dirs(global_log.PRE, plugs_path)
+    create_all_dirs(global_log.PRE, projects_path)
 end
 
 ---@param post_setup fun()?
 local function finish_setup(post_setup)
+    if dirty then
+        update_lock_file()
+    end
+
     for _, plug in ipairs(plugins) do
         local dir_name = vim.fs.basename(plug.spec.source)
         vim.cmd.packadd(dir_name)
@@ -531,7 +677,7 @@ function M.finish_setup(post_setup)
     end
 
     local timer = vim.uv.new_timer()
-    timer:start(100, 100, function()
+    timer:start(10, 10, function()
         if in_progress == 0 then
             vim.schedule(function()
                 finish_setup(post_setup)
@@ -539,6 +685,18 @@ function M.finish_setup(post_setup)
             timer:close()
         end
     end)
+end
+
+function M.update()
+    update_plugins()
+end
+
+function M.save_lock_file()
+    update_lock_file()
+end
+
+function M.log()
+    render_win()
 end
 
 return M
