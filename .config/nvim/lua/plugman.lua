@@ -171,17 +171,25 @@ local function render_win()
 end
 
 
-local function append_to_win(reg_idx, line, hl, opts)
+local function append_to_win(reg_idx, text, hl, opts)
     opts = opts or {}
     if not opts.no_time then
-        line = os.date("[%H:%M:%S] ") .. line
+        text = os.date("[%H:%M:%S] ") .. text
     end
+
+    local array
     if reg_idx == global_log.PRE then
-        table.insert(global_log.pre, { line, hl })
+        array = global_log.pre
     elseif reg_idx == global_log.POST then
-        table.insert(global_log.post, { line, hl })
+        array = global_log.post
     else
-        table.insert(plugins[reg_idx].log, { line, hl })
+        array = plugins[reg_idx].log
+    end
+
+    local lines = vim.gsplit(text, "\n", { trimempty = true })
+    table.insert(array, { lines(), hl })
+    for line in lines do
+        table.insert(array, { "           " .. line, hl })
     end
 
     if not render_scheduled then
@@ -226,7 +234,7 @@ local function unlink(reg_idx, path, prev_link)
     if ok then
         print_info(reg_idx, "unlinked `%s` -> `%s`", path, prev_link)
     else
-        print_error(reg_idx, "error unlinking `%s` -> `%s`: %s", path, prev_link, err)
+        print_error(reg_idx, "error unlinking `%s` -> `%s`:\n`%s`", path, prev_link, err)
         error()
     end
 end
@@ -239,7 +247,7 @@ local function mkdir(reg_idx, path, mode)
     if ok then
         print_info(reg_idx, "created dir (%o) `%s`", mode, path)
     else
-        print_info(reg_idx, "error creating dir (%o) `%s`: `%s`", mode, path, err)
+        print_error(reg_idx, "error creating dir (%o) `%s`:\n`%s`", mode, path, err)
         error()
     end
 end
@@ -252,7 +260,7 @@ local function symlink(reg_idx, link, link_target)
     if ok then
         print_info(reg_idx, "created symlink `%s` -> `%s`", link, link_target)
     else
-        print_error(reg_idx, "error creating symlink from `%s` -> `%s`: %s", link, link_target, err)
+        print_error(reg_idx, "error creating symlink from `%s` -> `%s`:\n`%s`", link, link_target, err)
         error()
     end
 end
@@ -264,7 +272,7 @@ local function write_file(reg_idx, path, text)
     local mode = (6 * 8 * 8) + (4 * 8) + 4 -- 644
     local fd, err = vim.uv.fs_open(path, "w", mode)
     if err then
-        print_info(reg_idx, "error opening file`%s`: `%s`", path, fd)
+        print_error(reg_idx, "error opening file`%s`:\n`%s`", path, fd)
         error()
     end
 
@@ -272,7 +280,7 @@ local function write_file(reg_idx, path, text)
     if len then
         print_info(reg_idx, "wrote file `%s`", path)
     else
-        print_info(reg_idx, "error writing file `%s`: `%s`", path, err)
+        print_error(reg_idx, "error writing file `%s`:\n`%s`", path, err)
         error()
     end
 end
@@ -284,13 +292,13 @@ local function read_file(reg_idx, path)
     local mode = (6 * 8 * 8) + (4 * 8) + 4 -- 644
     local fd, err = vim.uv.fs_open(path, "r", mode)
     if err then
-        print_info(reg_idx, "error opening file`%s`: `%s`", path, fd)
+        print_error(reg_idx, "error opening file `%s`:\n`%s`", path, fd)
         error()
     end
 
     local stat, err = vim.uv.fs_fstat(fd)
     if err then
-        print_info(reg_idx, "error stating file`%s`: `%s`", path, fd)
+        print_error(reg_idx, "error stat'ing file `%s`:\n`%s`", path, fd)
         error()
     end
 
@@ -299,7 +307,7 @@ local function read_file(reg_idx, path)
         print_info(reg_idx, "read file `%s`", path)
         return text
     else
-        print_info(reg_idx, "error writing file `%s`: `%s`", path, err)
+        print_error(reg_idx, "error writing file `%s`:\n`%s`", path, err)
         error()
     end
 end
@@ -350,8 +358,8 @@ local function rm_rf(reg_idx, path)
     if res.code == 0 then
         print_info(reg_idx, "removed `%s`", path)
     else
-        local error = res.code == 124 and "timeout" or res.stderr
-        print_error(reg_idx, "error removing `%s`: %s", path, error)
+        local error = res.code == 124 and "timeout" or vim.trim(res.stderr)
+        print_error(reg_idx, "error removing `%s`:\n`%s`", path, error)
         error()
     end
 end
@@ -372,7 +380,7 @@ local function run_command(reg_idx, command, opts, on_exit)
 
     local command_str = table.concat(command, " ")
     if opts.cwd then
-        command_str = string.format("`%s` in `%s` ", command_str, opts.cwd)
+        command_str = string.format("`%s` in `%s`", command_str, opts.cwd)
     end
     local verb = quiet and "run" or "running"
     print_info(reg_idx, "%s %s", verb, command_str)
@@ -394,8 +402,8 @@ local function run_command(reg_idx, command, opts, on_exit)
                 print_info(reg_idx, "success %s", command_str)
             end
         else
-            local error = res.code == 124 and "timeout" or res.stderr
-            print_error(reg_idx, "error running %s: `%s`", command_str, error)
+            local error = res.code == 124 and "timeout" or vim.trim(res.stderr)
+            print_error(reg_idx, "error running %s:\n`%s`", command_str, error)
         end
 
         if on_exit then
