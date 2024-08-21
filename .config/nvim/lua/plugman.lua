@@ -6,15 +6,46 @@ local lock_file_path = vim.fn.stdpath("config") .. "/plugs.lock"
 local plugs_path = vim.fn.stdpath("data") .. "/site/pack/plugs/opt/"
 local projects_path = vim.fn.expand("~/Projects/")
 
-local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
+---@class PlugSpec
+---@field source string
+---@field checkout string?
+---@field deps (DepSpec|string)[]?
+---@field post_checkout fun()?
+
+---@class DepSpec
+---@field source string
+---@field checkout string?
+
+---@class Plugin
+---@field spec PlugSpec|DepSpec
+---@field run_post_checkout boolean
+---@field lock boolean
+---@field log string[]
+
+local in_progress = 0
+---@type {[1]: string, [2]: string}[]
+local global_log = {}
+---@type Plugin[]
+local plugins = {}
+---@type string[]
+local setup_queue = {}
+
+---@class PopupCtx
+---@field win integer
+---@field buf integer
+
+---@type PopupCtx?
 local popup_ctx = nil
-local function init_win()
+local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
+
+---@return PopupCtx
+local function init_popup()
     -- create buf
     local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, 0, true, { "   PLUGMAN LOGS   " })
+    vim.api.nvim_buf_set_lines(buf, 0, 1, true, { "PLUGMAN" })
     vim.api.nvim_buf_add_highlight(buf, popup_ns, "Statement", 0, 0, -1)
     vim.bo[buf].filetype = "markdown"
-    vim.bo[buf].modifiable = false
+    -- vim.bo[buf].modifiable = false
 
     -- create win
     local margin_x = 8
@@ -32,9 +63,10 @@ local function init_win()
         border = shared.window.border,
     }
     local win = vim.api.nvim_open_win(buf, false, win_opts)
+    vim.wo[win].wrap = false
     vim.api.nvim_set_current_win(win)
 
-    vim.wo[win].wrap = false
+    vim.cmd.redraw()
 
     return {
         win = win,
@@ -42,104 +74,108 @@ local function init_win()
     }
 end
 
-local function append_to_win(line, hl)
-    popup_ctx = popup_ctx or init_win()
-    local ctx = popup_ctx
 
-    vim.bo[ctx.buf].modifiable = true
-    local n = vim.api.nvim_buf_line_count(ctx.buf)
-    vim.api.nvim_buf_set_lines(ctx.buf, n, n, true, { line })
-    vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, hl, n, 0, -1)
-    vim.bo[ctx.buf].modifiable = false
+local function append_to_win(reg_idx, line, hl)
+    local ctx = popup_ctx or init_popup()
+    popup_ctx = ctx
 
-    vim.cmd.redraw()
-end
-
-local function print_info(pattern, ...)
-    append_to_win(string.format(pattern, ...), "NormalFloat")
-end
-
-local function print_error(pattern, ...)
-    append_to_win(string.format(pattern, ...), "ErrorMsg")
-end
-
-local function rm_rf(path)
-    local res = nil
-    vim.system({ "rm", "-rf", path }, {}, function(r)
-        res = r
-    end)
-    vim.wait(100, function()
-        return res ~= nil
-    end, 1)
-    if res and res.code == 0 then
-        print_info("removed `%s`", path)
+    if reg_idx == -1 then
+        table.insert(global_log, { line, hl })
     else
-        print_error("error removing `%s`: %s", path, res.stderr)
-        error()
+        table.insert(plugins[reg_idx].log, { line, hl })
     end
+
+    ---@type string[]
+    local lines = {}
+    ---@type string[]
+    local hls = {}
+
+    for _,msg in ipairs(global_log) do
+        table.insert(lines, msg[1])
+        table.insert(hls, msg[2])
+    end
+
+    table.insert(lines, "------------------------------")
+    table.insert(hls, "PreProc")
+
+    for _,p in ipairs(plugins) do
+        local last = p.log[#p.log]
+        if last then
+            table.insert(lines, string.format("%s: %s", p.spec.source, last[1]))
+            table.insert(hls, last[2])
+        else
+            table.insert(lines, p.spec.source)
+            table.insert(hls, "NormalFloat")
+        end
+    end
+
+    vim.schedule(function()
+        vim.bo[ctx.buf].modifiable = true
+        vim.api.nvim_buf_set_lines(ctx.buf, 1, -1, true, lines)
+        for i, hl in ipairs(hls) do
+            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, hl, i, 0, -1)
+        end
+        vim.bo[ctx.buf].modifiable = false
+        vim.cmd.redraw()
+    end)
 end
 
-local function unlink(path, prev_link)
+---@param reg_idx integer
+---@param pattern string
+---@param ... any
+local function print_info(reg_idx, pattern, ...)
+    append_to_win(reg_idx, string.format(pattern, ...), "NormalFloat")
+end
+
+---@param reg_idx integer
+---@param pattern string
+---@param ... any
+local function print_error(reg_idx, pattern, ...)
+    append_to_win(reg_idx, string.format(pattern, ...), "ErrorMsg")
+end
+
+---@param reg_idx integer
+---@param path string
+---@param prev_link string
+local function unlink(reg_idx, path, prev_link)
     local ok, err = vim.uv.fs_unlink(path)
     if ok then
-        print_info("unlinked `%s` -> `%s`", path, prev_link)
+        print_info(reg_idx, "unlinked `%s` -> `%s`", path, prev_link)
     else
-        print_error("error unlinking `%s` -> `%s`: %s", path, prev_link, err)
+        print_error(reg_idx, "error unlinking `%s` -> `%s`: %s", path, prev_link, err)
         error()
     end
 end
 
-local function mkdir(path, mode)
+---@param reg_idx integer
+---@param path string
+---@param mode integer
+local function mkdir(reg_idx, path, mode)
     local ok, err = vim.uv.fs_mkdir(path, mode)
     if ok then
-        print_info("created dir (%o) `%s`", mode, path)
+        print_info(reg_idx, "created dir (%o) `%s`", mode, path)
     else
-        print_info("error creating dir (%o) `%s`: `%s`", mode, path, err)
+        print_info(reg_idx, "error creating dir (%o) `%s`: `%s`", mode, path, err)
         error()
     end
 end
 
-local function symlink(link, link_target)
+---@param reg_idx integer
+---@param link string
+---@param link_target string
+local function symlink(reg_idx, link, link_target)
     local ok, err = vim.uv.fs_symlink(link_target, link, { dir = true })
     if ok then
-        print_info("created symlink `%s` -> `%s`", link, link_target)
+        print_info(reg_idx, "created symlink `%s` -> `%s`", link, link_target)
     else
-        print_error("error creating symlink from `%s` -> `%s`: %s", link, link_target, err)
+        print_error(reg_idx, "error creating symlink from `%s` -> `%s`: %s", link, link_target, err)
         error()
     end
 end
 
----@param command string[]
----@param opts {cwd: string?}?
-local function run_command(command, opts)
-    opts = opts or {}
-
-    local command_str = table.concat(command, " ")
-    print_info("running `%s`", command_str)
-    vim.cmd.redraw()
-
-    local res = nil
-    local timeout = 30000
-    local command_opts = {
-        timeout = timeout,
-        cwd = opts.cwd,
-    }
-    vim.system(command, command_opts, function(r)
-        res = r
-    end)
-    vim.wait(timeout, function()
-        return res ~= nil
-    end, 100)
-
-    if res and res.code == 0 then
-        print_info("success `%s`", command_str)
-    else
-        print_error("error running `%s`: `%s`", command_str, res.stderr)
-        error()
-    end
-end
-
-local function create_all_dirs(path)
+---@param reg_idx integer
+---@param path string
+local function create_all_dirs(reg_idx, path)
     if vim.uv.fs_stat(path) then
         return
     end
@@ -164,8 +200,78 @@ local function create_all_dirs(path)
         local pos = components[i]
         local sub_path = string.sub(path, 0, pos)
         local mode = 7 * 8 * 8 + 5 * 8 + 5 -- 755
-        mkdir(sub_path, mode)
+        mkdir(reg_idx, sub_path, mode)
     end
+end
+
+---@param reg_idx integer
+---@param path string
+local function rm_rf(reg_idx, path)
+    local res = nil
+    vim.system({ "rm", "-rf", path }, {}, function(r)
+        res = r
+    end)
+    vim.wait(100, function()
+        return res ~= nil
+    end, 1)
+    if res and res.code == 0 then
+        print_info(reg_idx, "removed `%s`", path)
+    else
+        print_error(reg_idx, "error removing `%s`: %s", path, res.stderr)
+        error()
+    end
+end
+
+---@class CommandOpts
+---@field cwd string?
+
+---@param reg_idx integer
+---@param command string[]
+---@param opts CommandOpts?
+---@param on_exit fun(boolean)
+local function run_command(reg_idx, command, opts, on_exit)
+    opts = opts or {}
+
+    local command_str = table.concat(command, " ")
+    print_info(reg_idx, "running `%s`", command_str)
+
+    local timeout = 30000
+    local command_opts = {
+        timeout = timeout,
+        cwd = opts.cwd,
+    }
+    vim.system(command, command_opts, function(res)
+        local success = res and res.code == 0
+        if success then
+            print_info(reg_idx, "success `%s`", command_str)
+        else
+            print_error(reg_idx, "error running `%s`: `%s`", command_str, res.stderr)
+        end
+
+        if on_exit then
+            on_exit(success)
+        end
+    end)
+end
+
+---@param commands {args: string[], opts: CommandOpts?}[]|{on_exit: fun(success: boolean)}
+local function chain_commands(reg_idx, commands)
+    local next = commands.on_exit
+    for i = #commands, 2, -1 do
+        local command = commands[i]
+        next = function(success)
+            if success then
+                -- continue on success
+                run_command(reg_idx, command.args, command.opts, next)
+            else
+                -- short circuit on error
+                commands.on_exit(success)
+            end
+        end
+    end
+
+    local command = commands[1]
+    run_command(reg_idx, command.args, command.opts, next)
 end
 
 ---@param path string
@@ -174,21 +280,33 @@ local function plugin_dir_name(path)
     return string.match(path, "/?([^/]+)$")
 end
 
----@class PlugSpec
----@field source string
----@field checkout string?
----@field deps (DepSpec|string)[]?
----@field post_checkout fun()?
+---@param plug Plugin
+---@return boolean, integer
+local function register_plug(plug)
+    for i, p in ipairs(plugins) do
+        if p.spec.source == plug.spec.source then
+            plugins[i] = vim.tbl_extend("keep", p, plug)
+            return true, i
+        end
+    end
 
----@class DepSpec
----@field source string
----@field checkout string?
-
----@type table<string,DepSpec>
-local plugins = {}
+    table.insert(plugins, plug)
+    return false, #plugins
+end
 
 ---@param spec PlugSpec|DepSpec
 local function ensure_installed_git_repo(spec)
+    local already_registerd, reg_idx = register_plug({
+        spec = spec,
+        run_post_checkout = false,
+        lock = true,
+        log = {},
+    })
+
+    if already_registerd then
+        return
+    end
+
     local dir_name = plugin_dir_name(spec.source)
     local package_path = plugs_path .. dir_name
     local repo_url = spec.source
@@ -196,57 +314,45 @@ local function ensure_installed_git_repo(spec)
         repo_url = "https://github.com/" .. spec.source
     end
 
-    local cloned = false
     if not vim.uv.fs_stat(package_path) then
-        run_command({
-            "git", "clone", "--quiet", "--filter=blob:none",
-            "--recurse-submodules", "--also-filter-submodules",
-            "--origin", "origin",
-            repo_url, package_path,
+        in_progress = in_progress + 1
+        plugins[reg_idx].run_post_checkout = true
+
+        chain_commands(reg_idx, {
+            -- clone
+            {
+                args = {
+                    "git", "clone", "--quiet", "--filter=blob:none",
+                    "--recurse-submodules", "--also-filter-submodules",
+                    "--origin", "origin",
+                    repo_url, package_path,
+                },
+            },
+            -- checkout
+            spec.checkout and {
+                args = { "git", "checkout", "--quiet", spec.checkout },
+                opts = { cwd = package_path },
+            },
+            on_exit = function(success)
+                if success then
+                    print_info(reg_idx, "just installed")
+                end
+
+                in_progress = in_progress - 1
+            end
         })
-        if spec.checkout then
-            run_command({ "git", "checkout", "--quiet", spec.checkout }, { cwd = package_path })
-        end
-        cloned = true
     end
-
-    plugins[spec.source] = {
-        source = spec.source,
-        checkout = spec.checkout,
-    }
-
-    return cloned
 end
 
----@type string[]
-local setup_queue = {}
-
----@param cfg_file string?
 ---@param spec PlugSpec
----@param checkout boolean
-local function add_plugin(cfg_file, spec, checkout)
-    -- dependencies
+local function ensure_installed_deps(spec)
     if spec.deps then
         for _, d in ipairs(spec.deps) do
             if type(d) == "string" then
                 d = { source = d }
             end
             ensure_installed_git_repo(d)
-
-            local dir_name = plugin_dir_name(d.source)
-            vim.cmd.packadd(dir_name)
         end
-    end
-
-    local dir_name = plugin_dir_name(spec.source)
-    vim.cmd.packadd(dir_name)
-
-    if checkout and spec.post_checkout then
-        spec.post_checkout()
-    end
-
-    if cfg_file then
-        table.insert(setup_queue, "config." .. cfg_file)
     end
 end
 
@@ -257,9 +363,13 @@ function M.add(cfg_file, spec)
         spec = { source = spec }
     end
 
-    local cloned = ensure_installed_git_repo(spec)
+    ensure_installed_deps(spec)
 
-    add_plugin(cfg_file, spec, cloned)
+    ensure_installed_git_repo(spec)
+
+    if cfg_file then
+        table.insert(setup_queue, "config." .. cfg_file)
+    end
 end
 
 ---@param cfg_file string?
@@ -269,46 +379,70 @@ function M.dev_repo(cfg_file, spec)
         spec = { source = spec }
     end
     assert(string.match(spec.source, "^[^/]+/[^/]+$"))
-    local repo_url = "git@github.com:" .. spec.source
 
+    ensure_installed_deps(spec)
+
+    local _, reg_idx = register_plug({
+        spec = spec,
+        run_post_checkout = false,
+        lock = false,
+        log = {},
+    })
+
+    if cfg_file then
+        table.insert(setup_queue, "config." .. cfg_file)
+    end
+
+    local repo_url = "git@github.com:" .. spec.source
     local dir_name = plugin_dir_name(spec.source)
     local project_path = projects_path .. dir_name
     local package_path = plugs_path .. dir_name
 
-    -- clone repository into `~/Projects` dir
-    local cloned = false
-    if not vim.uv.fs_stat(project_path) then
-        run_command({ "git", "clone", "--quiet", repo_url, project_path })
-        if spec.checkout then
-            run_command({ "git", "checkout", "--quiet", spec.checkout }, { cwd = project_path })
-        end
-        cloned = true
-    end
-
-    -- symlink it into the plugins dir
-    if vim.uv.fs_stat(package_path) then
-        local link_path = vim.uv.fs_readlink(package_path)
-        if link_path == project_path then
-            -- correct symlink already exists
-        elseif link_path then
-            -- incorrect symlink
-            unlink(package_path, project_path)
-            symlink(package_path, project_path)
+    local function symlink_into_package_dir()
+        if vim.uv.fs_stat(package_path) then
+            local link_path = vim.uv.fs_readlink(package_path)
+            if link_path == project_path then
+                -- correct symlink already exists
+            elseif link_path then
+                -- incorrect symlink
+                unlink(reg_idx, package_path, project_path)
+                symlink(reg_idx, package_path, project_path)
+            else
+                -- not a symlink
+                rm_rf(reg_idx, package_path)
+                symlink(reg_idx, package_path, project_path)
+            end
         else
-            -- not a symlink
-            rm_rf(package_path)
-            symlink(package_path, project_path)
+            symlink(reg_idx, package_path, project_path)
         end
-    else
-        symlink(package_path, project_path)
     end
 
-    add_plugin(cfg_file, spec, cloned)
-end
+    -- clone repository into `~/Projects` dir
+    if not vim.uv.fs_stat(project_path) then
+        plugins[reg_idx].run_post_checkout = true
+        in_progress = in_progress + 1
 
-function M.create_dirs()
-    create_all_dirs(plugs_path)
-    create_all_dirs(projects_path)
+        chain_commands(reg_idx, {
+            -- clone
+            {
+                args = { "git", "clone", "--quiet", repo_url, project_path },
+            },
+            -- checkout
+            spec.checkout and {
+                args = { "git", "checkout", "--quiet", spec.checkout },
+                opts = { cwd = project_path },
+            },
+            on_exit = function(success)
+                if success and pcall(symlink_into_package_dir) then
+                    print_info(reg_idx, "just installed")
+                end
+
+                in_progress = in_progress - 1
+            end
+        })
+    else
+        pcall(symlink_into_package_dir)
+    end
 end
 
 ---@param name string?
@@ -339,9 +473,32 @@ function M.setup_on_keys(name, keys)
     end
 end
 
-function M.finish_setup()
+function M.start_setup()
+    create_all_dirs(-1, plugs_path)
+    create_all_dirs(-1, projects_path)
+end
+
+---@param post_setup fun()?
+function M.finish_setup(post_setup)
+    local timeout = 120000
+    local wait_ok = vim.wait(timeout, function()
+        return in_progress == 0
+    end, 1000)
+    if not wait_ok then
+        error("setup timed out")
+    end
+
+    for _, plug in ipairs(plugins) do
+        local dir_name = plugin_dir_name(plug.spec.source)
+        vim.cmd.packadd(dir_name)
+
+        if plug.run_post_checkout and plug.spec.post_checkout then
+            plug.spec.post_checkout()
+        end
+    end
+
     for _, name in ipairs(setup_queue) do
-        local ok, config, err = pcall(require, name)
+        local ok, config = pcall(require, name)
         if not ok then
             vim.notify(string.format("failed to load `%s`:\n%s", name, config))
             goto continue
@@ -356,6 +513,10 @@ function M.finish_setup()
     end
 
     vim.cmd.helptags("ALL")
+
+    if post_setup then
+        post_setup()
+    end
 end
 
 return M

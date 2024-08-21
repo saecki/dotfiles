@@ -3,7 +3,7 @@ local pm = require("plugman")
 local M = {}
 
 function M.setup()
-    pm.create_dirs()
+    pm.start_setup()
 
     -- key mappings
     pm.add("which-key", "folke/which-key.nvim")
@@ -131,24 +131,23 @@ function M.setup()
     vim.g.presence_has_setup = 1
     pm.add("presence", "andweeb/presence.nvim")
 
-    -- run all queued setups
-    pm.finish_setup()
+    pm.finish_setup(function()
+        local wk = require("which-key.config")
+        -- TODO: implement update
+        -- TODO: automatically store a lock file
+        -- TODO: allow restoring to a lock file
+        -- wk.add({
+        --     { "<leader>p",  group = "Plugins" },
+        --     { "<leader>pu", pm.update,  desc = "Update"  },
+        --     { "<leader>pr", pm.restore, desc = "Restore" },
+        --     { "<leader>pl", pm.log,     desc = "Log"     },
+        -- })
+    end)
 
     -- some language specific things
     require("config.lang.zig").setup()
     require("config.lang.rust").setup()
     require("config.lang.lua").setup()
-
-    local wk = require("which-key.config")
-    -- TODO: implement update
-    -- TODO: automatically store a lock file
-    -- TODO: allow restoring to a lock file
-    -- wk.add({
-    --     { "<leader>p",  group = "Plugins" },
-    --     { "<leader>pu", pm.update,  desc = "Update"  },
-    --     { "<leader>pr", pm.restore, desc = "Restore" },
-    --     { "<leader>pl", pm.log,     desc = "Log"     },
-    -- })
 end
 
 return M
