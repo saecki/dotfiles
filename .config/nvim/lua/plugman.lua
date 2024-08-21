@@ -273,6 +273,33 @@ end
 
 ---@param reg_idx integer
 ---@param path string
+---@return string
+local function read_file(reg_idx, path)
+    local mode = (6 * 8 * 8) + (4 * 8) + 4 -- 644
+    local fd, err = vim.uv.fs_open(path, "r", mode)
+    if err then
+        print_info(reg_idx, "error opening file`%s`: `%s`", path, fd)
+        error()
+    end
+
+    local stat, err = vim.uv.fs_fstat(fd)
+    if err then
+        print_info(reg_idx, "error stating file`%s`: `%s`", path, fd)
+        error()
+    end
+
+    local text, err = vim.uv.fs_read(fd, stat.size)
+    if text then
+        print_info(reg_idx, "read file `%s`", path)
+        return text
+    else
+        print_info(reg_idx, "error writing file `%s`: `%s`", path, err)
+        error()
+    end
+end
+
+---@param reg_idx integer
+---@param path string
 local function create_all_dirs(reg_idx, path)
     if vim.uv.fs_stat(path) then
         return
@@ -411,6 +438,16 @@ local function register_plug(plug)
 
     table.insert(plugins, plug)
     return false, #plugins
+end
+
+---@param source string
+---@return integer?, Plugin?
+local function registered_plugin(source)
+    for i, p in ipairs(plugins) do
+        if p.spec.source == source then
+            return i, p
+        end
+    end
 end
 
 ---@param spec PlugSpec|DepSpec
@@ -575,7 +612,7 @@ end
 
 local function update_lock_file()
     print_important(global_log.POST, "generating lock-file")
-    local lines = { "{\n" }
+    local lines = {}
     for _, plug in ipairs(plugins) do
         if plug.managed then
             local dir_name = vim.fs.basename(plug.spec.source)
@@ -585,17 +622,59 @@ local function update_lock_file()
 
             local success, stdout = run_command(global_log.POST, cmd_args, cmd_opts)
             if not success then
-                break
+                return
             end
 
             local commit = vim.trim(stdout)
-            table.insert(lines, vim.inspect({ plug.spec.source, commit }) .. ",\n")
+            table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
+
+            vim.cmd.redraw()
         end
     end
-    table.insert(lines, "}\n")
 
     local text = table.concat(lines)
     write_file(global_log.POST, lock_file_path, text)
+    print_important(global_log.POST, "generated lock-file")
+end
+
+local function restore_lock_file()
+    print_important(global_log.POST, "restoring lock-file")
+    local text = read_file(global_log.POST, lock_file_path)
+    local lock = {}
+    for line in vim.gsplit(text, "\n", { trimempty = true }) do
+        local ok, entry = pcall(vim.json.decode, line)
+        if not ok then
+            print_error(global_log.POST, "invalid lockfile `%s`", lock_file_path)
+            return
+        end
+        table.insert(lock, entry)
+    end
+
+    for _, l in ipairs(lock) do
+        vim.print(l)
+        local reg_idx, plug = registered_plugin(l[1])
+        if not reg_idx or not plug then
+            goto continue
+        end
+
+        local dir_name = vim.fs.basename(plug.spec.source)
+        local package_path = plugs_path .. dir_name
+
+        local success = run_command(
+            reg_idx,
+            { "git", "checkout", "--quiet", l[2] },
+            { cwd = package_path }
+        )
+        if success then
+            print_important(reg_idx, "restored")
+        end
+
+        vim.cmd.redraw()
+
+        ::continue::
+    end
+
+    print_important(global_log.POST, "restored lock-file")
 end
 
 local function update_plugins()
@@ -818,6 +897,10 @@ end
 
 function M.save_lock_file()
     update_lock_file()
+end
+
+function M.restore_lock_file()
+    restore_lock_file()
 end
 
 function M.log()
