@@ -87,7 +87,7 @@ end
 local function get_choice_strs(runnable_entries)
     local option_strings = {}
 
-    for i, runnable_entry in ipairs(runnable_entries) do
+    for _, runnable_entry in ipairs(runnable_entries) do
         local label = ""
         for _, a in ipairs(runnable_entry.cargo_args) do
             label = label .. a .. " "
@@ -150,9 +150,9 @@ function M.debuggables_history(opts)
 end
 
 function M.debuggables(opts)
-    local active_clients = vim.lsp.get_active_clients()
-    if not next(active_clients) then
-        vim.notify("No lsp clients attached")
+    local client = vim.lsp.get_clients({ name = "rust_analyzer" })[1]
+    if not client then
+        vim.notify("rust_analyzer is not attached")
         return
     end
 
@@ -203,7 +203,7 @@ function M.debuggables(opts)
         textDocument = vim.lsp.util.make_text_document_params(),
         position = nil,
     }
-    vim.lsp.buf_request(0, "experimental/runnables", params, debuggables_handler)
+    client.request("experimental/runnables", params, debuggables_handler)
 end
 
 function M.debug(runnable_entry)
