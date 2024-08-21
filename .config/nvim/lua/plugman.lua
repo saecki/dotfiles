@@ -680,12 +680,17 @@ end
 local function update_plugins()
     local all_started = false
     local updating = 0
+    local any_updated = false
 
     local function when_done_update_lock_file()
         updating = updating - 1
 
         if all_started and updating == 0 then
-            vim.schedule(update_lock_file)
+            if any_updated then
+                vim.schedule(update_lock_file)
+            else
+                print_info(global_log.POST, "all up to date")
+            end
         end
     end
 
@@ -791,6 +796,7 @@ local function update_plugins()
                     print_important(reg_idx, "updated")
                 end
 
+                any_updated = true
                 when_done_update_lock_file()
             end)
         )
