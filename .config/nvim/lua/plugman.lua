@@ -47,6 +47,7 @@ local setup_queue = {}
 local popup_ctx = nil
 local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
 local expand_logs = false
+local render_scheduled = false
 
 ---@return PopupCtx
 local function init_popup()
@@ -101,6 +102,8 @@ local function init_popup()
 end
 
 local function render_win()
+    render_scheduled = false
+
     ---@type string[]
     local lines = {}
     ---@type {hl: string, start_col: integer, end_col: integer}[][]
@@ -181,7 +184,10 @@ local function append_to_win(reg_idx, line, hl, opts)
         table.insert(plugins[reg_idx].log, { line, hl })
     end
 
-    vim.schedule(render_win)
+    if not render_scheduled then
+        vim.schedule(render_win)
+        render_scheduled = true
+    end
 end
 
 ---@param reg_idx integer
