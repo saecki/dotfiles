@@ -46,6 +46,7 @@ local setup_queue = {}
 ---@type PopupCtx?
 local popup_ctx = nil
 local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
+local expand_logs = false
 
 ---@return PopupCtx
 local function init_popup()
@@ -74,6 +75,25 @@ local function init_popup()
     vim.wo[win].wrap = false
     vim.api.nvim_set_current_win(win)
 
+    -- key mappings
+    vim.keymap.set("n", "zA", M.log_expand_toggle, { buffer = buf })
+    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = buf })
+    vim.keymap.set("n", "<esc>", "<cmd>q<cr>", { buffer = buf })
+
+    -- clean up when window is closed
+    local group = vim.api.nvim_create_augroup("user.plugman.popup", {})
+    vim.api.nvim_create_autocmd("WinClosed", {
+        group = group,
+        buffer = buf,
+        callback = function()
+            if vim.api.nvim_buf_is_valid(buf) then
+                vim.api.nvim_buf_delete(buf, {})
+            end
+            popup_ctx = nil
+        end,
+        once = true,
+    })
+
     return {
         win = win,
         buf = buf,
@@ -90,35 +110,50 @@ local function render_win()
         table.insert(lines, msg[1])
         table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
     end
-    table.insert(lines, "------------------------------")
+    table.insert(lines, "--------------------------------------------------")
     table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
 
     for _, p in ipairs(plugins) do
-        local last_msg = p.log[#p.log]
         local dir_name = vim.fs.basename(p.spec.source)
-        if last_msg then
-            table.insert(lines, string.format("%-30s %s", dir_name, last_msg[1]))
-            table.insert(hls, {
-                { hl = "Function",  start_col = 0,  end_col = 30 },
-                { hl = last_msg[2], start_col = 31, end_col = -1 },
-            })
-        else
+        if #p.log == 0 then
             table.insert(lines, string.format("%-30s %s", dir_name, "ok"))
             table.insert(hls, {
                 { hl = "Function", start_col = 0,  end_col = 30 },
                 { hl = "Comment",  start_col = 31, end_col = -1 },
             })
+        elseif expand_logs then
+            local msg = p.log[1]
+            table.insert(lines, string.format("%-30s %s", dir_name, msg[1]))
+            table.insert(hls, {
+                { hl = "Function", start_col = 0,  end_col = 30 },
+                { hl = msg[2],     start_col = 31, end_col = -1 },
+            })
+
+            for i = 2, #p.log do
+                local msg = p.log[i]
+                table.insert(lines, string.format("%30s %s", "", msg[1]))
+                table.insert(hls, { { hl = msg[2], start_col = 31, end_col = -1 } })
+            end
+            table.insert(lines, "")
+            table.insert(hls, {})
+        else
+            local msg = p.log[#p.log]
+            table.insert(lines, string.format("%-30s %s", dir_name, msg[1]))
+            table.insert(hls, {
+                { hl = "Function", start_col = 0,  end_col = 30 },
+                { hl = msg[2],     start_col = 31, end_col = -1 },
+            })
         end
     end
 
-    table.insert(lines, "------------------------------")
+    table.insert(lines, "--------------------------------------------------")
     table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
     for _, msg in ipairs(global_log.post) do
         table.insert(lines, msg[1])
         table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
     end
 
-
+    -- update popup
     local ctx = popup_ctx or init_popup()
     popup_ctx = ctx
 
@@ -133,8 +168,11 @@ local function render_win()
 end
 
 
-local function append_to_win(reg_idx, line, hl)
-    line = os.date("[%H:%M:%S] ") .. line
+local function append_to_win(reg_idx, line, hl, opts)
+    opts = opts or {}
+    if not opts.no_time then
+        line = os.date("[%H:%M:%S] ") .. line
+    end
     if reg_idx == global_log.PRE then
         table.insert(global_log.pre, { line, hl })
     elseif reg_idx == global_log.POST then
@@ -144,6 +182,13 @@ local function append_to_win(reg_idx, line, hl)
     end
 
     vim.schedule(render_win)
+end
+
+---@param reg_idx integer
+---@param pattern string
+---@param ... any
+local function print_plain_dimmed(reg_idx, pattern, ...)
+    append_to_win(reg_idx, "           " .. string.format(pattern, ...), "Comment", { no_time = true })
 end
 
 ---@param reg_idx integer
@@ -319,7 +364,7 @@ local function run_command(reg_idx, command, opts, on_exit)
         end
 
         if on_exit then
-            on_exit(success, res.stdout)
+            on_exit(success, stdout)
         end
     end)
 
@@ -560,40 +605,120 @@ local function update_plugins()
     local function when_done_update_lock_file()
         updating = updating - 1
 
-        print(all_started, updating)
         if all_started and updating == 0 then
             vim.schedule(update_lock_file)
         end
     end
 
     for reg_idx, plug in ipairs(plugins) do
-        if plug.managed then
-            updating = updating + 1
-
-            local dir_name = vim.fs.basename(plug.spec.source)
-            local package_path = plugs_path .. dir_name
-
-            local checkout = plug.spec.checkout and "origin/" .. plug.spec.checkout or "FETCH_HEAD"
-            chain_commands(reg_idx, {
-                -- fetch
-                {
-                    args = { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
-                    opts = { cwd = package_path },
-                },
-                -- checkout
-                {
-                    args = { "git", "checkout", "--quiet", checkout },
-                    opts = { cwd = package_path },
-                },
-                on_exit = function(success)
-                    if success then
-                        print_info(reg_idx, "updated")
-                    end
-
-                    when_done_update_lock_file()
-                end,
-            })
+        if not plug.managed then
+            goto continue
         end
+        updating = updating + 1
+
+        local dir_name = vim.fs.basename(plug.spec.source)
+        local package_path = plugs_path .. dir_name
+
+        local current_commit
+        do
+            local success, stdout = run_command(
+                reg_idx,
+                { "git", "rev-list", "-1", "HEAD" },
+                { cwd = package_path }
+            )
+            if not success then
+                goto continue
+            end
+            current_commit = vim.trim(stdout)
+        end
+
+        local checkout
+        if plug.spec.checkout then
+            local origin_branch = "origin/" .. plug.spec.checkout
+            local success, stdout = run_command(
+                reg_idx,
+                { "git", "branch", "--list", "--all", "--format=%(refname:short)", origin_branch },
+                { cwd = package_path }
+            )
+            if not success then
+                goto continue
+            end
+            if vim.trim(stdout) == origin_branch then
+                checkout = origin_branch
+            else
+                checkout = plug.spec.source
+            end
+        else
+            -- infer default branch
+            local success, stdout = run_command(
+                reg_idx,
+                { "git", "rev-parse", "--abbrev-ref", "origin/HEAD" },
+                { cwd = package_path }
+            )
+            if not success then
+                goto continue
+            end
+            checkout = vim.trim(stdout)
+        end
+
+        run_command(
+            reg_idx,
+            { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
+            { cwd = package_path },
+            vim.schedule_wrap(function(success)
+                if not success then
+                    when_done_update_lock_file()
+                    return
+                end
+
+                -- check for updates
+                local success, stdout = run_command(
+                    reg_idx,
+                    { "git", "rev-list", "-1", checkout },
+                    { cwd = package_path }
+                )
+                if not success then
+                    when_done_update_lock_file()
+                    return
+                end
+                local newest_commit = vim.trim(stdout)
+
+                if newest_commit == current_commit then
+                    print_info(reg_idx, "up to date")
+                    when_done_update_lock_file()
+                    return
+                end
+
+                -- print log
+                local success, stdout = run_command(
+                    reg_idx,
+                    { "git", "log", "--oneline", "HEAD.." .. checkout },
+                    { cwd = package_path }
+                )
+                if success then
+                    local commits = vim.split(stdout, "\n", { trimempty = true })
+                    for _, commit in ipairs(commits) do
+                        print_plain_dimmed(reg_idx, commit)
+                    end
+                end
+
+                -- checkout newest commit
+                local success = run_command(
+                    reg_idx,
+                    { "git", "checkout", "--quiet", newest_commit },
+                    { cwd = package_path }
+                )
+                if success then
+                    print_important(reg_idx, "updated")
+                end
+
+                when_done_update_lock_file()
+            end)
+        )
+
+        vim.cmd.redraw()
+
+        ::continue::
     end
 
     all_started = true
@@ -696,6 +821,11 @@ function M.save_lock_file()
 end
 
 function M.log()
+    render_win()
+end
+
+function M.log_expand_toggle()
+    expand_logs = not expand_logs
     render_win()
 end
 
