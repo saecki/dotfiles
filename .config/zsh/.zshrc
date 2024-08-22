@@ -277,6 +277,10 @@ dotfiles-fix() {
     git remote add upstream git@github.com:saecki/dotfiles
     git fetch upstream main
     git branch main -u upstream/main
+    echo -e "\n"
+    echo -e "\033[92morigin is the local git-dir at ~/.config/dotfiles\033[0m"
+    echo -e "\033[93mupstream is upstream...\033[0m"
+    echo -e "\n"
 }
 
 # Clean latex files
