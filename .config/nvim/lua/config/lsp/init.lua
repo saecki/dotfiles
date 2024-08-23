@@ -134,17 +134,17 @@ function M.setup()
 
     do
         local configs = require("lspconfig.configs")
-        configs["language_server_test"] = {
+        configs["vvm-ls"] = {
             default_config = {
-                cmd = { "/home/tobi/Projects/language_server_test/target/release/native_frontend" },
-                filetypes = { "cods" },
+                cmd = { vim.fn.expand("~/Projects/visual-vm/target/release/vvm-ls") },
+                filetypes = { "vvm" },
                 root_dir = function(fname)
                     return lspconfig.util.find_git_ancestor(fname)
                 end,
                 settings = {},
             },
         }
-        lspconfig["language_server_test"].setup({
+        lspconfig["vvm-ls"].setup({
             on_attach = M.on_attach,
             capabilities = capabilities,
         })
