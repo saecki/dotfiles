@@ -525,6 +525,8 @@ local function ensure_installed_deps(spec)
                 d = { source = d }
             end
             ensure_installed_git_repo(d)
+
+            vim.cmd.redraw()
         end
     end
 end
@@ -682,6 +684,7 @@ local function restore_lock_file()
             { cwd = package_path }
         )
         if not success then
+            vim.cmd.redraw()
             goto continue
         end
         local current_commit = vim.trim(stdout)
@@ -689,6 +692,7 @@ local function restore_lock_file()
         -- only run checkout if needed
         if current_commit == l[2] then
             print_info(reg_idx, "unchanged")
+            vim.cmd.redraw()
             goto continue
         end
 
