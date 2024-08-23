@@ -667,14 +667,30 @@ local function restore_lock_file()
     end
 
     for _, l in ipairs(lock) do
-        vim.print(l)
         local reg_idx, plug = registered_plugin(l[1])
-        if not reg_idx or not plug then
+        if not reg_idx or not plug or not plug.managed then
             goto continue
         end
 
         local dir_name = vim.fs.basename(plug.spec.source)
         local package_path = plugs_path .. dir_name
+
+        -- check current commit
+        local success, stdout = run_command(
+            reg_idx,
+            { "git", "rev-list", "-1", "HEAD" },
+            { cwd = package_path }
+        )
+        if not success then
+            goto continue
+        end
+        local current_commit = vim.trim(stdout)
+
+        -- only run checkout if needed
+        if current_commit == l[2] then
+            print_info(reg_idx, "unchanged")
+            goto continue
+        end
 
         local success = run_command(
             reg_idx,
