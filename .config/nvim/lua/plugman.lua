@@ -709,6 +709,34 @@ local function restore_lock_file()
     print_important(global_log.POST, "restored lock-file")
 end
 
+local function fetch_updates()
+    for reg_idx, plug in ipairs(plugins) do
+        if not plug.managed then
+            goto continue
+        end
+
+        local dir_name = vim.fs.basename(plug.spec.source)
+        local package_path = plugs_path .. dir_name
+
+        run_command(
+            reg_idx,
+            { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
+            { cwd = package_path },
+            vim.schedule_wrap(function(success)
+                if success then
+                    print_info(reg_idx, "fetched updates")
+                end
+            end)
+        )
+
+        vim.cmd.redraw()
+
+        ::continue::
+    end
+
+    all_started = true
+end
+
 local function update_plugins()
     local all_started = false
     local updating = 0
@@ -929,6 +957,10 @@ function M.finish_setup(post_setup)
             timer:close()
         end
     end)
+end
+
+function M.fetch()
+    fetch_updates()
 end
 
 function M.update()
