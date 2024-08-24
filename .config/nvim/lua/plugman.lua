@@ -696,6 +696,19 @@ local function restore_lock_file()
             goto continue
         end
 
+        -- print log
+        local success, stdout = run_command(
+            reg_idx,
+            { "git", "log", "--oneline", string.format("%s..%s", l[2], "HEAD") },
+            { cwd = package_path }
+        )
+        if success then
+            for commit in vim.gsplit(stdout, "\n", { trimempty = true }) do
+                print_plain_dimmed(reg_idx, "%s", commit)
+            end
+        end
+
+
         local success = run_command(
             reg_idx,
             { "git", "checkout", "--quiet", l[2] },
