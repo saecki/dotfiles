@@ -137,6 +137,7 @@ function M.setup()
             { "<leader>p",  group = "Plugins" },
             { "<leader>pf", pm.fetch,             desc = "Fetch" },
             { "<leader>pu", pm.update,            desc = "Update" },
+            { "<leader>pU", pm.update_no_lock,    desc = "Update without writing lockfile" },
             { "<leader>ps", pm.save_lock_file,    desc = "Save lock" },
             { "<leader>pr", pm.restore_lock_file, desc = "Restore lock" },
             { "<leader>pl", pm.log,               desc = "Log" },

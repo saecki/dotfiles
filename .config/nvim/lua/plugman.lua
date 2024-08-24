@@ -741,7 +741,8 @@ local function fetch_updates()
     all_started = true
 end
 
-local function update_plugins()
+---@param opts { write_lock: boolean }
+local function update_plugins(opts)
     local all_started = false
     local updating = 0
     local any_updated = false
@@ -751,7 +752,11 @@ local function update_plugins()
 
         if all_started and updating == 0 then
             if any_updated then
-                vim.schedule(update_lock_file)
+                if opts.write_lock then
+                    vim.schedule(update_lock_file)
+                else
+                    print_info(global_log.POST, "all updated")
+                end
             else
                 print_info(global_log.POST, "all up to date")
             end
@@ -968,7 +973,11 @@ function M.fetch()
 end
 
 function M.update()
-    update_plugins()
+    update_plugins({ write_lock = true })
+end
+
+function M.update_no_lock()
+    update_plugins({ write_lock = false })
 end
 
 function M.save_lock_file()
