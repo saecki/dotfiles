@@ -11,7 +11,7 @@ export SAVEHIST=10000
 export EDITOR='nvim'
 
 # Manpager
-export MANPAGER='nvim +Man!'
+export MANPAGER='nvim +Man! +set\ signcolumn=no'
 
 # ===================================================
 # Settings
