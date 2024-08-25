@@ -12,7 +12,6 @@ function M.setup()
     pm.add("notify", "rcarriga/nvim-notify")
 
     -- gui enhancements
-    pm.add("lualine", "nvim-lualine/lualine.nvim")
     pm.add("mini_hipatterns", "echasnovski/mini.hipatterns")
     pm.add("indent-blankline", "lukas-reineke/indent-blankline.nvim")
     pm.add("devicons", "nvim-tree/nvim-web-devicons")

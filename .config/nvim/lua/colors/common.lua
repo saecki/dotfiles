@@ -46,6 +46,25 @@ function M.highlights(p)
         Link            = { fg = p.preproc,                     underline = true },
         Selection       = { fg = p.special,                     underline = true },
 
+        -- custom status line
+        StatusLineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
+        StatusLineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
+        StatusLineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        StatusLineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+
+        StatusLineBorderA  = { fg = p.surface1                   },
+        StatusLineBorderAB = { fg = p.surface1, bg = p.surface2, },
+        StatusLineBorderAC = { fg = p.surface1, bg = p.surface3, },
+        StatusLineBorderBC = { fg = p.surface2, bg = p.surface3, },
+
+        StatusLineNormalA   = { fg = p.lyellow, bg = p.surface1, bold = true },
+        StatusLineInsertA   = { fg = p.lgreen,  bg = p.surface1, bold = true },
+        StatusLineVisualA   = { fg = p.lpurple, bg = p.surface1, bold = true },
+        StatusLineReplaceA  = { fg = p.lred,    bg = p.surface1, bold = true },
+        StatusLineCommandA  = { fg = p.lblue,   bg = p.surface1, bold = true },
+        StatusLineB         = { fg = p.text2,   bg = p.surface2              },
+        StatusLineC         = { fg = p.text3,   bg = p.surface3              },
+
         -- treesitter
         ["@variable"]         = { link = "Identifier" },
         ["@variable.builtin"] = { link = "Special"    },
@@ -185,22 +204,6 @@ function M.highlights(p)
         IblIndent     = { fg = p.whitespace },
         IblWhitespace = { fg = p.whitespace },
         IblScope      = { fg = p.whitespace },
-
-        -- lualine
-        LualineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
-        LualineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
-        LualineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
-        LualineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
-
-        LualineNormalA   = { bg = p.surface1, fg = p.lyellow, bold = true },
-        LualineInsertA   = { bg = p.surface1, fg = p.lgreen,  bold = true },
-        LualineVisualA   = { bg = p.surface1, fg = p.lpurple, bold = true },
-        LualineReplaceA  = { bg = p.surface1, fg = p.lred,    bold = true },
-        LualineCommandA  = { bg = p.surface1, fg = p.lblue,   bold = true },
-        LualineInactiveA = { bg = p.surface3, fg = p.text3,               },
-
-        LualineB = { bg = p.surface2, fg = p.text2, },
-        LualineC = { bg = p.surface3, fg = p.text3, },
 
         -- diagnostics
         InlineDiagnosticTextError  = { fg = p.lred,    bg = p.lred_bg    },
