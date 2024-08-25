@@ -43,18 +43,28 @@ local setup_queue = {}
 ---@field win integer
 ---@field buf integer
 
+---@class PlugsUiState
+---@field plugs PlugUiState[]
+---@field last_line integer
+
+---@class PlugUiState
+---@field line integer
+---@field expanded boolean
+
 ---@type PopupCtx?
 local popup_ctx = nil
 local popup_ns = vim.api.nvim_create_namespace("user.plugman.win")
-local expand_logs = false
+---@type PlugsUiState
+local ui_state = {
+    plugs = {},
+    last_line = 0,
+}
 local render_scheduled = false
 
 ---@return PopupCtx
 local function init_popup()
     -- create buf
     local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, 1, true, { "PLUGMAN" })
-    vim.api.nvim_buf_add_highlight(buf, popup_ns, "Statement", 0, 0, -1)
     vim.bo[buf].modifiable = false
 
     -- create win
@@ -77,7 +87,14 @@ local function init_popup()
     vim.api.nvim_set_current_win(win)
 
     -- key mappings
-    vim.keymap.set("n", "zA", M.log_expand_toggle, { buffer = buf })
+    vim.keymap.set("n", "zo", M.log_fold_open, { buffer = buf })
+    vim.keymap.set("n", "zc", M.log_fold_close, { buffer = buf })
+    vim.keymap.set("n", "za", M.log_fold_toggle, { buffer = buf })
+
+    vim.keymap.set("n", "zR", M.log_folds_open_all, { buffer = buf })
+    vim.keymap.set("n", "zM", M.log_folds_close_all, { buffer = buf })
+    vim.keymap.set("n", "zX", M.log_folds_toggle_all, { buffer = buf })
+
     vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = buf })
     vim.keymap.set("n", "<esc>", "<cmd>q<cr>", { buffer = buf })
 
@@ -109,6 +126,11 @@ local function render_win()
     ---@type {hl: string, start_col: integer, end_col: integer}[][]
     local hls = {}
 
+    -- title
+    table.insert(lines, "PLUGMAN")
+    table.insert(hls, { { hl = "Statement", start_col = 0, end_col = -1 } })
+
+    -- pre log
     for _, msg in ipairs(global_log.pre) do
         table.insert(lines, msg[1])
         table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
@@ -116,7 +138,12 @@ local function render_win()
     table.insert(lines, "--------------------------------------------------")
     table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
 
-    for _, p in ipairs(plugins) do
+    -- plugin logs
+    for reg_idx, p in ipairs(plugins) do
+        ui_state.plugs[reg_idx] = ui_state.plugs[reg_idx] or { line = #lines, expanded = false }
+        local state = ui_state.plugs[reg_idx]
+        state.line = #lines
+
         local dir_name = vim.fs.basename(p.spec.source)
         if #p.log == 0 then
             table.insert(lines, string.format("%-30s %s", dir_name, "ok"))
@@ -124,7 +151,7 @@ local function render_win()
                 { hl = "Function", start_col = 0,  end_col = 30 },
                 { hl = "Comment",  start_col = 31, end_col = -1 },
             })
-        elseif expand_logs then
+        elseif state.expanded then
             local msg = p.log[1]
             table.insert(lines, string.format("%-30s %s", dir_name, msg[1]))
             table.insert(hls, {
@@ -148,7 +175,9 @@ local function render_win()
             })
         end
     end
+    ui_state.last_line = #lines
 
+    -- post log
     table.insert(lines, "--------------------------------------------------")
     table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
     for _, msg in ipairs(global_log.post) do
@@ -161,15 +190,87 @@ local function render_win()
     popup_ctx = ctx
 
     vim.bo[ctx.buf].modifiable = true
-    vim.api.nvim_buf_set_lines(ctx.buf, 1, -1, true, lines)
+    vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, true, lines)
     for i, line_hls in ipairs(hls) do
+        local line_idx = i - 1
         for _, line_hl in ipairs(line_hls) do
-            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, line_hl.hl, i, line_hl.start_col, line_hl.end_col)
+            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, line_hl.hl, line_idx, line_hl.start_col, line_hl.end_col)
         end
     end
     vim.bo[ctx.buf].modifiable = false
 end
 
+---@return integer?
+local function log_fold_idx()
+    local cursor_line = vim.api.nvim_win_get_cursor(popup_ctx.win)[1] - 1
+    for reg_idx, state in ipairs(ui_state.plugs) do
+        if state.line <= cursor_line then
+            local next = ui_state.plugs[reg_idx + 1]
+            local next_line = next and next.line or ui_state.last_line
+            if cursor_line < next_line then
+                return reg_idx
+            end
+        end
+    end
+end
+
+function M.log_fold_open()
+    if not popup_ctx then return end
+    local idx = log_fold_idx()
+    if idx then
+        ui_state.plugs[idx].expanded = true
+    end
+    render_win()
+end
+
+function M.log_fold_close()
+    if not popup_ctx then return end
+    local idx = log_fold_idx()
+    if idx then
+        ui_state.plugs[idx].expanded = false
+    end
+    render_win()
+end
+
+function M.log_fold_toggle()
+    if not popup_ctx then return end
+    local idx = log_fold_idx()
+    if idx then
+        ui_state.plugs[idx].expanded = not ui_state.plugs[idx].expanded
+    end
+    render_win()
+end
+
+function M.log_folds_open_all()
+    if not popup_ctx then return end
+    for _, state in ipairs(ui_state.plugs) do
+        state.expanded = true
+    end
+    render_win()
+end
+
+function M.log_folds_close_all()
+    if not popup_ctx then return end
+    for _, state in ipairs(ui_state.plugs) do
+        state.expanded = false
+    end
+    render_win()
+end
+
+function M.log_folds_toggle_all()
+    if not popup_ctx then
+        return
+    end
+
+    local all_expanded = true
+    for _, state in ipairs(ui_state.plugs) do
+        all_expanded = all_expanded and state.expanded
+    end
+    for _, state in ipairs(ui_state.plugs) do
+        state.expanded = not all_expanded
+    end
+    render_win()
+end
 
 local function append_to_win(reg_idx, text, hl, opts)
     opts = opts or {}
@@ -1002,11 +1103,6 @@ function M.restore_lock_file()
 end
 
 function M.log()
-    render_win()
-end
-
-function M.log_expand_toggle()
-    expand_logs = not expand_logs
     render_win()
 end
 
