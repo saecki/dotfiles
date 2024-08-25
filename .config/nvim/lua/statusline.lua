@@ -223,6 +223,14 @@ end
 
 function M.setup()
     vim.opt.statusline = "%!v:lua.__statusline()"
+
+    local group = vim.api.nvim_create_augroup("user.statusline", {})
+    vim.api.nvim_create_autocmd("DiagnosticChanged", {
+        group = group,
+        callback = function()
+            vim.cmd.redrawstatus()
+        end,
+    })
 end
 
 return M
