@@ -249,7 +249,11 @@ update-cmus-playlist() {
         -m ~/Music \
         -o ~/.config/cmus/playlists
 }
-alias music='update-cmus-playlist; cmus'
+music() {
+    update-cmus-playlist
+    echo -e "update-cache\nadd -l $HOME/Music\n" >> "$HOME/.config/cmus/autosave"
+    cmus
+}
 
 # Delete impatient.nvim luacache file
 alias clean-lua-cache='rm ~/.cache/nvim/luacache'
