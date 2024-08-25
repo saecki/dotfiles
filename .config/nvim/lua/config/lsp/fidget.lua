@@ -13,7 +13,6 @@ local options = {
         blend = 100,
     },
     timer = {
-        throttle_rate = 50,
         spinner_rate = 50,
         fidget_decay = 1500,
         task_decay = 800,
@@ -48,8 +47,7 @@ end
 ---@type table<integer,Fidget>
 local fidgets = {}
 local vim_closing = false
-local last_call = 0;
-local timer = nil
+local draw_scheduled = false
 
 --- Suppress errors that may occur while rendering windows.
 ---
@@ -119,35 +117,15 @@ end)
 local Fidget = {}
 
 function Fidget:throttled_draw()
-    -- Make sure to stop any scheduled timers
-    if timer then
+    if draw_scheduled then
         return
     end
 
-    local rem = options.timer.throttle_rate - (vim.uv.now() - last_call)
-    -- Schedule a tail call
-    if rem > 0 then
-        -- Reuse timer
-        if timer == nil then
-            timer = vim.uv.new_timer()
-        end
-
-        timer:start(rem, 0, vim.schedule_wrap(function()
-            timer:stop()
-            timer:close()
-            timer = nil
-
-            last_call = vim.uv.now()
-            vim.schedule(function()
-                self:draw()
-            end)
-        end))
-    else
-        last_call = vim.uv.now()
-        vim.schedule(function()
-            self:draw()
-        end)
-    end
+    draw_scheduled = true
+    vim.schedule(function()
+        self:draw()
+        draw_scheduled = false
+    end)
 end
 
 function Fidget:draw()
