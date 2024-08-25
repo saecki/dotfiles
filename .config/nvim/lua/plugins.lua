@@ -36,9 +36,6 @@ function M.setup()
         },
     })
 
-    -- substitute
-    pm.add("substitute", "gbprod/substitute.nvim")
-
     -- file navigation
     pm.add(nil, "farmergreg/vim-lastplace")
     pm.add("telescope", {
@@ -114,9 +111,12 @@ function M.setup()
     })
     pm.add("markview", "OXY2DEV/markview.nvim")
 
+    -- text manipulation
     vim.g.table_mode_toggle_map = "e"
-    vim.g.table_mode_tableize_d_map = "<leader>tT"
+    vim.g.cable_mode_tableize_d_map = "<leader>tT"
     pm.add("table-mode", "dhruvasagar/vim-table-mode")
+    pm.add("substitute", "gbprod/substitute.nvim")
+    pm.add(nil, "tpope/vim-abolish")
 
     -- rust
     pm.dev_repo("crates", "saecki/crates.nvim")
