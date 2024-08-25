@@ -378,6 +378,9 @@ local function write_file(reg_idx, path, text)
     end
 
     local len, err = vim.uv.fs_write(fd, { text })
+
+    vim.uv.fs_close(fd)
+
     if len then
         print_info(reg_idx, "wrote file `%s`", path)
     else
@@ -404,6 +407,9 @@ local function read_file(reg_idx, path)
     end
 
     local text, err = vim.uv.fs_read(fd, stat.size)
+
+    vim.uv.fs_close(fd)
+
     if text then
         print_info(reg_idx, "read file `%s`", path)
         return text
