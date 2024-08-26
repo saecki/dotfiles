@@ -56,7 +56,7 @@ function M.setup()
 
     -- Undo
     vim.opt.undolevels = 1000
-    vim.opt.undodir = util.join_paths(vim.fn.stdpath("data"), "undo")
+    vim.opt.undodir = vim.fs.joinpath(vim.fn.stdpath("data"), "undo")
     vim.opt.undofile = true
     vim.opt.swapfile = false
 
