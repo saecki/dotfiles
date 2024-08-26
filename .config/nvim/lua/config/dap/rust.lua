@@ -33,8 +33,9 @@ end
 local function init_commands()
     local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
 
-    local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
-    local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
+    local script_path = vim.fs.joinpath(rustc_sysroot, "/lib/rustlib/etc/lldb_lookup.py")
+    local script_import = string.format('command script import "%s"', script_path)
+    local commands_file = vim.fs.joinpath(rustc_sysroot, "/lib/rustlib/etc/lldb_commands")
 
     local commands = {}
     local file = io.open(commands_file, "r")

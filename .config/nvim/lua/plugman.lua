@@ -2,8 +2,8 @@ local shared = require("shared")
 
 local M = {}
 
-local lock_file_path = vim.fn.stdpath("config") .. "/plugs.lock"
-local plugs_path = vim.fn.stdpath("data") .. "/site/pack/plugs/opt/"
+local lock_file_path = vim.fs.joinpath(vim.fn.stdpath("config"), "/plugs.lock")
+local plugs_path = vim.fs.joinpath(vim.fn.stdpath("data"), "/site/pack/plugs/opt/")
 local projects_path = vim.fn.expand("~/Projects/")
 
 ---@class PlugSpec
@@ -587,7 +587,7 @@ local function ensure_installed_git_repo(spec)
     end
 
     local dir_name = vim.fs.basename(spec.source)
-    local package_path = plugs_path .. dir_name
+    local package_path = vim.fs.joinpath(plugs_path, dir_name)
     local repo_url = spec.source
     if string.match(repo_url, "^[^/]+/[^/]+$") then
         repo_url = "https://github.com/" .. spec.source
@@ -679,8 +679,8 @@ function M.dev_repo(cfg_file, spec)
 
     local repo_url = "git@github.com:" .. spec.source
     local dir_name = vim.fs.basename(spec.source)
-    local project_path = projects_path .. dir_name
-    local package_path = plugs_path .. dir_name
+    local project_path = vim.fs.joinpath(projects_path, dir_name)
+    local package_path = vim.fs.joinpath(plugs_path, dir_name)
 
     local function symlink_into_package_dir()
         if vim.uv.fs_stat(package_path) then
@@ -741,7 +741,7 @@ local function update_lock_file()
     for _, plug in ipairs(plugins) do
         if plug.managed then
             local dir_name = vim.fs.basename(plug.spec.source)
-            local package_path = plugs_path .. dir_name
+            local package_path = vim.fs.joinpath(plugs_path, dir_name)
             local cmd_args = { "git", "rev-list", "-1", "HEAD" }
             local cmd_opts = { cwd = package_path }
 
@@ -782,7 +782,7 @@ local function restore_lock_file()
         end
 
         local dir_name = vim.fs.basename(plug.spec.source)
-        local package_path = plugs_path .. dir_name
+        local package_path = vim.fs.joinpath(plugs_path, dir_name)
 
         -- check current commit
         local success, stdout = run_command(
@@ -840,7 +840,7 @@ local function fetch_updates()
         end
 
         local dir_name = vim.fs.basename(plug.spec.source)
-        local package_path = plugs_path .. dir_name
+        local package_path = vim.fs.joinpath(plugs_path, dir_name)
 
         run_command(
             reg_idx,
@@ -890,7 +890,7 @@ local function update_plugins(opts)
         updating = updating + 1
 
         local dir_name = vim.fs.basename(plug.spec.source)
-        local package_path = plugs_path .. dir_name
+        local package_path = vim.fs.joinpath(plugs_path, dir_name)
 
         local current_commit
         do

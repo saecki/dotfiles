@@ -20,7 +20,7 @@ local function read_current_colorscheme(path)
 end
 
 function M.update_colorscheme()
-    local dir = vim.env.HOME .. "/.config/alco/alco.yml"
+    local dir = vim.fn.expand("~/.config/alco/alco.yml")
     local current = read_current_colorscheme(dir)
     if current == "dark" then
         vim.cmd.colorscheme("minedark")
