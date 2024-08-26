@@ -58,6 +58,7 @@ function M.highlights(p)
         StatusLineBorderBC = { fg = p.surface2, bg = p.surface3, },
 
         StatusLineNormalA   = { fg = p.lyellow, bg = p.surface1, bold = true },
+        StatusLineOperatorA = { fg = p.lcyan, bg = p.surface1, bold = true },
         StatusLineInsertA   = { fg = p.lgreen,  bg = p.surface1, bold = true },
         StatusLineVisualA   = { fg = p.lpurple, bg = p.surface1, bold = true },
         StatusLineReplaceA  = { fg = p.lred,    bg = p.surface1, bold = true },

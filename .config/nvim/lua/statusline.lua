@@ -54,10 +54,9 @@ local diagnostic_symbols = { " ", " ", " ", " " }
 
 local function mode()
     local mode_code = vim.api.nvim_get_mode().mode
-    if modemap[mode_code] ~= nil then
-        return modemap[mode_code]
-    end
-    return mode_code
+    local mode_str = modemap[mode_code]
+    assert(mode_str ~= nil)
+    return mode_str
 end
 
 local function filename()
@@ -155,6 +154,8 @@ end
 function __statusline()
     local mode = mode()
     local mode_hl_map = {
+        ["N "]       = "Normal",
+        ["O "]       = "Operator",
         ["V "]       = "Visual",
         ["VL"]       = "Visual",
         ["VB"]       = "Visual",
@@ -171,7 +172,8 @@ function __statusline()
         ["SHELL"]    = "Command",
         ["TERMINAL"] = "Comman",
     }
-    local suffix = mode_hl_map[mode] or "Normal"
+    local suffix = mode_hl_map[mode]
+    assert(suffix ~= nil, vim.inspect(mode))
     local mode_hl = "StatusLine" .. suffix .. "A"
 
     local sections = {
@@ -225,7 +227,7 @@ function M.setup()
     vim.opt.statusline = "%!v:lua.__statusline()"
 
     local group = vim.api.nvim_create_augroup("user.statusline", {})
-    vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    vim.api.nvim_create_autocmd({ "ModeChanged", "DiagnosticChanged" }, {
         group = group,
         callback = function()
             vim.cmd.redrawstatus()
