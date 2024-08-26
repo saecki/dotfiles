@@ -2,9 +2,14 @@ local M = {}
 
 function M.setup()
     function P(...)
-        local args = table.pack(...)
-        for i = 1, args.n, 1 do
-            print(vim.inspect(args[i]))
+        local args = { ... }
+        local keys = {}
+        for key, _ in pairs(args) do
+            table.insert(keys, key)
+        end
+        table.sort(keys)
+        for _, key in ipairs(keys) do
+            print(vim.inspect(args[key]))
         end
     end
 
