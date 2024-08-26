@@ -82,17 +82,45 @@ local function position()
     return string.format(template, cursor[1], cursor[2])
 end
 
-local head_cache = {}
+---@class GitRootCache
+---@field path string?
+
+---@type table<integer,GitRootCache>
+local git_root_cache = {}
+
+---@class GitHeadCache
+---@field stat_time integer
+---@field mtime integer
+---@field rev string?
+
+---@type table<string,GitHeadCache>
+local git_head_cache = {}
 local function git_rev()
-    local git_root = vim.fs.root(0, ".git")
+    local buf = vim.api.nvim_get_current_buf()
+
+    local root_cache = git_root_cache[buf]
+    local git_root = nil
+    if root_cache then
+        git_root = root_cache.path
+    else
+        git_root = vim.fs.root(buf, ".git")
+        git_root_cache[buf] = { path = git_root }
+    end
     if not git_root then
         return nil
     end
 
+    local one_second = 1000000000
+    local now = vim.uv.hrtime()
+    local cache = git_head_cache[git_root]
+    if cache and now < cache.stat_time + one_second then
+        return cache.rev
+    end
+
     local head_path = vim.fs.joinpath(git_root, ".git/HEAD")
     local head_stat = vim.uv.fs_stat(head_path)
-    local cache = head_cache[git_root]
     if cache and cache.mtime == head_stat.mtime.sec then
+        cache.stat_time = now
         return cache.rev
     end
 
@@ -113,7 +141,8 @@ local function git_rev()
         end
     end
 
-    head_cache[git_root] = {
+    git_head_cache[git_root] = {
+        stat_time = now,
         mtime = head_stat.mtime.sec,
         rev = rev,
     }
@@ -231,6 +260,14 @@ function M.setup()
         group = group,
         callback = function()
             vim.cmd.redrawstatus()
+        end,
+    })
+
+    -- invalidate git buffer cache when file name changes
+    vim.api.nvim_create_autocmd("BufFilePost", {
+        group = group,
+        callback = function(ev)
+            git_root_cache[ev.buf] = nil
         end,
     })
 end
