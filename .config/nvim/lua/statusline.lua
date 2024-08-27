@@ -73,6 +73,37 @@ local function filename()
     return path
 end
 
+local devicons = package.loaded["nvim-web-devicons"]
+local statusline_c_hl_group = vim.api.nvim_get_hl(0, { name = "StatusLineC" })
+local function filetype()
+    local ft = vim.bo.filetype
+    if ft and devicons then
+        local icon, icon_hl = devicons.get_icon(vim.fn.expand('%:t'))
+        if icon == nil then
+            icon, icon_hl = devicons.get_icon_by_filetype(ft)
+        end
+
+        if not icon then
+            return ft
+        end
+
+        -- create highlight group with statusline background
+        local sl_icon_hl = "StatusLine" .. icon_hl
+        if vim.fn.hlexists(sl_icon_hl) ~= 1 then
+            local icon_hl_group = vim.api.nvim_get_hl(0, { name = icon_hl })
+            vim.api.nvim_set_hl(0, sl_icon_hl, {
+                fg = icon_hl_group.fg,
+                bg = statusline_c_hl_group.bg,
+            })
+        end
+        return string.format("%%#%s#%s %%#StatusLineC#%s", sl_icon_hl, icon, ft)
+    end
+    return ft
+end
+function M.load_devicons()
+    devicons = require("nvim-web-devicons")
+end
+
 local function position()
     local cursor = vim.api.nvim_win_get_cursor(0)
     local linecount = math.max(2, vim.api.nvim_buf_line_count(0))
@@ -215,7 +246,7 @@ function STATUSLINE()
         x = table.concat({
             pad(vim.bo.fileformat),
             pad(vim.bo.fileencoding),
-            pad(vim.bo.filetype),
+            pad(filetype()),
         }),
         y = table.concat({
             pad(git_rev()),

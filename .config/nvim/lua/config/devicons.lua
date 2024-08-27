@@ -1,4 +1,5 @@
 local devicons = require("nvim-web-devicons")
+local statusline = require("statusline")
 
 local M = {}
 
@@ -26,6 +27,8 @@ function M.setup()
             ["COMMIT_EDITMSG"] = git,
         },
     })
+
+    statusline.load_devicons()
 end
 
 return M
