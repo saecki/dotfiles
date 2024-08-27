@@ -255,8 +255,8 @@ music() {
     cmus
 }
 
-# Delete impatient.nvim luacache file
-alias clean-lua-cache='rm ~/.cache/nvim/luacache'
+# Delete neovims luacache files
+alias clean-nvim-lua-cache='rm -rf ~/.cache/nvim/luac'
 
 # Systemd reboot
 alias sysreboot='systemctl reboot -i'
