@@ -23,4 +23,12 @@ load_and_setup("diagnostic")
 load_and_setup("lang.zig")
 load_and_setup("lang.rust")
 load_and_setup("lang.lua")
-load_and_setup("plugins")
+
+if vim.env.NVIM_NO_PLUGS == "true" or vim.env.NVIM_NO_PLUGS == "1" then
+    vim.keymap.set("n", "<leader>p", function()
+        vim.keymap.del("n", "<leader>p", {})
+        load_and_setup("plugins")
+    end, {})
+else
+    load_and_setup("plugins")
+end
