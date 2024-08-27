@@ -180,7 +180,7 @@ local function pad(str)
     return " " .. str .. " "
 end
 
-function __statusline()
+function STATUSLINE()
     local mode = mode()
     local mode_hl_map = {
         ["N "]       = "Normal",
@@ -253,7 +253,7 @@ function __statusline()
 end
 
 function M.setup()
-    vim.opt.statusline = "%!v:lua.__statusline()"
+    vim.opt.statusline = "%!v:lua.STATUSLINE()"
 
     local group = vim.api.nvim_create_augroup("user.statusline", {})
     vim.api.nvim_create_autocmd({ "ModeChanged", "DiagnosticChanged" }, {
