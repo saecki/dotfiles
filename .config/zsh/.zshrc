@@ -11,7 +11,7 @@ export SAVEHIST=10000
 export EDITOR='nvim'
 
 # Manpager
-export MANPAGER='nvim +Man! +set\ signcolumn=no'
+export MANPAGER='nvim +Man! +set\ signcolumn=no --cmd let\ no_plugs=1'
 
 # ===================================================
 # Settings
@@ -139,8 +139,8 @@ alias tree='eza --tree --sort type'
 alias tree-git='eza --tree --sort type --git-ignore'
 
 # Editor
-alias v='$EDITOR'
-alias vo='file=$(fzf-tmux); if [ "$file" != "" ]; then; $EDITOR -o $file; fi'
+alias v='nvim'
+alias vp='nvim --cmd let\ no_plugs=1'
 
 # Cd
 alias cdp='cd ~/Projects'
