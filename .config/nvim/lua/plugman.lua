@@ -23,7 +23,6 @@ local projects_path = vim.fn.expand("~/Projects/")
 ---@field log string[]
 
 -- whether to update the lock-file
-local dirty = false
 local in_progress = 0
 local global_log = {
     ---@type {[1]: string, [2]: string}[]
@@ -596,7 +595,6 @@ local function ensure_installed_git_repo(spec)
     if not vim.uv.fs_stat(package_path) then
         plugins[reg_idx].run_post_checkout = true
         in_progress = in_progress + 1
-        dirty = true
 
         chain_commands(reg_idx, {
             -- clone
@@ -1032,10 +1030,6 @@ end
 
 ---@param post_setup fun()?
 local function finish_setup(post_setup)
-    if dirty then
-        update_lock_file()
-    end
-
     for _, plug in ipairs(plugins) do
         local dir_name = vim.fs.basename(plug.spec.source)
         local ok, err = pcall(vim.cmd.packadd, dir_name)
