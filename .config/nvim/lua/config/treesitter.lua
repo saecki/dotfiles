@@ -16,7 +16,7 @@ local function make_mapping(prefix, textobject)
 end
 
 local function jump_to_context()
-    ts_context.go_to_context(1)
+    ts_context.go_to_context(vim.v.count1)
     vim.cmd.normal({ args = { "zt" }, bang = true })
 end
 
@@ -155,7 +155,8 @@ function M.setup()
     ts_pairs.setup()
 
     wk.add({
-        { "g%",         jump_to_context,           desc = "Jump to context" },
+        -- somewhat similar to `z<cr>`
+        { "g<cr>",         jump_to_context,           desc = "Jump to context" },
     })
 end
 
