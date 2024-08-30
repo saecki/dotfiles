@@ -25,12 +25,6 @@ local function default_server_setup(server, on_attach, capabilities)
     })
 end
 
-local function trouble_open(mode, opts)
-    return function()
-        trouble.open({ mode = mode, unpack(opts or {}) })
-    end
-end
-
 local function toggle_document_highlight()
     shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
     if not shared.lsp.enable_document_highlight then
@@ -87,26 +81,29 @@ function M.on_attach(client, buf)
     wk.add({
         buffer = buf,
 
-        { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",         desc = "LSP definition" },
-        { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",             desc = "LSP type definition" },
+        { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",                                   desc = "LSP definition" },
+        { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",                                       desc = "LSP type definition" },
 
-        { "<c-a-l>",       vim.lsp.buf.format,                                         desc = "LSP format" },
-        { "K",             vim.lsp.buf.hover,                                          desc = "Show documentation" },
-        { "<a-k>",         vim.lsp.buf.signature_help,                                 desc = "Signature help" },
+        { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
+        { "K",             vim.lsp.buf.hover,                                                                    desc = "Show documentation" },
+        { "<a-k>",         vim.lsp.buf.signature_help,                                                           desc = "Signature help" },
 
         { "g",             group = "Go" },
-        { "gD",            trouble_open("lsp_declarations", { auto_jump = true }),     desc = "LSP declaration" },
-        { "gd",            trouble_open("lsp_definitions", { auto_jump = true }),      desc = "LSP definition" },
-        { "gy",            trouble_open("lsp_type_definitions", { auto_jump = true }), desc = "LSP type definitions" },
-        { "gi",            trouble_open("lsp_implementations"),                        desc = "LSP implementations" },
-        { "gr",            trouble_open("lsp_references"),                             desc = "LSP references" },
+        { "gD",            function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end,         desc = "LSP declaration" },
+        { "gd",            function() trouble.open({ mode = "lsp_definitions", auto_jump = true }) end,          desc = "LSP definition" },
+        { "gy",            function() trouble.open({ mode = "lsp_type_definitions", auto_jump = true }) end,     desc = "LSP type definitions" },
+        { "gi",            function() trouble.open({ mode = "lsp_implementations" }) end,                        desc = "LSP implementations" },
+        { "gr",            function() trouble.open({ mode = "lsp_references" }) end,                             desc = "LSP references" },
 
-        { "<leader>a",     vim.lsp.buf.code_action,                                    desc = "Code action" },
-        { "<leader>a",     range_code_action,                                          desc = "Range code action",   mode = "v" },
-        { "<leader>eh",    toggle_document_highlight,                                  desc = "Document highlight" },
-        { "<leader>ei",    toggle_inlay_hints,                                         desc = "Inlay hints" },
-        { "<leader>r",     live_rename.rename,                                         desc = "Refactor keep name" },
-        { "<leader>R",     live_rename.map({ text = "", insert = true }),              desc = "Refactor clear name" },
+        { "]r",            function() trouble.next({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Next LSP reference" },
+        { "[r",            function() trouble.prev({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Previous LSP reference" },
+
+        { "<leader>a",     vim.lsp.buf.code_action,                                                              desc = "Code action" },
+        { "<leader>a",     range_code_action,                                                                    desc = "Range code action",     mode = "v" },
+        { "<leader>eh",    toggle_document_highlight,                                                            desc = "Document highlight" },
+        { "<leader>ei",    toggle_inlay_hints,                                                                   desc = "Inlay hints" },
+        { "<leader>r",     live_rename.rename,                                                                   desc = "Refactor keep name" },
+        { "<leader>R",     live_rename.map({ text = "", insert = true }),                                        desc = "Refactor clear name" },
     })
 end
 
