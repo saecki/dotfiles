@@ -24,7 +24,10 @@ function M.setup()
         source = "kyazdani42/nvim-tree.lua",
         deps = { "nvim-tree/nvim-web-devicons" },
     })
-    pm.setup_on_keys("nvim-tree", { "<leader>x", "<leader>X" })
+    pm.setup_on_keys("nvim-tree", {
+        { "<leader>x", desc = "Filetree toggle" },
+        { "<leader>X", desc = "Filetree current file" },
+    })
 
     -- file search/replace
     pm.add("spectre", {

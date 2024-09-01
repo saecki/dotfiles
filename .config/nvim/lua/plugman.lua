@@ -998,10 +998,11 @@ local function update_plugins(opts)
 end
 
 ---@param name string?
----@param keys string[]
+---@param keys {[1]: string, desc: string}[]
 function M.setup_on_keys(name, keys)
     local loaded = false
-    local function load_and_feedkeys(key)
+    ---@param pressed string
+    local function load_and_feedkeys(pressed)
         return function()
             if loaded then
                 return
@@ -1009,19 +1010,19 @@ function M.setup_on_keys(name, keys)
             loaded = true
 
             -- delete lazy loading keymaps
-            for _, lhs in ipairs(keys) do
-                vim.keymap.del("n", lhs)
+            for _, key in ipairs(keys) do
+                vim.keymap.del("n", key[1])
             end
 
             require("config." .. name).setup()
 
-            local feed = vim.api.nvim_replace_termcodes("<ignore>" .. key, true, true, true)
+            local feed = vim.api.nvim_replace_termcodes("<ignore>" .. pressed, true, true, true)
             vim.api.nvim_feedkeys(feed, "i", false)
         end
     end
 
-    for _, lhs in ipairs(keys) do
-        vim.keymap.set("n", lhs, load_and_feedkeys(lhs), {})
+    for _, key in ipairs(keys) do
+        vim.keymap.set("n", key[1], load_and_feedkeys(key[1]), { desc = key.desc })
     end
 end
 
