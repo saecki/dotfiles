@@ -736,20 +736,22 @@ end
 local function update_lock_file()
     print_important(global_log.POST, "generating lock-file")
     local lines = {}
-    for _, plug in ipairs(plugins) do
+    for reg_idx, plug in ipairs(plugins) do
         if plug.managed then
             local dir_name = vim.fs.basename(plug.spec.source)
             local package_path = vim.fs.joinpath(plugs_path, dir_name)
             local cmd_args = { "git", "rev-list", "-1", "HEAD" }
             local cmd_opts = { cwd = package_path }
 
-            local success, stdout = run_command(global_log.POST, cmd_args, cmd_opts)
+            local success, stdout = run_command(reg_idx, cmd_args, cmd_opts)
             if not success then
                 return
             end
 
             local commit = vim.trim(stdout)
             table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
+
+            print_info(reg_idx, "read commit")
 
             vim.cmd.redraw()
         end
