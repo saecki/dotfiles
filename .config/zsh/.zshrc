@@ -51,7 +51,6 @@ setopt HIST_VERIFY
 
 # Miscellaneous
 setopt menucomplete
-setopt autocd
 setopt ignore_eof
 
 # Vi-mode
