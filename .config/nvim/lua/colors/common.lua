@@ -100,7 +100,7 @@ function M.highlights(p)
         ["@lsp.type.macro.rust"]            = { link = "@function" },
         ["@lsp.type.formatSpecifier.rust"]  = { link = "Special" },
 
-        ["@rust.attr.rustfmt_skip"] = { link = "NonText" },
+        ["@attr.rustfmt_skip.rust"] = { link = "NonText" },
 
         -- treesitter context
         TreesitterContextLineNumber = { link = "Pmenu" },

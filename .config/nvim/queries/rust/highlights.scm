@@ -8,6 +8,6 @@
           name: (identifier) @name (#eq? @name "skip")
         )
       )
-    ) @rust.attr.rustfmt_skip
+    ) @attr.rustfmt_skip
     (#set! "priority" 999)
 )
