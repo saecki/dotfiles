@@ -29,6 +29,7 @@ function M.setup()
     vim.opt.shiftwidth = 4
     vim.opt.softtabstop = 4
     vim.opt.tabstop = 4
+    vim.opt.fixendofline = false
 
     -- Folds
     vim.opt.foldlevelstart = 99
