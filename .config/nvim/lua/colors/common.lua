@@ -97,6 +97,9 @@ function M.highlights(p)
         ["@lsp.type.enum"]        = { link = "@type"         },
         ["@lsp.type.macro"]       = { link = "@constant"     },
 
+        ["@lsp.typemod.variable.mutable"] = { underline = true },
+
+        -- rust specific things
         ["@lsp.type.macro.rust"]            = { link = "@function" },
         ["@lsp.type.formatSpecifier.rust"]  = { link = "Special" },
 
