@@ -5,6 +5,10 @@ local M = {}
 
 function M.setup()
     markview.setup({
+        list_items = {
+            shift_width = 4,
+            indent_size = 4,
+        },
         code_blocks = {
             enable = true,
             style = "language",
