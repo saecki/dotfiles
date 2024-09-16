@@ -43,7 +43,6 @@ function M.setup()
     vim.opt.inccommand = "nosplit"
     vim.opt.ignorecase = true
     vim.opt.hlsearch = true
-    vim.opt.showmatch = true
     vim.opt.gdefault = true
 
     -- Completion
@@ -67,6 +66,7 @@ function M.setup()
 
     -- Miscellaneous
     vim.opt.updatetime = 300
+    vim.opt.showmatch = false
     vim.opt.mouse = "a"
     vim.opt.hidden = true
 
