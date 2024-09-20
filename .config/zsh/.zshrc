@@ -235,7 +235,7 @@ ghcl() {
 }
 
 # Bare repos
-alias dotfiles="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+alias dots="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 alias stuff="git --git-dir=$HOME/.config/stuff --work-tree=$HOME"
 alias csgo-config="git --git-dir $HOME/.config/csgo-config --work-tree '$HOME/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg'"
 
