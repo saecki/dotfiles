@@ -4,6 +4,7 @@ local M = {}
 
 function M.setup()
     vim.g.mapleader = " "
+    vim.g.maplocalleader = ","
     vim.opt.shell = "/bin/bash"
 
     -- Visuals

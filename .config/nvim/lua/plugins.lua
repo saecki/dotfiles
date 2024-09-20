@@ -30,12 +30,9 @@ function M.setup()
     })
 
     -- file search/replace
-    pm.add("spectre", {
-        source = "nvim-pack/nvim-spectre",
-        deps = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
-        },
+    pm.add("grug-far", {
+        source = "MagicDuck/grug-far.nvim",
+        deps = { "nvim-tree/nvim-web-devicons" },
     })
 
     -- file navigation

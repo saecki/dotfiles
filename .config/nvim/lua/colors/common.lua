@@ -143,11 +143,17 @@ function M.highlights(p)
 
         CmpItemAbbrDeprecated   = { fg = p.text3,   strikethrough = true },
 
-        -- git
+        -- diff
+        Added           = {               bg = p.diff_a_bg,              },
+        Changed         = {               bg = p.diff_c_bg,              },
+        Removed         = {               bg = p.diff_d_bg,              },
+
         diffAdded       = {               bg = p.diff_a_bg,              },
         diffRemoved     = {               bg = p.diff_d_bg,              },
+
         ["@diff.plus.diff"]  = {          bg = p.diff_a_bg,              },
         ["@diff.minus.diff"] = {          bg = p.diff_d_bg,              },
+
         DiffAdd         = {               bg = p.diff_a_bg,              },
         DiffChange      = {               bg = p.diff_c_bg,              },
         DiffDelete      = { fg = p.text2, bg = p.diff_d_bg,              },
