@@ -21,7 +21,7 @@ function M.setup()
         pattern = { "grug-far" },
         callback = function(ev)
             wk.add({
-                buffer = ev.buffer,
+                buffer = ev.buf,
                 { "<localleader>H", toggle_flag("--hidden"),        desc = "--hidden" },
                 { "<localleader>I", toggle_flag("--ignore-case"),   desc = "--ignore-case" },
                 { "<localleader>F", toggle_flag("--fixed-strings"), desc = "--fixed-strings" },
