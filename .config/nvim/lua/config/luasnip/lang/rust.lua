@@ -44,4 +44,7 @@ return {
     s("rfs", {
         t({ "#[rustfmt::skip]" }),
     }),
+    s("derive_copy", {
+        t({ "#[derive(Clone, Copy, Debug, PartialEq, Eq)]" }),
+    }),
 }
