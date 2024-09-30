@@ -37,6 +37,11 @@ function M.setup()
 
     -- file navigation
     pm.add(nil, "farmergreg/vim-lastplace")
+    pm.add("harpoon", {
+        source = "ThePrimeagen/harpoon",
+        checkout = "harpoon2",
+        deps = { "nvim-lua/plenary.nvim" },
+    })
     pm.add("telescope", {
         source = "nvim-telescope/telescope.nvim",
         deps = {
