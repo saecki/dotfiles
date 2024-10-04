@@ -40,6 +40,7 @@ function M.setup()
             TODO_IMPL = { icon = " ", color = "info", alt = { "todo!" } },
             PERF = { icon = "󰅒 ", color = "info" },
             IMPORTANT = { icon = " ", color = "info" },
+            VOLATILE = { icon = " ", color = "hint" },
             NOTE = { icon = "󰎚 ", color = "hint", alt = { "INFO" } },
         },
         merge_keywords = false,
