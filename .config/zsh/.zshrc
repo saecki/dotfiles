@@ -169,6 +169,7 @@ alias cfzt='(cd ~/.config/zathura && $EDITOR ~/.config/zathura/zathurarc)'
 
 # Git
 alias ga='git add'
+alias gap='git add -p'
 alias gb='git branch'
 alias gbD='git branch -D'
 alias gbd='git branch -d'
