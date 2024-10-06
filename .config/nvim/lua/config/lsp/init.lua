@@ -92,8 +92,8 @@ function M.on_attach(client, buf)
         { "gD",            function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end,         desc = "LSP declaration" },
         { "gd",            function() trouble.open({ mode = "lsp_definitions", auto_jump = true }) end,          desc = "LSP definition" },
         { "gy",            function() trouble.open({ mode = "lsp_type_definitions", auto_jump = true }) end,     desc = "LSP type definitions" },
-        { "gi",            function() trouble.open({ mode = "lsp_implementations" }) end,                        desc = "LSP implementations" },
-        { "gr",            function() trouble.open({ mode = "lsp_references" }) end,                             desc = "LSP references" },
+        { "gi",            function() trouble.open({ mode = "lsp_implementations", auto_jump = false }) end,     desc = "LSP implementations" },
+        { "gr",            function() trouble.open({ mode = "lsp_references", auto_jump = false }) end,          desc = "LSP references" },
 
         { "]r",            function() trouble.next({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Next LSP reference" },
         { "[r",            function() trouble.prev({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Previous LSP reference" },
