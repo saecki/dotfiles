@@ -58,7 +58,8 @@ function M.setup()
 
     -- completion
     pm.add("cmp", {
-        source = "hrsh7th/nvim-cmp",
+        -- source = "hrsh7th/nvim-cmp",
+        source = "iguanacucumber/magazine.nvim",
         deps = {
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-buffer",
