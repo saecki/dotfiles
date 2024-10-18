@@ -8,7 +8,7 @@ function M.highlights(p)
         SignColumn      = {                  bg = "none",                        },
         LineNr          = { fg = p.text3,                                        },
         CursorLineNr    = { fg = p.text2,                       bold = true      },
-        CursorLine      = {                  bg = p.ref_text,                    },
+        CursorLine      = {                                                      },
         CursorColumn    = {                  bg = p.ref_text,                    },
         Pmenu           = { fg = p.text2,    bg = p.surface3,                    },
         PmenuSel        = {                  bg = p.surface2,   bold = true      },

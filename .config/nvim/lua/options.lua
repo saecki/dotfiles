@@ -22,6 +22,7 @@ function M.setup()
     vim.opt.cmdheight = 1
     vim.opt.background = "dark"
     vim.opt.showmode = false
+    vim.opt.cursorline = true -- just for the line number highlight
 
     -- Indentation
     vim.opt.autoindent = true
