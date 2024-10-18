@@ -1,4 +1,5 @@
 local ts_config = require("nvim-treesitter.configs")
+local ts_parser = require("nvim-treesitter.parsers")
 local ts_context = require("treesitter-context")
 local ts_pairs = require("tree-pairs")
 local wk = require("which-key.config")
@@ -23,6 +24,24 @@ end
 function M.setup()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+    do
+        local repo_path = vim.fn.expand("~/Projects/tree-sitter-vvm")
+        vim.opt.rtp:append(repo_path)
+        local parser_config = ts_parser.get_parser_configs()
+        parser_config.vvm = {
+            install_info = {
+                url = repo_path,
+                files = {
+                    "src/parser.c",
+                    "src/scanner.c",
+                },
+                generate_requires_npm = false,
+                requires_generate_from_grammar = false,
+            },
+            filetype = "vvm",
+        }
+    end
 
     ts_config.setup({
         ensure_installed = {
@@ -156,7 +175,7 @@ function M.setup()
 
     wk.add({
         -- somewhat similar to `z<cr>`
-        { "g<cr>",         jump_to_context,           desc = "Jump to context" },
+        { "g<cr>", jump_to_context, desc = "Jump to context" },
     })
 end
 
