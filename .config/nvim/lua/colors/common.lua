@@ -79,6 +79,7 @@ function M.highlights(p)
         ["@function"]         = { link = "Function"   },
         ["@type"]             = { link = "Type"       },
         ["@type.builtin"]     = { link = "Type"       },
+        ["@constructor"]      = { link = "Type"       },
         ["@module"]           = { link = "PreProc"    },
 
         ["@markup.link"]      = { link = "Link"       },
@@ -104,6 +105,9 @@ function M.highlights(p)
         ["@lsp.type.formatSpecifier.rust"]  = { link = "Special" },
 
         ["@attr.rustfmt_skip.rust"] = { link = "NonText" },
+
+        -- lua specific things
+        ["@constructor.lua"] = { link = "Special" },
 
         -- treesitter context
         TreesitterContextLineNumber = { link = "Pmenu" },
