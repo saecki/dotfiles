@@ -213,8 +213,10 @@ function M.setup()
             end
         elseif result.documentChanges then
             for _, change in ipairs(result.documentChanges) do
-                local buf = vim.uri_to_bufnr(change.textDocument.uri)
-                write_buf(buf)
+                if change.textDocument then
+                    local buf = vim.uri_to_bufnr(change.textDocument.uri)
+                    write_buf(buf)
+                end
             end
         end
     end
