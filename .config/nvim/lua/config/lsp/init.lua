@@ -136,7 +136,7 @@ function M.setup()
                 cmd = { vim.fn.expand("~/Projects/visual-vm/target/debug/vvm-ls") },
                 filetypes = { "vvm" },
                 root_dir = function(fname)
-                    return lspconfig.util.find_git_ancestor(fname)
+                    return lspconfig.util.find_git_ancestor(fname) or vim.uv.cwd()
                 end,
                 settings = {},
             },
