@@ -165,7 +165,7 @@ local function git_rev()
         if head then
             local branch = head:match("ref: refs/heads/(.+)$")
             if branch then
-                rev = git_symbols.branch .. branch
+                rev = string.format("%%#StatusLineGitRev#%s%%#StatusLineB#%s", git_symbols.branch, branch)
             else
                 rev = head:sub(1, 7)
             end
@@ -184,10 +184,10 @@ end
 local function diagnostics()
     local count = vim.diagnostic.count(0)
     local hls = {
-        "StatusLineDiagnosticSignError",
-        "StatusLineDiagnosticSignWarn",
-        "StatusLineDiagnosticSignInfo",
-        "StatusLineDiagnosticSignHint",
+        "StatusLineDiagnosticError",
+        "StatusLineDiagnosticWarn",
+        "StatusLineDiagnosticInfo",
+        "StatusLineDiagnosticHint",
     }
     local builder = {}
     for i = 1, 4 do
@@ -230,7 +230,7 @@ function STATUSLINE()
         ["MORE"]     = "Command",
         ["CONFIRM"]  = "Command",
         ["SHELL"]    = "Command",
-        ["TERMINAL"] = "Comman",
+        ["TERMINAL"] = "Command",
     }
     local suffix = mode_hl_map[mode]
     assert(suffix ~= nil, vim.inspect(mode))

@@ -47,18 +47,19 @@ function M.highlights(p)
         Selection       = { fg = p.special,                     underline = true },
 
         -- custom status line
-        StatusLineDiagnosticSignError = { fg = p.lred,    bg = p.surface2, bold = true },
-        StatusLineDiagnosticSignWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
-        StatusLineDiagnosticSignHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
-        StatusLineDiagnosticSignInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        StatusLineDiagnosticError = { fg = p.lred,    bg = p.surface2, bold = true },
+        StatusLineDiagnosticWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
+        StatusLineDiagnosticHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        StatusLineDiagnosticInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        StatusLineGitRev          = { fg = p.lcyan,   bg = p.surface2              },
 
-        StatusLineBorderA  = { fg = p.surface1                   },
-        StatusLineBorderAB = { fg = p.surface1, bg = p.surface2, },
-        StatusLineBorderAC = { fg = p.surface1, bg = p.surface3, },
-        StatusLineBorderBC = { fg = p.surface2, bg = p.surface3, },
+        StatusLineBorderA  = { fg = p.surface1                  },
+        StatusLineBorderAB = { fg = p.surface1, bg = p.surface2 },
+        StatusLineBorderAC = { fg = p.surface1, bg = p.surface3 },
+        StatusLineBorderBC = { fg = p.surface2, bg = p.surface3 },
 
         StatusLineNormalA   = { fg = p.lyellow, bg = p.surface1, bold = true },
-        StatusLineOperatorA = { fg = p.lcyan, bg = p.surface1, bold = true },
+        StatusLineOperatorA = { fg = p.lcyan,   bg = p.surface1, bold = true },
         StatusLineInsertA   = { fg = p.lgreen,  bg = p.surface1, bold = true },
         StatusLineVisualA   = { fg = p.lpurple, bg = p.surface1, bold = true },
         StatusLineReplaceA  = { fg = p.lred,    bg = p.surface1, bold = true },
