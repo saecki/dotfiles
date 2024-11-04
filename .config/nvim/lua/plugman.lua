@@ -919,7 +919,7 @@ local function update_plugins(opts)
             if vim.trim(stdout) == origin_branch then
                 checkout = origin_branch
             else
-                checkout = plug.spec.source
+                checkout = plug.spec.checkout
             end
         else
             -- infer default branch
