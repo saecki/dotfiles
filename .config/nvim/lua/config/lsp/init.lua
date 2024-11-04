@@ -86,7 +86,7 @@ function M.on_attach(client, buf)
 
         { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
         { "K",             vim.lsp.buf.hover,                                                                    desc = "Show documentation" },
-        { "<a-k>",         vim.lsp.buf.signature_help,                                                           desc = "Signature help" },
+        { "<a-k>",         vim.lsp.buf.signature_help,                                                           desc = "Signature help",        mode = { "n", "i" } },
 
         { "g",             group = "Go" },
         { "gD",            function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end,         desc = "LSP declaration" },
