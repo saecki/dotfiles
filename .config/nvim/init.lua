@@ -22,7 +22,6 @@ load_and_setup("mappings")
 load_and_setup("diagnostic")
 load_and_setup("lang.zig")
 load_and_setup("lang.rust")
-load_and_setup("lang.lua")
 
 local no_plugs = vim.g.no_plugs == 1
     or vim.env.NVIM_NO_PLUGS == "1"
