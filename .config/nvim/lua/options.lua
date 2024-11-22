@@ -35,7 +35,7 @@ function M.setup()
 
     -- Folds
     vim.opt.foldlevelstart = 99
-    vim.opt.foldnestmax = 10
+    vim.opt.foldnestmax = 30
     vim.opt.foldminlines = 1
     vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').' ]]
         .. [[... '.trim(getline(v:foldend)).'  ('.(v:foldend - v:foldstart + 1).' lines)']]
