@@ -502,7 +502,7 @@ local function run_command(reg_idx, command, opts, on_exit)
 
     ---@type boolean?, string
     local success, stdout = nil, nil
-    vim.system(command, command_opts, function(res)
+    local ok, res = pcall(vim.system, command, command_opts, function(res)
         success = res.code == 0
         stdout = res.stdout
         if success then
@@ -519,6 +519,14 @@ local function run_command(reg_idx, command, opts, on_exit)
             on_exit(success, stdout)
         end
     end)
+    if not ok then
+        success = false
+        print_error(reg_idx, "error running %s:\n`%s`", command_str, res)
+
+        if on_exit then
+            on_exit(success, stdout)
+        end
+    end
 
     if not on_exit then
         vim.wait(timeout, function()
