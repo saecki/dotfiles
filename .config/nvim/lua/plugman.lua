@@ -472,7 +472,7 @@ end
 
 ---@class CommandOpts
 ---@field cwd string?
----@field quiet boolean?
+---@field verbosity integer?
 
 --- when on_exit is ommited, the command is run synchronously
 ---@param reg_idx integer
@@ -482,14 +482,17 @@ end
 ---@return boolean, string
 local function run_command(reg_idx, command, opts, on_exit)
     opts = opts or {}
-    local quiet = opts.quiet or not on_exit
+    local verbosity = opts.verbosity or (not on_exit and 1) or 2
 
     local command_str = table.concat(command, " ")
     if opts.cwd then
         command_str = string.format("`%s` in `%s`", command_str, opts.cwd)
     end
-    local verb = quiet and "run" or "running"
-    print_info(reg_idx, "%s %s", verb, command_str)
+
+    if verbosity >= 1 then
+        local verb = (verbosity >= 2) and "running" or "run"
+        print_info(reg_idx, "%s %s", verb, command_str)
+    end
 
     local timeout = 30000
     local command_opts = {
@@ -504,7 +507,7 @@ local function run_command(reg_idx, command, opts, on_exit)
         stdout = res.stdout
         if success then
             -- only log success for execution with callback
-            if not quiet then
+            if verbosity >= 2 then
                 print_info(reg_idx, "success %s", command_str)
             end
         else
@@ -609,7 +612,7 @@ local function ensure_installed_git_repo(spec)
             -- checkout
             spec.checkout and {
                 args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = package_path, quiet = true },
+                opts = { cwd = package_path, verbosity = 1 },
             },
             on_exit = function(success)
                 if success then
@@ -713,7 +716,7 @@ function M.dev_repo(cfg_file, spec)
             -- checkout
             spec.checkout and {
                 args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = project_path, quiet = true },
+                opts = { cwd = project_path, verbosity = 1 },
             },
             on_exit = function(success)
                 if success and pcall(symlink_into_package_dir) then
@@ -741,7 +744,7 @@ local function update_lock_file()
             local dir_name = vim.fs.basename(plug.spec.source)
             local package_path = vim.fs.joinpath(plugs_path, dir_name)
             local cmd_args = { "git", "rev-list", "-1", "HEAD" }
-            local cmd_opts = { cwd = package_path }
+            local cmd_opts = { cwd = package_path, verbosity = 0 }
 
             local success, stdout = run_command(reg_idx, cmd_args, cmd_opts)
             if not success then
@@ -750,8 +753,6 @@ local function update_lock_file()
 
             local commit = vim.trim(stdout)
             table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
-
-            print_info(reg_idx, "read commit")
 
             vim.cmd.redraw()
         end
