@@ -2,6 +2,12 @@ local luasnip = require("luasnip")
 
 local M = {}
 
+local function try_unlink_current()
+    if luasnip.get_active_snip() ~= nil then
+        luasnip.unlink_current()
+    end
+end
+
 ---@param key string
 ---@param expr string
 ---@param dir integer
@@ -11,10 +17,10 @@ local function map_try_jump(key, expr, dir)
         if luasnip.jumpable(dir) then
             local success = luasnip.jump(dir)
             if not success or not luasnip.jumpable(dir) then
-                luasnip.unlink_current()
+                try_unlink_current()
             end
         else
-            luasnip.unlink_current()
+            try_unlink_current()
             vim.api.nvim_feedkeys(escaped, "ni", false)
         end
     end
@@ -37,7 +43,7 @@ function M.setup()
             -- but then the `m` state flag is set
             local state = vim.fn.state()
             if not state:match("m") then
-                luasnip.unlink_current()
+                try_unlink_current()
             end
         end,
     })
