@@ -133,7 +133,7 @@ function M.setup()
         local configs = require("lspconfig.configs")
         configs["vvm-ls"] = {
             default_config = {
-                cmd = { vim.fn.expand("~/Projects/visual-vm/target/debug/vvm-ls") },
+                cmd = { "vvm-ls" },
                 filetypes = { "vvm" },
                 root_dir = function(fname)
                     return lspconfig.util.find_git_ancestor(fname) or vim.uv.cwd()
