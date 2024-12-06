@@ -130,6 +130,7 @@ function M.setup()
     pm.add(nil, "teal-language/vim-teal")
 
     -- typst
+    vim.g.typst_auto_open_quickfix = 0
     pm.add(nil, "kaarmu/typst.vim")
 
     -- discord rich presence
