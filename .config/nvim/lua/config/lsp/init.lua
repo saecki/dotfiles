@@ -122,6 +122,7 @@ function M.setup()
     default_server_setup(lspconfig["wgsl_analyzer"], M.on_attach, capabilities)
     default_server_setup(lspconfig["pyright"], M.on_attach, capabilities)
     default_server_setup(lspconfig["vhdl_ls"], M.on_attach, capabilities)
+    default_server_setup(lspconfig["typst_lsp"], M.on_attach, capabilities)
 
     arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_attach, capabilities)
     dartls.setup(lspconfig["dartls"], M.on_attach, capabilities)
