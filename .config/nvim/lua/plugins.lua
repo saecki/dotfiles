@@ -57,16 +57,9 @@ function M.setup()
     })
 
     -- completion
-    pm.add("cmp", {
-        -- source = "hrsh7th/nvim-cmp",
-        source = "iguanacucumber/magazine.nvim",
-        deps = {
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-nvim-lsp",
-            "saadparwaiz1/cmp_luasnip",
-            "L3MON4D3/LuaSnip",
-        },
+    pm.add("blink", {
+        source = "Saghen/blink.cmp",
+        checkout = "v0.7.4",
     })
 
     -- snippets
@@ -82,7 +75,7 @@ function M.setup()
         source = "neovim/nvim-lspconfig",
         deps = {
             "williamboman/mason.nvim",
-            "hrsh7th/cmp-nvim-lsp",
+            "Saghen/blink.cmp",
             "folke/trouble.nvim",
         },
     })

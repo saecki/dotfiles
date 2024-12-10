@@ -1,5 +1,5 @@
 local lspconfig = require("lspconfig")
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local blink = require("blink.cmp")
 local trouble = require("trouble")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
@@ -46,9 +46,9 @@ end
 
 function M.get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
+    local blink_capabilities = blink.get_lsp_capabilities()
     local fidget_capabilities = { capabilities = { window = { workDoneProgress = true } } }
-    capabilities = vim.tbl_deep_extend("force", capabilities, cmp_capabilities, fidget_capabilities)
+    capabilities = vim.tbl_deep_extend("force", capabilities, blink_capabilities, fidget_capabilities)
     capabilities.general = {
         positionEncodings = { "utf-8", "utf-32", "utf-16" },
     }
