@@ -187,6 +187,14 @@ function M.setup()
     -- Documentation window border
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = shared.window.border,
+        offset_x = -1,
+    })
+
+    -- Signature help border
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = shared.window.border,
+        offset_x = -1,
+        anchor_bias = "above",
     })
 
     -- Write buffers that were edited
