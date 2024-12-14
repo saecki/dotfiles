@@ -88,6 +88,8 @@ function M.highlights(p)
 
         -- lsp semantic tokens
         ["@lsp.mod.constant"]     = { link = "Constant"      },
+        ["@lsp.mod.mutable"]      = { underline = true },
+
         ["@lsp.type.string"]      = { link = "@string"       },
         ["@lsp.type.character"]   = { link = "@character"    },
         ["@lsp.type.number"]      = { link = "@boolean"      },
@@ -99,7 +101,7 @@ function M.highlights(p)
         ["@lsp.type.enum"]        = { link = "@type"         },
         ["@lsp.type.macro"]       = { link = "@constant"     },
 
-        ["@lsp.typemod.variable.mutable"] = { underline = true },
+        ["@lsp.type.escapeSequence"] = { link = "Special" },
 
         -- rust specific things
         ["@lsp.type.macro.rust"]            = { link = "@function" },
