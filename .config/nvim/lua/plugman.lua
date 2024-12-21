@@ -533,6 +533,7 @@ local function run_command(reg_idx, command, opts, on_exit)
             return success ~= nil
         end, 1)
         assert(success ~= nil)
+        vim.cmd.redraw()
         return success, stdout
     end
 end
@@ -641,8 +642,6 @@ local function ensure_installed_deps(spec)
                 d = { source = d }
             end
             ensure_installed_git_repo(d)
-
-            vim.cmd.redraw()
         end
     end
 end
@@ -661,8 +660,6 @@ function M.add(cfg_file, spec)
     if cfg_file then
         table.insert(setup_queue, "config." .. cfg_file)
     end
-
-    vim.cmd.redraw()
 end
 
 ---@param cfg_file string?
@@ -740,8 +737,6 @@ function M.dev_repo(cfg_file, spec)
             print_info(reg_idx, "linked")
         end
     end
-
-    vim.cmd.redraw()
 end
 
 local function update_lock_file()
@@ -761,8 +756,6 @@ local function update_lock_file()
 
             local commit = vim.trim(stdout)
             table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
-
-            vim.cmd.redraw()
         end
     end
 
@@ -800,7 +793,6 @@ local function restore_lock_file()
             { cwd = package_path }
         )
         if not success then
-            vim.cmd.redraw()
             goto continue
         end
         local current_commit = vim.trim(stdout)
@@ -808,7 +800,6 @@ local function restore_lock_file()
         -- only run checkout if needed
         if current_commit == l[2] then
             print_info(reg_idx, "unchanged")
-            vim.cmd.redraw()
             goto continue
         end
 
@@ -833,8 +824,6 @@ local function restore_lock_file()
         if success then
             print_important(reg_idx, "restored")
         end
-
-        vim.cmd.redraw()
 
         ::continue::
     end
@@ -861,8 +850,6 @@ local function fetch_updates()
                 end
             end)
         )
-
-        vim.cmd.redraw()
 
         ::continue::
     end
@@ -997,8 +984,6 @@ local function update_plugins(opts)
                 when_done_update_lock_file()
             end)
         )
-
-        vim.cmd.redraw()
 
         ::continue::
     end
