@@ -227,7 +227,7 @@ function M.highlights(p)
         WhichKey = { fg = p.special },
 
         -- indent-blankline
-        IblIndent     = { fg = p.whitespace },
+        IblIndent     = { fg = p.indent     },
         IblWhitespace = { fg = p.whitespace },
         IblScope      = { fg = p.whitespace },
 
