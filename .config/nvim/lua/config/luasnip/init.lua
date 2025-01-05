@@ -58,6 +58,7 @@ function M.setup()
     add("markdown")
     add("rust")
     add("tex")
+    add("typst")
 end
 
 return M
