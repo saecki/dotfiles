@@ -1,2 +1,3 @@
-spell
+spell/*
+!spell/*.add
 .luarc.json
