@@ -56,14 +56,14 @@ function M.setup()
         deps = { "folke/todo-comments.nvim" },
     })
 
+    -- snippets
+    pm.add("luasnip", "L3MON4D3/LuaSnip")
+
     -- completion
     pm.add("blink", {
         source = "Saghen/blink.cmp",
-        checkout = "v0.9.3",
+        checkout = "v0.10.0",
     })
-
-    -- snippets
-    pm.add("luasnip", "L3MON4D3/LuaSnip")
 
     -- git
     pm.add("fugitive", "tpope/vim-fugitive")

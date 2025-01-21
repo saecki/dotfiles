@@ -1,5 +1,4 @@
 local blink = require("blink.cmp")
-local luasnip = require("luasnip")
 local shared = require("shared")
 
 local M = {}
@@ -21,21 +20,10 @@ function M.setup()
             ["<s-tab>"] = { "snippet_backward", "fallback" },
         },
         snippets = {
-            expand = function(snippet)
-                luasnip.lsp_expand(snippet)
-            end,
-            active = function(filter)
-                if filter and filter.direction then
-                    return luasnip.jumpable(filter.direction)
-                end
-                return luasnip.in_snippet()
-            end,
-            jump = function(direction)
-                luasnip.jump(direction)
-            end,
+            preset = "luasnip",
         },
         sources = {
-            default = { "lsp", "path", "luasnip", "buffer" },
+            default = { "lsp", "path", "buffer" },
             cmdline = {
                 enabled = false,
             },
