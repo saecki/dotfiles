@@ -23,7 +23,7 @@ function M.setup()
             preset = "luasnip",
         },
         sources = {
-            default = { "lsp", "path", "buffer" },
+            default = { "lsp", "snippets", "path", "buffer" },
             cmdline = {
                 enabled = false,
             },
