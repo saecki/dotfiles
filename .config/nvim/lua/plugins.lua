@@ -28,6 +28,7 @@ function M.setup()
         { "<leader>x", desc = "Filetree toggle" },
         { "<leader>X", desc = "Filetree current file" },
     })
+    pm.add("oil", "stevearc/oil.nvim")
 
     -- file search/replace
     pm.add("grug-far", {
