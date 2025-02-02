@@ -56,7 +56,7 @@ function M.setup()
             "cpp",
             "css",
             "cuda",
-            "dart",
+            -- "dart",
             "diff",
             "dockerfile",
             "fish",
