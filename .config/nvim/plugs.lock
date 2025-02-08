@@ -5,6 +5,7 @@
 ["nvim-tree\/nvim-web-devicons","aafa5c187a15701a7299a392b907ec15d9a7075f"]
 ["mg979\/vim-visual-multi","a6975e7c1ee157615bbc80fc25e4392f71c344d4"]
 ["kyazdani42\/nvim-tree.lua","fca0b67c0b5a31727fb33addc4d9c100736a2894"]
+["stevearc\/oil.nvim","add50252b5e9147c0a09d36480d418c7e2737472"]
 ["MagicDuck\/grug-far.nvim","8e8f3429038d45a6d4144c0642d92f470e5480f3"]
 ["farmergreg\/vim-lastplace","e58cb0df716d3c88605ae49db5c4741db8b48aa9"]
 ["nvim-lua\/plenary.nvim","3707cdb1e43f5cea73afb6037e6494e7ce847a66"]
