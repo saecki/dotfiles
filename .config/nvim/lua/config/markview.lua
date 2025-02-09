@@ -5,14 +5,34 @@ local M = {}
 
 function M.setup()
     markview.setup({
-        list_items = {
-            shift_width = 4,
-            indent_size = 4,
+        markdown = {
+            list_items = {
+                shift_width = 4,
+                indent_size = 4,
+            },
+            tables = {
+                enable = true,
+                text = {
+                    "╭", "─", "╮", "┬",
+                    "├", "│", "┤", "┼",
+                    "╰", "─", "╯", "┴",
+
+                    "╼", "╾", "╴", "╶"
+                },
+                hl = {
+                    "red_fg", "red_fg", "red_fg", "red_fg",
+                    "red_fg", "red_fg", "red_fg", "red_fg",
+                    "red_fg", "red_fg", "red_fg", "red_fg",
+
+                    "red_fg", "red_fg", "red_fg", "red_fg"
+                },
+                use_virt_lines = true,
+            },
         },
         code_blocks = {
             enable = true,
             style = "language",
-            hl = "code_block",
+            border_hl = "code_block",
             pad_char = " ",
             pad_amount = 4,
             sign = true,
@@ -33,28 +53,10 @@ function M.setup()
             icon = "󰌷 ",
             icon_hl = "link",
         },
-        tables = {
-            enable = true,
-            text = {
-                "╭", "─", "╮", "┬",
-                "├", "│", "┤", "┼",
-                "╰", "─", "╯", "┴",
-
-                "╼", "╾", "╴", "╶"
-            },
-            hl = {
-                "red_fg", "red_fg", "red_fg", "red_fg",
-                "red_fg", "red_fg", "red_fg", "red_fg",
-                "red_fg", "red_fg", "red_fg", "red_fg",
-
-                "red_fg", "red_fg", "red_fg", "red_fg"
-            },
-            use_virt_lines = true,
-        },
     })
 
     wk.add({
-        { "<leader>em", markview.commands.toggleAll, desc = "Markview" },
+        { "<leader>em", markview.commands.Toggle, desc = "Markview" },
     })
 end
 
