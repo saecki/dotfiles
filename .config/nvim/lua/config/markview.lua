@@ -5,6 +5,9 @@ local M = {}
 
 function M.setup()
     markview.setup({
+        preview = {
+            enable = false,
+        },
         markdown = {
             list_items = {
                 shift_width = 4,
