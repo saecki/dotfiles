@@ -68,6 +68,29 @@ function M.setup()
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
             },
+            glm_vec3_color = {
+                pattern = "glm::vec3%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*%)",
+                group = function(_, match)
+                    local nr, ng, nb = match:match("glm::vec3%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*%)")
+                    local r = util.clamp(255 * tonumber(nr), 0, 255)
+                    local g = util.clamp(255 * tonumber(ng), 0, 255)
+                    local b = util.clamp(255 * tonumber(nb), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(r, g, b)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+            },
+            glm_vec4_color = {
+                pattern = "glm::vec4%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*.+%s*%)",
+                group = function(_, match)
+                    local nr, ng, nb = match:match("glm::vec4%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(.+)%s*%)")
+                    print(nr, ng, nb)
+                    local r = util.clamp(255 * tonumber(nr), 0, 255)
+                    local g = util.clamp(255 * tonumber(ng), 0, 255)
+                    local b = util.clamp(255 * tonumber(nb), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(r, g, b)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+            },
         },
         delay = {
             text_change = 10,
