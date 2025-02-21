@@ -22,11 +22,11 @@ function M.setup()
         snippets = {
             preset = "luasnip",
         },
+        cmdline = {
+            enabled = false,
+        },
         sources = {
             default = { "lsp", "snippets", "path", "buffer" },
-            cmdline = {
-                enabled = false,
-            },
         },
         completion = {
             menu = {
