@@ -130,6 +130,7 @@ alias chmox='chmod +x'
 # ls
 alias l.='eza -d .*'
 alias l='eza -lah --git'
+alias lc='eza -lahZ --git'
 alias la='ls -ah --git --git-ignore'
 alias lg='ls -lah --git --git-ignore'
 alias ll='eza -lh --git'
