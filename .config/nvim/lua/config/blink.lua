@@ -79,10 +79,6 @@ function M.setup()
                 ["Color"] = "🅒 ",
                 ["Event"] = "🅔 ",
                 ["Text"] = "🅣 ",
-
-                -- crates.nvim extensions
-                ["Version"] = "🅥 ",
-                ["Feature"] = "🅕 ",
             },
         }
     })

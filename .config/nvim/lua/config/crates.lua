@@ -18,7 +18,7 @@ function M.setup()
                 enabled = true,
                 max_results = 30,
             },
-            cmp = {
+            blink = {
                 use_custom_kind = true,
             },
         },
