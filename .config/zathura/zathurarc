@@ -10,13 +10,12 @@ map <C--> zoom out
 map k feedkeys "<C-Up>"
 map j feedkeys "<C-Down>"
 
-# Search and Links
-set highlight-active-color "#ff7555"
-set highlight-color "#fabd2f"
-set highlight-fg "#121212"
-# Opacity
-set highlight-transparency 0.8
+# sync with system clipboard
 set selection-clipboard "clipboard"
+
+# Search and Links
+set highlight-active-color "rgba(255, 117, 85, 0.5)" # "#ff7555"
+set highlight-color "rgba(250, 189, 47, 0.5)" # "#fabd2f"
 
 # Dracula color theme for Zathura
 # Swaps Foreground for Background to get a light version if the user prefers
