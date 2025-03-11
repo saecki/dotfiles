@@ -6,6 +6,10 @@ map <C-l> nohlsearch
 map <C-=> zoom in
 map <C--> zoom out
 
+# <C-Up> and <C-down> does smooth scrolling
+map k feedkeys "<C-Up>"
+map j feedkeys "<C-Down>"
+
 # Search and Links
 set highlight-active-color "#ff7555"
 set highlight-color "#fabd2f"
