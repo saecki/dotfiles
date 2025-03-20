@@ -63,7 +63,7 @@ function M.setup()
     -- completion
     pm.add("blink", {
         source = "Saghen/blink.cmp",
-        checkout = "v0.13.1",
+        checkout = "v0.14.0",
     })
 
     -- git
