@@ -75,6 +75,7 @@ end
 
 local devicons = package.loaded["nvim-web-devicons"]
 local statusline_c_hl_group = vim.api.nvim_get_hl(0, { name = "StatusLineC" })
+local ft_highlights = {}
 local function filetype()
     local ft = vim.bo.filetype
     if ft and devicons then
@@ -88,13 +89,14 @@ local function filetype()
         end
 
         -- create highlight group with statusline background
-        local sl_icon_hl = "StatusLine" .. icon_hl
-        if vim.fn.hlexists(sl_icon_hl) ~= 1 then
+        local sl_icon_hl = "StatusLineFiletype" .. icon_hl
+        if not ft_highlights[sl_icon_hl] then
             local icon_hl_group = vim.api.nvim_get_hl(0, { name = icon_hl })
             vim.api.nvim_set_hl(0, sl_icon_hl, {
                 fg = icon_hl_group.fg,
                 bg = statusline_c_hl_group.bg,
             })
+            ft_highlights[sl_icon_hl] = true
         end
         return string.format("%%#%s#%s %%#StatusLineC#%s", sl_icon_hl, icon, ft)
     end
@@ -299,6 +301,15 @@ function M.setup()
         group = group,
         callback = function(ev)
             git_root_cache[ev.buf] = nil
+        end,
+    })
+
+    -- clear filetype icon highlight groups
+    vim.api.nvim_create_autocmd("Colorscheme", {
+        group = group,
+        callback = function(ev)
+            statusline_c_hl_group = vim.api.nvim_get_hl(0, { name = "StatusLineC" })
+            ft_highlights = {}
         end,
     })
 end
