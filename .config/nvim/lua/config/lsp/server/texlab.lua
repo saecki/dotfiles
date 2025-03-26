@@ -2,17 +2,15 @@ local wk = require("which-key.config")
 
 local M = {}
 
-function M.setup(server, on_attach, capabilities)
-    local function m_on_attach(client, buf)
-        on_attach(client, buf)
+local function on_attach(client, buf)
+    wk.add({
+        { "<leader>if", "<cmd>TexlabForward<cr>", desc = "Forward search", buffer = buf },
+    })
+end
 
-        wk.add({
-            { "<leader>if", "<cmd>TexlabForward<cr>", desc = "Forward search", buffer = buf },
-        })
-    end
-
+function M.setup(server, capabilities)
     server.setup({
-        on_attach = m_on_attach,
+        on_attach = on_attach,
         capabilities = capabilities,
         settings = {
             texlab = {

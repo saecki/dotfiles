@@ -18,9 +18,8 @@ local M = {}
 
 local group
 
-local function default_server_setup(server, on_attach, capabilities)
+local function default_server_setup(server, capabilities)
     server.setup({
-        on_attach = on_attach,
         capabilities = capabilities,
     })
 end
@@ -116,19 +115,19 @@ function M.setup()
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
-    default_server_setup(lspconfig["clangd"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["zls"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["gopls"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["wgsl_analyzer"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["pyright"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["vhdl_ls"], M.on_attach, capabilities)
-    default_server_setup(lspconfig["tinymist"], M.on_attach, capabilities)
+    default_server_setup(lspconfig["clangd"], capabilities)
+    default_server_setup(lspconfig["zls"], capabilities)
+    default_server_setup(lspconfig["gopls"], capabilities)
+    default_server_setup(lspconfig["wgsl_analyzer"], capabilities)
+    default_server_setup(lspconfig["pyright"], capabilities)
+    default_server_setup(lspconfig["vhdl_ls"], capabilities)
+    default_server_setup(lspconfig["tinymist"], capabilities)
 
-    arduino_language_server.setup(lspconfig["arduino_language_server"], M.on_attach, capabilities)
-    dartls.setup(lspconfig["dartls"], M.on_attach, capabilities)
-    lua_ls.setup(lspconfig["lua_ls"], M.on_attach, capabilities)
-    rust_analyzer.setup(lspconfig["rust_analyzer"], M.on_attach, capabilities)
-    texlab.setup(lspconfig["texlab"], M.on_attach, capabilities)
+    arduino_language_server.setup(lspconfig["arduino_language_server"], capabilities)
+    dartls.setup(lspconfig["dartls"], capabilities)
+    lua_ls.setup(lspconfig["lua_ls"], capabilities)
+    rust_analyzer.setup(lspconfig["rust_analyzer"], capabilities)
+    texlab.setup(lspconfig["texlab"], capabilities)
 
     do
         local configs = require("lspconfig.configs")
@@ -137,16 +136,23 @@ function M.setup()
                 cmd = { "vvm-ls" },
                 filetypes = { "vvm" },
                 root_dir = function(fname)
-                    return lspconfig.util.find_git_ancestor(fname) or vim.uv.cwd()
+                    return vim.fs.root(fname, ".git") or vim.uv.cwd()
                 end,
                 settings = {},
             },
         }
         lspconfig["vvm-ls"].setup({
-            on_attach = M.on_attach,
             capabilities = capabilities,
         })
     end
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local buf = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            M.on_attach(client, buf)
+        end,
+    })
 
     -- window border
     require("lspconfig.ui.windows").default_options.border = shared.window.border

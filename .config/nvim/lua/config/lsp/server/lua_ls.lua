@@ -1,8 +1,7 @@
 local M = {}
 
-function M.setup(server, on_attach, capabilities)
+function M.setup(server, capabilities)
     server.setup({
-        on_attach = on_attach,
         capabilities = capabilities,
         settings = {
             Lua = {
