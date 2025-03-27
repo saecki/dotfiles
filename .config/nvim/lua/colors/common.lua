@@ -49,7 +49,7 @@ function M.highlights(p)
         -- custom status line
         StatusLineDiagnosticError = { fg = p.lred,    bg = p.surface2, bold = true },
         StatusLineDiagnosticWarn  = { fg = p.lyellow, bg = p.surface2, bold = true },
-        StatusLineDiagnosticHint  = { fg = p.lblue,   bg = p.surface2, bold = true },
+        StatusLineDiagnosticHint  = { fg = p.lcyan,   bg = p.surface2, bold = true },
         StatusLineDiagnosticInfo  = { fg = p.lblue,   bg = p.surface2, bold = true },
         StatusLineGitRev          = { fg = p.lcyan,   bg = p.surface2              },
 
@@ -234,33 +234,33 @@ function M.highlights(p)
         -- diagnostics
         InlineDiagnosticTextError  = { fg = p.lred,    bg = p.lred_bg    },
         InlineDiagnosticTextWarn   = { fg = p.lyellow, bg = p.lyellow_bg },
-        InlineDiagnosticTextHint   = { fg = p.lblue,   bg = p.lblue_bg   },
         InlineDiagnosticTextInfo   = { fg = p.lblue,   bg = p.lblue_bg   },
+        InlineDiagnosticTextHint   = { fg = p.lcyan,   bg = p.lblue_bg   },
 
         DiagnosticError            = { fg = p.lred,                      },
         DiagnosticWarn             = { fg = p.lyellow,                   },
-        DiagnosticHint             = { fg = p.lblue,                     },
         DiagnosticInfo             = { fg = p.lblue,                     },
+        DiagnosticHint             = { fg = p.lcyan,                     },
 
         DiagnosticVirtualTextError = { fg = p.lred,                      },
         DiagnosticVirtualTextWarn  = { fg = p.lyellow,                   },
-        DiagnosticVirtualTextHint  = { fg = p.lblue,                     },
         DiagnosticVirtualTextInfo  = { fg = p.lblue,                     },
+        DiagnosticVirtualTextHint  = { fg = p.lcyan,                     },
 
         DiagnosticSignError        = { fg = p.lred,    bold = true       },
         DiagnosticSignWarn         = { fg = p.lyellow, bold = true       },
-        DiagnosticSignHint         = { fg = p.lblue,   bold = true       },
         DiagnosticSignInfo         = { fg = p.lblue,   bold = true       },
+        DiagnosticSignHint         = { fg = p.lcyan,   bold = true       },
 
         DiagnosticFloatingError    = { fg = p.lred,                      },
         DiagnosticFloatingWarn     = { fg = p.lyellow,                   },
-        DiagnosticFloatingHint     = { fg = p.lblue,                     },
         DiagnosticFloatingInfo     = { fg = p.lblue,                     },
+        DiagnosticFloatingHint     = { fg = p.lcyan,                     },
 
         DiagnosticUnderlineError   = { sp = p.lred,    undercurl = true  },
         DiagnosticUnderlineWarn    = { sp = p.lyellow, undercurl = true  },
-        DiagnosticUnderlineHint    = { sp = p.lblue,   undercurl = true  },
         DiagnosticUnderlineInfo    = { sp = p.lblue,   undercurl = true  },
+        DiagnosticUnderlineHint    = { sp = p.lcyan,   undercurl = true  },
 
         -- lsp ocurrences
         LspReferenceText  = { bg = p.ref_text  },
