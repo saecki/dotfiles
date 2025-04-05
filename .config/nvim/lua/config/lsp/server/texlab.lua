@@ -8,10 +8,9 @@ local function on_attach(client, buf)
     })
 end
 
-function M.setup(server, capabilities)
+function M.setup(server)
     server.setup({
         on_attach = on_attach,
-        capabilities = capabilities,
         settings = {
             texlab = {
                 build = {

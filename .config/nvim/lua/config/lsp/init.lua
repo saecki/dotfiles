@@ -16,13 +16,13 @@ local texlab = require("config.lsp.server.texlab")
 
 local M = {}
 
-local group
+local float_preview_opts = {
+    offset_x = -1,
+    border = shared.window.border,
+    anchor_bias = "above",
+}
 
-local function default_server_setup(server, capabilities)
-    server.setup({
-        capabilities = capabilities,
-    })
-end
+local group
 
 local function toggle_document_highlight()
     shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
@@ -84,13 +84,13 @@ function M.on_attach(client, buf)
         { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",                                       desc = "LSP type definition" },
 
         { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
-        { "K",             vim.lsp.buf.hover,                                                                    desc = "Show documentation" },
-        { "<a-k>",         vim.lsp.buf.signature_help,                                                           desc = "Signature help",        mode = { "n", "i" } },
+        { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,                                 desc = "Show documentation" },
+        { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end,                        desc = "Signature help",        mode = { "n", "i" } },
 
         { "g",             group = "Go" },
-        { "gD",            function() trouble.open({ mode = "lsp_declarations", auto_jump = true }) end,         desc = "LSP declaration" },
-        { "gd",            function() trouble.open({ mode = "lsp_definitions", auto_jump = true }) end,          desc = "LSP definition" },
-        { "gy",            function() trouble.open({ mode = "lsp_type_definitions", auto_jump = true }) end,     desc = "LSP type definitions" },
+        { "gD",            vim.lsp.buf.declaration,                                                              desc = "LSP declaration" },
+        { "gd",            vim.lsp.buf.definition,                                                               desc = "LSP definition" },
+        { "gy",            vim.lsp.buf.type_definition,                                                          desc = "LSP type definitions" },
         { "gi",            function() trouble.open({ mode = "lsp_implementations", auto_jump = false }) end,     desc = "LSP implementations" },
         { "gr",            function() trouble.open({ mode = "lsp_references", auto_jump = false }) end,          desc = "LSP references" },
 
@@ -110,24 +110,26 @@ function M.setup()
     group = vim.api.nvim_create_augroup("user.config.lsp", {})
 
     -- Client capabilities
-    local capabilities = M.get_capabilities()
+    vim.lsp.config("*", {
+        capabilities = M.get_capabilities(),
+    })
 
     -- Setup servers
     lspconfig.util.default_config.autostart = false
 
-    default_server_setup(lspconfig["clangd"], capabilities)
-    default_server_setup(lspconfig["zls"], capabilities)
-    default_server_setup(lspconfig["gopls"], capabilities)
-    default_server_setup(lspconfig["wgsl_analyzer"], capabilities)
-    default_server_setup(lspconfig["pyright"], capabilities)
-    default_server_setup(lspconfig["vhdl_ls"], capabilities)
-    default_server_setup(lspconfig["tinymist"], capabilities)
+    lspconfig["clangd"].setup({})
+    lspconfig["zls"].setup({})
+    lspconfig["gopls"].setup({})
+    lspconfig["wgsl_analyzer"].setup({})
+    lspconfig["pyright"].setup({})
+    lspconfig["vhdl_ls"].setup({})
+    lspconfig["tinymist"].setup({})
 
-    arduino_language_server.setup(lspconfig["arduino_language_server"], capabilities)
-    dartls.setup(lspconfig["dartls"], capabilities)
-    lua_ls.setup(lspconfig["lua_ls"], capabilities)
-    rust_analyzer.setup(lspconfig["rust_analyzer"], capabilities)
-    texlab.setup(lspconfig["texlab"], capabilities)
+    arduino_language_server.setup(lspconfig["arduino_language_server"])
+    dartls.setup(lspconfig["dartls"])
+    lua_ls.setup(lspconfig["lua_ls"])
+    rust_analyzer.setup(lspconfig["rust_analyzer"])
+    texlab.setup(lspconfig["texlab"])
 
     do
         local configs = require("lspconfig.configs")
@@ -141,9 +143,7 @@ function M.setup()
                 settings = {},
             },
         }
-        lspconfig["vvm-ls"].setup({
-            capabilities = capabilities,
-        })
+        lspconfig["vvm-ls"].setup({})
     end
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -153,9 +153,6 @@ function M.setup()
             M.on_attach(client, buf)
         end,
     })
-
-    -- window border
-    require("lspconfig.ui.windows").default_options.border = shared.window.border
 
     -- Setup mason
     mason.setup({
@@ -167,16 +164,7 @@ function M.setup()
     -- Progress handler
     fidget.setup()
 
-    -- Diagnostics
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        virtual_text = {
-            spacing = 2,
-            severity = { min = "Warn" },
-        },
-    })
-
-    -- Occurences
+    -- Highlight occurences
     vim.lsp.handlers["textDocument/documentHighlight"] = function(err, result, ctx, config)
         -- only clear highlights when the new locations are known to avoid jitter
         vim.lsp.util.buf_clear_references(ctx.bufnr)
@@ -190,20 +178,7 @@ function M.setup()
         vim.lsp.util.buf_highlight_references(ctx.bufnr, result, client.offset_encoding)
     end
 
-    -- Documentation window border
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = shared.window.border,
-        offset_x = -1,
-    })
-
-    -- Signature help border
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = shared.window.border,
-        offset_x = -1,
-        anchor_bias = "above",
-    })
-
-    -- Write buffers that were edited
+    -- Write buffers that were edited in a rename
     local rename_handler = vim.lsp.handlers["textDocument/rename"]
     ---@param result lsp.WorkspaceEdit?
     vim.lsp.handlers["textDocument/rename"] = function(err, result, ctx, config)

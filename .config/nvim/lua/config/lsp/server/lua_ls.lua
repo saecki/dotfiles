@@ -1,8 +1,7 @@
 local M = {}
 
-function M.setup(server, capabilities)
+function M.setup(server)
     server.setup({
-        capabilities = capabilities,
         settings = {
             Lua = {
                 runtime = {

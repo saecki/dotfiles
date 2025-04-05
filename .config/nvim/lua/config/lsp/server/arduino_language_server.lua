@@ -3,7 +3,7 @@ local M = {}
 local DEFAULT_FQBN = "arduino:avr:uno"
 local fqbns = {}
 
-function M.setup(server, capabilities)
+function M.setup(server)
     local function on_new_config(config, root_dir)
         local partial_cmd = server:get_default_options().cmd
         local fqbn = fqbns[root_dir]
@@ -16,7 +16,6 @@ function M.setup(server, capabilities)
 
     server.setup({
         on_new_config = on_new_config,
-        capabilities = capabilities,
     })
 end
 

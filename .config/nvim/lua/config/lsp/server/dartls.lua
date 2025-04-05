@@ -37,9 +37,8 @@ function M.clear_inlay_hints(bufnr)
     vim.api.nvim_buf_clear_namespace(bufnr or 0, namespace, 0, -1)
 end
 
-function M.setup(server, capabilities)
+function M.setup(server)
     server.setup({
-        capabilities = capabilities,
         handlers = {
             ["dart/textDocument/publishClosingLabels"] = closing_labels_handler,
         },
