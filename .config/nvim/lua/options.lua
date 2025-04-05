@@ -1,5 +1,3 @@
-local util = require("util")
-
 local M = {}
 
 function M.setup()
@@ -23,6 +21,7 @@ function M.setup()
     vim.opt.background = "dark"
     vim.opt.showmode = false
     vim.opt.cursorline = true -- just for the line number highlight
+    vim.opt.winborder = "solid"
 
     -- Indentation
     vim.opt.autoindent = true
