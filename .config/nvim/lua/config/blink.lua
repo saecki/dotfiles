@@ -27,6 +27,22 @@ function M.setup()
         },
         sources = {
             default = { "lsp", "snippets", "path", "buffer" },
+            transform_items = function(ctx, items)
+                local line = ctx.cursor[1] - 1
+                local col = ctx.cursor[2]
+
+                -- Trim edit range after cursor
+                for _, item in ipairs(items) do
+                    if item.textEdit then
+                        local range_end = item.textEdit.range["end"]
+                        if range_end.line == line and range_end.character > col then
+                            range_end.character = col
+                        end
+                    end
+                end
+
+                return items
+            end,
         },
         completion = {
             menu = {
