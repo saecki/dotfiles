@@ -83,7 +83,6 @@ function M.setup()
                 pattern = "glm::vec4%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*.+%s*%)",
                 group = function(_, match)
                     local nr, ng, nb = match:match("glm::vec4%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(.+)%s*%)")
-                    print(nr, ng, nb)
                     local r = util.clamp(255 * tonumber(nr), 0, 255)
                     local g = util.clamp(255 * tonumber(ng), 0, 255)
                     local b = util.clamp(255 * tonumber(nb), 0, 255)
