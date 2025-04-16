@@ -21,7 +21,7 @@ function M.setup()
     vim.opt.background = "dark"
     vim.opt.showmode = false
     vim.opt.cursorline = true -- just for the line number highlight
-    vim.opt.winborder = "solid"
+    vim.opt.winborder = "none"
 
     -- Indentation
     vim.opt.autoindent = true
