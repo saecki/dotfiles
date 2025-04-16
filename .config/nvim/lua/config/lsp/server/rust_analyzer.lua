@@ -5,10 +5,10 @@ local M = {}
 local use_clippy = false
 local split_win = nil
 
-local function setup_server(server, opts)
+local function setup_server(opts)
     opts = opts or {}
     local check_command = opts.check_command or nil -- defaults to cargo check
-    server.setup({
+    vim.lsp.config("rust_analyzer", {
         settings = {
             ["rust-analyzer"] = {
                 check = {
@@ -30,7 +30,7 @@ end
 local function toggle_check_command()
     use_clippy = not use_clippy
     local cmd = use_clippy and "clippy" or "check"
-    setup_server(M.server, { check_command = cmd })
+    setup_server({ check_command = cmd })
     vim.notify("cargo " .. cmd, vim.log.levels.INFO)
 end
 
@@ -69,10 +69,8 @@ local function expand_macro()
     client:request("rust-analyzer/expandMacro", params, macro_expansion_handler)
 end
 
-function M.setup(server)
-    M.server = server
-
-    setup_server(server)
+function M.setup()
+    setup_server()
 
     local group = vim.api.nvim_create_augroup("user.config.lsp.server.rust-analyzer", {})
     vim.api.nvim_create_autocmd("BufRead", {

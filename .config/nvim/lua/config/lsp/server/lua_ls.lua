@@ -1,7 +1,7 @@
 local M = {}
 
-function M.setup(server)
-    server.setup({
+function M.setup()
+    vim.lsp.config("lua_ls", {
         settings = {
             Lua = {
                 runtime = {

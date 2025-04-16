@@ -8,8 +8,8 @@ local function on_attach(client, buf)
     })
 end
 
-function M.setup(server)
-    server.setup({
+function M.setup()
+    vim.lsp.config("texlab", {
         on_attach = on_attach,
         settings = {
             texlab = {

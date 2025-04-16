@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local blink = require("blink.cmp")
 local trouble = require("trouble")
 local mason = require("mason")
@@ -8,13 +7,14 @@ local shared = require("shared")
 local fidget = require("config.lsp.fidget")
 local live_rename = require("live-rename")
 -- servers
-local arduino_language_server = require("config.lsp.server.arduino_language_server")
 local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
 local texlab = require("config.lsp.server.texlab")
 
 local M = {}
+
+local server_names = {}
 
 local float_preview_opts = {
     offset_x = -1,
@@ -23,6 +23,10 @@ local float_preview_opts = {
 }
 
 local group
+
+local function open_lsp_log()
+    vim.cmd("edit " .. vim.lsp.log.get_filename())
+end
 
 local function toggle_document_highlight()
     shared.lsp.enable_document_highlight = not shared.lsp.enable_document_highlight
@@ -43,7 +47,7 @@ local function range_code_action()
     vim.api.nvim_input("<ESC>")
 end
 
-function M.get_capabilities()
+local function get_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local blink_capabilities = blink.get_lsp_capabilities()
     local fidget_capabilities = { capabilities = { window = { workDoneProgress = true } } }
@@ -54,7 +58,7 @@ function M.get_capabilities()
     return capabilities
 end
 
-function M.on_attach(client, buf)
+local function on_attach(client, buf)
     -- Occurences
     if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
@@ -106,53 +110,73 @@ function M.on_attach(client, buf)
     })
 end
 
+local function setup_server(name, setup_fn)
+    table.insert(server_names, name)
+    if setup_fn then
+        setup_fn()
+    end
+end
+
+local function start_servers()
+    local started = false
+    local ft = vim.bo.filetype
+    for _, name in ipairs(server_names) do
+        local config = vim.lsp.config[name]
+        if config.filetypes and vim.tbl_contains(config.filetypes, ft) then
+            vim.notify(string.format("Started `%s`", name))
+            vim.lsp.enable(name, true)
+            started = true
+        end
+    end
+
+    if not started then
+        vim.notify(string.format("No server found for filetype `%s`", ft))
+    else
+        vim.cmd("edit")
+    end
+end
+
+local function stop_servers()
+    for _, name in ipairs(server_names) do
+        vim.lsp.enable(name, false)
+    end
+    vim.lsp.stop_client(vim.lsp.get_clients())
+end
+
 function M.setup()
     group = vim.api.nvim_create_augroup("user.config.lsp", {})
 
-    -- Client capabilities
-    vim.lsp.config("*", {
-        capabilities = M.get_capabilities(),
-    })
-
-    -- Setup servers
-    lspconfig.util.default_config.autostart = false
-
-    lspconfig["clangd"].setup({})
-    lspconfig["zls"].setup({})
-    lspconfig["gopls"].setup({})
-    lspconfig["wgsl_analyzer"].setup({})
-    lspconfig["pyright"].setup({})
-    lspconfig["vhdl_ls"].setup({})
-    lspconfig["tinymist"].setup({})
-
-    arduino_language_server.setup(lspconfig["arduino_language_server"])
-    dartls.setup(lspconfig["dartls"])
-    lua_ls.setup(lspconfig["lua_ls"])
-    rust_analyzer.setup(lspconfig["rust_analyzer"])
-    texlab.setup(lspconfig["texlab"])
-
-    do
-        local configs = require("lspconfig.configs")
-        configs["vvm-ls"] = {
-            default_config = {
-                cmd = { "vvm-ls" },
-                filetypes = { "vvm" },
-                root_dir = function(fname)
-                    return vim.fs.root(fname, ".git") or vim.uv.cwd()
-                end,
-                settings = {},
-            },
-        }
-        lspconfig["vvm-ls"].setup({})
-    end
-
     vim.api.nvim_create_autocmd("LspAttach", {
+        group = group,
         callback = function(args)
             local buf = args.buf
             local client = vim.lsp.get_client_by_id(args.data.client_id)
-            M.on_attach(client, buf)
+            on_attach(client, buf)
         end,
     })
+
+    -- Client capabilities
+    vim.lsp.config("*", {
+        capabilities = get_capabilities(),
+    })
+
+    -- default servers
+    setup_server("clangd")
+    setup_server("zls")
+    setup_server("gopls")
+    setup_server("wgsl_analyzer")
+    setup_server("pyright")
+    setup_server("vhdl_ls")
+    setup_server("tinymist")
+
+    -- customized servers
+    setup_server("dartls", dartls.setup)
+    setup_server("lua_ls", lua_ls.setup)
+    setup_server("rust_analyzer", rust_analyzer.setup)
+    setup_server("texlab", texlab.setup)
+
+    -- custom servers
+    setup_server("vvm-ls")
 
     -- Setup mason
     mason.setup({
@@ -214,13 +238,12 @@ function M.setup()
     -- Keymappings
     wk.add({
         { "<leader>i",  group = "Lsp" },
-        { "<leader>is", "<cmd>LspStart<cr>",   desc = "Start" },
-        { "<leader>ir", "<cmd>LspRestart<cr>", desc = "Restart" },
-        { "<leader>it", "<cmd>LspStop<cr>",    desc = "Stop (terminate)" },
-        { "<leader>ii", "<cmd>LspInfo<cr>",    desc = "Info" },
-        { "<leader>il", "<cmd>LspLog<cr>",     desc = "Log" },
-        { "<leader>iI", mason_ui.open,         desc = "Install Info" },
-        { "<leader>iL", "<cmd>MasonLog<cr>",   desc = "Install Log" },
+        { "<leader>is", start_servers,                  desc = "Start" },
+        { "<leader>it", stop_servers,                   desc = "Stop (terminate)" },
+        { "<leader>ii", "<cmd>checkhealth vim.lsp<cr>", desc = "Info" },
+        { "<leader>il", open_lsp_log,                   desc = "Log" },
+        { "<leader>iI", mason_ui.open,                  desc = "Install Info" },
+        { "<leader>iL", "<cmd>MasonLog<cr>",            desc = "Install Log" },
     })
 end
 
