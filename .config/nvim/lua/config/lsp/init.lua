@@ -52,9 +52,6 @@ local function get_capabilities()
     local blink_capabilities = blink.get_lsp_capabilities()
     local fidget_capabilities = { capabilities = { window = { workDoneProgress = true } } }
     capabilities = vim.tbl_deep_extend("force", capabilities, blink_capabilities, fidget_capabilities)
-    capabilities.general = {
-        positionEncodings = { "utf-8", "utf-32", "utf-16" },
-    }
     return capabilities
 end
 
