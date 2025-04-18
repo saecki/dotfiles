@@ -1,5 +1,7 @@
 -- Stolen from https://github.com/j-hui/fidget.nvim
 
+local LSP_STARTING_TOKEN = "LSP_STARTED"
+
 local M = {}
 
 local options = {
@@ -404,6 +406,24 @@ local function handle_progress(ev)
     else
         -- Invalid progress notification from unrecognized kind
         fidget:kill_task(token)
+    end
+end
+
+---@param client_id integer
+---@param name string
+function M.show_starting(client_id, name)
+    if not fidgets[client_id] then
+        fidgets[client_id] = Fidget.new(client_id, name)
+        local fidget = fidgets[client_id]
+        fidget.tasks[LSP_STARTING_TOKEN] = {
+            title = "starting",
+            message = "",
+        }
+        fidget:draw()
+
+        vim.defer_fn(function()
+            fidget:kill_task(LSP_STARTING_TOKEN)
+        end, 1000)
     end
 end
 
