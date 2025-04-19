@@ -125,6 +125,7 @@ local function start_server(config)
     config = vim.deepcopy(config)
 
     if type(config.root_dir) == 'function' then
+        local bufnr = vim.api.nvim_get_current_buf()
         ---@param root_dir string
         config.root_dir(bufnr, function(root_dir)
             config.root_dir = root_dir
