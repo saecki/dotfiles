@@ -125,12 +125,13 @@ local function on_detach(client, buf)
         end
     end
 
-    -- remove document highlight autocmd
+    -- remove document highlight autocmd and clear highlights
     local group = vim.api.nvim_create_augroup("user.config.lsp.occurrences", { clear = false })
     vim.api.nvim_clear_autocmds({
         group = group,
         buffer = buf,
     })
+    vim.lsp.util.buf_clear_references(buf)
 
     -- remove all lsp buffer mappings
     for _, mapping in ipairs(lsp_mappings) do
