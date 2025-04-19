@@ -53,6 +53,32 @@ local function get_capabilities()
     return capabilities
 end
 
+local lsp_mappings = {
+    { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",                                   desc = "LSP definition" },
+    { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",                                       desc = "LSP type definition" },
+
+    { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
+    { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,                                 desc = "Show documentation" },
+    { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end,                        desc = "Signature help",        mode = { "n", "i" } },
+
+    { "g",             group = "Go" },
+    { "gD",            vim.lsp.buf.declaration,                                                              desc = "LSP declaration" },
+    { "gd",            vim.lsp.buf.definition,                                                               desc = "LSP definition" },
+    { "gy",            vim.lsp.buf.type_definition,                                                          desc = "LSP type definitions" },
+    { "gi",            function() trouble.open({ mode = "lsp_implementations", auto_jump = false }) end,     desc = "LSP implementations" },
+    { "gr",            function() trouble.open({ mode = "lsp_references", auto_jump = false }) end,          desc = "LSP references" },
+
+    { "]r",            function() trouble.next({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Next LSP reference" },
+    { "[r",            function() trouble.prev({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Previous LSP reference" },
+
+    { "<leader>a",     vim.lsp.buf.code_action,                                                              desc = "Code action" },
+    { "<leader>a",     range_code_action,                                                                    desc = "Range code action",     mode = "v" },
+    { "<leader>eh",    toggle_document_highlight,                                                            desc = "Document highlight" },
+    { "<leader>ei",    toggle_inlay_hints,                                                                   desc = "Inlay hints" },
+    { "<leader>r",     live_rename.rename,                                                                   desc = "Refactor keep name" },
+    { "<leader>R",     live_rename.map({ text = "", insert = true }),                                        desc = "Refactor clear name" },
+}
+
 ---@param client vim.lsp.Client
 ---@param buf integer
 local function on_attach(client, buf)
@@ -80,33 +106,37 @@ local function on_attach(client, buf)
         })
     end
 
+    -- add lsp buffer mappings
     wk.add({
         buffer = buf,
-
-        { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",                                   desc = "LSP definition" },
-        { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",                                       desc = "LSP type definition" },
-
-        { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
-        { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,                                 desc = "Show documentation" },
-        { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end,                        desc = "Signature help",        mode = { "n", "i" } },
-
-        { "g",             group = "Go" },
-        { "gD",            vim.lsp.buf.declaration,                                                              desc = "LSP declaration" },
-        { "gd",            vim.lsp.buf.definition,                                                               desc = "LSP definition" },
-        { "gy",            vim.lsp.buf.type_definition,                                                          desc = "LSP type definitions" },
-        { "gi",            function() trouble.open({ mode = "lsp_implementations", auto_jump = false }) end,     desc = "LSP implementations" },
-        { "gr",            function() trouble.open({ mode = "lsp_references", auto_jump = false }) end,          desc = "LSP references" },
-
-        { "]r",            function() trouble.next({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Next LSP reference" },
-        { "[r",            function() trouble.prev({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Previous LSP reference" },
-
-        { "<leader>a",     vim.lsp.buf.code_action,                                                              desc = "Code action" },
-        { "<leader>a",     range_code_action,                                                                    desc = "Range code action",     mode = "v" },
-        { "<leader>eh",    toggle_document_highlight,                                                            desc = "Document highlight" },
-        { "<leader>ei",    toggle_inlay_hints,                                                                   desc = "Inlay hints" },
-        { "<leader>r",     live_rename.rename,                                                                   desc = "Refactor keep name" },
-        { "<leader>R",     live_rename.map({ text = "", insert = true }),                                        desc = "Refactor clear name" },
+        unpack(vim.deepcopy(lsp_mappings))
     })
+end
+
+---@param client vim.lsp.Client
+---@param buf integer
+local function on_detach(client, buf)
+    local attached_clients = vim.lsp.get_clients({ bufnr = buf })
+
+    -- check if any other client is still attached
+    for _, c in ipairs(attached_clients) do
+        if c.id ~= client.id then
+            return
+        end
+    end
+
+    -- remove document highlight autocmd
+    local group = vim.api.nvim_create_augroup("user.config.lsp.occurrences", { clear = false })
+    vim.api.nvim_clear_autocmds({
+        group = group,
+        buffer = buf,
+    })
+
+    -- remove all lsp buffer mappings
+    for _, mapping in ipairs(lsp_mappings) do
+        local modes = mapping.mode or "n"
+        vim.keymap.del(modes, mapping[1], { buffer = buf })
+    end
 end
 
 local function setup_server(name, setup_fn)
@@ -170,6 +200,15 @@ function M.setup()
             local buf = args.buf
             local client = vim.lsp.get_client_by_id(args.data.client_id)
             on_attach(client, buf)
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("LspDetach", {
+        group = group,
+        callback = function(args)
+            local buf = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            on_detach(client, buf)
         end,
     })
 
