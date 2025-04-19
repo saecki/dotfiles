@@ -22,8 +22,6 @@ local float_preview_opts = {
     anchor_bias = "above",
 }
 
-local group
-
 local function open_lsp_log()
     vim.cmd("edit " .. vim.lsp.log.get_filename())
 end
@@ -165,8 +163,7 @@ local function stop_servers()
 end
 
 function M.setup()
-    group = vim.api.nvim_create_augroup("user.config.lsp", {})
-
+    local group = vim.api.nvim_create_augroup("user.config.lsp", {})
     vim.api.nvim_create_autocmd("LspAttach", {
         group = group,
         callback = function(args)
