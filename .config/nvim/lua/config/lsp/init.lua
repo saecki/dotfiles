@@ -55,7 +55,33 @@ local function get_capabilities()
     return capabilities
 end
 
+---@param client vim.lsp.Client
+---@param buf integer
 local function on_attach(client, buf)
+    -- Highlight occurrences
+    if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        -- make sure only one autocmd per buffer exists
+        local group = vim.api.nvim_create_augroup("user.config.lsp.occurrences", { clear = false })
+        vim.api.nvim_clear_autocmds({
+            group = group,
+            buffer = buf,
+        })
+
+        vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
+            group = group,
+            buffer = buf,
+            callback = function()
+                if shared.lsp.enable_document_highlight then
+                    if vim.fn.mode() == "n" then
+                        vim.lsp.buf.document_highlight()
+                    else
+                        vim.lsp.buf.clear_references()
+                    end
+                end
+            end,
+        })
+    end
+
     wk.add({
         buffer = buf,
 
@@ -186,18 +212,6 @@ function M.setup()
     vim.lsp.inlay_hint.enable(shared.lsp.enable_inlay_hints, {})
 
     -- Highlight occurrences
-    vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
-        group = group,
-        callback = function()
-            if shared.lsp.enable_document_highlight then
-                if vim.fn.mode() == "n" then
-                    vim.lsp.buf.document_highlight()
-                else
-                    vim.lsp.buf.clear_references()
-                end
-            end
-        end,
-    })
     vim.lsp.handlers["textDocument/documentHighlight"] = function(err, result, ctx, config)
         -- only clear highlights when the new locations are known to avoid jitter
         vim.lsp.util.buf_clear_references(ctx.bufnr)
