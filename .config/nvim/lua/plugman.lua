@@ -67,8 +67,8 @@ local function init_popup()
     vim.bo[buf].modifiable = false
 
     -- create win
-    local margin_x = 4
-    local margin_y = 2
+    local margin_x = 8
+    local margin_y = 3
     local border = 2
     local width = vim.opt.columns:get() - 2 * margin_x - border
     local height = vim.opt.lines:get() - 2 * margin_y - border
@@ -118,7 +118,11 @@ local function init_popup()
 end
 
 local function render_win()
+    local ctx = popup_ctx
     render_scheduled = false
+    if not ctx then
+        return
+    end
 
     ---@type string[]
     local lines = {}
@@ -185,9 +189,6 @@ local function render_win()
     end
 
     -- update popup
-    local ctx = popup_ctx or init_popup()
-    popup_ctx = ctx
-
     vim.bo[ctx.buf].modifiable = true
     vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, true, lines)
     for i, line_hls in ipairs(hls) do
@@ -1080,26 +1081,32 @@ function M.finish_setup(post_setup)
 end
 
 function M.fetch()
+    popup_ctx = init_popup()
     fetch_updates()
 end
 
 function M.update()
+    popup_ctx = init_popup()
     update_plugins({ write_lock = true })
 end
 
 function M.update_no_lock()
+    popup_ctx = init_popup()
     update_plugins({ write_lock = false })
 end
 
 function M.save_lock_file()
+    popup_ctx = init_popup()
     update_lock_file()
 end
 
 function M.restore_lock_file()
+    popup_ctx = init_popup()
     restore_lock_file()
 end
 
 function M.log()
+    popup_ctx = init_popup()
     render_win()
 end
 
