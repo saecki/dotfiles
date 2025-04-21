@@ -1083,32 +1083,32 @@ function M.finish_setup(post_setup)
 end
 
 function M.fetch()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     fetch_updates()
 end
 
 function M.update()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     update_plugins({ write_lock = true })
 end
 
 function M.update_no_lock()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     update_plugins({ write_lock = false })
 end
 
 function M.save_lock_file()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     update_lock_file()
 end
 
 function M.restore_lock_file()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     restore_lock_file()
 end
 
 function M.log()
-    popup_ctx = init_popup()
+    popup_ctx = popup_ctx or init_popup()
     render_win()
 end
 
