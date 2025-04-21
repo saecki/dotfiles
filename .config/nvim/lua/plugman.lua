@@ -276,6 +276,8 @@ local function append_to_win(reg_idx, text, hl, opts)
     opts = opts or {}
     if not opts.no_time then
         text = os.date("[%H:%M:%S] ") .. text
+    else
+        text = "           " .. text
     end
 
     local array
@@ -303,7 +305,7 @@ end
 ---@param pattern string
 ---@param ... any
 local function print_plain_dimmed(reg_idx, pattern, ...)
-    append_to_win(reg_idx, "           " .. string.format(pattern, ...), "Comment", { no_time = true })
+    append_to_win(reg_idx, string.format(pattern, ...), "Comment", { no_time = true })
 end
 
 ---@param reg_idx integer
