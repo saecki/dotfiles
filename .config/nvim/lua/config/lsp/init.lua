@@ -147,28 +147,6 @@ local function setup_server(name, setup_fn)
     end
 end
 
----@param config vim.lsp.Config
-local function start_server(config)
-    -- Deepcopy config so changes done in the client
-    -- do not propagate back to the enabled configs.
-    config = vim.deepcopy(config)
-
-    if type(config.root_dir) == 'function' then
-        local bufnr = vim.api.nvim_get_current_buf()
-        ---@param root_dir string
-        config.root_dir(bufnr, function(root_dir)
-            config.root_dir = root_dir
-            vim.schedule(function()
-                local client_id = vim.lsp.start(config)
-                fidget.show_starting(client_id, config.name)
-            end)
-        end)
-    else
-        local client_id = vim.lsp.start(config)
-        fidget.show_starting(client_id, config.name)
-    end
-end
-
 local function start_servers()
     local started = false
     local ft = vim.bo.filetype
@@ -176,13 +154,14 @@ local function start_servers()
         local config = vim.lsp.config[name]
         if config.filetypes and vim.tbl_contains(config.filetypes, ft) then
             vim.lsp.enable(name, true)
-            start_server(config)
             started = true
         end
     end
 
     if not started then
         vim.notify(string.format("No server found for filetype `%s`", ft))
+    else
+        vim.cmd.edit()
     end
 end
 
@@ -216,6 +195,9 @@ function M.setup()
     -- Client capabilities
     vim.lsp.config("*", {
         capabilities = get_capabilities(),
+        on_init = function(client, result)
+            fidget.show_starting(client.id, client.name)
+        end
     })
 
     -- default servers
