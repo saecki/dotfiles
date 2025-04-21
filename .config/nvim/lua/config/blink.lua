@@ -31,12 +31,20 @@ function M.setup()
                 local line = ctx.cursor[1] - 1
                 local col = ctx.cursor[2]
 
-                -- Trim edit range after cursor
                 for _, item in ipairs(items) do
                     if item.textEdit then
-                        local range_end = item.textEdit.range["end"]
-                        if range_end.line == line and range_end.character > col then
-                            range_end.character = col
+                        if item.textEdit.range then
+                            -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textEdit
+                            -- trim edit range after cursor
+                            local range_end = item.textEdit.range["end"]
+                            if range_end.line == line and range_end.character > col then
+                                range_end.character = col
+                            end
+                        elseif item.textEdit.insert then
+                            -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#insertReplaceEdit
+                            -- always use insert range
+                            item.textEdit.range = item.textEdit.insert
+                            item.textEdit.replace = nil
                         end
                     end
                 end
