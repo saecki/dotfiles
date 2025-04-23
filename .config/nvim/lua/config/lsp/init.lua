@@ -76,7 +76,7 @@ local lsp_mappings = {
     { "<leader>eh",    toggle_document_highlight,                                                            desc = "Document highlight" },
     { "<leader>ei",    toggle_inlay_hints,                                                                   desc = "Inlay hints" },
     { "<leader>r",     live_rename.rename,                                                                   desc = "Refactor keep name" },
-    { "<leader>R",     live_rename.map({ text = "", insert = true }),                                        desc = "Refactor clear name" },
+    { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),                              desc = "Refactor clear name" },
 }
 
 ---@param client vim.lsp.Client
