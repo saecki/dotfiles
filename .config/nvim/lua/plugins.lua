@@ -78,6 +78,7 @@ function M.setup()
             "williamboman/mason.nvim",
             "Saghen/blink.cmp",
             "folke/trouble.nvim",
+            "vxpm/ferris.nvim",
         },
     })
 

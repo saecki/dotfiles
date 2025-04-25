@@ -1,9 +1,9 @@
+local ferris = require("ferris")
 local wk = require("which-key.config")
 
 local M = {}
 
 local use_clippy = false
-local split_win = nil
 
 local function setup_server(opts)
     opts = opts or {}
@@ -34,43 +34,13 @@ local function toggle_check_command()
     vim.notify("cargo " .. cmd, vim.log.levels.INFO)
 end
 
-local macro_expansion_handler = function(_, result)
-    if result == nil then
-        vim.notify("No expansion")
-        return
-    end
-
-    local lines = vim.split(result.expansion, "\n")
-    table.insert(lines, 1, string.format("// expansion of `%s`", result.name))
-
-    local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    -- vim.api.nvim_buf_set_name(buf, result.name)
-    vim.bo[buf].filetype = "rust"
-
-    if split_win and vim.api.nvim_win_is_valid(split_win) then
-        vim.api.nvim_win_set_buf(split_win, buf)
-    else
-        split_win = vim.api.nvim_open_win(buf, false, {
-            win = 0,
-            split = "right",
-        })
-    end
-end
-
-local function expand_macro()
-    local client = vim.lsp.get_clients({ name = "rust_analyzer" })[1]
-    if not client then
-        vim.notify("rust_analyzer is not attached")
-        return
-    end
-
-    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
-    client:request("rust-analyzer/expandMacro", params, macro_expansion_handler)
-end
-
 function M.setup()
     setup_server()
+
+    ferris.setup({
+        create_commands = true,
+        url_handler = vim.ui.open,
+    })
 
     local group = vim.api.nvim_create_augroup("user.config.lsp.server.rust-analyzer", {})
     vim.api.nvim_create_autocmd("BufRead", {
@@ -78,8 +48,23 @@ function M.setup()
         pattern = "*.rs",
         callback = function(ev)
             wk.add({
-                { "<leader>ic", toggle_check_command, desc = "Rust check command", buffer = ev.buf },
-                { "<leader>ie", expand_macro,         desc = "Rust expand",        buffer = ev.buf },
+                buffer = ev.buf,
+                { "<leader>ic",  toggle_check_command,               desc = "Rust check command" },
+                { "<leader>ie",  "<cmd>FerrisExpandMacro<cr>",       desc = "Rust expand" },
+
+                { "<leader>ivh", "<cmd>FerrisViewHIR<cr>",           desc = "Rust view HIR" },
+                { "<leader>ivm", "<cmd>FerrisViewMIR<cr>",           desc = "Rust view MIR" },
+                { "<leader>ivl", "<cmd>FerrisViewMemoryLayout<cr>",  desc = "Rust view memory layout" },
+                -- TODO: support new viewSyntaxTree extension method
+                -- { "<leader>ivs", "<cmd>FerrisViewSyntaxTree<cr>",    desc = "Rust view syntax tree",  mode = { "n", "v" } },
+                { "<leader>ivi", "<cmd>FerrisViewItemTree<cr>",      desc = "Rust view item tree" },
+
+                { "<leader>iom", "<cmd>FerrisOpenCargoToml<cr>",     desc = "Rust open manifest" },
+                { "<leader>iop", "<cmd>FerrisOpenParentModule<cr>",  desc = "Rust open parent module" },
+                { "<leader>iod", "<cmd>FerrisOpenDocumentation<cr>", desc = "Rust open docs" },
+
+                { "<leader>ir",  "<cmd>FerrisReloadWorkspace<cr>",   desc = "Rust reload workspace" },
+                { "<leader>im",  "<cmd>FerrisRebuildMacros<cr>",     desc = "Rust rebuild macros" },
             })
         end
     })
