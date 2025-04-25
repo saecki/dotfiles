@@ -83,7 +83,9 @@ local function init_popup()
     }
     local win = vim.api.nvim_open_win(buf, false, win_opts)
     vim.wo[win].wrap = false
-    vim.api.nvim_set_current_win(win)
+    vim.schedule(function()
+        vim.api.nvim_set_current_win(win)
+    end)
 
     -- key mappings
     vim.keymap.set("n", "zo", M.log_fold_open, { buffer = buf })
