@@ -608,6 +608,8 @@ local function ensure_installed_git_repo(spec)
     end
 
     if not vim.uv.fs_stat(package_path) then
+        popup_ctx = popup_ctx or init_popup()
+
         plugins[reg_idx].run_post_checkout = true
         in_progress = in_progress + 1
 
@@ -713,6 +715,8 @@ function M.dev_repo(cfg_file, spec)
 
     -- clone repository into `~/Projects` dir
     if not vim.uv.fs_stat(project_path) then
+        popup_ctx = popup_ctx or init_popup()
+
         plugins[reg_idx].run_post_checkout = true
         in_progress = in_progress + 1
 
