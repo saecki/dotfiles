@@ -2,6 +2,13 @@ local shared = require("shared")
 
 local M = {}
 
+---@param opts vim.diagnostic.JumpOpts
+local function map_jump(opts)
+    return function()
+        vim.diagnostic.jump(opts)
+    end
+end
+
 function M.setup()
     vim.diagnostic.config({
         virtual_text = true,
@@ -23,16 +30,16 @@ function M.setup()
 
     vim.keymap.set(
         "n", "[e",
-        function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+        map_jump({ count = -1, severity = vim.diagnostic.severity.ERROR }),
         { desc = "Previous error" }
     )
     vim.keymap.set(
         "n", "]e",
-        function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+        map_jump({ count = 1, severity = vim.diagnostic.severity.ERROR }),
         { desc = "Next error" }
     )
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+    vim.keymap.set("n", "[d", map_jump({ count = -1 }), { desc = "Previous diagnostic" })
+    vim.keymap.set("n", "]d", map_jump({ count = 1 }), { desc = "Next diagnostic" })
 end
 
 return M
