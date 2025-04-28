@@ -195,7 +195,7 @@ function M.setup()
         callback = function(args)
             local buf = args.buf
             local client = vim.lsp.get_client_by_id(args.data.client_id)
-            on_detach(client, buf)
+            pcall(on_detach, client, buf)
         end,
     })
 
