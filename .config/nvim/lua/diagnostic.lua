@@ -4,6 +4,7 @@ local M = {}
 
 ---@param opts vim.diagnostic.JumpOpts
 local function map_jump(opts)
+    opts.float = true
     return function()
         vim.diagnostic.jump(opts)
     end

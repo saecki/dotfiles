@@ -204,7 +204,7 @@ function M.debuggables(opts)
         textDocument = vim.lsp.util.make_text_document_params(),
         position = nil,
     }
-    client.request("experimental/runnables", params, debuggables_handler)
+    client:request("experimental/runnables", params, debuggables_handler)
 end
 
 function M.debug(runnable_entry)

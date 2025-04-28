@@ -211,6 +211,8 @@ local function render_win()
     -- update popup
     vim.bo[ctx.buf].modifiable = true
     vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, true, lines)
+
+    vim.api.nvim_buf_clear_namespace(ctx.buf, popup_ns, 0, -1)
     for i, line_hls in ipairs(hls) do
         local line_idx = i - 1
         for _, line_hl in ipairs(line_hls) do
@@ -571,7 +573,6 @@ end
 local function async_command(reg_idx, command, opts)
     opts = opts or {}
 
-    ---@param resolve fun(crate: ApiCrateSummary[]?, cancelled: boolean)
     return coroutine.yield(function(resolve)
         if not opts.noschedule then
             resolve = vim.schedule_wrap(resolve)

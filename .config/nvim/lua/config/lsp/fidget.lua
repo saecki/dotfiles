@@ -1,11 +1,9 @@
 -- Stolen from https://github.com/j-hui/fidget.nvim
 
-local LSP_STARTING_TOKEN = "LSP_STARTED"
-
 local M = {}
 
----@type integer
-local hl_ns
+local LSP_STARTING_TOKEN = "LSP_STARTED"
+local hl_ns = vim.api.nvim_create_namespace("user.config.lsp.fidget.hl")
 
 local options = {
     text = {
@@ -442,7 +440,6 @@ function M.close()
 end
 
 function M.setup()
-    hl_ns = vim.api.nvim_create_namespace("user.config.lsp.fidget.hl")
     local group = vim.api.nvim_create_augroup("user.config.lsp.fidget", {})
     vim.api.nvim_create_autocmd("LspProgress", {
         group = group,

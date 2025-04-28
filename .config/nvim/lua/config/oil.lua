@@ -4,7 +4,7 @@ local shared = require("shared")
 local M = {}
 
 function M.setup()
-    require("oil").setup({
+    oil.setup({
         float = {
             border = shared.window.border,
         },

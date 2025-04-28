@@ -2,7 +2,7 @@ local shared = require("shared")
 
 local M = {}
 
-local namespace = vim.api.nvim_create_namespace("user.util.select")
+local hl_ns = vim.api.nvim_create_namespace("user.util.select.hl")
 
 local calculate_popup_width = function(entries)
     local result = 0
@@ -51,8 +51,11 @@ end
 
 local function highlight()
     local row = vim.api.nvim_win_get_cursor(M.win)[1] - 1
-    vim.api.nvim_buf_clear_namespace(M.buf, namespace, 0, -1)
-    vim.api.nvim_buf_add_highlight(M.buf, namespace, "Selection", row, 0, -1)
+    vim.api.nvim_buf_clear_namespace(M.buf, hl_ns, 0, -1)
+    vim.api.nvim_buf_set_extmark(M.buf, hl_ns, row, 0, {
+        end_row = row + 1,
+        hl_group = "Selection",
+    })
 end
 
 -- 1 based index
