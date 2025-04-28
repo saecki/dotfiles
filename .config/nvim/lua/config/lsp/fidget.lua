@@ -4,6 +4,9 @@ local LSP_STARTING_TOKEN = "LSP_STARTED"
 
 local M = {}
 
+---@type integer
+local hl_ns
+
 local options = {
     text = {
         spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
@@ -230,7 +233,10 @@ function Fidget:show(offset)
 
     self.lines = splits_on_newlines(self.lines) -- handle lines that might contain a "\n" character
     pcall(vim.api.nvim_buf_set_lines, self.bufid, 0, height, false, self.lines)
-    vim.api.nvim_buf_add_highlight(self.bufid, -1, "FidgetTitle", height - 1, 0, -1)
+    vim.api.nvim_buf_set_extmark(self.bufid, hl_ns, height - 1, 0, {
+        end_col = #self.lines[#self.lines],
+        hl_group = "FidgetTitle",
+    })
 
     local next_offset = #self.lines + offset
     return next_offset
@@ -436,6 +442,7 @@ function M.close()
 end
 
 function M.setup()
+    hl_ns = vim.api.nvim_create_namespace("user.config.lsp.fidget.hl")
     local group = vim.api.nvim_create_augroup("user.config.lsp.fidget", {})
     vim.api.nvim_create_autocmd("LspProgress", {
         group = group,
