@@ -6,6 +6,24 @@ local lock_file_path = vim.fs.joinpath(vim.fn.stdpath("config"), "/plugs.lock")
 local plugs_path = vim.fs.joinpath(vim.fn.stdpath("data"), "/site/pack/plugs/opt/")
 local projects_path = vim.fn.expand("~/Projects/")
 
+local async = {}
+
+---@param f function
+---@param ... any
+function async.launch(f, ...)
+    local t = coroutine.create(f)
+    local function exec(...)
+        local ok, data = coroutine.resume(t, ...)
+        if not ok then
+            error(debug.traceback(t, data))
+        end
+        if coroutine.status(t) ~= "dead" then
+            data(exec)
+        end
+    end
+    exec(...)
+end
+
 ---@class PlugSpec
 ---@field source string
 ---@field checkout string?
@@ -544,25 +562,19 @@ local function run_command(reg_idx, command, opts, on_exit)
 end
 
 ---@param reg_idx integer
----@param commands {args: string[], opts: CommandOpts?}[]|{on_exit: fun(success: boolean)}
-local function chain_commands(reg_idx, commands)
-    local callback = commands.on_exit
-    for i = #commands, 2, -1 do
-        local command = commands[i]
-        local next_callback = callback
-        callback = function(success)
-            if success then
-                -- continue on success
-                run_command(reg_idx, command.args, command.opts, next_callback)
-            else
-                -- short circuit on error
-                commands.on_exit(success)
-            end
-        end
-    end
+---@param command string[]
+---@param opts CommandOpts|{noschedule: boolean}?
+---@return boolean, string
+local function async_command(reg_idx, command, opts)
+    opts = opts or {}
 
-    local command = commands[1]
-    run_command(reg_idx, command.args, command.opts, callback)
+    ---@param resolve fun(crate: ApiCrateSummary[]?, cancelled: boolean)
+    return coroutine.yield(function(resolve)
+        if not opts.noschedule then
+            resolve = vim.schedule_wrap(resolve)
+        end
+        run_command(reg_idx, command, opts, resolve)
+    end)
 end
 
 ---@param plug Plugin
@@ -609,36 +621,35 @@ local function ensure_installed_git_repo(spec)
         repo_url = "https://github.com/" .. spec.source
     end
 
-    if not vim.uv.fs_stat(package_path) then
-        popup_ctx = popup_ctx or init_popup()
-
-        plugins[reg_idx].run_post_checkout = true
-        in_progress = in_progress + 1
-
-        chain_commands(reg_idx, {
-            -- clone
-            {
-                args = {
-                    "git", "clone", "--quiet", "--filter=blob:none",
-                    "--recurse-submodules", "--also-filter-submodules",
-                    "--origin", "origin",
-                    repo_url, package_path,
-                },
-            },
-            -- checkout
-            spec.checkout and {
-                args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = package_path, verbosity = 1 },
-            },
-            on_exit = function(success)
-                if success then
-                    print_info(reg_idx, "installed")
-                end
-
-                in_progress = in_progress - 1
-            end,
-        })
+    if vim.uv.fs_stat(package_path) then
+        return
     end
+
+    popup_ctx = popup_ctx or init_popup()
+    in_progress = in_progress + 1
+    plugins[reg_idx].run_post_checkout = true
+
+    async.launch(function()
+        local success = async_command(reg_idx, {
+            "git", "clone", "--quiet", "--filter=blob:none",
+            "--recurse-submodules", "--also-filter-submodules",
+            "--origin", "origin",
+            repo_url, package_path,
+        })
+        if success and spec.checkout then
+            success = async_command(
+                reg_idx,
+                { "git", "checkout", "--quiet", spec.checkout },
+                { cwd = package_path, verbosity = 1 }
+            )
+        end
+
+        if success then
+            print_info(reg_idx, "installed")
+        end
+
+        in_progress = in_progress - 1
+    end)
 end
 
 ---@param spec PlugSpec
@@ -716,61 +727,130 @@ function M.dev_repo(cfg_file, spec)
     end
 
     -- clone repository into `~/Projects` dir
-    if not vim.uv.fs_stat(project_path) then
-        popup_ctx = popup_ctx or init_popup()
-
-        plugins[reg_idx].run_post_checkout = true
-        in_progress = in_progress + 1
-
-        chain_commands(reg_idx, {
-            -- clone
-            {
-                args = { "git", "clone", "--quiet", repo_url, project_path },
-            },
-            -- checkout
-            spec.checkout and {
-                args = { "git", "checkout", "--quiet", spec.checkout },
-                opts = { cwd = project_path, verbosity = 1 },
-            },
-            on_exit = function(success)
-                if success and pcall(symlink_into_package_dir) then
-                    print_info(reg_idx, "installed and linked")
-                end
-
-                in_progress = in_progress - 1
-            end,
-        })
-    else
+    if vim.uv.fs_stat(project_path) then
         local ok, linked = pcall(symlink_into_package_dir)
         if ok and linked then
-            print_info(reg_idx, "linked")
+            print_info(reg_idx, "already linked")
         end
+        return
     end
+
+    popup_ctx = popup_ctx or init_popup()
+    plugins[reg_idx].run_post_checkout = true
+    in_progress = in_progress + 1
+
+    async.launch(function()
+        local success = async_command(
+            reg_idx,
+            { "git", "clone", "--quiet", repo_url, project_path }
+        )
+
+        if success and spec.checkout then
+            success = async_command(
+                reg_idx,
+                { "git", "checkout", "--quiet", spec.checkout },
+                { cwd = project_path, verbosity = 1 }
+            )
+        end
+
+        if success and pcall(symlink_into_package_dir) then
+            print_info(reg_idx, "installed and linked")
+        end
+        in_progress = in_progress - 1
+    end)
 end
 
 local function update_lock_file()
     print_important(global_log.POST, "generating lock-file")
     local lines = {}
+
+    local in_progress = #plugins
+    local any_failed = false
+
     for reg_idx, plug in ipairs(plugins) do
         if plug.managed then
-            local dir_name = vim.fs.basename(plug.spec.source)
-            local package_path = vim.fs.joinpath(plugs_path, dir_name)
-            local cmd_args = { "git", "rev-list", "-1", "HEAD" }
-            local cmd_opts = { cwd = package_path, verbosity = 0 }
+            async.launch(function()
+                local dir_name = vim.fs.basename(plug.spec.source)
+                local package_path = vim.fs.joinpath(plugs_path, dir_name)
+                local success, refname = run_command(
+                    reg_idx,
+                    { "git", "rev-list", "-1", "HEAD" },
+                    { cwd = package_path, verbosity = 0 }
+                )
+                if success then
+                    local commit = vim.trim(refname)
+                    table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
+                else
+                    any_failed = true
+                end
+                in_progress = in_progress - 1
 
-            local success, stdout = run_command(reg_idx, cmd_args, cmd_opts)
-            if not success then
-                return
-            end
+                if in_progress == 0 then
+                    if any_failed then
+                        print_error(global_log.POST, "failed to get some refs")
+                    else
+                        local text = table.concat(lines)
+                        write_file(global_log.POST, lock_file_path, text)
+                        print_important(global_log.POST, "generated lock-file")
+                    end
+                end
+            end)
+        else
+            in_progress = in_progress - 1
+        end
+    end
+end
 
-            local commit = vim.trim(stdout)
-            table.insert(lines, vim.json.encode({ plug.spec.source, commit }) .. "\n")
+---@param name string
+---@param locked_commit string
+local function restore_plugin(name, locked_commit)
+    local reg_idx, plug = registered_plugin(name)
+    if not reg_idx or not plug or not plug.managed then
+        return
+    end
+
+    local dir_name = vim.fs.basename(plug.spec.source)
+    local package_path = vim.fs.joinpath(plugs_path, dir_name)
+
+    -- check current commit
+    local success, refname = async_command(
+        reg_idx,
+        { "git", "rev-list", "-1", "HEAD" },
+        { cwd = package_path }
+    )
+    if not success then
+        return
+    end
+    local current_commit = vim.trim(refname)
+
+    -- only run checkout if needed
+    if current_commit == locked_commit then
+        print_info(reg_idx, "unchanged")
+        return
+    end
+
+    -- FIXME: if the locked commit is newer, the log is empty
+    -- print log
+    local success, git_log = async_command(
+        reg_idx,
+        { "git", "log", "--oneline", string.format("%s..%s", locked_commit, "HEAD") },
+        { cwd = package_path }
+    )
+    if success then
+        for commit in vim.gsplit(git_log, "\n", { trimempty = true }) do
+            print_plain_dimmed(reg_idx, "%s", commit)
         end
     end
 
-    local text = table.concat(lines)
-    write_file(global_log.POST, lock_file_path, text)
-    print_important(global_log.POST, "generated lock-file")
+
+    local success = async_command(
+        reg_idx,
+        { "git", "checkout", "--quiet", locked_commit },
+        { cwd = package_path }
+    )
+    if success then
+        print_important(reg_idx, "restored")
+    end
 end
 
 local function restore_lock_file()
@@ -786,58 +866,18 @@ local function restore_lock_file()
         table.insert(lock, entry)
     end
 
+    local in_progress = #lock
+
     for _, l in ipairs(lock) do
-        local reg_idx, plug = registered_plugin(l[1])
-        if not reg_idx or not plug or not plug.managed then
-            goto continue
-        end
+        async.launch(function()
+            restore_plugin(l[1], l[2])
+            in_progress = in_progress - 1
 
-        local dir_name = vim.fs.basename(plug.spec.source)
-        local package_path = vim.fs.joinpath(plugs_path, dir_name)
-
-        -- check current commit
-        local success, stdout = run_command(
-            reg_idx,
-            { "git", "rev-list", "-1", "HEAD" },
-            { cwd = package_path }
-        )
-        if not success then
-            goto continue
-        end
-        local current_commit = vim.trim(stdout)
-
-        -- only run checkout if needed
-        if current_commit == l[2] then
-            print_info(reg_idx, "unchanged")
-            goto continue
-        end
-
-        -- print log
-        local success, stdout = run_command(
-            reg_idx,
-            { "git", "log", "--oneline", string.format("%s..%s", l[2], "HEAD") },
-            { cwd = package_path }
-        )
-        if success then
-            for commit in vim.gsplit(stdout, "\n", { trimempty = true }) do
-                print_plain_dimmed(reg_idx, "%s", commit)
+            if in_progress == 0 then
+                print_important(global_log.POST, "restored lock-file")
             end
-        end
-
-
-        local success = run_command(
-            reg_idx,
-            { "git", "checkout", "--quiet", l[2] },
-            { cwd = package_path }
-        )
-        if success then
-            print_important(reg_idx, "restored")
-        end
-
-        ::continue::
+        end)
     end
-
-    print_important(global_log.POST, "restored lock-file")
 end
 
 local function fetch_updates()
@@ -849,155 +889,149 @@ local function fetch_updates()
         local dir_name = vim.fs.basename(plug.spec.source)
         local package_path = vim.fs.joinpath(plugs_path, dir_name)
 
-        run_command(
-            reg_idx,
-            { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
-            { cwd = package_path },
-            vim.schedule_wrap(function(success)
-                if success then
-                    print_info(reg_idx, "fetched updates")
-                end
-            end)
-        )
+        async.launch(function()
+            local success = async_command(
+                reg_idx,
+                { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
+                { cwd = package_path }
+            )
+
+            if success then
+                print_info(reg_idx, "fetched updates")
+            end
+        end)
+
 
         ::continue::
     end
+end
 
-    all_started = true
+---@param reg_idx integer
+---@param plug Plugin
+---@return boolean
+local function update_plugin(reg_idx, plug)
+    if not plug.managed then
+        return false
+    end
+
+    local dir_name = vim.fs.basename(plug.spec.source)
+    local package_path = vim.fs.joinpath(plugs_path, dir_name)
+
+    local success, current_commit = async_command(
+        reg_idx,
+        { "git", "rev-list", "-1", "HEAD" },
+        { cwd = package_path }
+    )
+    if not success then
+        return false
+    end
+    current_commit = vim.trim(current_commit)
+
+    local checkout
+    if plug.spec.checkout then
+        local origin_branch = "origin/" .. plug.spec.checkout
+        local success, refname = async_command(
+            reg_idx,
+            { "git", "branch", "--list", "--all", "--format=%(refname:short)", origin_branch },
+            { cwd = package_path }
+        )
+        if not success then
+            return false
+        end
+        if vim.trim(refname) == origin_branch then
+            checkout = origin_branch
+        else
+            checkout = plug.spec.checkout
+        end
+    else
+        -- infer default branch
+        local success, refname = async_command(
+            reg_idx,
+            { "git", "rev-parse", "--abbrev-ref", "origin/HEAD" },
+            { cwd = package_path }
+        )
+        if not success then
+            return false
+        end
+        checkout = vim.trim(refname)
+    end
+
+    local success = async_command(
+        reg_idx,
+        { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
+        { cwd = package_path }
+    )
+    if not success then
+        return false
+    end
+
+    -- check for updates
+    local success, refname = async_command(
+        reg_idx,
+        { "git", "rev-list", "-1", checkout },
+        { cwd = package_path }
+    )
+    if not success then
+        return false
+    end
+    local newest_commit = vim.trim(refname)
+
+    if newest_commit == current_commit then
+        print_info(reg_idx, "up to date")
+        return false
+    end
+
+    -- print log
+    local success, git_log = async_command(
+        reg_idx,
+        { "git", "log", "--oneline", "HEAD.." .. checkout },
+        { cwd = package_path }
+    )
+    if not success then
+        return false
+    end
+    for commit in vim.gsplit(git_log, "\n", { trimempty = true }) do
+        print_plain_dimmed(reg_idx, "%s", commit)
+    end
+
+    -- checkout newest commit
+    local success = async_command(
+        reg_idx,
+        { "git", "checkout", "--quiet", newest_commit },
+        { cwd = package_path }
+    )
+    if not success then
+        return false
+    end
+    print_important(reg_idx, "updated")
+
+    return true
 end
 
 ---@param opts { write_lock: boolean }
 local function update_plugins(opts)
-    local all_started = false
-    local updating = 0
+    local updating = #plugins
     local any_updated = false
 
-    local function when_done_update_lock_file()
-        updating = updating - 1
-
-        if all_started and updating == 0 then
-            if any_updated then
-                if opts.write_lock then
-                    vim.schedule(update_lock_file)
-                else
-                    print_info(global_log.POST, "all updated")
-                end
-            else
-                print_info(global_log.POST, "all up to date")
-            end
-        end
-    end
-
     for reg_idx, plug in ipairs(plugins) do
-        if not plug.managed then
-            goto continue
-        end
-        updating = updating + 1
+        async.launch(function()
+            local updated = update_plugin(reg_idx, plug)
+            updating = updating - 1
+            any_updated = any_updated or updated
 
-        local dir_name = vim.fs.basename(plug.spec.source)
-        local package_path = vim.fs.joinpath(plugs_path, dir_name)
-
-        local current_commit
-        do
-            local success, stdout = run_command(
-                reg_idx,
-                { "git", "rev-list", "-1", "HEAD" },
-                { cwd = package_path }
-            )
-            if not success then
-                goto continue
-            end
-            current_commit = vim.trim(stdout)
-        end
-
-        local checkout
-        if plug.spec.checkout then
-            local origin_branch = "origin/" .. plug.spec.checkout
-            local success, stdout = run_command(
-                reg_idx,
-                { "git", "branch", "--list", "--all", "--format=%(refname:short)", origin_branch },
-                { cwd = package_path }
-            )
-            if not success then
-                goto continue
-            end
-            if vim.trim(stdout) == origin_branch then
-                checkout = origin_branch
-            else
-                checkout = plug.spec.checkout
-            end
-        else
-            -- infer default branch
-            local success, stdout = run_command(
-                reg_idx,
-                { "git", "rev-parse", "--abbrev-ref", "origin/HEAD" },
-                { cwd = package_path }
-            )
-            if not success then
-                goto continue
-            end
-            checkout = vim.trim(stdout)
-        end
-
-        run_command(
-            reg_idx,
-            { "git", "fetch", "--quiet", "--tags", "--force", "--recurse-submodules=yes", "origin" },
-            { cwd = package_path },
-            vim.schedule_wrap(function(success)
-                if not success then
-                    when_done_update_lock_file()
-                    return
-                end
-
-                -- check for updates
-                local success, stdout = run_command(
-                    reg_idx,
-                    { "git", "rev-list", "-1", checkout },
-                    { cwd = package_path }
-                )
-                if not success then
-                    when_done_update_lock_file()
-                    return
-                end
-                local newest_commit = vim.trim(stdout)
-
-                if newest_commit == current_commit then
-                    print_info(reg_idx, "up to date")
-                    when_done_update_lock_file()
-                    return
-                end
-
-                -- print log
-                local success, stdout = run_command(
-                    reg_idx,
-                    { "git", "log", "--oneline", "HEAD.." .. checkout },
-                    { cwd = package_path }
-                )
-                if success then
-                    for commit in vim.gsplit(stdout, "\n", { trimempty = true }) do
-                        print_plain_dimmed(reg_idx, "%s", commit)
+            if updating == 0 then
+                if any_updated then
+                    if opts.write_lock then
+                        vim.schedule(update_lock_file)
+                    else
+                        print_info(global_log.POST, "all updated")
                     end
+                else
+                    print_info(global_log.POST, "all up to date")
                 end
-
-                -- checkout newest commit
-                local success = run_command(
-                    reg_idx,
-                    { "git", "checkout", "--quiet", newest_commit },
-                    { cwd = package_path }
-                )
-                if success then
-                    print_important(reg_idx, "updated")
-                end
-
-                any_updated = true
-                when_done_update_lock_file()
-            end)
-        )
-
-        ::continue::
+            end
+        end)
     end
-
-    all_started = true
 end
 
 ---@param name string?
