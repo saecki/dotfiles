@@ -151,15 +151,15 @@ local function render_win()
 
     -- title
     table.insert(lines, "PLUGMAN")
-    table.insert(hls, { { hl = "Statement", start_col = 0, end_col = -1 } })
+    table.insert(hls, { { hl = "Statement", start_col = 0 } })
 
     -- pre log
     for _, msg in ipairs(global_log.pre) do
         table.insert(lines, msg[1])
-        table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
+        table.insert(hls, { { hl = msg[2], start_col = 0 } })
     end
     table.insert(lines, "--------------------------------------------------")
-    table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
+    table.insert(hls, { { hl = "PreProc", start_col = 0 } })
 
     -- plugin logs
     for reg_idx, p in ipairs(plugins) do
@@ -172,20 +172,20 @@ local function render_win()
             table.insert(lines, string.format("%-30s %s", dir_name, "ok"))
             table.insert(hls, {
                 { hl = "Function", start_col = 0,  end_col = 30 },
-                { hl = "Comment",  start_col = 31, end_col = -1 },
+                { hl = "Comment",  start_col = 31 },
             })
         elseif state.expanded then
             local msg = p.log[1]
             table.insert(lines, string.format("%-30s %s", dir_name, msg[1]))
             table.insert(hls, {
-                { hl = "Function", start_col = 0,  end_col = 30 },
-                { hl = msg[2],     start_col = 31, end_col = -1 },
+                { hl = "Function", start_col = 0, end_col = 30 },
+                { hl = msg[2],     start_col = 31 },
             })
 
             for i = 2, #p.log do
                 local msg = p.log[i]
                 table.insert(lines, string.format("%30s %s", "", msg[1]))
-                table.insert(hls, { { hl = msg[2], start_col = 31, end_col = -1 } })
+                table.insert(hls, { { hl = msg[2], start_col = 31 } })
             end
             table.insert(lines, "")
             table.insert(hls, {})
@@ -193,8 +193,8 @@ local function render_win()
             local msg = p.log[#p.log]
             table.insert(lines, string.format("%-30s %s", dir_name, msg[1]))
             table.insert(hls, {
-                { hl = "Function", start_col = 0,  end_col = 30 },
-                { hl = msg[2],     start_col = 31, end_col = -1 },
+                { hl = "Function", start_col = 0, end_col = 30 },
+                { hl = msg[2],     start_col = 31 },
             })
         end
     end
@@ -202,10 +202,10 @@ local function render_win()
 
     -- post log
     table.insert(lines, "--------------------------------------------------")
-    table.insert(hls, { { hl = "PreProc", start_col = 0, end_col = -1 } })
+    table.insert(hls, { { hl = "PreProc", start_col = 0 } })
     for _, msg in ipairs(global_log.post) do
         table.insert(lines, msg[1])
-        table.insert(hls, { { hl = msg[2], start_col = 0, end_col = -1 } })
+        table.insert(hls, { { hl = msg[2], start_col = 0 } })
     end
 
     -- update popup
@@ -214,7 +214,10 @@ local function render_win()
     for i, line_hls in ipairs(hls) do
         local line_idx = i - 1
         for _, line_hl in ipairs(line_hls) do
-            vim.api.nvim_buf_add_highlight(ctx.buf, popup_ns, line_hl.hl, line_idx, line_hl.start_col, line_hl.end_col)
+            vim.api.nvim_buf_set_extmark(ctx.buf, popup_ns, line_idx, line_hl.start_col, {
+                end_col = line_hl.end_col or #lines[i],
+                hl_group = line_hl.hl,
+            })
         end
     end
     vim.bo[ctx.buf].modifiable = false
