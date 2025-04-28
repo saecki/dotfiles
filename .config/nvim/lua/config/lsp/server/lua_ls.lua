@@ -7,11 +7,14 @@ function M.setup()
                 runtime = {
                     version = "LuaJIT",
                 },
-                diagnostics = {
-                    globals = { "vim", "P" },
-                },
                 workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true)
+                    checkThirdParty = true,
+                    library = {
+                        vim.env.VIMRUNTIME,
+                        '${3rd}/busted/library',
+                        '${3rd}/luv/library',
+                        '${3rd}/luassert/library',
+                    },
                 },
                 telemetry = {
                     enable = false,
