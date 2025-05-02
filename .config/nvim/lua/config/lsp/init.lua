@@ -10,6 +10,7 @@ local fidget = require("config.lsp.fidget")
 local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
 local rust_analyzer = require("config.lsp.server.rust_analyzer")
+local tinymist = require("config.lsp.server.tinymist")
 local texlab = require("config.lsp.server.texlab")
 
 local M = {}
@@ -214,12 +215,12 @@ function M.setup()
     setup_server("wgsl_analyzer")
     setup_server("pyright")
     setup_server("vhdl_ls")
-    setup_server("tinymist")
 
     -- customized servers
     setup_server("dartls", dartls.setup)
     setup_server("lua_ls", lua_ls.setup)
     setup_server("rust_analyzer", rust_analyzer.setup)
+    setup_server("tinymist", tinymist.setup)
     setup_server("texlab", texlab.setup)
 
     -- custom servers
