@@ -129,8 +129,8 @@ function M.setup()
     pm.add(nil, "kaarmu/typst.vim")
 
     -- discord rich presence
-    vim.g.presence_has_setup = 1
-    pm.add("presence", "andweeb/presence.nvim")
+    -- vim.g.presence_has_setup = 1
+    -- pm.add("presence", "andweeb/presence.nvim")
 
     pm.finish_setup(function()
         local wk = require("which-key.config")
