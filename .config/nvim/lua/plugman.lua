@@ -732,9 +732,9 @@ function M.dev_repo(cfg_file, spec)
 
     -- clone repository into `~/Projects` dir
     if vim.uv.fs_stat(project_path) then
-        local ok, linked = pcall(symlink_into_package_dir)
-        if ok and linked then
-            print_info(reg_idx, "already linked")
+        local ok, did_link = pcall(symlink_into_package_dir)
+        if ok and did_link then
+            print_info(reg_idx, "linked")
         end
         return
     end
