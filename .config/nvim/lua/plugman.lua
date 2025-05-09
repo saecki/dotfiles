@@ -771,6 +771,16 @@ local function update_lock_file()
     local in_progress = #plugins
     local any_failed = false
 
+    local function write_lock_file()
+        if any_failed then
+            print_error(global_log.POST, "failed to get some refs")
+        else
+            local text = table.concat(lines)
+            write_file(global_log.POST, lock_file_path, text)
+            print_important(global_log.POST, "generated lock-file")
+        end
+    end
+
     for reg_idx, plug in ipairs(plugins) do
         if plug.managed then
             async.launch(function()
@@ -787,20 +797,17 @@ local function update_lock_file()
                 else
                     any_failed = true
                 end
-                in_progress = in_progress - 1
 
+                in_progress = in_progress - 1
                 if in_progress == 0 then
-                    if any_failed then
-                        print_error(global_log.POST, "failed to get some refs")
-                    else
-                        local text = table.concat(lines)
-                        write_file(global_log.POST, lock_file_path, text)
-                        print_important(global_log.POST, "generated lock-file")
-                    end
+                    write_lock_file()
                 end
             end)
         else
             in_progress = in_progress - 1
+            if in_progress == 0 then
+                write_lock_file()
+            end
         end
     end
 end
