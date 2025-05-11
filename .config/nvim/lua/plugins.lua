@@ -17,6 +17,7 @@ function M.setup()
     pm.add("devicons", "nvim-tree/nvim-web-devicons")
 
     -- multicursor
+    vim.g.VM_default_mappings = 0
     pm.add(nil, "mg979/vim-visual-multi")
 
     -- filetree
