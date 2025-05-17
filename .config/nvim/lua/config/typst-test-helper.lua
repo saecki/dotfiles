@@ -1,12 +1,21 @@
-local typst_test_helper = require("typst-test-helper")
+local tth = require("typst-test-helper")
 
 local M = {}
 
+local function on_attach(buf)
+    local function opts(desc)
+        return { buffer = buf, desc = desc }
+    end
+    vim.keymap.set("n", "<leader>iot", tth.map_open("identity"), opts("Open typst test"))
+    vim.keymap.set("n", "<leader>iog", tth.map_open("geeqie"), opts("Open typst test"))
+end
+
 function M.setup()
-    typst_test_helper.setup({
-        maps = {
-            { "<leader>iot", typst_test_helper.open_identity, desc = "Open typst test" },
-        }
+    tth.setup({
+        on_attach = on_attach,
+        programs = {
+            geeqie = { "geeqie" },
+        },
     })
 end
 
