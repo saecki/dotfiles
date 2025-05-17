@@ -117,6 +117,8 @@ end
 ---@param client vim.lsp.Client
 ---@param buf integer
 local function on_detach(client, buf)
+    vim.lsp.buf.clear_references()
+
     local attached_clients = vim.lsp.get_clients({ bufnr = buf })
 
     -- check if any other client is still attached
