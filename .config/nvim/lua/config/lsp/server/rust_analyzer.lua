@@ -39,15 +39,31 @@ local function open_split_win(lines, opts)
 
     local split_dir = opts.below and "below" or "right"
 
+    ---@param split_win integer?
+    local function compute_height(split_win)
+        local available = vim.api.nvim_win_get_height(0)
+        if split_win then
+            local cfg = vim.api.nvim_win_get_config(split_win)
+            if cfg.split == "below" then
+                available = available + cfg.height
+            end
+        end
+        local max_height = math.floor(0.6 * available)
+        return math.min(#lines, max_height)
+    end
+
     if split_win and vim.api.nvim_win_is_valid(split_win) then
+
         vim.api.nvim_win_set_buf(split_win, buf)
         vim.api.nvim_win_set_config(split_win, {
             split = split_dir,
+            height = opts.below and compute_height(split_win) or nil,
         })
     else
         split_win = vim.api.nvim_open_win(buf, false, {
             win = 0,
             split = split_dir,
+            height = opts.below and compute_height() or nil,
         })
     end
 
