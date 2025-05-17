@@ -211,12 +211,18 @@ local function view_memory_layout()
     end
 
     local line_builder = {}
+    local closing_lines = {}
     ---@param idx integer
     ---@param str string
     local function push_line(idx, str)
         local builder = line_builder[idx] or {}
         table.insert(builder, str)
         line_builder[idx] = builder
+    end
+    local function close_line(idx, str)
+        local builder = closing_lines[idx] or {}
+        table.insert(builder, str)
+        closing_lines[idx] = builder
     end
 
     local cross = "┼"
@@ -229,6 +235,14 @@ local function view_memory_layout()
     local function render_tree(x, y, node)
         local width = col_widths[x + 1]
         local mes = assert(node.measured)
+
+        -- close the bottom of the cell
+        local close_bottom = get_grid(x, y + mes.height) == nil
+        if close_bottom then
+            local line_idx = 3 * (y + mes.height) + 1
+            close_line(line_idx, string.rep(hor, width))
+            close_line(line_idx, cross)
+        end
 
         do
             -- draw cell
@@ -276,35 +290,6 @@ local function view_memory_layout()
         end
     end
 
-    ---@param x integer 0-based
-    ---@param y integer 0-based
-    ---@param node Node
-    local function close_tree_cells(x, y, node)
-        local width = col_widths[x + 1]
-        local mes = assert(node.measured)
-
-        -- draw bottom line
-        local close_bottom = get_grid(x, y + mes.height) == nil
-        if close_bottom then
-            local line_idx = 3 * (y + mes.height) + 1
-            push_line(line_idx, string.rep(hor, width))
-            push_line(line_idx, cross)
-        end
-
-        if not node.children then
-            return
-        end
-
-        local y_offset = 0
-        for _, child in ipairs(node.children) do
-            local child_y = y + y_offset
-            local child_x = x + 1
-            close_tree_cells(child_x, child_y, child)
-            local child_mes = assert(child.measured)
-            y_offset = y_offset + child_mes.height
-        end
-    end
-
     rust_analyzer_request("rust-analyzer/viewRecursiveMemoryLayout", nil, function(_, result)
         if result == nil then
             vim.notify("No memory layout")
@@ -325,12 +310,17 @@ local function view_memory_layout()
         end
         push_line(#line_builder + 1, string.format("%4d %s", tree.size, cross))
         render_tree(0, 0, tree)
-        close_tree_cells(0, 0, tree)
 
         -- display
-        local lines = vim.iter(line_builder)
-            :map(function(l) return table.concat(l) end)
+        local lines = vim.iter(line_builder):enumerate()
+            :map(function(i, l)
+                local close = closing_lines[i]
+                local close_str = close and table.concat(close) or ""
+                return table.concat(l) .. close_str
+            end)
             :totable()
+        table.insert(lines, 1, "")
+        table.insert(lines, "")
         open_split_win(lines, {
             below = true,
             nowrap = true,
