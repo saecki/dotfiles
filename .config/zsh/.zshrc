@@ -157,6 +157,12 @@ alias cdst='cd ~/.config/starship'
 alias cdyz='cd ~/.config/yazi'
 alias cdzt='cd ~/.config/zathura'
 
+alias cdt='cd ~/Projects/typst/typst'
+alias cdtr='cd ~/Projects/typst/repro'
+alias cdta='cd ~/Projects/typst/typst-assets'
+alias cdtd='cd ~/Projects/typst/typst-dev-assets'
+alias cdtk='cd ~/Projects/typst/krilla'
+
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
