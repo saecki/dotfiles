@@ -61,6 +61,18 @@ function M.setup()
     vim.opt.undofile = true
     vim.opt.swapfile = false
 
+    -- Diffs
+    vim.opt.diffopt = {
+        "internal",
+        "filler",
+        "closeoff",
+        "context:12",
+        "algorithm:histogram",
+        "linematch:200",
+        "indent-heuristic",
+        "iwhite"
+    }
+
     -- Spell checking
     vim.opt.spell = true
     vim.opt.spelllang = { "en", "de", "es", "nl" }
