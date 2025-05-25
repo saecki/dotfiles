@@ -127,6 +127,7 @@ function M.setup()
 
     -- typst
     vim.g.typst_auto_open_quickfix = 0
+    vim.g.typst_pdf_viewer = "zathura"
     pm.add(nil, "kaarmu/typst.vim")
     pm.dev_repo("typst-test-helper", "saecki/typst-test-helper.nvim")
 
