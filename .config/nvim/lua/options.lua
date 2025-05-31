@@ -74,7 +74,7 @@ function M.setup()
     }
 
     -- Spell checking
-    vim.opt.spell = true
+    vim.opt.spell = false
     vim.opt.spelllang = { "en", "de", "es", "nl" }
 
     -- Miscellaneous
