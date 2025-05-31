@@ -32,6 +32,16 @@ local function toggle_diffopt(name)
     end
 end
 
+local function toggle_quickfix()
+    for _, wininfo in ipairs(vim.fn.getwininfo()) do
+        if wininfo.quickfix == 1 then
+            vim.cmd.cclose()
+            return
+        end
+    end
+    vim.cmd.copen()
+end
+
 function M.setup()
     -- TODO: make tmux/kitty send different escape sequences for <tab> and <c-i> etc.
     -- vim.keymap.set("", "<tab>", "<c-i>", {})
@@ -59,8 +69,7 @@ function M.setup()
     vim.keymap.set("n", "<leader>edv", toggle_diff, { desc = "View" })
     vim.keymap.set("n", "<leader>edw", toggle_diffopt("iwhite"), { desc = "iwhite" })
 
-    vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Previous quickfix" })
-    vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next quickfix" })
+    vim.keymap.set("n", "<leader>q", toggle_quickfix, { desc = "Toggle quickfix list" })
 
     vim.keymap.set("v", "<c-c>", '"+y', { desc = "Copy to system clipboard" })
 end

@@ -1,5 +1,4 @@
 local blink = require("blink.cmp")
-local trouble = require("trouble")
 local mason = require("mason")
 local mason_ui = require("mason.ui")
 local wk = require("which-key.config")
@@ -54,30 +53,71 @@ local function get_capabilities()
     return capabilities
 end
 
-local lsp_mappings = {
-    { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",                                   desc = "LSP definition" },
-    { "<A-LeftMouse>", "<LeftMouse>:Trouble lsp_type_definitions<cr>",                                       desc = "LSP type definition" },
 
-    { "<c-a-l>",       vim.lsp.buf.format,                                                                   desc = "LSP format" },
-    { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,                                 desc = "Show documentation" },
-    { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end,                        desc = "Signature help",        mode = { "n", "i" } },
+---@param method fun(vim.lsp.ListOpts?)
+---@param always_open boolean?
+local function jump_or_list(method, always_open)
+    return function()
+        local win = vim.api.nvim_get_current_win()
+
+        ---@param locations vim.lsp.LocationOpts.OnList
+        local function on_list(locations)
+            if always_open or #locations.items ~= 1 then
+                vim.fn.setqflist({}, " ", locations)
+                vim.cmd.copen()
+                return
+            end
+
+            local item = locations.items[1]
+            local b = item.bufnr or vim.fn.bufadd(item.filename)
+
+            -- Save position in jumplist
+            vim.cmd("normal! m'")
+
+            vim.bo[b].buflisted = true
+            local w = win
+            vim.api.nvim_win_set_buf(w, b)
+            vim.api.nvim_win_set_cursor(w, { item.lnum, item.col - 1 })
+            vim._with({ win = w }, function()
+                -- Open folds under the cursor
+                vim.cmd('normal! zv')
+            end)
+        end
+
+        method({ on_list = on_list })
+    end
+end
+
+local function list_references()
+    local method = function(opts)
+        vim.lsp.buf.references({ includeDeclaration = true }, opts)
+    end
+    return jump_or_list(method, true)
+end
+
+---@type vim.lsp.LocationOpts
+
+local lsp_mappings = {
+    { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",            desc = "LSP definition" },
+    { "<A-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.type_definition()<cr>",       desc = "LSP type definition" },
+
+    { "<c-a-l>",       vim.lsp.buf.format,                                            desc = "LSP format" },
+    { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,          desc = "Show documentation" },
+    { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end, desc = "Signature help",      mode = { "n", "i" } },
 
     { "g",             group = "Go" },
-    { "gD",            vim.lsp.buf.declaration,                                                              desc = "LSP declaration" },
-    { "gd",            vim.lsp.buf.definition,                                                               desc = "LSP definition" },
-    { "gy",            vim.lsp.buf.type_definition,                                                          desc = "LSP type definitions" },
-    { "gi",            function() trouble.open({ mode = "lsp_implementations", auto_jump = false }) end,     desc = "LSP implementations" },
-    { "gr",            function() trouble.open({ mode = "lsp_references", auto_jump = false }) end,          desc = "LSP references" },
+    { "gD",            jump_or_list(vim.lsp.buf.declaration),                         desc = "LSP declaration" },
+    { "gd",            jump_or_list(vim.lsp.buf.definition),                          desc = "LSP definition" },
+    { "gy",            jump_or_list(vim.lsp.buf.type_definition),                     desc = "LSP type definitions" },
+    { "gi",            jump_or_list(vim.lsp.buf.implementation),                      desc = "LSP implementations" },
+    { "gr",            list_references(),                                                desc = "LSP references" },
 
-    { "]r",            function() trouble.next({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Next LSP reference" },
-    { "[r",            function() trouble.prev({ mode = "lsp_references", focus = false, jump = true }) end, desc = "Previous LSP reference" },
-
-    { "<leader>a",     vim.lsp.buf.code_action,                                                              desc = "Code action" },
-    { "<leader>a",     range_code_action,                                                                    desc = "Range code action",     mode = "v" },
-    { "<leader>eh",    toggle_document_highlight,                                                            desc = "Document highlight" },
-    { "<leader>ei",    toggle_inlay_hints,                                                                   desc = "Inlay hints" },
-    { "<leader>r",     live_rename.rename,                                                                   desc = "Refactor keep name" },
-    { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),                              desc = "Refactor clear name" },
+    { "<leader>a",     vim.lsp.buf.code_action,                                       desc = "Code action" },
+    { "<leader>a",     range_code_action,                                             desc = "Range code action",   mode = "v" },
+    { "<leader>eh",    toggle_document_highlight,                                     desc = "Document highlight" },
+    { "<leader>ei",    toggle_inlay_hints,                                            desc = "Inlay hints" },
+    { "<leader>r",     live_rename.rename,                                            desc = "Refactor keep name" },
+    { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),       desc = "Refactor clear name" },
 }
 
 ---@param client vim.lsp.Client
@@ -288,7 +328,13 @@ function M.setup()
         end
     end
 
-    -- Keymappings
+    -- Remove some default key mappings
+    vim.keymap.del("n", "grn")
+    vim.keymap.del("n", "gra")
+    vim.keymap.del("n", "grr")
+    vim.keymap.del("n", "gri")
+
+    -- Key mappings
     wk.add({
         { "<leader>i",  group = "Lsp" },
         { "<leader>is", start_servers,                  desc = "Start" },
