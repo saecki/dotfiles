@@ -5,6 +5,7 @@ local wk = require("which-key.config")
 local shared = require("shared")
 local live_rename = require("live-rename")
 local fidget = require("config.lsp.fidget")
+local util = require("util")
 -- servers
 local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
@@ -15,6 +16,9 @@ local texlab = require("config.lsp.server.texlab")
 local M = {}
 
 local server_names = {}
+
+---@type [string,lsp.DocumentHighlight[]]?
+local document_highlights = nil
 
 local float_preview_opts = {
     offset_x = -1,
@@ -32,6 +36,45 @@ local function toggle_document_highlight()
         vim.lsp.buf.clear_references()
     else
         vim.lsp.buf.document_highlight()
+    end
+end
+
+local function jump_highlight(count)
+    return function()
+        if not document_highlights then
+            return
+        end
+        local offset_encoding, highlights = unpack(document_highlights)
+        local pos_params = vim.lsp.util.make_position_params(0, offset_encoding)
+        local pos = pos_params.position
+
+        local exact_idx, closest_idx = util.binary_search(highlights, function(hl)
+            if pos.line == hl.range.start.line then
+                if pos.character < hl.range.start.character then
+                    return -1
+                elseif pos.character > hl.range["end"].character then
+                    return 1
+                else
+                    return 0
+                end
+            elseif pos.line < hl.range.start.line then
+                return -1
+            else -- if pos.line > hl.range.start.line then
+                return 1
+            end
+        end)
+
+        if exact_idx then
+            local next = highlights[exact_idx + count]
+            if next then
+                ---@type lsp.Location
+                local loc = {
+                    uri = pos_params.textDocument.uri,
+                    range = next.range,
+                }
+                vim.lsp.util.show_document(loc, offset_encoding)
+            end
+        end
     end
 end
 
@@ -110,7 +153,7 @@ local lsp_mappings = {
     { "gd",            jump_or_list(vim.lsp.buf.definition),                          desc = "LSP definition" },
     { "gy",            jump_or_list(vim.lsp.buf.type_definition),                     desc = "LSP type definitions" },
     { "gi",            jump_or_list(vim.lsp.buf.implementation),                      desc = "LSP implementations" },
-    { "gr",            list_references(),                                                desc = "LSP references" },
+    { "gr",            list_references(),                                             desc = "LSP references" },
 
     { "<leader>a",     vim.lsp.buf.code_action,                                       desc = "Code action" },
     { "<leader>a",     range_code_action,                                             desc = "Range code action",   mode = "v" },
@@ -118,6 +161,9 @@ local lsp_mappings = {
     { "<leader>ei",    toggle_inlay_hints,                                            desc = "Inlay hints" },
     { "<leader>r",     live_rename.rename,                                            desc = "Refactor keep name" },
     { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),       desc = "Refactor clear name" },
+
+    { "[r",            jump_highlight(-1),                                            desc = "Previous reference" },
+    { "]r",            jump_highlight(1),                                             desc = "Next reference" },
 }
 
 ---@param client vim.lsp.Client
@@ -292,6 +338,9 @@ function M.setup()
         if not client then
             return
         end
+
+        document_highlights = { client.offset_encoding, result }
+
         vim.lsp.util.buf_highlight_references(ctx.bufnr, result, client.offset_encoding)
     end
 

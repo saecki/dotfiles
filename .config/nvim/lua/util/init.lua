@@ -62,4 +62,29 @@ function M.hsl_to_rgb(h, s, l)
     return math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5)
 end
 
+---@generic T
+---@param list T[]
+---@param cmp_fn fun(T): integer
+---@return integer?, integer?
+function M.binary_search(list, cmp_fn)
+    local low = 1
+    local high = #list
+    local mid
+
+    -- loop until low becomes same or higher as high
+    while low <= high do
+        mid = math.floor((low + high) / 2) -- compute middle index
+
+        local cmp = cmp_fn(list[mid])
+        if cmp == 0 then
+            return mid, nil
+        elseif cmp == 1 then
+            low = mid + 1
+        else -- if cmp == -1 then
+            high = mid - 1
+        end
+    end
+    return nil, mid
+end
+
 return M
