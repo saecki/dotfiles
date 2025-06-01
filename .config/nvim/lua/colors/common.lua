@@ -20,6 +20,8 @@ function M.highlights(p)
         VertSplit       = { fg = p.text3,    bg = "none",                        },
         StatusLine      = { fg = "none",     bg = "none",                        },
         StatusLineNC    = { fg = "none",     bg = "none",                        },
+        QuickFixLine    = {                  bg = p.ref_text                     },
+        qfText          = { fg = p.fg,                                           },
         Error           = {                  bg = p.lred,                        },
         Todo            = { fg = p.todo,     bg = "none",       bold = true      },
         Directory       = { fg = p.lgreen,                                       },
@@ -41,6 +43,7 @@ function M.highlights(p)
         PreProc         = { fg = p.preproc,                                      },
         Type            = { fg = p.type,                        bold = true      },
         Special         = { fg = p.special,                                      },
+        Delimiter       = { fg = p.special,                                      },
 
         -- custom
         Link            = { fg = p.preproc,                     underline = true },
