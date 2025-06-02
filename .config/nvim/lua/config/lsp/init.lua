@@ -39,7 +39,8 @@ local function toggle_document_highlight()
     end
 end
 
-local function jump_highlight(count)
+---@param opts {count: integer?, first: boolean?, last: boolean?}
+local function jump_highlight(opts)
     return function()
         if not document_highlights then
             return
@@ -47,6 +48,19 @@ local function jump_highlight(count)
         local offset_encoding, highlights = unpack(document_highlights)
         local pos_params = vim.lsp.util.make_position_params(0, offset_encoding)
         local pos = pos_params.position
+
+        local function jump(idx)
+            local next = highlights[idx]
+            if next then
+                ---@type lsp.Location
+                local loc = {
+                    uri = pos_params.textDocument.uri,
+                    range = next.range,
+                }
+                vim.lsp.util.show_document(loc, offset_encoding)
+                print(string.format("(%s of %s)", idx, #highlights))
+            end
+        end
 
         table.sort(highlights, function(a, b)
             if a.range.start.line == b.range.start.line then
@@ -56,7 +70,18 @@ local function jump_highlight(count)
             end
         end)
 
-        local exact_idx, closest_idx = util.binary_search(highlights, function(hl)
+        if opts.first then
+            jump(1)
+            return
+        elseif opts.last then
+            jump(#highlights)
+            return
+        elseif not opts.count then
+            error("missing jump options: `first`, `last`, or `count`")
+            return
+        end
+
+        local current_idx = util.binary_search(highlights, function(hl)
             if pos.line == hl.range.start.line then
                 if pos.character < hl.range.start.character then
                     return -1
@@ -72,16 +97,8 @@ local function jump_highlight(count)
             end
         end)
 
-        if exact_idx then
-            local next = highlights[exact_idx + count]
-            if next then
-                ---@type lsp.Location
-                local loc = {
-                    uri = pos_params.textDocument.uri,
-                    range = next.range,
-                }
-                vim.lsp.util.show_document(loc, offset_encoding)
-            end
+        if current_idx then
+            jump(current_idx + opts.count)
         end
     end
 end
@@ -170,8 +187,10 @@ local lsp_mappings = {
     { "<leader>r",     live_rename.rename,                                            desc = "Refactor keep name" },
     { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),       desc = "Refactor clear name" },
 
-    { "[r",            jump_highlight(-1),                                            desc = "Previous reference" },
-    { "]r",            jump_highlight(1),                                             desc = "Next reference" },
+    { "[r",            jump_highlight({ count = -1 }),                                desc = "Previous reference" },
+    { "]r",            jump_highlight({ count = 1 }),                                 desc = "Next reference" },
+    { "[R",            jump_highlight({ first = true }),                              desc = "First reference" },
+    { "]R",            jump_highlight({ last = true }),                               desc = "Last reference" },
 }
 
 ---@param client vim.lsp.Client

@@ -84,6 +84,7 @@ function M.binary_search(list, cmp_fn)
             high = mid - 1
         end
     end
+    -- TODO: is this correct?
     return nil, mid
 end
 
