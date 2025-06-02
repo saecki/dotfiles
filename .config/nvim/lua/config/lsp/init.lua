@@ -48,6 +48,14 @@ local function jump_highlight(count)
         local pos_params = vim.lsp.util.make_position_params(0, offset_encoding)
         local pos = pos_params.position
 
+        table.sort(highlights, function(a, b)
+            if a.range.start.line == b.range.start.line then
+                return a.range.start.character < b.range.start.character
+            else
+                return a.range.start.line < b.range.start.line
+            end
+        end)
+
         local exact_idx, closest_idx = util.binary_search(highlights, function(hl)
             if pos.line == hl.range.start.line then
                 if pos.character < hl.range.start.character then
