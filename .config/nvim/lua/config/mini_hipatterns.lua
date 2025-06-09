@@ -16,6 +16,15 @@ local function style()
     return highlight_foreground and "fg" or "bg"
 end
 
+local function ft_pattern(ft, pattern)
+    return function(buf)
+        if vim.bo[buf].filetype ~= ft then
+            return nil
+        end
+        return pattern
+    end
+end
+
 function M.setup()
     local config = {
         highlighters = {
@@ -38,7 +47,7 @@ function M.setup()
                 end,
             },
             egui_color32_from_gray = {
-                pattern = "Color32::from_gray%(%s*%d+%s*%)",
+                pattern = ft_pattern("rust", "Color32::from_gray%(%s*%d+%s*%)"),
                 group = function(_, match)
                     local ng = match:match("Color32::from_gray%(%s*(%d+)%s*%)")
                     local g = util.clamp(tonumber(ng), 0, 255)
@@ -47,7 +56,7 @@ function M.setup()
                 end,
             },
             egui_color32_from_rgb = {
-                pattern = "Color32::from_rgb%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)",
+                pattern = ft_pattern("rust", "Color32::from_rgb%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)"),
                 group = function(_, match)
                     local nr, ng, nb = match:match("Color32::from_rgb%(%s*(%d+)%s*,?%s*(%d+)%s*,?%s*(%d+)%s*%)")
                     local r = util.clamp(tonumber(nr), 0, 255)
@@ -58,7 +67,7 @@ function M.setup()
                 end,
             },
             egui_color32_from_rgb_hex = {
-                pattern = "Color32::from_rgb%(%s*0x%x+%s*,?%s*0x%x+%s*,?%s*0x%x+%s*%)",
+                pattern = ft_pattern("rust", "Color32::from_rgb%(%s*0x%x+%s*,?%s*0x%x+%s*,?%s*0x%x+%s*%)"),
                 group = function(_, match)
                     local nr, ng, nb = match:match("Color32::from_rgb%(%s*0x(%x+)%s*,?%s*0x(%x+)%s*,?%s*0x(%x+)%s*%)")
                     local r = util.clamp(tonumber(nr, 16), 0, 255)
@@ -69,7 +78,7 @@ function M.setup()
                 end,
             },
             glm_vec3_color = {
-                pattern = "glm::vec3%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*%)",
+                pattern = ft_pattern("cpp", "glm::vec3%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*%)"),
                 group = function(_, match)
                     local nr, ng, nb = match:match("glm::vec3%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*%)")
                     local r = util.clamp(255 * tonumber(nr), 0, 255)
@@ -80,7 +89,7 @@ function M.setup()
                 end,
             },
             glm_vec4_color = {
-                pattern = "glm::vec4%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*.+%s*%)",
+                pattern = ft_pattern("cpp", "glm::vec4%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*.+%s*%)"),
                 group = function(_, match)
                     local nr, ng, nb = match:match(
                         "glm::vec4%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(.+)%s*%)")
@@ -92,7 +101,7 @@ function M.setup()
                 end,
             },
             typst_rgb_string = {
-                pattern = "rgb%(%s*\"%x%x%x%x%x%x\"%s*%)",
+                pattern = ft_pattern("typst", "rgb%(%s*\"%x%x%x%x%x%x\"%s*%)"),
                 group = function(_, match)
                     local hex_str = match:match("rgb%(%s*\"(%x%x%x%x%x%x)\"%s*%)")
                     return hipatterns.compute_hex_color_group("#" .. hex_str, style())
