@@ -82,12 +82,20 @@ function M.setup()
             glm_vec4_color = {
                 pattern = "glm::vec4%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*.+%s*%)",
                 group = function(_, match)
-                    local nr, ng, nb = match:match("glm::vec4%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(.+)%s*%)")
+                    local nr, ng, nb = match:match(
+                        "glm::vec4%(%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(%d+%.%d+)f%s*,%s*(.+)%s*%)")
                     local r = util.clamp(255 * tonumber(nr), 0, 255)
                     local g = util.clamp(255 * tonumber(ng), 0, 255)
                     local b = util.clamp(255 * tonumber(nb), 0, 255)
                     local hex_color = util.rgb_to_hex_string(r, g, b)
                     return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+            },
+            typst_rgb_string = {
+                pattern = "rgb%(%s*\"%x%x%x%x%x%x\"%s*%)",
+                group = function(_, match)
+                    local hex_str = match:match("rgb%(%s*\"(%x%x%x%x%x%x)\"%s*%)")
+                    return hipatterns.compute_hex_color_group("#" .. hex_str, style())
                 end,
             },
         },
