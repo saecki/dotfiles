@@ -243,6 +243,24 @@ ghcl() {
     gcl "git@github.com:$1"
 }
 
+ghpr() {
+    if [ $# -ne 2 ]; then
+        echo "expected <branch-name> and [#]<pr-number>"
+        return 1
+    fi
+    PR_NUMBER="$2"
+    PR_NUMBER="${PR_NUMBER#\#}"
+    BRANCH_NAME="$1"
+    BRANCH_NAME="${BRANCH_NAME/:/_}_#${PR_NUMBER}"
+
+    YELLOW="\033[33m"
+    CLEAR="\033[0m"
+
+    echo "checking out ${YELLOW}#${PR_NUMBER}${CLEAR} in branch ${YELLOW}${BRANCH_NAME}${CLEAR}"
+
+    git fetch origin "pull/$PR_NUMBER/head:$BRANCH_NAME" && git switch "$BRANCH_NAME"
+}
+
 # Bare repos
 alias dots="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 alias stuff="git --git-dir=$HOME/.config/stuff --work-tree=$HOME"
