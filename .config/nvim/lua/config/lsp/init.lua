@@ -39,6 +39,25 @@ local function toggle_document_highlight()
     end
 end
 
+---@param a lsp.Position
+---@param b lsp.Position
+---@return integer
+local function cmp_pos(a, b)
+    if a.line == b.line then
+        if a.character < b.character then
+            return -1
+        elseif a.character > b.character then
+            return 1
+        else
+            return 0
+        end
+    elseif a.line < b.line then
+        return -1
+    else -- if a.line > b.line then
+        return 1
+    end
+end
+
 ---@param opts {count: integer?, first: boolean?, last: boolean?}
 local function jump_highlight(opts)
     return function()
@@ -46,6 +65,10 @@ local function jump_highlight(opts)
             return
         end
         local offset_encoding, highlights = unpack(document_highlights)
+        if not next(highlights) then
+            return
+        end
+
         local pos_params = vim.lsp.util.make_position_params(0, offset_encoding)
         local pos = pos_params.position
 
@@ -70,6 +93,19 @@ local function jump_highlight(opts)
             end
         end)
 
+        -- remove overlapping ranges
+        local idx = 2
+        local last = highlights[1]
+        while highlights[idx] do
+            local current = highlights[idx]
+            if cmp_pos(last.range["end"], current.range.start) >= 0 then
+                table.remove(highlights, idx)
+            else
+                last = current
+                idx = idx + 1
+            end
+        end
+
         if opts.first then
             jump(1)
             return
@@ -82,18 +118,12 @@ local function jump_highlight(opts)
         end
 
         local current_idx = util.binary_search(highlights, function(hl)
-            if pos.line == hl.range.start.line then
-                if pos.character < hl.range.start.character then
-                    return -1
-                elseif pos.character > hl.range["end"].character then
-                    return 1
-                else
-                    return 0
-                end
-            elseif pos.line < hl.range.start.line then
+            if cmp_pos(pos, hl.range.start) < 0 then
                 return -1
-            else -- if pos.line > hl.range.start.line then
+            elseif cmp_pos(pos, hl.range["end"]) > 0 then
                 return 1
+            else
+                return 0
             end
         end)
 
