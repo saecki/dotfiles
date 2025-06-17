@@ -58,7 +58,7 @@ local function cmp_pos(a, b)
     end
 end
 
----@param opts {count: integer?, first: boolean?, last: boolean?}
+---@param opts {dir: integer?, first: boolean?, last: boolean?}
 local function jump_highlight(opts)
     return function()
         if not document_highlights then
@@ -112,8 +112,8 @@ local function jump_highlight(opts)
         elseif opts.last then
             jump(#highlights)
             return
-        elseif not opts.count then
-            error("missing jump options: `first`, `last`, or `count`")
+        elseif not opts.dir then
+            error("missing jump options: `first`, `last`, or `dir`")
             return
         end
 
@@ -128,7 +128,11 @@ local function jump_highlight(opts)
         end)
 
         if current_idx then
-            jump(current_idx + opts.count)
+            local count = vim.v.count
+            if count == 0 then
+                count = 1
+            end
+            jump(current_idx + opts.dir * count)
         end
     end
 end
@@ -217,8 +221,8 @@ local lsp_mappings = {
     { "<leader>r",     live_rename.rename,                                            desc = "Refactor keep name" },
     { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),       desc = "Refactor clear name" },
 
-    { "[r",            jump_highlight({ count = -1 }),                                desc = "Previous reference" },
-    { "]r",            jump_highlight({ count = 1 }),                                 desc = "Next reference" },
+    { "[r",            jump_highlight({ dir = -1 }),                                  desc = "Previous reference" },
+    { "]r",            jump_highlight({ dir = 1 }),                                   desc = "Next reference" },
     { "[R",            jump_highlight({ first = true }),                              desc = "First reference" },
     { "]R",            jump_highlight({ last = true }),                               desc = "Last reference" },
 }
