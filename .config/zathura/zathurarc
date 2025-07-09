@@ -6,6 +6,8 @@ map <C-l> nohlsearch
 map <C-=> zoom in
 map <C--> zoom out
 
+map G scroll bottom
+
 # <C-Up> and <C-down> does smooth scrolling
 map k feedkeys "<C-Up>"
 map j feedkeys "<C-Down>"
