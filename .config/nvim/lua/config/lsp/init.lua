@@ -190,11 +190,12 @@ local function jump_or_list(method, always_open)
     end
 end
 
-local function list_references()
+---@param include_decl boolean
+local function list_references(include_decl)
     local method = function(opts)
-        vim.lsp.buf.references({ includeDeclaration = true }, opts)
+        vim.lsp.buf.references({ includeDeclaration = include_decl }, opts)
     end
-    return jump_or_list(method, true)
+    return jump_or_list(method, include_decl)
 end
 
 ---@type vim.lsp.LocationOpts
@@ -212,7 +213,8 @@ local lsp_mappings = {
     { "gd",            jump_or_list(vim.lsp.buf.definition),                          desc = "LSP definition" },
     { "gy",            jump_or_list(vim.lsp.buf.type_definition),                     desc = "LSP type definitions" },
     { "gi",            jump_or_list(vim.lsp.buf.implementation),                      desc = "LSP implementations" },
-    { "gr",            list_references(),                                             desc = "LSP references" },
+    { "gr",            list_references(true),                                         desc = "LSP references" },
+    { "gs",            list_references(false),                                        desc = "LSP use [S]ites" },
 
     { "<leader>a",     vim.lsp.buf.code_action,                                       desc = "Code action" },
     { "<leader>a",     range_code_action,                                             desc = "Range code action",   mode = "v" },
