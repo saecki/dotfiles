@@ -445,6 +445,7 @@ function M.setup()
     vim.keymap.del("n", "gra")
     vim.keymap.del("n", "grr")
     vim.keymap.del("n", "gri")
+    vim.keymap.del("n", "grt")
 
     -- Key mappings
     wk.add({
