@@ -131,10 +131,6 @@ function M.setup()
     pm.add(nil, "kaarmu/typst.vim")
     pm.dev_repo("typst-test-helper", "saecki/typst-test-helper.nvim")
 
-    -- discord rich presence
-    -- vim.g.presence_has_setup = 1
-    -- pm.add("presence", "andweeb/presence.nvim")
-
     pm.finish_setup(function()
         local wk = require("which-key.config")
         wk.add({
