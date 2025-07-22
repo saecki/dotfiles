@@ -261,6 +261,12 @@ ghpr() {
     git fetch origin "pull/$PR_NUMBER/head:$BRANCH_NAME" && git switch "$BRANCH_NAME"
 }
 
+krilla-diff() {
+    FILE_NAME="${1#"refs/snapshots"}"
+    FILE_STEM="${FILE_NAME%".txt"}"
+    delta "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
+}
+
 # Bare repos
 alias dots="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 alias stuff="git --git-dir=$HOME/.config/stuff --work-tree=$HOME"
