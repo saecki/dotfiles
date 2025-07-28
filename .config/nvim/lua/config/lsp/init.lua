@@ -376,6 +376,7 @@ function M.setup()
 
     -- custom servers
     setup_server("vvm-ls")
+    setup_server("crates-ls")
 
     -- Setup mason
     mason.setup({
