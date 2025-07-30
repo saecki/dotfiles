@@ -12,9 +12,12 @@ local function toggle_diff()
         enabled = enabled or vim.wo[win].diff
     end
 
-    local callback = enabled and vim.cmd.diffoff or vim.cmd.diffthis
-    for _, win in ipairs(wins) do
-        vim.api.nvim_win_call(win, callback)
+    if enabled then
+        vim.cmd.diffoff({ bang = true })
+    else
+        for _, win in ipairs(wins) do
+            vim.api.nvim_win_call(win, vim.cmd.diffthis)
+        end
     end
 end
 
