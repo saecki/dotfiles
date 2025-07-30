@@ -166,8 +166,8 @@ function M.highlights(p)
 
         DiffAdd         = {               bg = p.diff_a_bg,              },
         DiffChange      = {               bg = p.diff_c_bg,              },
-        DiffDelete      = { fg = p.text2, bg = p.diff_d_bg,              },
-        DiffText        = { fg = p.text2, bg = p.diff_cd_bg, bold = true },
+        DiffDelete      = {               bg = p.diff_d_bg,              },
+        DiffText        = {               bg = p.diff_cd_bg, bold = true },
 
         -- gitsigns
         GitSignsCurrentLineBlame = { link = "Comment" },
