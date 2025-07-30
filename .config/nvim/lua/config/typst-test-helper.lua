@@ -19,7 +19,7 @@ function M.setup()
     tth.setup({
         on_attach = on_attach,
         programs = {
-            geeqie = { "geeqie" },
+            identity = { "identity" },
         },
     })
 end
