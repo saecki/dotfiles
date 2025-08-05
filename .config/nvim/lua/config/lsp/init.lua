@@ -452,7 +452,7 @@ function M.setup()
     wk.add({
         { "<leader>i",  group = "Lsp" },
         { "<leader>is", start_servers,                  desc = "Start" },
-        { "<leader>it", stop_servers,                   desc = "Stop (terminate)" },
+        { "<leader>ie", stop_servers,                   desc = "Stop (exit)" },
         { "<leader>ii", "<cmd>checkhealth vim.lsp<cr>", desc = "Info" },
         { "<leader>il", open_lsp_log,                   desc = "Log" },
         { "<leader>iI", mason_ui.open,                  desc = "Install Info" },
