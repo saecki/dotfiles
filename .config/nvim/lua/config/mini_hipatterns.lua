@@ -25,6 +25,14 @@ local function ft_pattern(ft, pattern)
     end
 end
 
+local function extmark_opts(a, match, data)
+    return {
+        virt_text = { { match, data.hl_group } },
+        virt_text_pos = "overlay",
+        priority = 150,
+    }
+end
+
 function M.setup()
     local config = {
         highlighters = {
@@ -33,6 +41,7 @@ function M.setup()
                 group = function(_, match)
                     return hipatterns.compute_hex_color_group(match, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             hsl_color = {
                 pattern = "hsl%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)",
@@ -45,6 +54,7 @@ function M.setup()
                     local hex_color = util.rgb_to_hex_string(r, g, b)
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             egui_color32_from_gray = {
                 pattern = ft_pattern("rust", "Color32::from_gray%(%s*%d+%s*%)"),
@@ -54,6 +64,7 @@ function M.setup()
                     local hex_color = util.rgb_to_hex_string(g, g, g)
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             egui_color32_from_rgb = {
                 pattern = ft_pattern("rust", "Color32::from_rgb%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)"),
@@ -65,6 +76,7 @@ function M.setup()
                     local hex_color = util.rgb_to_hex_string(r, g, b)
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             egui_color32_from_rgb_hex = {
                 pattern = ft_pattern("rust", "Color32::from_rgb%(%s*0x%x+%s*,?%s*0x%x+%s*,?%s*0x%x+%s*%)"),
@@ -76,6 +88,7 @@ function M.setup()
                     local hex_color = util.rgb_to_hex_string(r, g, b)
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             glm_vec3_color = {
                 pattern = ft_pattern("cpp", "glm::vec3%(%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*,%s*%d+%.%d+f%s*%)"),
@@ -99,6 +112,7 @@ function M.setup()
                     local hex_color = util.rgb_to_hex_string(r, g, b)
                     return hipatterns.compute_hex_color_group(hex_color, style())
                 end,
+                extmark_opts = extmark_opts,
             },
             typst_rgb_string = {
                 pattern = ft_pattern("typst", "rgb%(%s*\"%x%x%x%x%x%x\"%s*%)"),
@@ -106,6 +120,7 @@ function M.setup()
                     local hex_str = match:match("rgb%(%s*\"(%x%x%x%x%x%x)\"%s*%)")
                     return hipatterns.compute_hex_color_group("#" .. hex_str, style())
                 end,
+                extmark_opts = extmark_opts,
             },
         },
         delay = {
