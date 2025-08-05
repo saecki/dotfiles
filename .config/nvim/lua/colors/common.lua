@@ -190,6 +190,10 @@ function M.highlights(p)
         GitSignsTopdeleteNr    = { bg = p.diff_d_bg  },
         GitSignsChangeDeleteNr = { bg = p.diff_cd_bg },
 
+        GitSignsAddInline      = { bg = p.diff_cd_bg },
+        GitSignsDeleteInline   = { bg = p.diff_cd_bg },
+        GitSignsChangeInline   = { bg = p.diff_cd_bg },
+
         -- nvim-tree
         NvimTreeGitDirty   = { fg = p.dblue   },
         NvimTreeGitDeleted = { fg = p.dblue   },
