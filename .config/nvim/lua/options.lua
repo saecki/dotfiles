@@ -70,7 +70,8 @@ function M.setup()
         "algorithm:histogram",
         "linematch:200",
         "indent-heuristic",
-        "iwhite"
+        -- Insignificant whitespace can be misleading
+        -- "iwhite"
     }
 
     -- Spell checking
