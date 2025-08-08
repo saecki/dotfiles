@@ -132,6 +132,7 @@ function M.setup()
         { "<leader>fS", workspace_symbols,                 desc = "LSP workspace symbols" },
         { "<leader>fw", trailing_whitespace,               desc = "Whitespace", },
         { "<leader>fr", telescope_builtin.resume,          desc = "Resume" },
+        { "<leader>ft", ":TodoTelescope<cr>",              desc = "TODO comments" },
     })
 end
 
