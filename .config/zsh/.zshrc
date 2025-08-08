@@ -264,7 +264,11 @@ ghpr() {
 krilla-diff() {
     FILE_NAME="${1#"refs/snapshots"}"
     FILE_STEM="${FILE_NAME%".txt"}"
-    delta "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
+    PRG="delta"
+    if [ "$2" != "" ]; then
+        PRG = "$2"
+    fi
+    $PRG "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
 }
 
 # Bare repos
