@@ -264,11 +264,11 @@ ghpr() {
 krilla-diff() {
     FILE_NAME="${1#"refs/snapshots"}"
     FILE_STEM="${FILE_NAME%".txt"}"
-    PRG="delta"
-    if [ "$2" != "" ]; then
-        PRG = "$2"
+    if [[ "$1" == "nvim" ]]; then
+        nvim -d "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
+    else
+        delta "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
     fi
-    $PRG "refs/snapshots/$FILE_NAME" "store/snapshots/$FILE_STEM.pdf"
 }
 
 # Bare repos
