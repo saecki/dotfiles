@@ -201,32 +201,32 @@ end
 ---@type vim.lsp.LocationOpts
 
 local lsp_mappings = {
-    { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",            desc = "LSP definition" },
-    { "<A-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.type_definition()<cr>",       desc = "LSP type definition" },
+    { "<c-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",                     desc = "LSP definition" },
+    { "<A-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.type_definition()<cr>",                desc = "LSP type definition" },
 
-    { "<c-a-l>",       vim.lsp.buf.format,                                            desc = "LSP format" },
-    { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,          desc = "Show documentation" },
-    { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end, desc = "Signature help",      mode = { "n", "i" } },
+    { "<c-a-l>",       vim.lsp.buf.format,                                                     desc = "LSP format" },
+    { "K",             function() vim.lsp.buf.hover(float_preview_opts) end,                   desc = "Show documentation" },
+    { "<a-k>",         function() vim.lsp.buf.signature_help(float_preview_opts) end,          desc = "Signature help",      mode = { "n", "i" } },
 
     { "g",             group = "Go" },
-    { "gD",            jump_or_list(vim.lsp.buf.declaration),                         desc = "LSP declaration" },
-    { "gd",            jump_or_list(vim.lsp.buf.definition),                          desc = "LSP definition" },
-    { "gy",            jump_or_list(vim.lsp.buf.type_definition),                     desc = "LSP type definitions" },
-    { "gi",            jump_or_list(vim.lsp.buf.implementation),                      desc = "LSP implementations" },
-    { "gr",            list_references(true),                                         desc = "LSP references" },
-    { "gs",            list_references(false),                                        desc = "LSP use [S]ites" },
+    { "gD",            jump_or_list(vim.lsp.buf.declaration),                                  desc = "LSP declaration" },
+    { "gd",            jump_or_list(vim.lsp.buf.definition),                                   desc = "LSP definition" },
+    { "gy",            jump_or_list(vim.lsp.buf.type_definition),                              desc = "LSP type definitions" },
+    { "gi",            jump_or_list(vim.lsp.buf.implementation),                               desc = "LSP implementations" },
+    { "gr",            list_references(true),                                                  desc = "LSP references" },
+    { "gs",            list_references(false),                                                 desc = "LSP use [S]ites" },
 
-    { "<leader>a",     vim.lsp.buf.code_action,                                       desc = "Code action" },
-    { "<leader>a",     range_code_action,                                             desc = "Range code action",   mode = "v" },
-    { "<leader>eh",    toggle_document_highlight,                                     desc = "Document highlight" },
-    { "<leader>ei",    toggle_inlay_hints,                                            desc = "Inlay hints" },
-    { "<leader>r",     live_rename.rename,                                            desc = "Refactor keep name" },
-    { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true }),       desc = "Refactor clear name" },
+    { "<leader>a",     vim.lsp.buf.code_action,                                                desc = "Code action" },
+    { "<leader>a",     range_code_action,                                                      desc = "Range code action",   mode = "v" },
+    { "<leader>eh",    toggle_document_highlight,                                              desc = "Document highlight" },
+    { "<leader>ei",    toggle_inlay_hints,                                                     desc = "Inlay hints" },
+    { "<leader>r",     live_rename.rename,                                                     desc = "Refactor keep name" },
+    { "<leader>RR",    live_rename.map({ dotrepeat = true, noconfirm = true, cursorpos = 0 }), desc = "Refactor clear name" },
 
-    { "[r",            jump_highlight({ dir = -1 }),                                  desc = "Previous reference" },
-    { "]r",            jump_highlight({ dir = 1 }),                                   desc = "Next reference" },
-    { "[R",            jump_highlight({ first = true }),                              desc = "First reference" },
-    { "]R",            jump_highlight({ last = true }),                               desc = "Last reference" },
+    { "[r",            jump_highlight({ dir = -1 }),                                           desc = "Previous reference" },
+    { "]r",            jump_highlight({ dir = 1 }),                                            desc = "Next reference" },
+    { "[R",            jump_highlight({ first = true }),                                       desc = "First reference" },
+    { "]R",            jump_highlight({ last = true }),                                        desc = "Last reference" },
 }
 
 ---@param client vim.lsp.Client
