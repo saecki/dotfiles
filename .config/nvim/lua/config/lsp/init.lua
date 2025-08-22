@@ -220,8 +220,8 @@ local lsp_mappings = {
     { "<leader>a",     range_code_action,                                                      desc = "Range code action",   mode = "v" },
     { "<leader>eh",    toggle_document_highlight,                                              desc = "Document highlight" },
     { "<leader>ei",    toggle_inlay_hints,                                                     desc = "Inlay hints" },
-    { "<leader>r",     live_rename.rename,                                                     desc = "Refactor keep name" },
-    { "<leader>RR",    live_rename.map({ dotrepeat = true, noconfirm = true, cursorpos = 0 }), desc = "Refactor clear name" },
+    { "<leader>r",     live_rename.rename,                                                     desc = "Refactor" },
+    { "<leader>R",     live_rename.map({ dotrepeat = true, noconfirm = true, cursorpos = 0 }), desc = "Refactor repeat" },
 
     { "[r",            jump_highlight({ dir = -1 }),                                           desc = "Previous reference" },
     { "]r",            jump_highlight({ dir = 1 }),                                            desc = "Next reference" },
