@@ -98,7 +98,7 @@ format = "[$hash$tag]($style) "
 
 [git_state]
 style = "bold fg:yellow bg:<bg>"
-format = "[$state($progress_current/$progress_total)]($style) "
+format = "[$state( $progress_current/$progress_total)]($style) "
 
 [git_status]
 format = """\
