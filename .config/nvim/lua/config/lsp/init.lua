@@ -366,6 +366,7 @@ function M.setup()
     setup_server("wgsl_analyzer")
     setup_server("pyright")
     setup_server("vhdl_ls")
+    setup_server("html")
 
     -- customized servers
     setup_server("dartls", dartls.setup)
