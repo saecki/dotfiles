@@ -25,7 +25,8 @@ function M.setup()
             delay = 0,
         },
         current_line_blame_formatter = "// (<abbrev_sha>) <author>, <author_time:%R> - <summary>",
-        sign_priority = 100,
+        -- Assign a high priority so it will always be first in the status column.
+        sign_priority = 999,
         update_debounce = 100,
         diff_opts = {
             internal = true,
