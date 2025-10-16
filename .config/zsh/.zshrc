@@ -159,7 +159,7 @@ alias cdzt='cd ~/.config/zathura'
 
 alias cdt='cd ~/Projects/typst/typst'
 alias cdtr='cd ~/Projects/typst/repro'
-alias cdtp='cd ~/Projects/typst/packages'
+alias cdtp='cd ~/Projects/typst/package-review'
 alias cdta='cd ~/Projects/typst/typst-assets'
 alias cdtd='cd ~/Projects/typst/typst-dev-assets'
 alias cdtk='cd ~/Projects/typst/krilla'
