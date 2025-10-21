@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 ratio          = [ 2, 4, 3 ]
 sort_by        = "alphabetical"
 sort_sensitive = false
