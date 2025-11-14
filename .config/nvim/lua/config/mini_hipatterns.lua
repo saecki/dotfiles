@@ -43,6 +43,13 @@ function M.setup()
                 end,
                 extmark_opts = extmark_opts,
             },
+            hex_color_with_alpha = {
+                pattern = "#%x%x%x%x%x%x%x%x%f[%X]",
+                group = function(_, match)
+                    return hipatterns.compute_hex_color_group(match:sub(1, -3), style())
+                end,
+                extmark_opts = extmark_opts,
+            },
             hsl_color = {
                 pattern = "hsl%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)",
                 group = function(_, match)
