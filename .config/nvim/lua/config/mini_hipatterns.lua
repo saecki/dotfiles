@@ -63,6 +63,30 @@ function M.setup()
                 end,
                 extmark_opts = extmark_opts,
             },
+            rgb_color = {
+                pattern = "rgb%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%)",
+                group = function(_, match)
+                    local nr, ng, nb = match:match("rgb%(%s*(%d+)%s*,?%s*(%d+)%s*,?%s*(%d+)%s*%)")
+                    local r = util.clamp(tonumber(nr), 0, 255)
+                    local g = util.clamp(tonumber(ng), 0, 255)
+                    local b = util.clamp(tonumber(nb), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(r, g, b)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+                extmark_opts = extmark_opts,
+            },
+            rgba_color = {
+                pattern = "rgba%(%s*%d+%s*,?%s*%d+%s*,?%s*%d+%s*%,?%s*%d+%.?%d*%s*%)",
+                group = function(_, match)
+                    local nr, ng, nb = match:match("rgba%(%s*(%d+)%s*,?%s*(%d+)%s*,?%s*(%d+)%s*%,.*%)")
+                    local r = util.clamp(tonumber(nr), 0, 255)
+                    local g = util.clamp(tonumber(ng), 0, 255)
+                    local b = util.clamp(tonumber(nb), 0, 255)
+                    local hex_color = util.rgb_to_hex_string(r, g, b)
+                    return hipatterns.compute_hex_color_group(hex_color, style())
+                end,
+                extmark_opts = extmark_opts,
+            },
             egui_color32_from_gray = {
                 pattern = ft_pattern("rust", "Color32::from_gray%(%s*%d+%s*%)"),
                 group = function(_, match)
