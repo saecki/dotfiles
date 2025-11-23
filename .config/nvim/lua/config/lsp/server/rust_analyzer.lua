@@ -348,6 +348,14 @@ local function setup_server(opts)
             },
         },
     })
+
+    for _, client in ipairs(vim.lsp.get_clients({ name = "rust_analyzer" })) do
+        -- Update the settings on the active client.
+        client.settings = vim.lsp.config.rust_analyzer.settings
+        -- Send a notification with empty settings, rust_analyzer pulls the
+        -- configuration using a `workspace/configuration` request.
+        client:notify("workspace/didChangeConfiguration", { settings = {} })
+    end
 end
 
 local function toggle_check_command()

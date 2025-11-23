@@ -13,6 +13,14 @@ local function setup_server(opts)
             exportTarget = target,
         },
     })
+
+    for _, client in ipairs(vim.lsp.get_clients({ name = "tinymist" })) do
+        -- Update the settings on the active client.
+        client.settings = vim.lsp.config.tinymist.settings
+        -- Send a notification with anything other than a table as settings,
+        -- so tinymist pulls the configuration using a `workspace/configuration` request.
+        client:notify("workspace/didChangeConfiguration", { settings = false })
+    end
 end
 
 local function toggle_export_target()
