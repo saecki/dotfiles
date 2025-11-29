@@ -309,6 +309,11 @@ music-dl() {
     yt-dlp --get-id "$@" | xargs -P 8 -i yt-dlp -xf 140 -o "%(title)s.%(ext)s" "https://youtube.com/watch?v={}"
 }
 
+svg-flatten() {
+    inkscape $1 --batch-process --actions='select-all;object-stroke-to-path;object-to-path;path-flatten;path-combine;export-plain-svg' --export-filename $1
+    svgo $1
+}
+
 dotfiles-fix() {
     TMP_DIR=$(mktemp -d)
     cd "$TMP_DIR"
