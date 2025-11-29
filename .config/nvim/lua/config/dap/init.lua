@@ -138,6 +138,28 @@ function M.setup()
             desc = "Evaluate expression",
         },
     })
+
+    vim.api.nvim_create_autocmd("BufRead", {
+        group = group,
+        pattern = "*.rs",
+        callback = function(ev)
+            wk.add({
+                buffer = ev.buf,
+                {
+                    "<leader>dt",
+                    function()
+                        dap_rust.debug({
+                            cargo_args = { "build", "--package=typst-cli", "--bin=typst", "--message-format=json" },
+                            cmd_args = { "compile" },
+                            workspace_root = vim.fs.root(0, '.git'),
+                        })
+                    end,
+                    desc = "Debug typst",
+                    silent = false
+                },
+            })
+        end
+    })
 end
 
 return M
