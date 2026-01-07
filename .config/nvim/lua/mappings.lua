@@ -72,6 +72,10 @@ function M.setup()
     vim.keymap.set("n", "<leader>edv", toggle_diff, { desc = "View" })
     vim.keymap.set("n", "<leader>edw", toggle_diffopt("iwhite"), { desc = "iwhite" })
 
+    -- command line navigation
+    vim.keymap.set("c", "<c-p>", function() return vim.fn.wildmenumode() == 0 and "<up>" or "<c-p>" end, { expr = true })
+    vim.keymap.set("c", "<c-n>", function() return vim.fn.wildmenumode() == 0 and "<down>" or "<c-n>" end, { expr = true })
+
     -- misc
     vim.keymap.set({ "n", "i" }, "<f1>", "<esc>")
     vim.keymap.set("n", "<leader><leader>", "<c-^>", { desc = "Goto previous buffer" })
