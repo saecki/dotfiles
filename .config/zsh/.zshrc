@@ -157,12 +157,15 @@ alias cdst='cd ~/.config/starship'
 alias cdyz='cd ~/.config/yazi'
 alias cdzt='cd ~/.config/zathura'
 
+# Typst
 alias cdt='cd ~/Projects/typst/typst'
 alias cdtr='cd ~/Projects/typst/repro'
 alias cdtp='cd ~/Projects/typst/package-review'
 alias cdta='cd ~/Projects/typst/typst-assets'
 alias cdtd='cd ~/Projects/typst/typst-dev-assets'
 alias cdtk='cd ~/Projects/typst/krilla'
+
+alias tpr='typst-package-review'
 
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
