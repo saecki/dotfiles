@@ -69,6 +69,7 @@ function M.setup()
     vim.keymap.set("n", "<leader>er", "<cmd>set rnu!<cr>", { desc = "Relative line numbers" })
     vim.keymap.set("n", "<leader>el", "<cmd>set list!<cr>", { desc = "Listchars" })
     vim.keymap.set("n", "<leader>es", "<cmd>set spell!<cr>", { desc = "Spellchecking" })
+    vim.keymap.set("n", "<leader>ew", "<cmd>set wrap!<cr>", { desc = "Line wrapping" })
     vim.keymap.set("n", "<leader>edv", toggle_diff, { desc = "View" })
     vim.keymap.set("n", "<leader>edw", toggle_diffopt("iwhite"), { desc = "iwhite" })
 
