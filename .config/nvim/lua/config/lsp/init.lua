@@ -367,6 +367,7 @@ function M.setup()
     setup_server("pyright")
     setup_server("vhdl_ls")
     setup_server("html")
+    setup_server("tsgo")
 
     -- customized servers
     setup_server("dartls", dartls.setup)
