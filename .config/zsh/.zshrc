@@ -313,7 +313,7 @@ music-dl() {
 }
 
 svg-flatten() {
-    inkscape $1 --batch-process --actions='select-all;object-stroke-to-path;object-to-path;path-flatten;path-combine;export-plain-svg' --export-filename $1
+    inkscape $1 --batch-process --actions='select-all;object-stroke-to-path;path-flatten;object-to-path;path-flatten;path-combine;path-flatten;export-plain-svg' --export-filename $1
     svgo $1
 }
 
