@@ -368,6 +368,7 @@ function M.setup()
     setup_server("vhdl_ls")
     setup_server("html")
     setup_server("tsgo")
+    setup_server("cssls")
 
     -- customized servers
     setup_server("dartls", dartls.setup)
