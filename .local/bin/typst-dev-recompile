@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cargo build --bin=typst --manifest-path ~/Projects/typst/typst/Cargo.toml
+typst-dev "$@"

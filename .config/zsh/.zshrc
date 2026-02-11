@@ -167,12 +167,6 @@ alias cdtk='cd ~/Projects/typst/krilla'
 
 alias tpr='typst-package-review'
 
-recompile-typst-dev() {
-    cargo build --bin=typst --manifest-path ~/Projects/typst/typst/Cargo.toml
-    typst-dev "$@"
-}
-
-
 # Config
 alias cfz='(cd ~/.config/zsh && $EDITOR ~/.config/zsh/.zshrc)'
 alias cfnv='(cd ~/.config/nvim && $EDITOR ~/.config/nvim/init.lua)'
