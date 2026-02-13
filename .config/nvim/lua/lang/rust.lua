@@ -13,6 +13,9 @@ function M.setup()
             vim.bo[ev.buf].modifiable = false
         end
     })
+
+    -- Avoid setting textwidth=99
+    vim.g.rust_recommended_style = 0
 end
 
 return M
