@@ -158,7 +158,8 @@ alias cdyz='cd ~/.config/yazi'
 alias cdzt='cd ~/.config/zathura'
 
 # Typst
-alias cdt='cd ~/Projects/typst/typst'
+alias cdt='cd ~/Projects/typst'
+alias cdtt='cd ~/Projects/typst/typst'
 alias cdtr='cd ~/Projects/typst/repro'
 alias cdtp='cd ~/Projects/typst/package-review'
 alias cdta='cd ~/Projects/typst/typst-assets'
