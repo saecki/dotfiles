@@ -128,12 +128,14 @@ function M.setup()
                 goto_next_start = {
                     ["]a"] = make_mapping("Next", "@parameter.inner"),
                     ["]f"] = make_mapping("Next", "@function.outer"),
-                    ["]c"] = make_mapping("Next", "@class.outer"),
+                    -- Jump between diff chunks instead.
+                    -- ["]c"] = make_mapping("Next", "@class.outer"),
                 },
                 goto_previous_start = {
                     ["[a"] = make_mapping("Previous", "@parameter.inner"),
                     ["[f"] = make_mapping("Previous", "@function.outer"),
-                    ["[c"] = make_mapping("Previous", "@class.outer"),
+                    -- Jump between diff chunks instead.
+                    -- ["[c"] = make_mapping("Previous", "@class.outer"),
                 },
             },
             swap = {

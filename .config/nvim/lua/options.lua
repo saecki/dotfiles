@@ -68,6 +68,7 @@ function M.setup()
         "closeoff",
         "context:12",
         "algorithm:histogram",
+        "inline:char",
         "linematch:200",
         "indent-heuristic",
         -- Insignificant whitespace can be misleading
