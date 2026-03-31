@@ -79,6 +79,9 @@ function M.setup()
     vim.opt.spell = false
     vim.opt.spelllang = { "en", "de", "es", "nl" }
 
+    -- Disable ftplugin default mappings
+    vim.g.no_plugin_maps = true
+
     -- Miscellaneous
     vim.opt.updatetime = 300
     vim.opt.showmatch = false
