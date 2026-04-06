@@ -7,7 +7,12 @@ function M.setup()
     vim.g.zig_fmt_parse_errors = 0
 
     -- make library files readonly
-    local zig_env = vim.json.decode(util.bash_eval("zig env"))
+    local ok, zig_env = pcall(util.bash_eval, "zig env")
+    if not ok then return end
+
+    local ok, zig_env = pcall(vim.json.decode, zig_env)
+    if not ok then return end
+
     local lib_dir = zig_env.lib_dir.."/**.zig"
     local group = vim.api.nvim_create_augroup("user.config.lang.zig", {})
     vim.api.nvim_create_autocmd("BufReadPre", {
