@@ -31,3 +31,5 @@ try-catch
 reparsed
 subtree
 Typst
+block-level
+inline-level
