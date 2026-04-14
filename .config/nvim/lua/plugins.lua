@@ -114,7 +114,7 @@ function M.setup()
 
     -- text manipulation
     vim.g.table_mode_toggle_map = "e"
-    vim.g.cable_mode_tableize_d_map = "<leader>tT"
+    vim.g.table_mode_tableize_d_map = "<leader>tT"
     pm.add("table-mode", "dhruvasagar/vim-table-mode")
     pm.add("substitute", "gbprod/substitute.nvim")
     pm.add(nil, "tpope/vim-abolish")
