@@ -1,5 +1,9 @@
 local ts = require("nvim-treesitter")
 local ts_textobjects = require("nvim-treesitter-textobjects")
+local ts_textobjects_select = require("nvim-treesitter-textobjects.select")
+local ts_textobjects_move = require("nvim-treesitter-textobjects.move")
+local ts_textobjects_swap = require("nvim-treesitter-textobjects.swap")
+
 
 local ts_parsers = require("nvim-treesitter.parsers")
 local ts_context = require("treesitter-context")
@@ -8,14 +12,55 @@ local wk = require("which-key.config")
 
 local M = {}
 
----@param prefix string
+---@param lhs string
 ---@param textobject string
----@return table
-local function make_mapping(prefix, textobject)
-    return {
-        query = textobject,
-        desc = string.format("%s %s", prefix, textobject),
-    }
+local function map_selection(lhs, textobject)
+    vim.keymap.set(
+        { "x", "o" }, lhs,
+        function()
+            ts_textobjects_select.select_textobject(textobject, "textobjects")
+        end,
+        { desc = textobject }
+    )
+end
+
+---@param lhs string
+---@param textobject string
+local function map_move(lhs, textobject)
+    vim.keymap.set(
+        { "n", "x", "o" }, "[" .. lhs,
+        function()
+            ts_textobjects_move.goto_prev_start(textobject, "textobjects")
+        end,
+        { desc = "Previous " .. textobject }
+    )
+    vim.keymap.set(
+        { "n", "x", "o" }, "]" .. lhs,
+        function()
+            ts_textobjects_move.goto_next_start(textobject, "textobjects")
+        end,
+        { desc = "Next " .. textobject }
+    )
+end
+
+---@param lhs string
+---@param textobject string
+local function map_swap(lhs, textobject)
+    -- keymaps
+    vim.keymap.set(
+        "n", "<a-backspace><a-" .. lhs .. ">",
+        function()
+            ts_textobjects_swap.swap_previous(textobject)
+        end,
+        { desc = "Swap previous " .. textobject }
+    )
+    vim.keymap.set(
+        "n", "<a-space><a-" .. lhs .. ">",
+        function()
+            ts_textobjects_swap.swap_next(textobject)
+        end,
+        { desc = "Swap next " .. textobject }
+    )
 end
 
 local function jump_to_context()
@@ -107,51 +152,28 @@ function M.setup()
     -- Indenting
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
-    -- TODO: Migrate configuration
     -- Text objects
     ts_textobjects.setup({
         select = {
-            enable = true,
             lookahead = true,
-            keymaps = {
-                ["ia"] = make_mapping("Textobject", "@parameter.inner"),
-                ["aa"] = make_mapping("Textobject", "@parameter.outer"),
-                ["if"] = make_mapping("Textobject", "@function.inner"),
-                ["af"] = make_mapping("Textobject", "@function.outer"),
-                ["ic"] = make_mapping("Textobject", "@class.inner"),
-                ["ac"] = make_mapping("Textobject", "@class.outer"),
-            },
         },
         move = {
-            enable = true,
             set_jumps = true,
-            goto_next_start = {
-                ["]a"] = make_mapping("Next", "@parameter.inner"),
-                ["]f"] = make_mapping("Next", "@function.outer"),
-                -- Jump between diff chunks instead.
-                -- ["]c"] = make_mapping("Next", "@class.outer"),
-            },
-            goto_previous_start = {
-                ["[a"] = make_mapping("Previous", "@parameter.inner"),
-                ["[f"] = make_mapping("Previous", "@function.outer"),
-                -- Jump between diff chunks instead.
-                -- ["[c"] = make_mapping("Previous", "@class.outer"),
-            },
         },
-        swap = {
-            enable = true,
-            swap_next = {
-                ["<a-space><a-a>"] = "@parameter.inner",
-                ["<a-space><a-f>"] = "@function.outer",
-                ["<a-space><a-e>"] = "@element",
-            },
-            swap_previous = {
-                ["<a-backspace><a-a>"] = "@parameter.inner",
-                ["<a-backspace><a-f>"] = "@function.outer",
-                ["<a-backspace><a-e>"] = "@element",
-            },
-        }
     })
+
+    map_selection("ia", "@parameter.inner")
+    map_selection("aa", "@parameter.outer")
+    map_selection("if", "@function.inner")
+    map_selection("af", "@function.outer")
+    map_selection("ic", "@class.inner")
+    map_selection("ac", "@class.outer")
+
+    map_move("a", "@parameter.inner")
+    map_move("f", "@function.outer")
+
+    map_swap("a", "@parameter.inner")
+    map_swap("f", "@function.outer")
 
     -- TODO: Update fork
     ts_context.setup({
