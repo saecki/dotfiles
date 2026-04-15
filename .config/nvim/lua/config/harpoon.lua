@@ -23,13 +23,13 @@ function M.setup()
     harpoon:setup()
 
     wk.add({
-        { "<c-h>",      select_file(1),                                              desc = "harpoon file 1" },
-        { "<c-j>",      select_file(2),                                              desc = "harpoon file 2" },
-        { "<c-k>",      select_file(3),                                              desc = "harpoon file 3" },
+        { "<c-h>",      select_file(1),                      desc = "harpoon file 1" },
+        { "<c-j>",      select_file(2),                      desc = "harpoon file 2" },
+        { "<c-k>",      select_file(3),                      desc = "harpoon file 3" },
 
         { "<leader>h",  group = "Harpoon" },
-        { "<leader>he", toggle_menu, desc = "Toggle UI" },
-        { "<leader>ha", function() harpoon:list():add() end,                         desc = "Add file" },
+        { "<leader>he", toggle_menu,                         desc = "Toggle UI" },
+        { "<leader>ha", function() harpoon:list():add() end, desc = "Add file" },
     })
 end
 
