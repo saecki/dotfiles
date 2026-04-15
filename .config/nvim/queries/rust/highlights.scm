@@ -11,6 +11,3 @@
     ) @attr.rustfmt_skip
     (#set! "priority" 999)
 )
-
-; FIXME: Increase the priority of captures with the `@string.regexp` label
-; ((string_content) @string.regexp (#set! priority 150))
