@@ -33,7 +33,6 @@ function M.setup()
         },
         base = "HEAD",
         preview_config = {
-            border = shared.window.border,
             style = "minimal",
             relative = "cursor",
             row = 0,

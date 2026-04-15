@@ -24,9 +24,6 @@ function M.setup()
         underline = true,
         update_in_insert = true,
         severity_sort = true,
-        float = {
-            border = shared.window.border,
-        },
     })
 
     vim.keymap.set(

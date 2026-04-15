@@ -8,7 +8,6 @@ function M.setup()
     crates.setup({
         autoupdate_throttle = 50,
         popup = {
-            border = shared.window.border,
             show_version_date = true,
         },
         completion = {

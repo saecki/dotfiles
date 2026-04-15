@@ -22,7 +22,6 @@ local document_highlights = nil
 
 local float_preview_opts = {
     offset_x = -1,
-    border = shared.window.border,
     anchor_bias = "above",
 }
 
@@ -382,11 +381,7 @@ function M.setup()
     setup_server("crates-ls")
 
     -- Setup mason
-    mason.setup({
-        ui = {
-            border = shared.window.border,
-        },
-    })
+    mason.setup()
 
     -- Progress handler
     fidget.setup()
