@@ -311,22 +311,11 @@ local function start_servers()
 
     if not started then
         vim.notify(string.format("No server found for filetype `%s`", ft))
-    else
-        local autocmds = vim.api.nvim_get_autocmds({
-            group = "nvim.lsp.enable",
-            event = "FileType",
-        })
-        local _, autocmd = next(autocmds)
-        assert(autocmd and autocmd.callback and type(autocmd.callback) == "function")
-        local buf = vim.api.nvim_get_current_buf()
-        autocmd.callback({ buf = buf })
     end
 end
 
 local function stop_servers()
-    for _, name in ipairs(server_names) do
-        vim.lsp.enable(name, false)
-    end
+    vim.lsp.enable(server_names, false)
     vim.lsp.stop_client(vim.lsp.get_clients())
 end
 
