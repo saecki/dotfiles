@@ -8,6 +8,7 @@ $username\
 $hostname\
 $directory\
 $git_branch\
+$git_tags\
 $git_commit\
 $git_state\
 $git_status\
@@ -91,6 +92,11 @@ truncation_symbol = "…/"
 [git_branch]
 style = "bold fg:purple bg:<bg>"
 format = "on [$symbol$branch]($style) "
+
+[git_tags]
+style = "bold fg:yellow bg:<bg>"
+symbol = " "
+format = "[$symbol$tags]($style) "
 
 [git_commit]
 style = "bold fg:green bg:<bg>"
