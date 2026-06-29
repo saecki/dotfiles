@@ -19,17 +19,15 @@ export MANPAGER='nvim +Man! +set\ signcolumn=no --cmd let\ no_plugs=1'
 
 # Syntax highlighting
 # !! has to be sourced before manydots-magic
-source "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Auto suggestions
-source "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # Completion
 fpath=("$ZDOTDIR/functions" "/usr/share/zsh/vendor-completions" $fpath)
 autoload -Uz compinit; compinit
-# TODO: fix autosuggestions breaking manydots magic
-# autoload -Uz manydots-magic; manydots-magic
 _comp_options+=(globdots)
 
 # Completion style
