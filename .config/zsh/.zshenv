@@ -5,4 +5,3 @@ $HOME/.local/share/flutter/bin:\
 $HOME/Android/Sdk/Tools/bin:\
 $HOME/.local/bin:\
 $PATH"
-export LS_COLORS=""

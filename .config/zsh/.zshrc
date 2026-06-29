@@ -31,7 +31,6 @@ autoload -Uz compinit; compinit
 _comp_options+=(globdots)
 
 # Completion style
-eval "$(dircolors)"
 zstyle ':completion:*:*:*:default' menu yes select
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
