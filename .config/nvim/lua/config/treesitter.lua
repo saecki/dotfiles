@@ -30,7 +30,7 @@ local function map_move(lhs, textobject)
     vim.keymap.set(
         { "n", "x", "o" }, "[" .. lhs,
         function()
-            ts_textobjects_move.goto_prev_start(textobject, "textobjects")
+            ts_textobjects_move.goto_previous_start(textobject, "textobjects")
         end,
         { desc = "Previous " .. textobject }
     )
