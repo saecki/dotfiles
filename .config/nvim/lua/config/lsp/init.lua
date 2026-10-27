@@ -316,7 +316,6 @@ end
 
 local function stop_servers()
     vim.lsp.enable(server_names, false)
-    vim.lsp.stop_client(vim.lsp.get_clients())
 end
 
 function M.setup()
