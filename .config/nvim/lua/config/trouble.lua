@@ -26,9 +26,10 @@ function M.setup()
                 },
             },
         },
-        -- TODO: use the same lsp-kind icons as with nvim-cmp
         icons = {},
     })
+
+    -- TODO: Get rid of todo-comments and trouble.
     todo_comments.setup({
         signs = false,
         keywords = {
