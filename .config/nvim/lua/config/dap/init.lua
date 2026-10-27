@@ -139,6 +139,7 @@ function M.setup()
         },
     })
 
+    local group = vim.api.nvim_create_augroup("user.dap.rust", {})
     vim.api.nvim_create_autocmd("BufRead", {
         group = group,
         pattern = "*.rs",
