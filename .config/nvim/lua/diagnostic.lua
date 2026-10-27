@@ -1,5 +1,31 @@
 local M = {}
 
+local signs = {
+    [vim.diagnostic.severity.ERROR] = "",
+    [vim.diagnostic.severity.WARN] = "",
+    [vim.diagnostic.severity.INFO] = "",
+    [vim.diagnostic.severity.HINT] = "",
+}
+
+-- This relies on `syntax/qf.vim`
+function QUICKFIXTEXTFUNC(info)
+    local list = vim.fn.getqflist({ id = info.id, items = 1 })
+
+    local lines = {}
+    for idx = info.start_idx, info.end_idx do
+        local item = list.items[idx]
+        local path = vim.fn.fnamemodify(vim.fn.bufname(item.bufnr), ":p:.")
+        local lnum = item.lnum
+        if item.type ~= "" then
+            local severity = vim.diagnostic.severity[item.type]
+            lnum = lnum .. " " .. (severity and signs[severity] or item.type)
+        end
+        local line = string.format("%s:%s | %s", path, lnum, item.text)
+        table.insert(lines, line)
+    end
+    return lines
+end
+
 ---@param opts vim.diagnostic.JumpOpts
 local function map_jump(opts)
     opts.float = true
@@ -37,6 +63,20 @@ local function get_last_quickfix_list()
     }
 end
 
+-- Update the quickfix window position.
+---@param vsplit boolean
+local function update_quickfix_position(winid, vsplit)
+    if vsplit then
+        vim.api.nvim_set_current_win(winid)
+        vim.cmd.wincmd("L")
+        vim.api.nvim_win_set_width(0, 90)
+    else
+        vim.api.nvim_set_current_win(winid)
+        vim.cmd.wincmd("J")
+        vim.api.nvim_win_set_height(0, 10)
+    end
+end
+
 local function toggle_quickfix_position()
     local last_list = get_last_quickfix_list()
     if not last_list then return end
@@ -56,33 +96,21 @@ local function toggle_quickfix_position()
         winid = vim.api.nvim_get_current_win()
     end
 
-    -- Update the window position.
-    if vsplit then
-        vim.api.nvim_set_current_win(winid)
-        vim.cmd.wincmd("L")
-        vim.api.nvim_win_set_width(0, 90)
-    else
-        vim.api.nvim_set_current_win(winid)
-        vim.cmd.wincmd("J")
-        vim.api.nvim_win_set_height(0, 10)
-    end
+    update_quickfix_position(winid, vsplit)
 end
 
-local function open_quickfix()
+function M.open_quickfix()
     vim.cmd.copen()
 
     local last_list = get_last_quickfix_list()
-    if last_list and last_list.vsplit then
-        vim.cmd.wincmd("L")
-        vim.api.nvim_win_set_width(0, 90)
-    end
+    update_quickfix_position(0, last_list and last_list.vsplit or false)
 end
 
 local function toggle_quickfix()
     if get_quickfix_window() then
         vim.cmd.cclose()
     else
-        open_quickfix()
+        M.open_quickfix()
     end
 end
 
@@ -114,19 +142,14 @@ local function show_diagnostics_in_qflist(opts)
         items = vim.diagnostic.toqflist(diagnostics),
     })
 
-    open_quickfix()
+    M.open_quickfix()
 end
 
 function M.setup()
     vim.diagnostic.config({
         virtual_text = true,
         signs = {
-            text = {
-                [vim.diagnostic.severity.ERROR] = "",
-                [vim.diagnostic.severity.WARN] = "",
-                [vim.diagnostic.severity.INFO] = "",
-                [vim.diagnostic.severity.HINT] = "",
-            },
+            text = signs,
         },
         underline = true,
         update_in_insert = true,
@@ -146,6 +169,13 @@ function M.setup()
     vim.keymap.set("n", "[d", map_jump({ count = -1 }), { desc = "Previous diagnostic" })
     vim.keymap.set("n", "]d", map_jump({ count = 1 }), { desc = "Next diagnostic" })
 
+
+    -- Quickfix list
+    vim.opt.quickfixtextfunc = "v:lua.QUICKFIXTEXTFUNC"
+
+    vim.keymap.set("n", "<leader>q", toggle_quickfix, { desc = "Toggle quickfix list" })
+    vim.keymap.set("n", "<leader>Q", toggle_quickfix_position, { desc = "Toggle quickfix list position" })
+
     local function show_in_qflist(opts)
         return function()
             show_diagnostics_in_qflist(opts)
@@ -153,9 +183,6 @@ function M.setup()
     end
     vim.keymap.set("n", "<leader>ld", show_in_qflist({ buf = 0 }), { desc = "Buffer diagnostics" })
     vim.keymap.set("n", "<leader>lD", show_in_qflist({ buf = nil }), { desc = "Workspace diagnostics" })
-
-    vim.keymap.set("n", "<leader>q", toggle_quickfix, { desc = "Toggle quickfix list" })
-    vim.keymap.set("n", "<leader>Q", toggle_quickfix_position, { desc = "Toggle quickfix list position" })
 end
 
 return M
