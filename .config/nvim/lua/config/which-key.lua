@@ -37,9 +37,10 @@ function M.setup()
     })
 
     wk.add({
-        { "<leader>e", group = "Toggle (enable)" },
+        { "<leader>l",  group = "List" },
+        { "<leader>e",  group = "Toggle (enable)" },
         { "<leader>ed", group = "Diff" },
-        { "<leader>k", "<cmd>WhichKey<cr>",      desc = "Which key?" },
+        { "<leader>k",  "<cmd>WhichKey<cr>",      desc = "Which key?" },
     })
 end
 

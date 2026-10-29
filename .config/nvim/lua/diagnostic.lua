@@ -1,28 +1,87 @@
 local M = {}
 
+local hl_ns = vim.api.nvim_create_namespace("user.config.lsp.server.dartls.hl")
 local signs = {
     [vim.diagnostic.severity.ERROR] = "",
     [vim.diagnostic.severity.WARN] = "",
     [vim.diagnostic.severity.INFO] = "",
     [vim.diagnostic.severity.HINT] = "",
 }
+local qf_sign_hls = {
+    [vim.diagnostic.severity.ERROR] = "qfError",
+    [vim.diagnostic.severity.WARN] = "qfWarning",
+    [vim.diagnostic.severity.INFO] = "qfInfo",
+    [vim.diagnostic.severity.HINT] = "qfHint",
+}
 
--- This relies on `syntax/qf.vim`
+-- Inspiration taken from `pqf.nvim`.
+local function apply_highlights(buf, highlights)
+    assert(buf ~= nil)
+    for _,hl in ipairs(highlights) do
+        vim.api.nvim_buf_set_extmark(buf, hl_ns, hl.line, hl.start_col, {
+            end_col = hl.end_col,
+            hl_group = hl.group,
+        })
+    end
+end
+
+-- `syntax/qf.vim` clears the default highlighting
 function QUICKFIXTEXTFUNC(info)
-    local list = vim.fn.getqflist({ id = info.id, items = 1 })
+    local list = vim.fn.getqflist({ id = info.id, qfbufnr = 0, items = 0 })
+
+    local has_signs = false
+    for _, item in ipairs(list.items) do
+        has_signs = item.type ~= ""
+    end
 
     local lines = {}
+    local highlights = {}
+
     for idx = info.start_idx, info.end_idx do
-        local item = list.items[idx]
-        local path = vim.fn.fnamemodify(vim.fn.bufname(item.bufnr), ":p:.")
-        local lnum = item.lnum
-        if item.type ~= "" then
-            local severity = vim.diagnostic.severity[item.type]
-            lnum = lnum .. " " .. (severity and signs[severity] or item.type)
+        local line = ""
+        local function push(text, group)
+            local start_col = line:len()
+            line = line .. text
+
+            if group then
+                local end_col = line:len()
+                table.insert(highlights, {
+                    line = idx - 1,
+                    start_col = start_col,
+                    end_col = end_col,
+                    group = group,
+                })
+            end
         end
-        local line = string.format("%s:%s | %s", path, lnum, item.text)
+
+        local item = list.items[idx]
+        if has_signs then
+            local severity = vim.diagnostic.severity[item.type]
+            local sign = (item.type ~= "") and item.type or " "
+            local hl = "qfSign"
+            if severity then
+                sign = signs[severity]
+                hl = qf_sign_hls[severity]
+            end
+            push(sign .. " ", hl)
+        end
+
+        local path = vim.fn.fnamemodify(vim.fn.bufname(item.bufnr), ":p:.")
+        local text = vim.split(item.text, "\n")[1]
+
+        push(path, "qfFileName")
+        push(":", "qfSeparator")
+        push(item.lnum, "qfLineNr")
+        push(" ")
+        push(text, "qfText")
+
         table.insert(lines, line)
     end
+
+    vim.schedule(function()
+        apply_highlights(list.qfbufnr, highlights)
+    end)
+
     return lines
 end
 
