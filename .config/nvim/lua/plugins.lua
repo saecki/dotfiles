@@ -52,12 +52,6 @@ function M.setup()
         },
     })
 
-    -- lists
-    pm.add("trouble", {
-        source = "folke/trouble.nvim",
-        deps = { "folke/todo-comments.nvim" },
-    })
-
     -- snippets
     pm.add("luasnip", "L3MON4D3/LuaSnip")
 

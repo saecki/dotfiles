@@ -6,7 +6,7 @@ local live_rename = require("live-rename")
 local fidget = require("config.lsp.fidget")
 local util = require("util")
 local shared = require("shared")
-local diagnostic = require("diagnostic")
+local quickfix = require("quickfix")
 -- servers
 local dartls = require("config.lsp.server.dartls")
 local lua_ls = require("config.lsp.server.lua_ls")
@@ -166,7 +166,7 @@ local function jump_or_list(method, always_open)
         local function on_list(locations)
             if always_open or #locations.items ~= 1 then
                 vim.fn.setqflist({}, " ", locations)
-                diagnostic.open_quickfix()
+                quickfix.open()
                 return
             end
 

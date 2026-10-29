@@ -44,15 +44,11 @@ function M.highlights(p)
         Delimiter       = { fg = p.special,                                      },
 
         -- quickfix list
-        qfFileName   = { link = "Directory"                           },
-        qfLineNr     = { link = "LineNr"                              },
-        qfSeparator  = { link = "Special"                             },
-        qfText       = { fg = p.fg,                                   },
-        qfError      = { fg = p.lred,                     bold = true },
-        qfWarning    = { fg = p.lyellow,                  bold = true },
-        qfNote       = { fg = p.lblue,                    bold = true },
-        qfInfo       = { fg = p.lcyan,                    bold = true },
-        QuickFixLine = {                 bg = p.ref_text              },
+        qfFileName   = { link = "Directory" },
+        qfLineNr     = { link = "LineNr"    },
+        qfSeparator  = { link = "Special"   },
+        qfText       = { fg = p.fg,         },
+        QuickFixLine = { bg = p.ref_text    },
 
         -- custom
         Link            = { fg = p.preproc,                     underline = true },
