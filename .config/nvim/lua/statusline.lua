@@ -60,6 +60,11 @@ local function mode()
 end
 
 local function filename()
+    if vim.bo.filetype == "qf" then
+        local list = vim.fn.getqflist({ id = 0, title = 0 })
+        return "QUICKFIX " .. list.title
+    end
+
     local path = vim.fn.expand("%:~:.")
     if path == "" then
         return filename_symbols.unnamed

@@ -20,21 +20,21 @@ local function get_quickfix_window()
     end
 end
 
----Get the the last quickfix list and context assoctiated with it.
+---Get the the current quickfix list and context assoctiated with it.
 ---@return QFList?
-local function get_last_quickfix_list()
-    local last_list = vim.fn.getqflist({ nr = "$", id = 0, title = 0, context = 0 })
-    if not last_list then
+local function get_current_quickfix_list()
+    local list = vim.fn.getqflist({ id = 0, title = 0, context = 0 })
+    if not list then
         return nil
     end
 
     -- Store the preferred position of the quickfix window in the list context.
-    local vsplit = type(last_list.context) == "table"
-        and last_list.context.vsplit
+    local vsplit = type(list.context) == "table"
+        and list.context.vsplit
 
     return {
-        id = last_list.id,
-        title = last_list.title,
+        id = list.id,
+        title = list.title,
         vsplit = vsplit,
     }
 end
@@ -54,14 +54,14 @@ local function update_quickfix_position(winid, vsplit)
 end
 
 function M.toggle_position()
-    local last_list = get_last_quickfix_list()
-    if not last_list then return end
+    local list = get_current_quickfix_list()
+    if not list then return end
 
-    local vsplit = not last_list.vsplit
+    local vsplit = not list.vsplit
 
     -- Update the context of the quickfix list.
     vim.fn.setqflist({}, "a", {
-        id = last_list.id,
+        id = list.id,
         context = { vsplit = vsplit },
         items = {}
     })
@@ -76,18 +76,18 @@ function M.toggle_position()
 end
 
 function M.show(title, vsplit, items)
-    local last_list = get_last_quickfix_list()
-    if last_list and last_list.title ~= title then
-        last_list = nil
+    local list = get_current_quickfix_list()
+    if list and list.title ~= title then
+        list = nil
     end
 
     -- Update existing diagnostic quickfix list if it's the last one.
-    local quickfix_id = last_list and last_list.id or nil
+    local quickfix_id = list and list.id or nil
 
     local context = {}
 
     -- Reuse existing vsplit configuration, otherwise use preferred one.
-    context.vsplit = last_list and last_list.vsplit
+    context.vsplit = list and list.vsplit
     if context.vsplit == nil then
         context.vsplit = vsplit
     end
@@ -105,7 +105,7 @@ end
 function M.open()
     vim.cmd.copen()
 
-    local last_list = get_last_quickfix_list()
+    local last_list = get_current_quickfix_list()
     update_quickfix_position(0, last_list and last_list.vsplit or false)
 end
 

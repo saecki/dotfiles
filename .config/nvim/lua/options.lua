@@ -83,6 +83,8 @@ function M.setup()
 
     -- Disable ftplugin default mappings
     vim.g.no_plugin_maps = true
+    -- Disable different statusline for quickfix window
+    vim.g.qf_disable_statusline = true
 
     -- Miscellaneous
     vim.opt.updatetime = 300
